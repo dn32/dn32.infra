@@ -2,14 +2,14 @@
 
 namespace dn32.infra.dados
 {
-    [FluenteDocAtributo]
+    [DnDocAtributo]
     public class ResultadoPadraoPaginado<T> : ResultadoPadrao<T>
     {
-        public FluentePaginacao Paginacao { get; set; }
+        public DnPaginacao Paginacao { get; set; }
 
         public ResultadoPadraoPaginado() : base() { }
 
-        public ResultadoPadraoPaginado(T dados, FluentePaginacao paginacao) : base(dados)
+        public ResultadoPadraoPaginado(T dados, DnPaginacao paginacao) : base(dados)
         {
             Paginacao = paginacao;
         }

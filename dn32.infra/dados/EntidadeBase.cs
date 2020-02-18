@@ -20,7 +20,7 @@ namespace dn32.infra.dados
             return json.GetHashCode();
         }
 
-        private string ObterStringDeValoresChave(Type tipo) => tipo.GetHashCode() + ObterTodosOsValoresDeChaves(tipo).SerializarParaFluenteJson();
+        private string ObterStringDeValoresChave(Type tipo) => tipo.GetHashCode() + ObterTodosOsValoresDeChaves(tipo).SerializarParaDnJson();
 
         private object[] ObterTodosOsValoresDeChaves(Type tipo)
         {

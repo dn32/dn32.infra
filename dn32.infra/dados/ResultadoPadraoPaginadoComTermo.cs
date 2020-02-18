@@ -2,14 +2,14 @@
 
 namespace dn32.infra.dados
 {
-    [FluenteDocAtributo]
+    [DnDocAtributo]
     public class ResultadoPadraoPaginadoComTermo<T> : ResultadoPadraoPaginado<T>
     {
         public string Termo { get; }
 
         public ResultadoPadraoPaginadoComTermo() { }
 
-        public ResultadoPadraoPaginadoComTermo(T dados, FluentePaginacao paginacao, string termo) :
+        public ResultadoPadraoPaginadoComTermo(T dados, DnPaginacao paginacao, string termo) :
             base(dados, paginacao)
         {
             Termo = termo;

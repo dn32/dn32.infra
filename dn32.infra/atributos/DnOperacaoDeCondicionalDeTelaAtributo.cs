@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace dn32.infra.atributos
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    public class FluenteOperacaoDeCondicionalDeTelaAtributo : Attribute
+    public class DnOperacaoDeCondicionalDeTelaAtributo : Attribute
     {
         #region PROPRIEDADES
 
@@ -30,24 +30,24 @@ namespace dn32.infra.atributos
 
         #endregion
 
-        public FluenteOperacaoDeCondicionalDeTelaAtributo(string propriedadeAvaliada, object valorParaODisparo)
+        public DnOperacaoDeCondicionalDeTelaAtributo(string propriedadeAvaliada, object valorParaODisparo)
         {
             PropriedadeAvaliada = propriedadeAvaliada;
-            ValorParaODisparo = valorParaODisparo?.SerializarParaFluenteJson();
+            ValorParaODisparo = valorParaODisparo?.SerializarParaDnJson();
         }
 
-        public FluenteOperacaoDeCondicionalDeTelaAtributo(string propriedadeAvaliada, object valorParaODisparo, EnumTipoDeOperacaoDeTela operacao)
+        public DnOperacaoDeCondicionalDeTelaAtributo(string propriedadeAvaliada, object valorParaODisparo, EnumTipoDeOperacaoDeTela operacao)
         {
             PropriedadeAvaliada = propriedadeAvaliada;
-            ValorParaODisparo = valorParaODisparo?.SerializarParaFluenteJson();
+            ValorParaODisparo = valorParaODisparo?.SerializarParaDnJson();
             Operacao = operacao;
         }
 
-        public FluenteOperacaoDeCondicionalDeTelaAtributo(string propriedadeAvaliada, object valorParaODisparo, EnumTipoDeOperacaoDeTela operacao, EnumTipoDeEventoDeTela tipoDeDisparo)
+        public DnOperacaoDeCondicionalDeTelaAtributo(string propriedadeAvaliada, object valorParaODisparo, EnumTipoDeOperacaoDeTela operacao, EnumTipoDeEventoDeTela tipoDeDisparo)
         {
             PropriedadeAvaliada = propriedadeAvaliada;
             TipoDeDisparo = tipoDeDisparo;
-            ValorParaODisparo = valorParaODisparo?.SerializarParaFluenteJson();
+            ValorParaODisparo = valorParaODisparo?.SerializarParaDnJson();
             Operacao = operacao;
         }
     }

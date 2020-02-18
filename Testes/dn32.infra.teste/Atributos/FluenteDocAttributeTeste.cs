@@ -4,20 +4,20 @@ using NUnit.Framework;
 
 namespace dn32.infra.Teste.Atributos
 {
-    public class FluenteDocAtributoTeste
+    public class DnDocAtributoTeste
     {
         [Test]
         public void MostrarOk()
         {
-            var atributo = new FluenteDocAtributo(EnumMostrar.Mostrar);
-            Assert.AreEqual(EnumMostrar.Mostrar, atributo.Apresentacao);
+            var atributo = new DnDocAtributo(EnumApresentar.Mostrar);
+            Assert.AreEqual(EnumApresentar.Mostrar, atributo.Apresentacao);
         }
 
         [Test]
         public void OcultarOk()
         {
-            var atributo = new FluenteDocAtributo(EnumMostrar.Ocultar);
-            Assert.AreEqual(EnumMostrar.Ocultar, atributo.Apresentacao);
+            var atributo = new DnDocAtributo(EnumApresentar.Ocultar);
+            Assert.AreEqual(EnumApresentar.Ocultar, atributo.Apresentacao);
         }
     }
 }

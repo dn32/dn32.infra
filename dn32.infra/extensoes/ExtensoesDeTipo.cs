@@ -4,7 +4,7 @@ namespace dn32.infra.extensoes
 {
     public static class ExtensoesDeTipo
     {
-        public static T FluenteCast<T>(this object obj, bool dispararExcecaoCasoAConversaoFalhe = true)
+        public static T DnCast<T>(this object obj, bool dispararExcecaoCasoAConversaoFalhe = true)
         {
             if (obj == null) return default;
 

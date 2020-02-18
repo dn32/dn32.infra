@@ -4,11 +4,11 @@ using dn32.infra.enumeradores;
 namespace dn32.infra.atributos
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Property)]
-    public class FluenteDocAtributo : Attribute
+    public class DnDocAtributo : Attribute
     {
-        public EnumMostrar Apresentacao { get; }
+        public EnumApresentar Apresentacao { get; }
 
-        public FluenteDocAtributo(EnumMostrar apresentar = EnumMostrar.Mostrar)
+        public DnDocAtributo(EnumApresentar apresentar = EnumApresentar.Mostrar)
         {
             Apresentacao = apresentar;
         }

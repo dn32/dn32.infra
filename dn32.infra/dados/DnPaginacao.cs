@@ -3,8 +3,8 @@
 namespace dn32.infra.dados
 {
     //Todo - 001 Testar
-    [FluenteDocAtributo]
-    public class FluentePaginacao
+    [DnDocAtributo]
+    public class DnPaginacao
     {
         #region CAMPOS
 
@@ -37,28 +37,28 @@ namespace dn32.infra.dados
 
         #region CONSTRUTORES
 
-        public FluentePaginacao() { }
+        public DnPaginacao() { }
 
-        public static FluentePaginacao Criar(int paginaAtual)
+        public static DnPaginacao Criar(int paginaAtual)
         {
-            return new FluentePaginacao
+            return new DnPaginacao
             {
                 _paginaAtual = paginaAtual
             };
         }
 
-        public static FluentePaginacao Criar(int paginaAtual, bool iniciaComZero)
+        public static DnPaginacao Criar(int paginaAtual, bool iniciaComZero)
         {
-            return new FluentePaginacao
+            return new DnPaginacao
             {
                 _paginaAtual = paginaAtual,
                 _iniciaEmZero = iniciaComZero
             };
         }
 
-        public static FluentePaginacao Criar(int paginaAtual, bool iniciaComZero, int itensPorPagina)
+        public static DnPaginacao Criar(int paginaAtual, bool iniciaComZero, int itensPorPagina)
         {
-            return new FluentePaginacao
+            return new DnPaginacao
             {
                 _paginaAtual = paginaAtual,
                 _itensPorPagina = itensPorPagina,

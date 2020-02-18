@@ -7,31 +7,31 @@ namespace dn32.infra.Teste.Extensoes
     public class ExtensoesDeTipoTeste
     {
         [Test]
-        public void FluenteCastTiposIguaisOk()
+        public void DnCastTiposIguaisOk()
         {
             const int valor = 1;
-            var segundoValor = valor.FluenteCast<int>();
+            var segundoValor = valor.DnCast<int>();
 
             Assert.AreEqual(valor, segundoValor);
         }
 
         [Test]
-        public void FluenteCastTiposDiferentesErro()
+        public void DnCastTiposDiferentesErro()
         {
             const int valor = 1;
             var ex = Assert.Catch<InvalidOperationException>(() =>
             {
-                valor.FluenteCast<string>();
+                valor.DnCast<string>();
             });
 
             Assert.AreEqual("O tipo 'Int32' não é um 'String'.", ex.Message);
         }
 
         [Test]
-        public void FluenteCastTiposDiferentesOk()
+        public void DnCastTiposDiferentesOk()
         {
             const int valor = 1;
-            var segundoValor = valor.FluenteCast<string>(dispararExcecaoCasoAConversaoFalhe: false);
+            var segundoValor = valor.DnCast<string>(dispararExcecaoCasoAConversaoFalhe: false);
 
             Assert.AreEqual(default(string), segundoValor);
         }

@@ -6,7 +6,7 @@ namespace dn32.infra.extensoes
     {
         public static JsonSerializerSettings ConfiguracoesDeSerializacao { get; set; }
 
-        public static string SerializarParaFluenteJson(this object obj, Formatting formato = Formatting.None) =>
+        public static string SerializarParaDnJson(this object obj, Formatting formato = Formatting.None) =>
             JsonConvert.SerializeObject(obj, formato, ConfiguracoesDeSerializacao);
     }
 }
