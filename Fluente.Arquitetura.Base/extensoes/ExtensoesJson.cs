@@ -1,0 +1,12 @@
+﻿using Newtonsoft.Json;
+
+namespace dn32.infra.extensoes
+{
+    public static class ExtensoesJson
+    {
+        public static JsonSerializerSettings ConfiguracoesDeSerializacao { get; set; }
+
+        public static string SerializarParaFluenteJson(this object obj, Formatting formato = Formatting.None) =>
+            JsonConvert.SerializeObject(obj, formato, ConfiguracoesDeSerializacao);
+    }
+}
