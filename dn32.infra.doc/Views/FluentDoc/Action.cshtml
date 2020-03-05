@@ -1,0 +1,89 @@
+﻿@using dn32.infra.extensoes
+@using dn32.infra.Nucleo.Doc.Controllers
+@using dn32.infra
+@using static dn32.infra.DnDocExtension
+@model DnActionSchema
+@{
+    ViewData["Title"] = Model.Name;
+
+    string GetTypeName(Type type, string name)
+    {
+        if (type.GetListTypeNonNull().IsDnEntity())
+        {
+            return $"<a href=\"/DnDoc/Model?Nome={type.GetListTypeNonNull().FullName}\">{type.GetFriendlyName(false)}</a>";
+        }
+        else
+        {
+            return $"{name}: {type.GetFriendlyName(false)}";
+        }
+    }
+}
+
+<div class="one-service-container">
+    <h4 class="general-title">@Model.Name.G()</h4>
+
+    @{
+        <div class="actions-container">
+
+            @{
+                var action = Model;
+                <div class="action action-description">
+                    <span class="method @action.Method.ToLower()">@action.Method</span>
+                    <span class="name">@action.Name.G()</span>
+                    <span class="Descricaoription">@action.Description</span>
+                    @if (@action.Method == "GET")
+                    {
+                        <span class="route"><a href="@(action.ApiBaseUrl + action.Route)">@action.Route</a></span>
+                    }
+                    else
+                    {
+                        <span class="route">@action.Route</span>
+                    }
+
+                    @{
+                        <div class="properties-container">
+                            <span class="title">@Html.Raw(GetTypeName(action.EntityType, action.EntityType.Name))</span>
+                            <table class="properties">
+                                <thead>
+                                    <tr>
+                                        <th>@(("Name").G())</th>
+                                        <th>@(("Tipo").G())</th>
+                                        <th>@(("Source").G())</th>
+                                        <th>@(("Description").G())</th>
+                                        <th>@(("Example").G())</th>
+                                    </tr>
+                                </thead>
+                                @foreach (var parameter in Model.Parameters)
+                                {
+                                    <tr class="property">
+                                        <td class="name">@parameter.Name</td>
+                                        @if (string.IsNullOrWhiteSpace(parameter.Link))
+                                        {
+                                            <td class="tipo">@Html.Raw(parameter.Type.GetFriendlyName())</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="tipo"><a href="@parameter.Link">@Html.Raw(parameter.Type.GetFriendlyName())</a></td>
+                                        }
+                                        <td class="source">@parameter.Source.ToString().G()</td>
+                                        <td class="Descricaoription">@parameter.Description.G()</td>
+                                        <td class="example"><pre class="example-value" style="margin:0 0 0 0;background: #ffc10712; border-color:#ffc10712;">@Html.Raw(parameter.Example)</pre></td>
+                                    </tr>
+                                }
+                            </table>
+                            <div class="example-valor-container">
+                                <span>@("Request Example".G())</span>
+                                <pre class="example-value">@Model.Example</pre>
+                            </div>
+
+                            <div class="example-valor-container">
+                                <span>@("Return tipo".G())</span>
+                                <pre class="example-value">@(Model.ReturnType)</pre>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>

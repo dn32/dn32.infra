@@ -1,0 +1,33 @@
+<Project>
+
+  <PropertyGroup>
+    <PackageProjectUrl>https://github.com/dn32/dn32.infra</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dn32/dn32.infra</RepositoryUrl>
+    <SignAssembly>true</SignAssembly>
+    <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Nullable>warnings</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugType>None</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  
+  <!--<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    --><!--<OutputPath>..\pack\$(MSBuildProjectName)\lib</OutputPath>--><!--
+  </PropertyGroup>-->
+
+  <Target Name="CopyPackage" AfterTargets="Pack">
+     <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\Drive\Pacotes" />
+  </Target>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <Version>0.0.0.1-beta$([System.DateTime]::UtcNow.ToString(MMdd))</Version>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <Version>0.0.0.1-beta01</Version>
+  </PropertyGroup>
+
+</Project>

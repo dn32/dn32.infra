@@ -1,0 +1,23 @@
+﻿@using dn32.infra.Nucleo.Doc.Controllers
+@using static dn32.infra.DnDocExtension
+
+@model List<EntityModelAndName>
+
+@{
+    var title = "Available entities";
+    ViewData["Title"] = title.G();
+}
+
+<div class="services-container">
+    <span class="general-title">@title.G() (@Model.Count)</span>
+
+    @{
+        foreach (var entity in Model)
+        {
+            <div class="service">
+                <span class="title"><a href="/DnDoc/Model?Nome=@entity.FullName">@entity.Name</a></span>
+                <span class="Descricaoription">@entity.FriendlyName</span>
+            </div>
+        }
+    }
+</div>
