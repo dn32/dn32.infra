@@ -122,7 +122,7 @@ namespace dn32.infra.extensoes
 
         public static (int min, double max)? GetPropertyRange(this PropertyInfo property)
         {
-            if (property.PropertyType.IsNumeric())
+            if (property.PropertyType.EhNumerico())
             {
                 var min = property.GetCustomAttribute<DnPropriedadeJsonAtributo>()?.Minimo ?? property.GetCustomAttribute<RangeAttribute>()?.Minimum;
                 var max = property.GetCustomAttribute<DnPropriedadeJsonAtributo>()?.Maximo ?? property.GetCustomAttribute<RangeAttribute>()?.Maximum;

@@ -2,7 +2,7 @@
 
 namespace dn32.infra.EntityFramework.SqlServer
 {
-    [DbType(DnDbType.SQL_SERVER)]
+    [TipoDeBancoDeDadosAtributo(DnEnumTipoDeBancoDeDados.SQL_SERVER)]
     public abstract class DnSQLEntity : DnEntidade
     {
     }

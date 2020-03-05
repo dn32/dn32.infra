@@ -12,7 +12,7 @@ using dn32.infra.extensoes;
 
 namespace dn32.infra.Filters
 {
-    public class DnAuthorizationFilter : IAuthorizationFilter
+    public class DnAutorizacaoFilter : IAuthorizationFilter
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {

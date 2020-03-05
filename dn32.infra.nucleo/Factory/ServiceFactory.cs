@@ -154,7 +154,7 @@ namespace dn32.infra.Factory
             userSession.HttpContext = httpContext;
 
             userSession.Services.Add(serviceType, service);
-            Setup.AddSession(userSession);
+            Setup.AdicionarSessaoDeRequisicao(userSession);
 
             return userSession;
         }

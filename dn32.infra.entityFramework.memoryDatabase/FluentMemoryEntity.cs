@@ -2,7 +2,7 @@
 
 namespace dn32.infra.EntityFramework.MemoryDatabase
 {
-    [DbType(DnDbType.MEMORY)]
+    [TipoDeBancoDeDadosAtributo(DnEnumTipoDeBancoDeDados.MEMORY)]
     public abstract class DnMySQLEntity : DnEntidade
     {
     }

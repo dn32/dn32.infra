@@ -157,7 +157,7 @@ namespace dn32.infra
             return ServiceCollection;
         }
 
-        public static DnConfiguracoesGlobais AddDnArquitetura(this IMvcBuilder builder, JsonSerializerSettings jsonSerializerSettings)
+        public static DnConfiguracoesGlobais AdicionarDnArquitetura(this IMvcBuilder builder, JsonSerializerSettings jsonSerializerSettings)
         {
             if (jsonSerializerSettings is null)
                 throw new ArgumentNullException(nameof(jsonSerializerSettings));
@@ -194,7 +194,7 @@ namespace dn32.infra
             SessoesDeRequisicoesDeUsuarios = new ConcurrentDictionary<Guid, SessaoDeRequisicaoDoUsuario>();
             Servicos.Add(typeof(DnEntidade), typeof(servicos.DnServico<DnEntidade>));
             Repositorios.Add(typeof(DnEntidade), typeof(IDnRepository<DnEntidade>));
-            Validacoes.Add(typeof(DnEntidade), typeof(DnValidation<DnEntidade>));
+            Validacoes.Add(typeof(DnEntidade), typeof(DnValidacao<DnEntidade>));
             Controladores.Add(typeof(DnEntidade), typeof(DnControlador<DnEntidade>));
         }
 
@@ -228,7 +228,7 @@ namespace dn32.infra
                .Where(x => x?.Item1 != null).ToList()
                .ForEach(AddRepository);
 
-            tipos.Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnValidation<EntidadeBase>)))
+            tipos.Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnValidacao<EntidadeBase>)))
                .Where(x => x.Item1 != null).ToList()
                .ForEach(AddValidation);
 
@@ -279,7 +279,7 @@ namespace dn32.infra
             return sessao;
         }
 
-        internal static void AddSession(SessaoDeRequisicaoDoUsuario sessaoDeRequisicaoDoUsuario) =>
+        internal static void AdicionarSessaoDeRequisicao(SessaoDeRequisicaoDoUsuario sessaoDeRequisicaoDoUsuario) =>
             SessoesDeRequisicoesDeUsuarios.TryAdd(sessaoDeRequisicaoDoUsuario.IdentificadorDaSessao, sessaoDeRequisicaoDoUsuario);
         
         internal static void RemoverSessaoDeRequisicao(Guid sessionId) => SessoesDeRequisicoesDeUsuarios.TryRemove(sessionId, out _);

@@ -157,7 +157,7 @@ namespace dn32.infra.nucleo.extensoes
                 var expressao = Expression.Call(propriedade, metodo);
                 expressaoIgual = Expression.Equal(constante, expressao);
             }
-            else if (tipo.IsNumeric())
+            else if (tipo.EhNumerico())
             {
                 var propriedade = Expression.Property(parametro, nomeDaPropriedade);
                 var valorNumerico = Convert.ChangeType(valor, tipo);
@@ -237,7 +237,7 @@ namespace dn32.infra.nucleo.extensoes
                     throw new DesenvolvimentoIncorretoException($"O valor '{valor}' para o filtro '{nameof(EhMaiorOuMenorQue)}' não é uma data válida.");
                 }
             }
-            else if (tipo.IsNumeric())
+            else if (tipo.EhNumerico())
             {
                 try
                 {

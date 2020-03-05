@@ -250,9 +250,9 @@ namespace dn32.infra.Nucleo.Doc.Controllers
                                 }).ToList();
 
                 var description = action.GetCustomAttribute<DescriptionAttribute>()?.Description;
-                var fluentAction = action.GetCustomAttribute<DnActionAtributo>();
+                var DnAction = action.GetCustomAttribute<DnActionAtributo>();
 
-                if (fluentAction?.Paginacao == true)
+                if (DnAction?.Paginacao == true)
                 {
                     parameters.AddRange(new[] {
                     new DocParameter("CurrentPage", typeof(string), EnumParameterSouce.Header, "The current page", "1"),
@@ -261,7 +261,7 @@ namespace dn32.infra.Nucleo.Doc.Controllers
                 });
                 }
 
-                if (fluentAction?.EspecificacaoDinamica == true)
+                if (DnAction?.EspecificacaoDinamica == true)
                 {
                     parameters.AddRange(new[] {
                     //new DocParameter("PropertyToIgnore", typeof(string), EnumParameterSouce.Header, "The properties you want to ignore in the query", "Code,Adress.Code"),

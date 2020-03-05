@@ -1,7 +1,6 @@
 ﻿using dn32.infra.dados;
 using dn32.infra.extensoes;
 using dn32.infra.Interfaces;
-using dn32.infra.Interfaces;
 using dn32.infra.nucleo.atributos;
 using dn32.infra.nucleo.excecoes;
 using dn32.infra.Nucleo.Models;
@@ -138,8 +137,8 @@ namespace dn32.infra.EntityFramework
         {
             var spec = GetSpecSelect<TO>(ispec);
             var query = spec.ToIQueryable(Query);
-            var fluentPagination = await DnPaginateAsync(query, pagination);
-            return await fluentPagination.ToListAsync();
+            var DnPagination = await DnPaginateAsync(query, pagination);
+            return await DnPagination.ToListAsync();
         }
 
         public virtual async Task<TO> PrimeiroOuPadraoAlternativoAsync<TO>(IDnSpecification<TO> ispec)

@@ -11,18 +11,18 @@ namespace dn32.infra.Nucleo.Extensoes
     {
         public static object GetExampleValue(this PropertyInfo property, int max_ = 0)
         {
-            if (property.PropertyType.GetNonNullableType().IsNumeric())
+            if (property.PropertyType.GetNonNullableType().EhNumerico())
             {
                 var min = property.GetCustomAttribute<DnPropriedadeJsonAtributo>()?.Minimo ?? property.GetCustomAttribute<RangeAttribute>()?.Minimum;
                 var max = property.GetCustomAttribute<DnPropriedadeJsonAtributo>()?.Maximo ?? property.GetCustomAttribute<RangeAttribute>()?.Maximum;
-                if (min == null || max == null) { return RandomUtil.NextRandom(int.MaxValue); }
+                if (min == null || max == null) { return UtilitarioDeRandomico.NextRandom(int.MaxValue); }
 
-                if (max.ToString() == "0" && property.PropertyType.IsNumeric())
+                if (max.ToString() == "0" && property.PropertyType.EhNumerico())
                 {
                     max = property.PropertyType.GetMaxValueOfNumber().DnCast<double>();
                 }
 
-                return RandomUtil.NextRandom((int)min, (double)max);
+                return UtilitarioDeRandomico.NextRandom((int)min, (double)max);
             }
 
             if (property.PropertyType.GetNonNullableType() == typeof(string) && property.PropertyType.GetNonNullableType() == typeof(String))
@@ -31,10 +31,10 @@ namespace dn32.infra.Nucleo.Extensoes
                 var max = max_ == 0 ? (property.GetCustomAttribute<DnPropriedadeJsonAtributo>()?.Maximo ?? property.GetCustomAttribute<MaxLengthAttribute>()?.Length) : max_;
                 max ??= 64;
                 min ??= 0;
-                if (min == null) { return RandomUtil.NextRandomString(max.Value); }
-                if (max == null) { return RandomUtil.NextRandomString(min.Value); }
+                if (min == null) { return UtilitarioDeRandomico.ObterString(max.Value); }
+                if (max == null) { return UtilitarioDeRandomico.ObterString(min.Value); }
 
-                return RandomUtil.NextRandomString(max.Value);
+                return UtilitarioDeRandomico.ObterString(max.Value);
             }
 
             return property.PropertyType.GetDnDefaultValue();

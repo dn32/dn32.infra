@@ -70,8 +70,8 @@ namespace dn32.infra.Util
             typeof(DnControlador<DnEntidade>).Name,
             typeof(servicos.DnServico<DnEntidade>).Name,
             typeof(IDnRepository<DnEntidade>).Name,
-            typeof(DnValidation<DnEntidade>).Name,
-            typeof(DnSpecification<DnEntidade>).Name
+            typeof(DnValidacao<DnEntidade>).Name,
+            typeof(DnEspecificacao<DnEntidade>).Name
         };
 
         /// <summary>

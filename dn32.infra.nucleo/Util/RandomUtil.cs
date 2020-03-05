@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace dn32.infra.Nucleo.Util
 {
-    public static class RandomUtil
+    public static class UtilitarioDeRandomico
     {
         private static readonly Random Random = new Random();
 
@@ -25,9 +25,9 @@ namespace dn32.infra.Nucleo.Util
             return Random.Next(min, internalMax);
         }
 
-        public static string NextRandomString(double size)
+        public static string ObterString(double tamanho)
         {
-            int internalSize = size > int.MaxValue ? int.MaxValue : (int)size;
+            int internalSize = tamanho > int.MaxValue ? int.MaxValue : (int)tamanho;
             var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             var stringChars = new char[internalSize];
 

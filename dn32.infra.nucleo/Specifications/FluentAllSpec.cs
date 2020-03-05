@@ -7,7 +7,7 @@ using dn32.infra.nucleo.extensoes;
 
 namespace dn32.infra.Nucleo.Specifications
 {
-    public class DnAllSpec<T> : DnSpecification<T> where T : DnEntidade
+    public class DnAllSpec<T> : DnEspecificacao<T> where T : DnEntidade
     {
         public bool IsList { get; set; } = true;
 
@@ -20,7 +20,7 @@ namespace dn32.infra.Nucleo.Specifications
         public override IQueryable<T> Where(IQueryable<T> query)
         {
             return query
-                    .GetInclusions(IsList)
+                    .ObterInclusoes(IsList)
                     .ProjetarDeFormaDinamica(Service);
 
         }

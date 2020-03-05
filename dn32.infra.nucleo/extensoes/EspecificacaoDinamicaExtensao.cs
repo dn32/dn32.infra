@@ -85,7 +85,7 @@ namespace dn32.infra.nucleo.extensoes
             out MapperConfiguration configuracoesDeMapeamento)
         {
             var descricoes = new DnClassDescription(typeof(T), campos);
-            var id = RandomUtil.NextRandomString(6);
+            var id = UtilitarioDeRandomico.ObterString(6);
             var nomeDaDll = $"DnDll_{id}";
             var tipo = descricoes.CriarOTipo(nomeDaDll);
             var tipos = new List<Tuple<Type, Type>>();

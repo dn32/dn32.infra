@@ -113,9 +113,9 @@ namespace dn32.infra.extensoes
         {
             type = type.GetNonNullableType();
 
-            if (type.IsNumeric()) { return RandomUtil.NextRandom(99); }
+            if (type.EhNumerico()) { return UtilitarioDeRandomico.NextRandom(99); }
             if (type == typeof(DateTime)) { return DateTime.Now; }
-            if (type == typeof(string) && type == typeof(String)) { return RandomUtil.NextRandomString(6); }
+            if (type == typeof(string) && type == typeof(String)) { return UtilitarioDeRandomico.ObterString(6); }
 
             return type.GetDnDefaultValue();
         }
@@ -322,7 +322,7 @@ namespace dn32.infra.extensoes
             if (numberType_ is null) { throw new ArgumentNullException(nameof(numberType_)); }
             var numberType = numberType_.GetNonNullableType();
 
-            if (numberType?.IsNumeric() == true)
+            if (numberType?.EhNumerico() == true)
             {
                 var value = numberType?.GetField(nameof(int.MaxValue))?.GetValue(null) ?? int.MaxValue;
                 return Convert.ChangeType(value ?? int.MaxValue, typeof(double));
@@ -392,7 +392,7 @@ namespace dn32.infra.extensoes
             attr.Tipo = property.PropertyType.GetNonNullableType();
             attr.Propriedade = property;
 
-            if (attr.Maximo == 0 && property.PropertyType.IsNumeric())
+            if (attr.Maximo == 0 && property.PropertyType.EhNumerico())
             {
                 attr.Maximo = property.PropertyType.GetMaxValueOfNumber().DnCast<double>();
             }
@@ -605,7 +605,7 @@ namespace dn32.infra.extensoes
             return u ?? t;
         }
 
-        public static bool IsNumeric(this Type type)
+        public static bool EhNumerico(this Type type)
         {
             type = type.GetNonNullableType();
 

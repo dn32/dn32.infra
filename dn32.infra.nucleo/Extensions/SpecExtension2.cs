@@ -9,18 +9,12 @@ namespace dn32.infra.Nucleo.Extensoes
 {
     public static class SpecExtension2
     {
-        public static IQueryable<T> GetInclusions<T>(this IQueryable<T> query, bool list) where T : DnEntidade
+        public static IQueryable<T> ObterInclusoes<T>(this IQueryable<T> query, bool ehLista) where T : DnEntidade
         {
-            //typeof(T)
-            //    .GetProperties()
-            //    .Where(x => x.GetCustomAttributeAny<DnCompositionAttribute>())
-            //    .ToList()
-            //    .ForEach(x => { query = query.Include(x.Name); });
-
-            if (typeof(T).Is(typeof(IDnInclusionEntity)))
+            if (typeof(T).Is(typeof(IDnEntidadeComInclusao)))
             {
-                var entity = Activator.CreateInstance(typeof(T)).DnCast<IDnInclusionEntity>();
-                var inclusions = list ? entity.InclusionsForList : entity.InclusionsForOne;
+                var entity = Activator.CreateInstance(typeof(T)).DnCast<IDnEntidadeComInclusao>();
+                var inclusions = ehLista ? entity.InclusoesParaLista : entity.InclusoesParaUm;
                 inclusions.ToList().ForEach(x => { query = query.Include(x); });
             }
 

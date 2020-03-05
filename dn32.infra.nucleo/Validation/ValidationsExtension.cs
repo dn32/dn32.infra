@@ -78,7 +78,7 @@ namespace dn32.infra.Validation
                 }
                 var value = property.GetValue(entity);
                 if (value == null) { continue; }
-                if (property.PropertyType.IsNumeric())
+                if (property.PropertyType.EhNumerico())
                 {
                     var min = property.GetCustomAttribute<DnPropriedadeJsonAtributo>()?.Minimo ?? property.GetCustomAttribute<RangeAttribute>()?.Minimum;
                     var max = property.GetCustomAttribute<DnPropriedadeJsonAtributo>()?.Maximo ?? property.GetCustomAttribute<RangeAttribute>()?.Maximum;
@@ -238,7 +238,7 @@ namespace dn32.infra.Validation
                 return;
             }
 
-            if (!await validation.DnCast<DnValidation<T>>().Service.ExisteAsync(entity, validation.KeyValuesOk, includeExcludedLogically))
+            if (!await validation.DnCast<DnValidacao<T>>().Service.ExisteAsync(entity, validation.KeyValuesOk, includeExcludedLogically))
             {
                 var keys = entity.GetKeyValues().Select(x => $"{{{x.Property.Name}:{x.Value}}}").ToArray();
                 var keyValues = string.Join(", ", keys);
@@ -253,7 +253,7 @@ namespace dn32.infra.Validation
                 return;
             }
 
-            if (await validation.DnCast<DnValidation<T>>().Service.QuantidadeAsync(entity, includeExcludedLogically) > 1)
+            if (await validation.DnCast<DnValidacao<T>>().Service.QuantidadeAsync(entity, includeExcludedLogically) > 1)
             {
                 var keys = entity.GetKeyValues().Select(x => $"-{{{x.Property.Name}:{x.Value}}}").ToArray();
                 var keyValues = string.Join(", ", keys);
@@ -268,7 +268,7 @@ namespace dn32.infra.Validation
                 return;
             }
 
-            if (await validation.DnCast<DnValidation<T>>().Service.ExisteAsync(entity, checkId))
+            if (await validation.DnCast<DnValidacao<T>>().Service.ExisteAsync(entity, checkId))
             {
                 var keys = entity.GetKeyAndDnUniqueKeyValues().Select(x => $"{{{x.Property.Name}:{x.Value}}}").ToArray();
                 var keyValues = string.Join(", ", keys);

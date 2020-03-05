@@ -10,7 +10,7 @@ using dn32.infra.nucleo.extensoes;
 
 namespace dn32.infra.Nucleo.Specifications
 {
-    public class TermSpec<T> : DnSpecification<T> where T : DnEntidade
+    public class TermSpec<T> : DnEspecificacao<T> where T : DnEntidade
     {
         private string Term { get; set; }
 
@@ -29,7 +29,7 @@ namespace dn32.infra.Nucleo.Specifications
 
             return query
                     .Where(expression)
-                    .GetInclusions(IsList)
+                    .ObterInclusoes(IsList)
                     .ProjetarDeFormaDinamica(Service);
 
         }

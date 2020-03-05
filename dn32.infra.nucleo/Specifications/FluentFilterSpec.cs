@@ -7,13 +7,13 @@ using dn32.infra.nucleo.extensoes;
 
 namespace dn32.infra.Nucleo.Specifications
 {
-    public class DnFilterSpec<T> : DnSpecification<T> where T : DnEntidade
+    public class DnFiltroEspecificacao<T> : DnEspecificacao<T> where T : DnEntidade
     {
         protected Filtro[] Filters { get; set; }
 
         public bool IsList { get; set; }
 
-        public DnFilterSpec<T> SetParameter(Filtro[] filters, bool ehLista)
+        public DnFiltroEspecificacao<T> SetParameter(Filtro[] filters, bool ehLista)
         {
             Filters = filters;
             IsList = ehLista;
@@ -26,7 +26,7 @@ namespace dn32.infra.Nucleo.Specifications
 
             return query
                  .Where(expression)
-                 .GetInclusions(IsList)
+                 .ObterInclusoes(IsList)
                  .ProjetarDeFormaDinamica(Service);
         }
 

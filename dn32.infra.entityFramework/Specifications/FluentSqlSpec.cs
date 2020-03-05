@@ -15,7 +15,7 @@ using dn32.infra.extensoes;
 
 namespace dn32.infra.EntityFramework.Specifications
 {
-    public class DnSqlSpec<TE> : DnSpecification<TE> where TE : DnEntidade
+    public class DnSqlSpec<TE> : DnEspecificacao<TE> where TE : DnEntidade
     {
         private string Sql { get; set; }
 

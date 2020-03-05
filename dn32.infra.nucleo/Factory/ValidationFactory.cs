@@ -20,10 +20,10 @@ namespace dn32.infra.Factory
         /// <returns>
         /// A validação criada.
         /// </returns>
-        internal static DnValidation<T> Create<T>() where T : EntidadeBase
+        internal static DnValidacao<T> Create<T>() where T : EntidadeBase
         {
-            var localType = Setup.ConfiguracoesGlobais.GenericValidationType?.MakeGenericType(typeof(T)) ?? typeof(DnValidation<T>);
-            return Create(localType) as DnValidation<T>;
+            var localType = Setup.ConfiguracoesGlobais.GenericValidationType?.MakeGenericType(typeof(T)) ?? typeof(DnValidacao<T>);
+            return Create(localType) as DnValidacao<T>;
         }
 
         internal static TransactionalValidation Create(Type validationType)

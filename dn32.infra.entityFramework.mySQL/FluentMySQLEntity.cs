@@ -2,7 +2,7 @@
 
 namespace dn32.infra.EntityFramework.MySQL
 {
-    [DbType(DnDbType.MYSQL)]
+    [TipoDeBancoDeDadosAtributo(DnEnumTipoDeBancoDeDados.MYSQL)]
     public abstract class DnMySQLEntity : DnEntidade
     {
     }

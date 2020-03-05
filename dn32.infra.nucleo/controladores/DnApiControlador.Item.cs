@@ -54,7 +54,7 @@ namespace dn32.infra.nucleo.controladores
         private TermSpec<T> CriarEspecificacaoPorTermo(string termo, bool ehLista) =>
              this.CriarEspecificacao<TermSpec<T>>().SetParameter(termo, ehLista);
 
-        private DnFilterSpec<T> CriarEspecificacaoDeFiltros(Filtro[] filtros, bool ehLista) =>
-              this.CriarEspecificacao<DnFilterSpec<T>>().SetParameter(filtros, ehLista);
+        private DnFiltroEspecificacao<T> CriarEspecificacaoDeFiltros(Filtro[] filtros, bool ehLista) =>
+              this.CriarEspecificacao<DnFiltroEspecificacao<T>>().SetParameter(filtros, ehLista);
     }
 }

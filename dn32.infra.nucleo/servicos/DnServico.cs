@@ -32,9 +32,9 @@ namespace dn32.infra.servicos
             set => base.Repositorio = value;
         }
 
-        protected internal new DnValidation<T> Validacao
+        protected internal new DnValidacao<T> Validacao
         {
-            get => base.Validacao as DnValidation<T>;
+            get => base.Validacao as DnValidacao<T>;
             set => base.Validacao = value;
         }
 

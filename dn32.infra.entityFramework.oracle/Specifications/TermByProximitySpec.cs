@@ -6,7 +6,7 @@ using dn32.infra.dados;
 
 namespace dn32.infra.EntityFramework.Oracle.Specifications
 {
-    public class TermByProximitySpec<TE> : DnSpecification<TE> where TE : DnEntidade
+    public class TermByProximitySpec<TE> : DnEspecificacao<TE> where TE : DnEntidade
     {
         private string Term { get; set; }
 

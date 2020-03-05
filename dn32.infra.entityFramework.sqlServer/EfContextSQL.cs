@@ -6,7 +6,7 @@ namespace dn32.infra.EntityFramework.SqlServer
     /// <summary>
     /// Contexto do EF no net Core
     /// </summary>
-    [DbType(DnDbType.SQL_SERVER)]
+    [TipoDeBancoDeDadosAtributo(DnEnumTipoDeBancoDeDados.SQL_SERVER)]
     public class EfContextSQLServer : EfContext
     {
         public EfContextSQLServer(string connectionString) : base(connectionString)

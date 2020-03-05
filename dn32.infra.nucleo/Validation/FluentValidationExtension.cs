@@ -14,7 +14,7 @@ namespace dn32.infra.Validation
 {
     internal static class DnValidationExtension
     {
-        internal static async Task<List<DnServicoTransacionalBase>> ExecuteEntityAndCompositions<T>(this DnValidation<T> validation, object entity, MethodInfo method) where T : EntidadeBase
+        internal static async Task<List<DnServicoTransacionalBase>> ExecuteEntityAndCompositions<T>(this DnValidacao<T> validation, object entity, MethodInfo method) where T : EntidadeBase
         {
             if (validation is null) { throw new ArgumentNullException("validation"); }
             if (method is null) { throw new ArgumentNullException("method"); }

@@ -8,7 +8,7 @@ using dn32.infra.nucleo.extensoes;
 
 namespace dn32.infra.EntityFramework.Oracle.Specifications
 {
-    public class TermByFilterAndProximitySpec<T> : DnSpecification<T> where T : DnEntidade
+    public class TermByFilterAndProximitySpec<T> : DnEspecificacao<T> where T : DnEntidade
     {
         private string Term { get; set; }
 
@@ -45,7 +45,7 @@ namespace dn32.infra.EntityFramework.Oracle.Specifications
 
             query = query
                      .Where(expression)
-                     .GetInclusions(IsList);
+                     .ObterInclusoes(IsList);
 
             if (Columns?.Length > 0 && !string.IsNullOrWhiteSpace(Term))
             {

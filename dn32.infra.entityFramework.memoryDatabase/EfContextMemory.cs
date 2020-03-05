@@ -8,7 +8,7 @@ namespace dn32.infra.EntityFramework.MemoryDatabase
     /// <summary>
     /// Contexto do EF no net Core
     /// </summary>
-    [DbType(DnDbType.MEMORY)]
+    [TipoDeBancoDeDadosAtributo(DnEnumTipoDeBancoDeDados.MEMORY)]
     public class EfContextMemory : EfContext
     {
         public EfContextMemory(string connectionString) : base(connectionString)

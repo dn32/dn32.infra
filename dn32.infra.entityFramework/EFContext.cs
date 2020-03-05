@@ -31,7 +31,7 @@ namespace dn32.infra.EntityFramework
     /// </summary>
     public abstract class EfContext : DbContext
     {
-        internal protected delegate void EntityChangeEventHandler(ICollection<DnEventEntity> fluentEventEntity);
+        internal protected delegate void EntityChangeEventHandler(ICollection<DnEventEntity> DnEventEntity);
         internal protected event EntityChangeEventHandler EntityChangingEventEvent;
         internal protected event EntityChangeEventHandler EntityChangedEventEvent;
 
@@ -121,17 +121,17 @@ namespace dn32.infra.EntityFramework
 
         protected void ConvertNulableEnum<TEnum>(EntityTypeBuilder entity, PropertyInfo property) where TEnum : Enum
         {
-            if (typeof(TEnum).GetCustomAttribute<DnValorNuloParaEnumeradorAtributo>() is DnValorNuloParaEnumeradorAtributo fluentEnumValueForSetNullAttribute)
+            if (typeof(TEnum).GetCustomAttribute<DnValorNuloParaEnumeradorAtributo>() is DnValorNuloParaEnumeradorAtributo DnEnumValueForSetNullAttribute)
             {
                 ValueConverter converter = null;
 
                 if (property.PropertyType.GetListTypeNonNull().IsDefined(typeof(DnUsarStringParaEnumeradoresNoBdAtributo)))
                 {
-                    converter = new ValueConverter<TEnum, int?>(v => v.GetHashCode() == fluentEnumValueForSetNullAttribute.Valor ? null : (int?)v.GetHashCode(), v => (TEnum)Enum.ToObject(typeof(TEnum), v ?? 0));
+                    converter = new ValueConverter<TEnum, int?>(v => v.GetHashCode() == DnEnumValueForSetNullAttribute.Valor ? null : (int?)v.GetHashCode(), v => (TEnum)Enum.ToObject(typeof(TEnum), v ?? 0));
                 }
                 else
                 {
-                    converter = new ValueConverter<TEnum, string>(v => v.GetHashCode() == fluentEnumValueForSetNullAttribute.Valor ? null : v.ToString(), v => (TEnum)Enum.Parse(typeof(TEnum), v));
+                    converter = new ValueConverter<TEnum, string>(v => v.GetHashCode() == DnEnumValueForSetNullAttribute.Valor ? null : v.ToString(), v => (TEnum)Enum.Parse(typeof(TEnum), v));
                 }
 
                 entity.Property(property.Name).HasConversion(converter);
@@ -206,15 +206,15 @@ namespace dn32.infra.EntityFramework
             return eventChangeList;
         }
 
-        private void SetEventChangeCurrentValue(DnEventEntity fluentEventEntity)
+        private void SetEventChangeCurrentValue(DnEventEntity DnEventEntity)
         {
-            var currentValuesGetValue = fluentEventEntity.ChangedEntity.CurrentValues.GetType().GetMethod("GetValue", new[] { typeof(IProperty) });
-            var properties = fluentEventEntity.ChangedEntity.CurrentValues.Properties.ToList();
+            var currentValuesGetValue = DnEventEntity.ChangedEntity.CurrentValues.GetType().GetMethod("GetValue", new[] { typeof(IProperty) });
+            var properties = DnEventEntity.ChangedEntity.CurrentValues.Properties.ToList();
 
-            fluentEventEntity.Properties.ForEach(x =>
+            DnEventEntity.Properties.ForEach(x =>
             {
                 var property = properties.Next();
-                x.CurrentValue = currentValuesGetValue?.MakeGenericMethod(property.ClrType).Invoke(fluentEventEntity.ChangedEntity.CurrentValues, new[] { property });
+                x.CurrentValue = currentValuesGetValue?.MakeGenericMethod(property.ClrType).Invoke(DnEventEntity.ChangedEntity.CurrentValues, new[] { property });
             });
         }
 

@@ -10,7 +10,7 @@ namespace dn32.infra.Nucleo.Extensoes
             return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(jsonObject));
         }
 
-        public static string ToDnJsonOrPrimitive(this object obj, Formatting formatting = Formatting.None)
+        public static string SerializeParaDnJsonOuPrimitivo(this object obj, Formatting formatting = Formatting.None)
         {
             if (obj == null) { return null; }
             var type = obj.GetType();

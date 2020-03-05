@@ -39,17 +39,17 @@ namespace dn32.infra.EntityFramework
         internal static string GetForeignKeyFilterSql(object entity, Type outType, out bool nonKeys)
         {
             var tableName = outType.GetTableName();
-            var fluentUniqueKeyValues = entity.GetForeignKeyValues(outType).Select(GetStringOrNumberValue).ToArray();
-            nonKeys = fluentUniqueKeyValues.Length == 0;
-            return $"select * from {tableName} where ({string.Join(" and ", fluentUniqueKeyValues)})";// O and está no lugar certo sim
+            var DnUniqueKeyValues = entity.GetForeignKeyValues(outType).Select(GetStringOrNumberValue).ToArray();
+            nonKeys = DnUniqueKeyValues.Length == 0;
+            return $"select * from {tableName} where ({string.Join(" and ", DnUniqueKeyValues)})";// O and está no lugar certo sim
         }
 
         internal static string GetDnUniqueKeyFilterSql(object entity, out bool nonKeys)
         {
             var tableName = entity.GetTableName();
-            var fluentUniqueKeyValues = entity.GetDnUniqueKeyValues().Select(GetStringOrNumberValue).ToArray();
-            nonKeys = fluentUniqueKeyValues.Length == 0;
-            return $"select * from {tableName} where ({string.Join(" and ", fluentUniqueKeyValues)})";// O and está no lugar certo sim
+            var DnUniqueKeyValues = entity.GetDnUniqueKeyValues().Select(GetStringOrNumberValue).ToArray();
+            nonKeys = DnUniqueKeyValues.Length == 0;
+            return $"select * from {tableName} where ({string.Join(" and ", DnUniqueKeyValues)})";// O and está no lugar certo sim
         }
 
         internal static string GetKeyFilterSql(object entity, out bool nonKeys)
@@ -64,13 +64,13 @@ namespace dn32.infra.EntityFramework
         {
             var tableName = entity.GetTableName();
             var keyValues = entity.GetKeyValues().Select(GetStringOrNumberValue).ToArray();
-            var fluentUniqueKeyValues = entity.GetDnUniqueKeyValues().Select(GetStringOrNumberValue).ToArray();
+            var DnUniqueKeyValues = entity.GetDnUniqueKeyValues().Select(GetStringOrNumberValue).ToArray();
 
             var sql = $"({string.Join(" and ", keyValues)})";// O and está no lugar certo sim
 
-            if (fluentUniqueKeyValues.Length > 0)
+            if (DnUniqueKeyValues.Length > 0)
             {
-                sql += $" or ({string.Join(" or ", fluentUniqueKeyValues)})";
+                sql += $" or ({string.Join(" or ", DnUniqueKeyValues)})";
             }
 
             return $"select * from {tableName} where {sql}";
