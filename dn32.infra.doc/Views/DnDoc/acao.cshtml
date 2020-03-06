@@ -10,7 +10,7 @@
     {
         if (type.GetListTypeNonNull().IsDnEntity())
         {
-            return $"<a href=\"/DnDoc/Model?Nome={type.GetListTypeNonNull().FullName}\">{type.GetFriendlyName(false)}</a>";
+            return $"<a href=\"/dndoc/modelo?nome={type.GetListTypeNonNull().FullName}\">{type.GetFriendlyName(false)}</a>";
         }
         else
         {
@@ -46,11 +46,11 @@
                             <table class="properties">
                                 <thead>
                                     <tr>
-                                        <th>@(("Name").G())</th>
+                                        <th>@(("Nome").G())</th>
                                         <th>@(("Tipo").G())</th>
-                                        <th>@(("Source").G())</th>
-                                        <th>@(("Description").G())</th>
-                                        <th>@(("Example").G())</th>
+                                        <th>@(("Fonte").G())</th>
+                                        <th>@(("Descrição").G())</th>
+                                        <th>@(("Exemplo").G())</th>
                                     </tr>
                                 </thead>
                                 @foreach (var parameter in Model.Parameters)
@@ -72,12 +72,12 @@
                                 }
                             </table>
                             <div class="example-valor-container">
-                                <span>@("Request Example".G())</span>
+                                <span>@("Exemplo de requisição".G())</span>
                                 <pre class="example-value">@Model.Example</pre>
                             </div>
 
                             <div class="example-valor-container">
-                                <span>@("Return tipo".G())</span>
+                                <span>@("Tipo de retorno".G())</span>
                                 <pre class="example-value">@(Model.ReturnType)</pre>
                             </div>
                         </div>

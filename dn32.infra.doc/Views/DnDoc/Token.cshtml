@@ -1,18 +1,18 @@
 ﻿@using static dn32.infra.DnDocExtension
 
 @{
-    ViewData["Title"] = "Autentication".G();
+    ViewData["Title"] = "Autenticação".G();
 }
 
 <div class="auth-container">
 
-    <form method="post" action="/DnDoc/Logout">
+    <form method="post" action="/dndoc/Sair">
         <div class="form-group">
             <label for="user">@("Token".G())</label>
             <textarea class="form-control" name="token" style="height: 361px;">@ViewBag.Token</textarea>
         </div>
        
-        <button type="submit" class="btn btn-primary">@("Logout".G())</button>
+        <button type="submit" class="btn btn-primary">@("Sair".G())</button>
     </form>
 
 </div>

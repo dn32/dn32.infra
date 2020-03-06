@@ -32,7 +32,7 @@ namespace dn32.infra.Nucleo.Services
             }
             else
             {
-                return "Access denied";
+                return "";
             }
         }
 

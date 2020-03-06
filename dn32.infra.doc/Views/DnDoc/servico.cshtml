@@ -22,7 +22,7 @@
     {
         if (type.GetListTypeNonNull().IsDnEntity())
         {
-            return $"<a href=\"/DnDoc/Model?Nome={type.GetListTypeNonNull().FullName}\">{type.GetFriendlyName(false)}</a>";
+            return $"<a href=\"/dndoc/modelo?Nome={type.GetListTypeNonNull().FullName}\">{type.GetFriendlyName(false)}</a>";
         }
         else
         {
@@ -53,7 +53,7 @@
                 //var paramString = string.Join(", ", parameters);
                 var actionName = action?.MethodName ?? "";
 
-                <div class="action" onclick="navegate('/DnControladorDoc/Action?service=@Model.Formulario.Tipo.GetListTypeNonNull().Name&actionName=@actionName')">
+                <div class="action" onclick="navegate('/dndoc/acao?servico=@Model.Formulario.Tipo.GetListTypeNonNull().Name&nomeDaAcao=@actionName')">
                     <span class="method @action.Method.ToLower()">@action.Method</span>
                     <span class="name">@action.Name.G()</span>
                     <span class="Descricaoription">@action.Description</span>

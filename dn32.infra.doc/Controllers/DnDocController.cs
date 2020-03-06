@@ -40,16 +40,16 @@ namespace dn32.infra.Nucleo.Doc.Controllers
             Initialize();
         }
 
-        [Route("DnDoc"), Route("DnDoc/Index")]
+        [Route("dndoc"), Route("dndoc/Index")]
         public IActionResult Index()
         {
             return View(AllEntities);
         }
 
-        [Route("DnDoc/Action")]
-        public IActionResult Action(string service, string actionName)
+        [Route("dndoc/acao")]
+        public IActionResult Acao(string servico, string nomeDaAcao)
         {
-            if (Models.TryGetValue<string, Type>(service, StringComparison.InvariantCultureIgnoreCase, out Type type))
+            if (Models.TryGetValue<string, Type>(servico, StringComparison.InvariantCultureIgnoreCase, out Type type))
             {
                 if (Setup.Controladores.TryGetValue(type, out Type controllerType))
                 {
@@ -67,7 +67,7 @@ namespace dn32.infra.Nucleo.Doc.Controllers
                               .Where(method => method.IsPublic && !method.IsDefined(typeof(NonActionAttribute)))
                               .Where(method => !method.Name.StartsWith("get_") && !method.Name.Equals("Dispose") && !method.Name.Equals("GetType") && !method.Name.StartsWith("set_"))
                               .Where(method => method.GetCustomAttribute<DnDocAtributo>()?.Apresentacao != EnumApresentar.Ocultar)
-                              .FirstOrDefault(method => method.Name.Equals(actionName, StringComparison.InvariantCultureIgnoreCase));
+                              .FirstOrDefault(method => method.Name.Equals(nomeDaAcao, StringComparison.InvariantCultureIgnoreCase));
 
                         if (actionMethod == null) { return Content("Action not found"); }
 
@@ -87,14 +87,14 @@ namespace dn32.infra.Nucleo.Doc.Controllers
             }
             else
             {
-                throw new InvalidOperationException($"Servico {service} not found");
+                throw new InvalidOperationException($"Servico {servico} not found");
             }
         }
 
-        [Route("DnDoc/Model")]
-        public IActionResult Model(string name)
+        [Route("dndoc/Modelo")]
+        public IActionResult Modelo(string nome)
         {
-            if (AllTypes.TryGetValue(name, out Type type))
+            if (AllTypes.TryGetValue(nome, out Type type))
             {
                 var jsonSchema = type.GetDnJsonSchema(false);
                 jsonSchema.Formulario.Nome = type.GetFriendlyName();
@@ -124,22 +124,22 @@ namespace dn32.infra.Nucleo.Doc.Controllers
             return Content("Model not found");
         }
 
-        [Route("DnDoc/Entidade")]
-        public IActionResult Entity()
+        [Route("dndoc/Entidade")]
+        public IActionResult Entidade()
         {
             return View(AllEntities);
         }
 
-        [Route("DnDoc/ModelNoEntity")]
-        public IActionResult ModelNoEntity()
+        [Route("dndoc/modeloNaoEntidade")]
+        public IActionResult ModeloNaoEntidade()
         {
             return View(AllModel);
         }
 
-        [Route("DnDoc/Servico")]
-        public IActionResult Service(string name)
+        [Route("dndoc/Servico")]
+        public IActionResult Servico(string nome)
         {
-            if (Models.TryGetValue<string, Type>(name, StringComparison.InvariantCultureIgnoreCase, out Type type))
+            if (Models.TryGetValue<string, Type>(nome, StringComparison.InvariantCultureIgnoreCase, out Type type))
             {
                 if (Setup.Controladores.TryGetValue(type, out Type controllerType))
                 {
@@ -179,7 +179,7 @@ namespace dn32.infra.Nucleo.Doc.Controllers
             }
             else
             {
-                throw new InvalidOperationException($"Servico {name} not found");
+                throw new InvalidOperationException($"Servico {nome} not found");
             }
         }
 
@@ -206,7 +206,7 @@ namespace dn32.infra.Nucleo.Doc.Controllers
         {
             var fullName = type.GetListTypeNonNull().FullName;
             if (string.IsNullOrWhiteSpace(fullName)) { return string.Empty; }
-            if (AllTypes.TryGetValue(type.GetListTypeNonNull().FullName, out _)) { return $"/DnDoc/Model?Nome={type.GetListTypeNonNull().FullName}"; }
+            if (AllTypes.TryGetValue(type.GetListTypeNonNull().FullName, out _)) { return $"/DnDoc/modelo?Nome={type.GetListTypeNonNull().FullName}"; }
             return string.Empty;
         }
 
@@ -273,7 +273,7 @@ namespace dn32.infra.Nucleo.Doc.Controllers
 
                 if (Setup.ConfiguracoesGlobais.InformacoesDoJWT != null)
                 {
-                    parameters.Add(new DocParameter("Authorization", typeof(string), EnumParameterSouce.Header, "The authentication Token", "Bearer xxxxx"));
+                    parameters.Add(new DocParameter("Authorization", typeof(string), EnumParameterSouce.Header, "The autenticacao Token", "Bearer xxxxx"));
                 }
 
                 var action_ = new DnActionSchema

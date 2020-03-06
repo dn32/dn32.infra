@@ -60,7 +60,7 @@ namespace dn32.infra
         public static DnConfiguracoesGlobais DefinirTipoGenericoDeServico<S>(this DnConfiguracoesGlobais configuracoes) where S : DnServicoBase
         {
             if (configuracoes != null)
-                configuracoes.GenericServiceType = typeof(S);
+                configuracoes.GenericServiceType = typeof(S).GetGenericTypeDefinition();
 
             return configuracoes;
         }
@@ -68,7 +68,7 @@ namespace dn32.infra
         public static DnConfiguracoesGlobais DefinirTipoGenericoDeRepositorio<R>(this DnConfiguracoesGlobais configuracoes) where R : ITransactionlRepository
         {
             if (configuracoes != null)
-                configuracoes.GenericRepositoryType = typeof(R);
+                configuracoes.GenericRepositoryType = typeof(R).GetGenericTypeDefinition();
 
             return configuracoes;
         }
@@ -76,7 +76,7 @@ namespace dn32.infra
         public static DnConfiguracoesGlobais DefinirTipoGenericoDeValidacao<V>(this DnConfiguracoesGlobais configuracoes) where V : TransactionalValidation
         {
             if (configuracoes != null)
-                configuracoes.GenericValidationType = typeof(V);
+                configuracoes.GenericValidationType = typeof(V).GetGenericTypeDefinition();
 
             return configuracoes;
         }
@@ -84,7 +84,7 @@ namespace dn32.infra
         public static DnConfiguracoesGlobais DefinirTipoGenericoDeControlador<C>(this DnConfiguracoesGlobais configuracoes) where C : DnControladorBase
         {
             if (configuracoes != null)
-                configuracoes.GenericControllerType = typeof(C);
+                configuracoes.GenericControllerType = typeof(C).GetGenericTypeDefinition();
 
             return configuracoes;
         }

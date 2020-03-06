@@ -43,7 +43,7 @@ namespace dn32.infra.Filters
 
             if (string.IsNullOrWhiteSpace(tokenRequest) || tokenRequest == "undefined" && tokenRequest == "null")
             {
-                Forbidden(context, "An authentication token is EhRequerido");
+                Forbidden(context, "É necessário enviar um token de autenticação por meio do parâmetro 'Authorization' que pode ser por cookie, header, ou query string.");
             }
             else
             {

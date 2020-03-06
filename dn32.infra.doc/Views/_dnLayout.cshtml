@@ -1,0 +1,54 @@
+﻿@using dn32.infra
+@using static dn32.infra.DnDocExtension
+@{
+    var values = ViewContext.RouteData.Values;
+    if (values == null) { throw new InvalidOperationException("ViewContext.RouteData.Valores está nulo quando não devia"); }
+
+    var action = values["Action"]?.ToString()?.ToLower() ?? "";
+    var controller = values["Controller"]?.ToString()?.ToLower() ?? "";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - @(("Serviços disponíveis").G())</title>
+    <link rel="stylesheet" href="/DnDoc/lib/bootstrap.min.css" />
+    <link rel="stylesheet" href="/DnDoc/css/site.css" />
+</head>
+<body>
+
+    <header>
+        @await Html.PartialAsync("_dn_header_customizado")
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container principal-menu">
+
+                <a class="navbar-brand @(controller == "dndoc" && (action == "servico" || action == "index") ? "active" : "")" asp-area="" asp-controller="dndoc" asp-action="Index">@(("servico").G())</a> |
+
+                <a class="navbar-brand @(controller == "dndoc" && action == "entidade" ? "active" : "")" asp-area="" asp-controller="dndoc" asp-action="entidade">@(("entidade").G())</a> |
+
+                <a class="navbar-brand @(controller == "dndoc" && (action == "modelo" || action == "modelonaoentidade") ? "active" : "")" asp-area="" asp-controller="dndoc" asp-action="modelonaoentidade">@(("modelo").G())</a> |
+
+                <a class="navbar-brand @(controller == "autenticacao" ? "active" : "")" asp-area="" asp-controller="dndoc" asp-action="Token">@(("autenticacao").G())</a>
+
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            <a href="https://github.com/dn32/dn32.infra" target="_blank">Dn32 Infra documentador de API &copy; - @ViewData["Title"]</a>
+        </div>
+    </footer>
+
+    <script src="/DnDoc/lib/jquery-3.4.1.min.js"></script>
+    <script src="/DnDoc/lib/bootstrap.min.js"></script>
+
+</body>
+</html>
