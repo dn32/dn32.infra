@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using dn32.infra.extensoes;
 using dn32.infra.nucleo.servicos;
 using dn32.infra.nucleo.configuracoes;
+using dn32.infra.nucleo.fabricas;
 
 namespace dn32.infra.Nucleo.Doc.Controllers
 {
@@ -60,7 +61,7 @@ namespace dn32.infra.Nucleo.Doc.Controllers
                 Password = senha
             };
 
-            var service = ServiceFactory.Create(Setup.ConfiguracoesGlobais.InformacoesDoJWT.DnAuthenticationServiceType, HttpContext, "DocAutenticacaoServiceType for DnDoc").DnCast<DnServicoDeAutenticacao>();
+            var service = FabricaDeServico.Criar(Setup.ConfiguracoesGlobais.InformacoesDoJWT.DnAuthenticationServiceType, HttpContext, "DocAutenticacaoServiceType for DnDoc").DnCast<DnServicoDeAutenticacao>();
             var token = await service.EntrarAsync(autenticacaoUser);
             if (string.IsNullOrWhiteSpace(token))
             {

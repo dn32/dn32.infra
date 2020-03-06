@@ -5,6 +5,7 @@ using dn32.infra.servicos;
 using System;
 using dn32.infra.dados;
 using dn32.infra.nucleo.configuracoes;
+using dn32.infra.nucleo.fabricas;
 
 namespace dn32.infra.extensoes
 {
@@ -27,7 +28,7 @@ namespace dn32.infra.extensoes
                 return ser as DnServicoTransacionalBase;
             }
 
-            var service = ServiceFactory.Create(serviceType, SessionRequest.LocalHttpContext, SessionRequest);
+            var service = FabricaDeServico.Criar(serviceType, SessionRequest.LocalHttpContext, SessionRequest);
             SessionRequest.Services.Add(serviceType, service);
 
             return service;
@@ -40,7 +41,7 @@ namespace dn32.infra.extensoes
                 throw new DesenvolvimentoIncorretoException($"The service instance attempt using the {nameof(GetServiceInstanceByEntity)} method failed because the passed type is not a {nameof(DnEntidade)}");
             }
 
-            var type = (Setup.ConfiguracoesGlobais.GenericServiceType) ?? typeof(DnServico<>);
+            var type = (Setup.ConfiguracoesGlobais.TipoGenericoDeServico) ?? typeof(DnServico<>);
             var serviceType = type.MakeGenericType(entityType).GetSpecializedService();
             return serviceType.GetServiceInstanceByServiceType(SessionRequest);
         }

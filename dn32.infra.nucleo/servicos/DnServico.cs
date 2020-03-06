@@ -13,6 +13,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using dn32.infra.nucleo.configuracoes;
+using dn32.infra.nucleo.fabricas;
 
 namespace dn32.infra.servicos
 {
@@ -32,9 +33,9 @@ namespace dn32.infra.servicos
             set => base.Repositorio = value;
         }
 
-        protected internal new DnDnValidacao<T> Validacao
+        protected internal new DnValidacao<T> Validacao
         {
-            get => base.Validacao as DnDnValidacao<T>;
+            get => base.Validacao as DnValidacao<T>;
             set => base.Validacao = value;
         }
 
@@ -44,7 +45,7 @@ namespace dn32.infra.servicos
 
             ValidarInicializacaoDoServico();
             this.Repositorio = Setup.ConfiguracoesGlobais.FabricaDeRepositorio.Create(ObjetosDaTransacao, this);
-            this.Validacao = DnFabricaDeValidacao.Criar<T>();
+            this.Validacao = FabricaDeValidacao.Criar<T>();
             this.Validacao.Inicializar(this);
         }
 
@@ -211,7 +212,7 @@ namespace dn32.infra.servicos
         {
             var mth = new StackTrace()?.GetFrame(2)?.GetMethod() ?? null;
             var name = mth?.ReflectedType?.Name;
-            if (name == nameof(ServiceFactory))
+            if (name == nameof(FabricaDeServico))
             {
                 return;
             }

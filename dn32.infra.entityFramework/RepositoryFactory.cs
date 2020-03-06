@@ -1,6 +1,5 @@
 ﻿using dn32.infra.dados;
 using dn32.infra.nucleo.interfaces;
-using dn32.infra.Nucleo.Factory;
 using dn32.infra.Nucleo.Models;
 using dn32.infra.servicos;
 using System;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using dn32.infra.nucleo.excecoes;
 using dn32.infra.nucleo.configuracoes;
+using dn32.infra.nucleo.fabricas;
 
 namespace dn32.infra.EntityFramework
 {
@@ -50,7 +50,7 @@ namespace dn32.infra.EntityFramework
                 throw new DesenvolvimentoIncorretoException($"The entity {typeof(T).Name} needs a database type specification. Example: [TipoDeBancoDeDadosAtributo (DnTipoDeBancoDeDadosAtributo.ORACLE)]"); ;
             }
 
-            var localType = Setup.ConfiguracoesGlobais.GenericRepositoryType?.MakeGenericType(typeof(T)) ?? typeof(DnEFRepository<T>);
+            var localType = Setup.ConfiguracoesGlobais.TipoGenericoDeRepositorio?.MakeGenericType(typeof(T)) ?? typeof(DnEFRepository<T>);
 
             if (Setup.Repositorios.TryGetValue(typeof(T), out var repositoryType))
             {
@@ -61,7 +61,7 @@ namespace dn32.infra.EntityFramework
 
             if (transactionObjects == null)
             {
-                Connection connetion;
+                Conexao connetion;
 
                 if (string.IsNullOrWhiteSpace(TipoDeBancoDeDadosAtributo.Identifier))
                 {
@@ -96,7 +96,7 @@ namespace dn32.infra.EntityFramework
                 }
 
                 var transactionObjectsType = repository.TipoDeObjetosTransacionais;
-                transactionObjects = TransactionObjectsFactory.Create(transactionObjectsType, connetion, service.SessaoDaRequisicao);
+                transactionObjects = FabricaDeObjetosTransacionais.Criar(transactionObjectsType, connetion, service.SessaoDaRequisicao);
                 service.SessaoDaRequisicao.ObjetosDaTransacao = transactionObjects;
             }
 

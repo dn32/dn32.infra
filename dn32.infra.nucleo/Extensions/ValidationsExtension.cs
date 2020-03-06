@@ -240,7 +240,7 @@ namespace dn32.infra.validacoes
                 return;
             }
 
-            if (!await validation.DnCast<DnDnValidacao<T>>().Servico.ExisteAsync(entity, validation.ChecagemDeChavesOk, includeExcludedLogically))
+            if (!await validation.DnCast<DnValidacao<T>>().Servico.ExisteAsync(entity, validation.ChecagemDeChavesOk, includeExcludedLogically))
             {
                 var keys = entity.GetKeyValues().Select(x => $"{{{x.Property.Name}:{x.Value}}}").ToArray();
                 var keyValues = string.Join(", ", keys);
@@ -255,7 +255,7 @@ namespace dn32.infra.validacoes
                 return;
             }
 
-            if (await validation.DnCast<DnDnValidacao<T>>().Servico.QuantidadeAsync(entity, includeExcludedLogically) > 1)
+            if (await validation.DnCast<DnValidacao<T>>().Servico.QuantidadeAsync(entity, includeExcludedLogically) > 1)
             {
                 var keys = entity.GetKeyValues().Select(x => $"-{{{x.Property.Name}:{x.Value}}}").ToArray();
                 var keyValues = string.Join(", ", keys);
@@ -270,7 +270,7 @@ namespace dn32.infra.validacoes
                 return;
             }
 
-            if (await validation.DnCast<DnDnValidacao<T>>().Servico.ExisteAsync(entity, checkId))
+            if (await validation.DnCast<DnValidacao<T>>().Servico.ExisteAsync(entity, checkId))
             {
                 var keys = entity.GetKeyAndDnUniqueKeyValues().Select(x => $"{{{x.Property.Name}:{x.Value}}}").ToArray();
                 var keyValues = string.Join(", ", keys);

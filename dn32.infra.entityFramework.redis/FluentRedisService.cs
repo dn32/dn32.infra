@@ -13,7 +13,7 @@ namespace dn32.infra.Redis
 
         public DnRedisService()
         {
-            RedisRepository = new DnRedisRepository(Setup.ConfiguracoesGlobais.RedisConnectionString);
+            RedisRepository = new DnRedisRepository(Setup.ConfiguracoesGlobais.StringDeConexaoDoRedis);
         }
 
         public async Task<T> GetValueAsync<T>(string key) => await RedisRepository.GetValueAsync<T>(key);

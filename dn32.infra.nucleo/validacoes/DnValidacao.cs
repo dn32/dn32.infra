@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace dn32.infra.nucleo.validacoes
 {
-    public class DnDnValidacao<T> : DnValidacaoTransacional, IDnValidacao where T : EntidadeBase
+    public class DnValidacao<T> : DnValidacaoTransacional, IDnValidacao where T : EntidadeBase
     {
         #region INTERNAL
 
@@ -35,20 +35,20 @@ namespace dn32.infra.nucleo.validacoes
 
         public virtual async Task AdicionarAsync(T entidade)
         {
-            var metodo = typeof(DnDnValidacao<T>).GetMethod(nameof(AdicionarInternoAsync), BindingFlags.NonPublic | BindingFlags.Static);
+            var metodo = typeof(DnValidacao<T>).GetMethod(nameof(AdicionarInternoAsync), BindingFlags.NonPublic | BindingFlags.Static);
             var outrosServicos = await (this).ExecuteEntityAndCompositions(entidade, metodo);
             ExecutarAsValidacoes(outrosServicos);
         }
 
         public virtual async Task<List<DnServicoTransacionalBase>> AdidionarOuAtualizarAsync(T entidade)
         {
-            var metodo = typeof(DnDnValidacao<T>).GetMethod(nameof(AdicionarInternoAsync), BindingFlags.NonPublic | BindingFlags.Static);
+            var metodo = typeof(DnValidacao<T>).GetMethod(nameof(AdicionarInternoAsync), BindingFlags.NonPublic | BindingFlags.Static);
             return await (this).ExecuteEntityAndCompositions(entidade, metodo);
         }
 
         public virtual async Task AtualizarAsync(T entidade)
         {
-            var metodo = typeof(DnDnValidacao<T>).GetMethod(nameof(AtualizarListaInternoAsync), BindingFlags.NonPublic | BindingFlags.Static);
+            var metodo = typeof(DnValidacao<T>).GetMethod(nameof(AtualizarListaInternoAsync), BindingFlags.NonPublic | BindingFlags.Static);
             var outrosServicos = await (this).ExecuteEntityAndCompositions(entidade, metodo);
 
             if (ChecagemDeChavesOk)
@@ -64,7 +64,7 @@ namespace dn32.infra.nucleo.validacoes
         {
             this.ParameterMustBeInformed(entidades, nameof(entidades));
             var outrosServicos = new List<DnServicoTransacionalBase>();
-            var metodo = typeof(DnDnValidacao<T>).GetMethod(nameof(AtualizarListaInternoAsync), BindingFlags.NonPublic | BindingFlags.Static);
+            var metodo = typeof(DnValidacao<T>).GetMethod(nameof(AtualizarListaInternoAsync), BindingFlags.NonPublic | BindingFlags.Static);
 
             if (entidades != null)
             {
@@ -91,7 +91,7 @@ namespace dn32.infra.nucleo.validacoes
             var outrosServicos = new List<DnServicoTransacionalBase>();
             if (entidades != null)
             {
-                var metodo = typeof(DnDnValidacao<T>).GetMethod(nameof(AdicionarInternoAsync), BindingFlags.NonPublic | BindingFlags.Static);
+                var metodo = typeof(DnValidacao<T>).GetMethod(nameof(AdicionarInternoAsync), BindingFlags.NonPublic | BindingFlags.Static);
 
                 foreach (var entidade in entidades)
                 {

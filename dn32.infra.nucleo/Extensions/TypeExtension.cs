@@ -690,7 +690,7 @@ namespace dn32.infra.extensoes
                 var entityType = args.First();
                 if (!Setup.Servicos.TryGetValue(entityType, out serviceType))
                 {
-                    var type = (Setup.ConfiguracoesGlobais.GenericServiceType) ?? typeof(DnServico<>);
+                    var type = (Setup.ConfiguracoesGlobais.TipoGenericoDeServico) ?? typeof(DnServico<>);
                     serviceType = type.MakeGenericType(entityType);
                 }
             }

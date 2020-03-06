@@ -4,6 +4,7 @@ using dn32.infra.nucleo.servicos;
 using dn32.infra.nucleo.validacoes;
 using dn32.infra.nucleo.interfaces;
 using dn32.infra.Nucleo.Models;
+using dn32.infra.nucleo.fabricas;
 
 namespace dn32.infra.servicos
 {
@@ -30,7 +31,7 @@ namespace dn32.infra.servicos
 
         protected T CriarEspecificacao<T>() where T : DnEspecificacaoBase
         {
-            return SpecFactory.Criar<T>(this);
+            return FabricaDeEspecificacao.Criar<T>(this);
         }
     }
 }

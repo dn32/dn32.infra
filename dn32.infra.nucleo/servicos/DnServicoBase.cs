@@ -1,5 +1,6 @@
 using dn32.infra.Factory;
 using dn32.infra.nucleo.configuracoes;
+using dn32.infra.nucleo.fabricas;
 using dn32.infra.nucleo.interfaces;
 using dn32.infra.nucleo.validacoes;
 using dn32.infra.Nucleo.Models;
@@ -36,7 +37,7 @@ namespace dn32.infra.nucleo.servicos
                 return ser as TS;
             }
 
-            var servico = ServiceFactory.CreateInternalServiceRuntime(typeof(TS), identificadorDaSessaoGuid) as TS;
+            var servico = FabricaDeServico.CriarServicoEmTempoReal(typeof(TS), identificadorDaSessaoGuid) as TS;
             SessaoDaRequisicao.Services.Add(typeof(TS), servico);
             return servico;
         }

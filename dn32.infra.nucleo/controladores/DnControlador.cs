@@ -1,6 +1,6 @@
 ﻿using dn32.infra.dados;
-using dn32.infra.Factory;
 using dn32.infra.nucleo.especificacoes;
+using dn32.infra.nucleo.fabricas;
 using dn32.infra.servicos;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,7 +10,7 @@ namespace dn32.infra.nucleo.controladores
     public abstract class DnControlador<T> : DnControladorDeServico<DnServico<T>> where T : EntidadeBase
     {
         protected T2 CriarEspecificacao<T2>() where T2 : DnEspecificacaoBase
-            => SpecFactory.Criar<T2>(this.Servico);
+            => FabricaDeEspecificacao.Criar<T2>(this.Servico);
 
         [NonAction]
         protected override void Dispose(bool finalizando) => base.Dispose(finalizando);

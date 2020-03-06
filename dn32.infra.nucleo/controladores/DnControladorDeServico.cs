@@ -1,5 +1,6 @@
 ﻿using dn32.infra.dados;
 using dn32.infra.Factory;
+using dn32.infra.nucleo.fabricas;
 using dn32.infra.servicos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -73,7 +74,7 @@ namespace dn32.infra.nucleo.controladores
         [NonAction]
         protected internal void AbrirTransacao()
         {
-            this.Servico = ServiceFactory.Create<TS>(HttpContext);
+            this.Servico = FabricaDeServico.Criar<TS>(HttpContext);
             this.TransacaoEstaAberta = true;
         }
 

@@ -1,12 +1,4 @@
-﻿// -----------------------------------------------------------------------
-// <copyright company="DnControlador System">
-//     Copyright © DnControlador System. All rights reserved.
-//     TODOS OS DIREITOS RESERVADOS.
-// </copyright>
-// -----------------------------------------------------------------------
-
-// ReSharper disable CommentTypo
-using dn32.infra.nucleo.servicos;
+﻿using dn32.infra.nucleo.servicos;
 using dn32.infra.servicos;
 using System;
 using System.Linq;

@@ -10,13 +10,13 @@ using System.Linq;
 using System.Reflection;
 using dn32.infra.nucleo.configuracoes;
 
-namespace dn32.infra.Nucleo.Factory
+namespace dn32.infra.nucleo.fabricas
 {
-    public class ControllerFactory : IApplicationFeatureProvider<ControllerFeature>
+    public class FabricaDeControlador : IApplicationFeatureProvider<ControllerFeature>
     {
         public void PopulateFeature(IEnumerable<ApplicationPart> parts, ControllerFeature feature)
         {
-            var baseController = (Setup.ConfiguracoesGlobais.GenericControllerType) ?? typeof(nucleo.controladores.DnApiControlador<>);
+            var baseController = (Setup.ConfiguracoesGlobais.TipoGenericoDeControlador) ?? typeof(DnApiControlador<>);
             var entities = Setup.ObterEntidades();
 
             foreach (var entity in entities)
@@ -32,7 +32,7 @@ namespace dn32.infra.Nucleo.Factory
                 var typeName = entity.Name + "Controller";
                 if (feature.Controllers.Any(t => t.Name == typeName))
                 {
-                    throw new DesenvolvimentoIncorretoException($"There is a controller named {typeName}. This interferes with the creation of a generic controller with this Nome for the {entity.Name} entity. Consider renaming this controller or entity");
+                    throw new DesenvolvimentoIncorretoException($"TO controlador '{typeName}' Possui um nome que internamente é reservado. Por favor, altere o nome desse controlador.");
                 }
 
                 var parentClass = baseController.MakeGenericType(entity);

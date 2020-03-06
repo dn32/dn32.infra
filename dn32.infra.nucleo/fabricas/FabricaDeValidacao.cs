@@ -5,14 +5,14 @@ using dn32.infra.dados;
 using dn32.infra.nucleo.validacoes;
 using dn32.infra.nucleo.configuracoes;
 
-namespace dn32.infra.Factory
+namespace dn32.infra.nucleo.fabricas
 {
-    internal class DnFabricaDeValidacao
+    internal class FabricaDeValidacao
     {
-        internal static DnDnValidacao<T> Criar<T>() where T : EntidadeBase
+        internal static DnValidacao<T> Criar<T>() where T : EntidadeBase
         {
-            var tipoLocal = Setup.ConfiguracoesGlobais.GenericValidationType?.MakeGenericType(typeof(T)) ?? typeof(DnDnValidacao<T>);
-            return Criar(tipoLocal) as DnDnValidacao<T>;
+            var tipoLocal = Setup.ConfiguracoesGlobais.TipoGenericoDeValidacao?.MakeGenericType(typeof(T)) ?? typeof(DnValidacao<T>);
+            return Criar(tipoLocal) as DnValidacao<T>;
         }
 
         internal static DnValidacaoTransacional Criar(Type tipoDaValidacao)

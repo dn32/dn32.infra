@@ -4,10 +4,10 @@ using dn32.infra.Filters;
 using dn32.infra.nucleo.controladores;
 using dn32.infra.nucleo.especificacoes;
 using dn32.infra.nucleo.excecoes;
+using dn32.infra.nucleo.fabricas;
 using dn32.infra.nucleo.interfaces;
 using dn32.infra.nucleo.servicos;
 using dn32.infra.nucleo.validacoes;
-using dn32.infra.Nucleo.Factory;
 using dn32.infra.Nucleo.Models;
 using dn32.infra.servicos;
 using dn32.infra.Util;
@@ -59,7 +59,7 @@ namespace dn32.infra.nucleo.configuracoes
         public static DnConfiguracoesGlobais DefinirTipoGenericoDeServico<S>(this DnConfiguracoesGlobais configuracoes) where S : DnServicoBase
         {
             if (configuracoes != null)
-                configuracoes.GenericServiceType = typeof(S).GetGenericTypeDefinition();
+                configuracoes.TipoGenericoDeServico = typeof(S).GetGenericTypeDefinition();
 
             return configuracoes;
         }
@@ -67,7 +67,7 @@ namespace dn32.infra.nucleo.configuracoes
         public static DnConfiguracoesGlobais DefinirTipoGenericoDeRepositorio<R>(this DnConfiguracoesGlobais configuracoes) where R : IDnRepositorioTransacional
         {
             if (configuracoes != null)
-                configuracoes.GenericRepositoryType = typeof(R).GetGenericTypeDefinition();
+                configuracoes.TipoGenericoDeRepositorio = typeof(R).GetGenericTypeDefinition();
 
             return configuracoes;
         }
@@ -75,7 +75,7 @@ namespace dn32.infra.nucleo.configuracoes
         public static DnConfiguracoesGlobais DefinirTipoGenericoDeValidacao<V>(this DnConfiguracoesGlobais configuracoes) where V : DnValidacaoTransacional
         {
             if (configuracoes != null)
-                configuracoes.GenericValidationType = typeof(V).GetGenericTypeDefinition();
+                configuracoes.TipoGenericoDeValidacao = typeof(V).GetGenericTypeDefinition();
 
             return configuracoes;
         }
@@ -83,7 +83,7 @@ namespace dn32.infra.nucleo.configuracoes
         public static DnConfiguracoesGlobais DefinirTipoGenericoDeControlador<C>(this DnConfiguracoesGlobais configuracoes) where C : DnControladorBase
         {
             if (configuracoes != null)
-                configuracoes.GenericControllerType = typeof(C).GetGenericTypeDefinition();
+                configuracoes.TipoGenericoDeControlador = typeof(C).GetGenericTypeDefinition();
 
             return configuracoes;
         }
@@ -91,7 +91,7 @@ namespace dn32.infra.nucleo.configuracoes
         public static DnConfiguracoesGlobais DefinirTipoGenericoDeSessaoDeRequisicao<T>(this DnConfiguracoesGlobais configuracoes) where T : SessaoDeRequisicaoDoUsuario
         {
             if (configuracoes != null)
-                configuracoes.UserSessionRequestType = typeof(T);
+                configuracoes.TipoDeSessaoDeRequisicaoDeUsuario = typeof(T);
 
             return configuracoes;
         }
@@ -137,7 +137,7 @@ namespace dn32.infra.nucleo.configuracoes
             }
 
             configuracoes.Conexoes.Add(
-                new Connection
+                new Conexao
                 {
                     ObterStringDeConexao = obterStringDeConexao,
                     TipoDoContexto = tipoDoContexto,
@@ -150,7 +150,7 @@ namespace dn32.infra.nucleo.configuracoes
 
         //Todo no boot da aplicação, checar se os tipos de contexto possuem o atributo do tipo de BD
         //Todo - checar ainda se não tem identificador igual
-        public static IServiceCollection Build(this DnConfiguracoesGlobais configuracoes)
+        public static IServiceCollection Compilar(this DnConfiguracoesGlobais configuracoes)
         {
             ConfiguracoesGlobais = configuracoes;
             return ServiceCollection;
@@ -164,7 +164,7 @@ namespace dn32.infra.nucleo.configuracoes
             ExtensoesJson.ConfiguracoesDeSerializacao = jsonSerializerSettings;
             ServiceCollection = builder.Services;
             InicializacaoInterna();
-            builder.ConfigureApplicationPartManager(apm => apm.FeatureProviders.Add(new ControllerFactory()));
+            builder.ConfigureApplicationPartManager(apm => apm.FeatureProviders.Add(new FabricaDeControlador()));
 
             ConfiguracoesGlobais ??= new DnConfiguracoesGlobais();
             return ConfiguracoesGlobais;
@@ -193,7 +193,7 @@ namespace dn32.infra.nucleo.configuracoes
             SessoesDeRequisicoesDeUsuarios = new ConcurrentDictionary<Guid, SessaoDeRequisicaoDoUsuario>();
             Servicos.Add(typeof(DnEntidade), typeof(DnServico<DnEntidade>));
             Repositorios.Add(typeof(DnEntidade), typeof(IDnRepositorio<DnEntidade>));
-            Validacoes.Add(typeof(DnEntidade), typeof(DnDnValidacao<DnEntidade>));
+            Validacoes.Add(typeof(DnEntidade), typeof(DnValidacao<DnEntidade>));
             Controladores.Add(typeof(DnEntidade), typeof(DnControlador<DnEntidade>));
         }
 
@@ -227,7 +227,7 @@ namespace dn32.infra.nucleo.configuracoes
                .Where(x => x?.Item1 != null).ToList()
                .ForEach(AddRepository);
 
-            tipos.Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnDnValidacao<EntidadeBase>)))
+            tipos.Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnValidacao<EntidadeBase>)))
                .Where(x => x.Item1 != null).ToList()
                .ForEach(AddValidation);
 
