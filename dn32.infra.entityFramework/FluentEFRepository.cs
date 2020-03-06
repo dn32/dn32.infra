@@ -1,14 +1,13 @@
 ﻿using dn32.infra.dados;
 using dn32.infra.enumeradores;
 using dn32.infra.extensoes;
-using dn32.infra.Interfaces;
+using dn32.infra.nucleo.interfaces;
 using dn32.infra.nucleo.atributos;
+using dn32.infra.nucleo.especificacoes;
 using dn32.infra.nucleo.excecoes;
-using dn32.infra.Nucleo.Interfaces;
 using dn32.infra.Nucleo.Models;
 using dn32.infra.Nucleo.Util;
 using dn32.infra.servicos;
-using dn32.infra.Specifications;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 using System;
@@ -34,7 +33,7 @@ namespace dn32.infra.EntityFramework
     /// <typeparam Nome="TE">
     /// O tipo de entidade do repositório.
     /// </typeparam>
-    public partial class DnEFRepository<TE> : IDnRepository<TE> where TE : EntidadeBase
+    public partial class DnEFRepository<TE> : IDnRepositorio<TE> where TE : EntidadeBase
     {
         public DnEFRepository()
         {
@@ -42,35 +41,35 @@ namespace dn32.infra.EntityFramework
 
         #region PROPERTIES
 
-        public ITransactionObjects TransactionObjects { get; set; }
+        public IDnObjetosTransacionais ObjetosTransacionais { get; set; }
 
-        public virtual Type TransactionObjectsType => typeof(TransactionObjects);
+        public virtual Type TipoDeObjetosTransacionais => typeof(TransactionObjects);
 
-        public SessaoDeRequisicaoDoUsuario SessionRequest => Service.SessaoDaRequisicao;
+        public SessaoDeRequisicaoDoUsuario SessionRequest => Servico.SessaoDaRequisicao;
 
         /// <summary>
         /// A referência da sessão do EF.
         /// </summary>
-        protected internal EfContext Session => TransactionObjects.Session as EfContext;
+        protected internal EfContext Session => ObjetosTransacionais.Sessao as EfContext;
 
         /// <summary>
         /// A query contem a referência de todas as tabelas/documentos do banco de dados.
         /// </summary>
-        protected internal IQueryable<TE> Query => this.TransactionObjects.GetObjectQueryInternal<TE>();
+        protected internal IQueryable<TE> Query => this.ObjetosTransacionais.ObterObjetoQueryInterno<TE>();
 
         /// <summary>
         /// A referência de input de dados para o banco de dados.
         /// </summary>
-        internal DbSet<TE> Input => this.TransactionObjects.GetObjectInputDataInternal<TE>() as DbSet<TE>;
+        internal DbSet<TE> Input => this.ObjetosTransacionais.ObterObjetoInputInterno<TE>() as DbSet<TE>;
 
         /// <summary>
         /// O serviço qual esse repositório representa.
         /// </summary>
-        public DnServico<TE> Service { get; set; }
+        public DnServico<TE> Servico { get; set; }
 
         // DnControladorDeServico<TE> IDnRepository<TE>.Servico { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
-        internal protected void RunTheContextValidation() => Service.SessaoDaRequisicao.ContextDnValidationException.Validate();
+        internal protected void RunTheContextValidation() => Servico.SessaoDaRequisicao.ContextDnValidationException.Validate();
 
         #endregion
 
@@ -148,7 +147,7 @@ namespace dn32.infra.EntityFramework
                             }
                             else
                             { //update
-                                TransactionObjects.Session.Entry(currentEntity).CurrentValues.SetValues(auth);
+                                ObjetosTransacionais.Sessao.Entry(currentEntity).CurrentValues.SetValues(auth);
                             }
                         }
                     }
@@ -192,7 +191,7 @@ namespace dn32.infra.EntityFramework
                                 }
                             }
 
-                            TransactionObjects.Session.Entry(currentEntity).CurrentValues.SetValues(compositionValue);
+                            ObjetosTransacionais.Sessao.Entry(currentEntity).CurrentValues.SetValues(compositionValue);
                             continue;
                         }
                     }
@@ -357,7 +356,7 @@ namespace dn32.infra.EntityFramework
 
         internal protected IQueryable<TO> FromSqlSelect<TO>(string sql, params object[] parameters) where TO : EntidadeBase
         {
-            var source = TransactionObjects.GetObjectInputDataInternal<TO>();
+            var source = ObjetosTransacionais.ObterObjetoInputInterno<TO>();
 
 #if NETCOREAPP3_1
             return source.FromSqlRaw(sql, parameters);
@@ -414,9 +413,9 @@ namespace dn32.infra.EntityFramework
                 Session.EnableLogicalDeletion = false;
             }
 
-            var currentEntity = await Service.BuscarAsync(entity, true, false);
+            var currentEntity = await Servico.BuscarAsync(entity, true, false);
 
-            TransactionObjects.Session.Entry(currentEntity).CurrentValues.SetValues(entity);
+            ObjetosTransacionais.Sessao.Entry(currentEntity).CurrentValues.SetValues(entity);
 
             lock (SessionRequest)
             {
@@ -435,15 +434,15 @@ namespace dn32.infra.EntityFramework
             foreach (var entity in entities)
             {
                 DefineForeignKeyOfCompositionsOrAggregations(entity);
-                var currentEntity = await Service.BuscarAsync(entity);
-                TransactionObjects.Session.Entry(currentEntity).CurrentValues.SetValues(entity);
+                var currentEntity = await Servico.BuscarAsync(entity);
+                ObjetosTransacionais.Sessao.Entry(currentEntity).CurrentValues.SetValues(entity);
                 await UpdateCompositionListAsync(entity, true);
             }
         }
 
-        public virtual void RemoverLista(IDnSpecification spec)
+        public virtual void RemoverLista(IDnEspecificacao spec)
         {
-            var list = GetSpec(spec).ToIQueryable(Query).ToList();
+            var list = GetSpec(spec).ConverterParaIQueryable(Query).ToList();
             this.Input.RemoveRange(list);
         }
 
@@ -457,29 +456,29 @@ namespace dn32.infra.EntityFramework
 
         #region INTERNAL
 
-        private DnSelectSpecification<TE, TO> GetSpecSelect<TO>(ISpec spec1)
+        private DnEspecificacaoAlternativa<TE, TO> GetSpecSelect<TO>(IDnEspecificacaoBase spec1)
         {
-            if (spec1 is IDnSpecification<TO> spec)
+            if (spec1 is IDnEspecificacaoAlternativaGenerica<TO> spec)
             {
-                if (spec.DnEntityType != typeof(TE))
+                if (spec.TipoDeEntidade != typeof(TE))
                 {
-                    var serviceName = $"{spec.DnEntityType.Name}Servico";
-                    throw new DesenvolvimentoIncorretoException($"The type of input reported in the {spec} specification is not the same as that requested in the repository request.\r\nSpecification type: {spec.DnEntityType}.\r\nRequisition Tipo: {typeof(TE)}\r\nThis usually occurs when you make use of the wrong service. Make sure that when invoking the method that is causing this error you are making use of the service: {serviceName}");
+                    var serviceName = $"{spec.TipoDeEntidade.Name}Servico";
+                    throw new DesenvolvimentoIncorretoException($"The type of input reported in the {spec} specification is not the same as that requested in the repository request.\r\nSpecification type: {spec.TipoDeEntidade}.\r\nRequisition Tipo: {typeof(TE)}\r\nThis usually occurs when you make use of the wrong service. Make sure that when invoking the method that is causing this error you are making use of the service: {serviceName}");
                 }
 
-                if (spec.DnEntityOutType != typeof(TO))
+                if (spec.TipoDeRetorno != typeof(TO))
                 {
                     var serviceName = $"{typeof(TE).Name}Servico";
-                    throw new DesenvolvimentoIncorretoException($"The type of output reported in the {spec} specification is not the same as that requested in the repository request.\r\nSpecification type: {spec.DnEntityType}.\r\nRequisition Tipo: {typeof(TO)}\r\nThis usually occurs when you make use of the wrong service. Make sure that when invoking the method that is causing this error you are making use of the service: {serviceName}");
+                    throw new DesenvolvimentoIncorretoException($"The type of output reported in the {spec} specification is not the same as that requested in the repository request.\r\nSpecification type: {spec.TipoDeEntidade}.\r\nRequisition Tipo: {typeof(TO)}\r\nThis usually occurs when you make use of the wrong service. Make sure that when invoking the method that is causing this error you are making use of the service: {serviceName}");
                 }
 
-                return spec as DnSelectSpecification<TE, TO>;
+                return spec as DnEspecificacaoAlternativa<TE, TO>;
             }
 
             throw new DesenvolvimentoIncorretoException("The specification is of a different type than expected");
         }
 
-        protected DnEspecificacao<TE> GetSpec(ISpec spec1)
+        protected DnEspecificacao<TE> GetSpec(IDnEspecificacaoBase spec1)
         {
             if (spec1 is DnEspecificacao<TE> spec)
             {
@@ -509,18 +508,18 @@ namespace dn32.infra.EntityFramework
 
         private string GetParameter(string key)
         {
-            Service.SessaoDaRequisicao.LocalHttpContext.Request.Headers.TryGetValue(key, out StringValues value);
+            Servico.SessaoDaRequisicao.LocalHttpContext.Request.Headers.TryGetValue(key, out StringValues value);
             if (!string.IsNullOrEmpty(value))
             {
                 return value;
             }
 
-            if (Service.SessaoDaRequisicao.LocalHttpContext.Request.Method == "GET" || Service.SessaoDaRequisicao.LocalHttpContext.Request.HasFormContentType == false)
+            if (Servico.SessaoDaRequisicao.LocalHttpContext.Request.Method == "GET" || Servico.SessaoDaRequisicao.LocalHttpContext.Request.HasFormContentType == false)
             {
                 return "";
             }
 
-            return Service.SessaoDaRequisicao.LocalHttpContext.Request?.Form[key];
+            return Servico.SessaoDaRequisicao.LocalHttpContext.Request?.Form[key];
         }
 
 

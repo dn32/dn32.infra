@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 using dn32.infra.dados;
 using dn32.infra.enumeradores;
 using dn32.infra.extensoes;
+using dn32.infra.nucleo.validacoes;
+using dn32.infra.nucleo.interfaces;
 
-namespace dn32.infra.Validation
+namespace dn32.infra.validacoes
 {
     internal static class ValidationsExtension
     {
@@ -24,9 +26,9 @@ namespace dn32.infra.Validation
          =============================         
         */
 
-        internal static void DnValidateAttribute<T>(this IDnValidation validation, T entity, string compositionProperty, string compositionFieldName) where T : EntidadeBase
+        internal static void DnValidateAttribute<T>(this IDnValidacao validation, T entity, string compositionProperty, string compositionFieldName) where T : EntidadeBase
         {
-            if (!validation.NullParameterOk)
+            if (!validation.ChecagemDeParametroNuloOk)
             {
                 return;
             }
@@ -41,26 +43,26 @@ namespace dn32.infra.Validation
                 var value = property.GetValue(entity);
                 if (!DnValidateAttribute.EhValidoQuando(value))
                 {
-                    validation.AddInconsistency(new DnGenericoErroDeValidacao(property, false, DnValidateAttribute.MensagemDeInvalido, compositionProperty, compositionFieldName));
+                    validation.AdicionarInconsistencia(new DnGenericoErroDeValidacao(property, false, DnValidateAttribute.MensagemDeInvalido, compositionProperty, compositionFieldName));
                 }
             }
         }
 
-        internal static void ParameterMustBeInformed(this IDnValidation validation, object obj, string compositionProperty)
+        internal static void ParameterMustBeInformed(this IDnValidacao validation, object obj, string compositionProperty)
         {
             if (obj == null)
             {
-                validation.AddInconsistency(new DnParametroNuloErroDeValidacao(compositionProperty ?? nameof(obj)));
-                validation.NullParameterOk = false;
+                validation.AdicionarInconsistencia(new DnParametroNuloErroDeValidacao(compositionProperty ?? nameof(obj)));
+                validation.ChecagemDeParametroNuloOk = false;
                 return;
             }
 
-            validation.NullParameterOk = true;
+            validation.ChecagemDeParametroNuloOk = true;
         }
 
-        internal static void MaxMinLenghtPropertyMustBeInformed<T>(this IDnValidation validation, T entity, string compositionProperty, string compositionFieldName) where T : EntidadeBase
+        internal static void MaxMinLenghtPropertyMustBeInformed<T>(this IDnValidacao validation, T entity, string compositionProperty, string compositionFieldName) where T : EntidadeBase
         {
-            if (!validation.NullParameterOk)
+            if (!validation.ChecagemDeParametroNuloOk)
             {
                 return;
             }
@@ -90,7 +92,7 @@ namespace dn32.infra.Validation
                     var valuedoble = double.Parse(stringValue, CultureInfo.InvariantCulture);
                     if (valuedoble < mindouble || valuedoble > maxdouble)
                     {
-                        validation.AddInconsistency(new DnCampoDeTelaComTamanhoIncorretoErroDeValidacao(property, compositionProperty, compositionFieldName));
+                        validation.AdicionarInconsistencia(new DnCampoDeTelaComTamanhoIncorretoErroDeValidacao(property, compositionProperty, compositionFieldName));
                     }
                 }
 
@@ -108,7 +110,7 @@ namespace dn32.infra.Validation
 
                     if (!new MinLengthAttribute(min.Value).IsValid(value))
                     {
-                        validation.AddInconsistency(new DnCampoDeTelaComTamanhoIncorretoErroDeValidacao(property, compositionProperty, compositionFieldName));
+                        validation.AdicionarInconsistencia(new DnCampoDeTelaComTamanhoIncorretoErroDeValidacao(property, compositionProperty, compositionFieldName));
                     }
 
                     var maxint = Convert.ChangeType(max, typeof(int), CultureInfo.InvariantCulture) as int?;
@@ -116,15 +118,15 @@ namespace dn32.infra.Validation
                     maxint = maxint == 0 ? int.MaxValue : maxint;
                     if (!new MaxLengthAttribute(maxint.Value).IsValid(value))
                     {
-                        validation.AddInconsistency(new DnCampoDeTelaComTamanhoIncorretoErroDeValidacao(property, compositionProperty, compositionFieldName));
+                        validation.AdicionarInconsistencia(new DnCampoDeTelaComTamanhoIncorretoErroDeValidacao(property, compositionProperty, compositionFieldName));
                     }
                 }
             }
         }
 
-        internal static void RequiredPropertyMustBeInformed<T>(this IDnValidation validation, T entity, string compositionProperty, string compositionFieldName) where T : EntidadeBase
+        internal static void RequiredPropertyMustBeInformed<T>(this IDnValidacao validation, T entity, string compositionProperty, string compositionFieldName) where T : EntidadeBase
         {
-            if (!validation.NullParameterOk)
+            if (!validation.ChecagemDeParametroNuloOk)
             {
                 return;
             }
@@ -153,14 +155,14 @@ namespace dn32.infra.Validation
 
                 if (property.GetValue(entity).IsDnNull())
                 {
-                    validation.AddInconsistency(new DnCampoDeTelaRequeridoErroDeValidacao(property, compositionProperty, compositionFieldName));
+                    validation.AdicionarInconsistencia(new DnCampoDeTelaRequeridoErroDeValidacao(property, compositionProperty, compositionFieldName));
                 }
             }
         }
 
-        internal static void AllKeysMustBeInformed<T>(this IDnValidation validation, T entity, string compositionProperty, string compositionFieldName) where T : EntidadeBase
+        internal static void AllKeysMustBeInformed<T>(this IDnValidacao validation, T entity, string compositionProperty, string compositionFieldName) where T : EntidadeBase
         {
-            validation.KeyValuesOk = true;
+            validation.ChecagemDeChavesOk = true;
 
             var properties = entity.GetType().GetKeyProperties();
             foreach (var property in properties)
@@ -176,15 +178,15 @@ namespace dn32.infra.Validation
 
                 if (property.GetValue(entity).IsDnNull())
                 {
-                    validation.AddInconsistency(new DnCampoDeTelaRequeridoErroDeValidacao(property, compositionProperty, compositionFieldName));
-                    validation.KeyValuesOk = false;
+                    validation.AdicionarInconsistencia(new DnCampoDeTelaRequeridoErroDeValidacao(property, compositionProperty, compositionFieldName));
+                    validation.ChecagemDeChavesOk = false;
                 }
             }
         }
 
-        internal static void AllKeysShouldBeInformedWhenThereAreMoreThanOne<T>(this IDnValidation validation, T entity, string compositionProperty, string compositionFieldName, bool isUpdate = false) where T : EntidadeBase
+        internal static void AllKeysShouldBeInformedWhenThereAreMoreThanOne<T>(this IDnValidacao validation, T entity, string compositionProperty, string compositionFieldName, bool isUpdate = false) where T : EntidadeBase
         {
-            if (!validation.NullParameterOk || !validation.KeyValuesOk)
+            if (!validation.ChecagemDeParametroNuloOk || !validation.ChecagemDeChavesOk)
             {
                 return;
             }
@@ -214,8 +216,8 @@ namespace dn32.infra.Validation
                         }
                     }
 
-                    validation.AddInconsistency(new DnCampoDeTelaRequeridoErroDeValidacao(property, compositionProperty, compositionFieldName));
-                    validation.KeyValuesOk = false;
+                    validation.AdicionarInconsistencia(new DnCampoDeTelaRequeridoErroDeValidacao(property, compositionProperty, compositionFieldName));
+                    validation.ChecagemDeChavesOk = false;
                 }
                 else
                 {
@@ -231,48 +233,48 @@ namespace dn32.infra.Validation
             }
         }
 
-        internal static async Task EntityMustExistInDatabaseAsync<T>(this IDnValidation validation, T entity, bool includeExcludedLogically = false) where T : EntidadeBase
+        internal static async Task EntityMustExistInDatabaseAsync<T>(this IDnValidacao validation, T entity, bool includeExcludedLogically = false) where T : EntidadeBase
         {
-            if (!validation.NullParameterOk)
+            if (!validation.ChecagemDeParametroNuloOk)
             {
                 return;
             }
 
-            if (!await validation.DnCast<DnValidacao<T>>().Service.ExisteAsync(entity, validation.KeyValuesOk, includeExcludedLogically))
+            if (!await validation.DnCast<DnDnValidacao<T>>().Servico.ExisteAsync(entity, validation.ChecagemDeChavesOk, includeExcludedLogically))
             {
                 var keys = entity.GetKeyValues().Select(x => $"{{{x.Property.Name}:{x.Value}}}").ToArray();
                 var keyValues = string.Join(", ", keys);
-                validation.AddInconsistency(new DnEntidadeNaoEncontradaErroDeValidacao(keyValues));
+                validation.AdicionarInconsistencia(new DnEntidadeNaoEncontradaErroDeValidacao(keyValues));
             }
         }
 
-        internal static async Task ThereIsOnlyOneEntityAsync<T>(this IDnValidation validation, T entity, bool includeExcludedLogically = false) where T : EntidadeBase
+        internal static async Task ThereIsOnlyOneEntityAsync<T>(this IDnValidacao validation, T entity, bool includeExcludedLogically = false) where T : EntidadeBase
         {
-            if (!validation.NullParameterOk)
+            if (!validation.ChecagemDeParametroNuloOk)
             {
                 return;
             }
 
-            if (await validation.DnCast<DnValidacao<T>>().Service.QuantidadeAsync(entity, includeExcludedLogically) > 1)
+            if (await validation.DnCast<DnDnValidacao<T>>().Servico.QuantidadeAsync(entity, includeExcludedLogically) > 1)
             {
                 var keys = entity.GetKeyValues().Select(x => $"-{{{x.Property.Name}:{x.Value}}}").ToArray();
                 var keyValues = string.Join(", ", keys);
-                validation.AddInconsistency(new DnEntidadeExisteErroDeValidacao(keyValues));
+                validation.AdicionarInconsistencia(new DnEntidadeExisteErroDeValidacao(keyValues));
             }
         }
 
-        internal static async Task EntityShouldNotExistInDatabaseBasedOnKeysAsync<T>(this IDnValidation validation, T entity, bool checkId) where T : EntidadeBase
+        internal static async Task EntityShouldNotExistInDatabaseBasedOnKeysAsync<T>(this IDnValidacao validation, T entity, bool checkId) where T : EntidadeBase
         {
-            if (!validation.NullParameterOk || !validation.KeyValuesOk)
+            if (!validation.ChecagemDeParametroNuloOk || !validation.ChecagemDeChavesOk)
             {
                 return;
             }
 
-            if (await validation.DnCast<DnValidacao<T>>().Service.ExisteAsync(entity, checkId))
+            if (await validation.DnCast<DnDnValidacao<T>>().Servico.ExisteAsync(entity, checkId))
             {
                 var keys = entity.GetKeyAndDnUniqueKeyValues().Select(x => $"{{{x.Property.Name}:{x.Value}}}").ToArray();
                 var keyValues = string.Join(", ", keys);
-                validation.AddInconsistency(new DnEntidadeExisteErroDeValidacao(keyValues));
+                validation.AdicionarInconsistencia(new DnEntidadeExisteErroDeValidacao(keyValues));
             }
         }
     }

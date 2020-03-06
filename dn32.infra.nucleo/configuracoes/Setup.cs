@@ -1,29 +1,28 @@
-﻿using dn32.infra.nucleo.excecoes;
+﻿using dn32.infra.dados;
+using dn32.infra.extensoes;
 using dn32.infra.Filters;
-using dn32.infra.Nucleo.Interfaces;
+using dn32.infra.nucleo.controladores;
+using dn32.infra.nucleo.especificacoes;
+using dn32.infra.nucleo.excecoes;
+using dn32.infra.nucleo.interfaces;
+using dn32.infra.nucleo.servicos;
+using dn32.infra.nucleo.validacoes;
+using dn32.infra.Nucleo.Factory;
 using dn32.infra.Nucleo.Models;
-using dn32.infra.Nucleo.Services;
 using dn32.infra.servicos;
-using dn32.infra.Specifications;
 using dn32.infra.Util;
-using dn32.infra.Validation;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using dn32.infra.dados;
-using dn32.infra.nucleo.controladores;
-using dn32.infra.nucleo.servicos;
-using Newtonsoft.Json;
-using dn32.infra.extensoes;
-using dn32.infra.Nucleo.Factory;
-using System.Collections.Concurrent;
 
 [assembly: InternalsVisibleTo(@"dn32.infra.EntityFramework, PublicKey=00240000048000009400000006020000002400005253413100040000010001000da51e0f449f6ee7879b256b497e9f64eda760b5fac3d47a4ba8a54664303024f451098b69154691fad078fe77ee79ac2b6a9770fd7a6555a4c49a2a58e82f411939e1eb44ac4a1327acdd13f2c8ec7698644d019f04197838434be8cb53877f1d22acab90ae7735acc363fdb393a11fa34afe780d1c5fb26f37a8fd6e4d9b9f")]
 [assembly: InternalsVisibleTo(@"dn32.infra.Doc, PublicKey=00240000048000009400000006020000002400005253413100040000010001008963bf4072062c4090dd8b8b1b3335b78ac84c4e55c7903a918af1d62ecf0e2ab5504ca1fa722b67f5968cdbbf2f1436cc9303018d57511caefbae6cf903f681d721a1122bcdc4f35fa4aafade1e9900468a69aba391d3e9c2eb3087bd37727bbcc30f704666c62beccdca492d8e5467088b696c39306fa582637041a8c40dc4")]
-namespace dn32.infra
+namespace dn32.infra.nucleo.configuracoes
 {
     public static class Setup
     {
@@ -65,7 +64,7 @@ namespace dn32.infra
             return configuracoes;
         }
 
-        public static DnConfiguracoesGlobais DefinirTipoGenericoDeRepositorio<R>(this DnConfiguracoesGlobais configuracoes) where R : ITransactionlRepository
+        public static DnConfiguracoesGlobais DefinirTipoGenericoDeRepositorio<R>(this DnConfiguracoesGlobais configuracoes) where R : IDnRepositorioTransacional
         {
             if (configuracoes != null)
                 configuracoes.GenericRepositoryType = typeof(R).GetGenericTypeDefinition();
@@ -73,7 +72,7 @@ namespace dn32.infra
             return configuracoes;
         }
 
-        public static DnConfiguracoesGlobais DefinirTipoGenericoDeValidacao<V>(this DnConfiguracoesGlobais configuracoes) where V : TransactionalValidation
+        public static DnConfiguracoesGlobais DefinirTipoGenericoDeValidacao<V>(this DnConfiguracoesGlobais configuracoes) where V : DnValidacaoTransacional
         {
             if (configuracoes != null)
                 configuracoes.GenericValidationType = typeof(V).GetGenericTypeDefinition();
@@ -97,7 +96,7 @@ namespace dn32.infra
             return configuracoes;
         }
 
-        internal static DnConfiguracoesGlobais DefinirFabricaDeRepositorio(this DnConfiguracoesGlobais configuracoes, IRepositoryFactory fabricaDeRepositorio)
+        internal static DnConfiguracoesGlobais DefinirFabricaDeRepositorio(this DnConfiguracoesGlobais configuracoes, IFrabricaDeRepositorio fabricaDeRepositorio)
         {
             if (configuracoes != null)
                 configuracoes.FabricaDeRepositorio = fabricaDeRepositorio;
@@ -110,7 +109,7 @@ namespace dn32.infra
         public static List<Type> ObterEntidades()
             => Modelos.Values.Where(x => !x.IsAbstract && x.IsPublic).ToList();
 
-        public static DnConfiguracoesGlobais UsarJWT<S>(this DnConfiguracoesGlobais configuracoes, InformacoesDoJWT informacoesDoJWT) where S : DnAuthenticationService
+        public static DnConfiguracoesGlobais UsarJWT<S>(this DnConfiguracoesGlobais configuracoes, InformacoesDoJWT informacoesDoJWT) where S : DnServicoDeAutenticacao
         {
             configuracoes.InformacoesDoJWT = informacoesDoJWT;
             configuracoes.InformacoesDoJWT.DnAuthenticationServiceType = typeof(S);
@@ -192,9 +191,9 @@ namespace dn32.infra
             Modelos = new Dictionary<Type, Type>();
             Controladores = new Dictionary<Type, Type>();
             SessoesDeRequisicoesDeUsuarios = new ConcurrentDictionary<Guid, SessaoDeRequisicaoDoUsuario>();
-            Servicos.Add(typeof(DnEntidade), typeof(servicos.DnServico<DnEntidade>));
-            Repositorios.Add(typeof(DnEntidade), typeof(IDnRepository<DnEntidade>));
-            Validacoes.Add(typeof(DnEntidade), typeof(DnValidacao<DnEntidade>));
+            Servicos.Add(typeof(DnEntidade), typeof(DnServico<DnEntidade>));
+            Repositorios.Add(typeof(DnEntidade), typeof(IDnRepositorio<DnEntidade>));
+            Validacoes.Add(typeof(DnEntidade), typeof(DnDnValidacao<DnEntidade>));
             Controladores.Add(typeof(DnEntidade), typeof(DnControlador<DnEntidade>));
         }
 
@@ -217,18 +216,18 @@ namespace dn32.infra
             ValidateIfAllServicePropertiesNotHavePublic(servicos);
             ValidateIfAllServicePropertiesHaveDefaultConstructor(servicos);
 
-            ValidarEspecificacoes(tipos.Where(x => x.IsSubclassOf(typeof(BaseSpecification))).ToList());
+            ValidarEspecificacoes(tipos.Where(x => x.IsSubclassOf(typeof(DnEspecificacaoBase))).ToList());
             ValidarControladores(tipos.Where(x => x.IsSubclassOf(typeof(DnControladorBase))).ToList());
 
-            tipos.Select(x => GlobalUtil.GetDnEntityType(x, typeof(servicos.DnServico<EntidadeBase>)))
+            tipos.Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnServico<EntidadeBase>)))
                 .Where(x => x.Item1 != null).ToList()
                 .ForEach(AddService);
 
-            tipos.Select(x => GlobalUtil.GetDnEntityTypeByInterface(x, typeof(IDnRepository<EntidadeBase>)))
+            tipos.Select(x => GlobalUtil.GetDnEntityTypeByInterface(x, typeof(IDnRepositorio<EntidadeBase>)))
                .Where(x => x?.Item1 != null).ToList()
                .ForEach(AddRepository);
 
-            tipos.Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnValidacao<EntidadeBase>)))
+            tipos.Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnDnValidacao<EntidadeBase>)))
                .Where(x => x.Item1 != null).ToList()
                .ForEach(AddValidation);
 
@@ -262,7 +261,7 @@ namespace dn32.infra
         {
             controladores.ForEach(type =>
             {
-                if (type.GetMethods().Any(x => x.IsPublic && x.GetParameters().Any(y => y.ParameterType.IsSubclassOf(typeof(BaseSpecification)))))
+                if (type.GetMethods().Any(x => x.IsPublic && x.GetParameters().Any(y => y.ParameterType.IsSubclassOf(typeof(DnEspecificacaoBase)))))
                     throw new DesenvolvimentoIncorretoException($"O controlador '{type}' possui um ou mais métosos público(s) que recebe(m) uma especificacao como parâmetro. Isso não é permitido.");
             });
         }
@@ -281,7 +280,7 @@ namespace dn32.infra
 
         internal static void AdicionarSessaoDeRequisicao(SessaoDeRequisicaoDoUsuario sessaoDeRequisicaoDoUsuario) =>
             SessoesDeRequisicoesDeUsuarios.TryAdd(sessaoDeRequisicaoDoUsuario.IdentificadorDaSessao, sessaoDeRequisicaoDoUsuario);
-        
+
         internal static void RemoverSessaoDeRequisicao(Guid sessionId) => SessoesDeRequisicoesDeUsuarios.TryRemove(sessionId, out _);
 
         #endregion

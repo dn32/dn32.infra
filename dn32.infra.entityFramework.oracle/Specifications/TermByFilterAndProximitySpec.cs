@@ -1,10 +1,10 @@
 ﻿using dn32.infra.extensoes;
 using dn32.infra.Nucleo.Extensoes;
-using dn32.infra.Specifications;
 using System;
 using System.Linq;
 using dn32.infra.dados;
 using dn32.infra.nucleo.extensoes;
+using dn32.infra.nucleo.especificacoes;
 
 namespace dn32.infra.EntityFramework.Oracle.Specifications
 {
@@ -40,7 +40,7 @@ namespace dn32.infra.EntityFramework.Oracle.Specifications
 
         public override IQueryable<T> Where(IQueryable<T> query)
         {
-            IgnoreOrder = true;
+            IgnorarAOrdenacao = true;
             var expression = Filters.ConverterFiltrosParaExpressao<T>();
 
             query = query
@@ -52,7 +52,7 @@ namespace dn32.infra.EntityFramework.Oracle.Specifications
                 query = query.WhereProximityText(Term, TableName, Columns, Tolerance);
             }
 
-            return query.ProjetarDeFormaDinamica(Service);
+            return query.ProjetarDeFormaDinamica(Servico);
         }
 
         public override IOrderedQueryable<T> Order(IQueryable<T> query) => throw new NotImplementedException();

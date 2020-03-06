@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using dn32.infra.extensoes;
+using dn32.infra.nucleo.configuracoes;
 
 namespace dn32.infra.Filters
 {

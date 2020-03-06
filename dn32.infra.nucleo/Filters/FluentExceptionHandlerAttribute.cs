@@ -1,5 +1,5 @@
 ﻿using dn32.infra.nucleo.erros_de_validacao;
-using dn32.infra.Validation;
+using dn32.infra.validacoes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -37,7 +37,7 @@ namespace dn32.infra.Filters
                 filterContext.Exception = exception2.InnerException;
             }
 
-            if (filterContext.Exception is ContextDnValidationException exception)
+            if (filterContext.Exception is DnContextoDeValidacaoException exception)
             {
                 var inconsistencies = exception.Inconsistencies.Select(inconsistence =>
                 {

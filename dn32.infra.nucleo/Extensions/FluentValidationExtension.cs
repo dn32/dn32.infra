@@ -9,12 +9,13 @@ using System.Reflection;
 using System.Threading.Tasks;
 using dn32.infra.dados;
 using dn32.infra.extensoes;
+using dn32.infra.nucleo.validacoes;
 
-namespace dn32.infra.Validation
+namespace dn32.infra.validacoes
 {
     internal static class DnValidationExtension
     {
-        internal static async Task<List<DnServicoTransacionalBase>> ExecuteEntityAndCompositions<T>(this DnValidacao<T> validation, object entity, MethodInfo method) where T : EntidadeBase
+        internal static async Task<List<DnServicoTransacionalBase>> ExecuteEntityAndCompositions<T>(this DnDnValidacao<T> validation, object entity, MethodInfo method) where T : EntidadeBase
         {
             if (validation is null) { throw new ArgumentNullException("validation"); }
             if (method is null) { throw new ArgumentNullException("method"); }
@@ -34,7 +35,7 @@ namespace dn32.infra.Validation
                     var entityType = property.PropertyType.GetListTypeNonNull();
                     if (!entityType.IsDnEntity()) { continue; }
 
-                    var service = ServiceFactory.Create(entityType, validation.SessionRequest.LocalHttpContext, "For multiple validation");
+                    var service = ServiceFactory.Create(entityType, validation.SessaoDaRequisicao.LocalHttpContext, "For multiple validation");
                     anotherServices.Add(service);
 
                     if (property.PropertyType.IsList())

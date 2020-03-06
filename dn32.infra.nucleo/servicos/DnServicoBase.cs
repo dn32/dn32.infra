@@ -1,7 +1,9 @@
 using dn32.infra.Factory;
-using dn32.infra.Nucleo.Interfaces;
+using dn32.infra.nucleo.configuracoes;
+using dn32.infra.nucleo.interfaces;
+using dn32.infra.nucleo.validacoes;
 using dn32.infra.Nucleo.Models;
-using dn32.infra.Validation;
+using dn32.infra.validacoes;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Security.Claims;
@@ -10,9 +12,9 @@ namespace dn32.infra.nucleo.servicos
 {
     public abstract class DnServicoBase
     {
-        protected virtual BaseValidation Validacao { get; set; }
+        protected virtual DnValidacaoBase Validacao { get; set; }
 
-        protected virtual IBaseRepository Repositorio { get; set; }
+        protected virtual IDnRepositorioBase Repositorio { get; set; }
 
         protected internal SessaoDeRequisicaoDoUsuario SessaoDaRequisicao { get; private set; }
 

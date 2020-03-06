@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using dn32.infra.nucleo.configuracoes;
+using Microsoft.IdentityModel.Tokens;
 
 namespace dn32.infra.Filters
 {

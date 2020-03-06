@@ -1,6 +1,6 @@
 ﻿using dn32.infra.dados;
 using dn32.infra.nucleo.atributos;
-using dn32.infra.Nucleo.Specifications;
+using dn32.infra.nucleo.especificacoes;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -51,10 +51,10 @@ namespace dn32.infra.nucleo.controladores
             return await this.CrieResultadoAsync(item);
         }
 
-        private TermSpec<T> CriarEspecificacaoPorTermo(string termo, bool ehLista) =>
-             this.CriarEspecificacao<TermSpec<T>>().SetParameter(termo, ehLista);
+        private DnTermoEspecificacao<T> CriarEspecificacaoPorTermo(string termo, bool ehLista) =>
+             this.CriarEspecificacao<DnTermoEspecificacao<T>>().SetParameter(termo, ehLista);
 
-        private DnFiltroEspecificacao<T> CriarEspecificacaoDeFiltros(Filtro[] filtros, bool ehLista) =>
-              this.CriarEspecificacao<DnFiltroEspecificacao<T>>().SetParameter(filtros, ehLista);
+        private DnFiltrosEspecificacao<T> CriarEspecificacaoDeFiltros(Filtro[] filtros, bool ehLista) =>
+              this.CriarEspecificacao<DnFiltrosEspecificacao<T>>().SetParameter(filtros, ehLista);
     }
 }

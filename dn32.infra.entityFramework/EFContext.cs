@@ -2,7 +2,7 @@
 using dn32.infra.dados;
 using dn32.infra.enumeradores;
 using dn32.infra.extensoes;
-using dn32.infra.Interfaces;
+using dn32.infra.nucleo.interfaces;
 using dn32.infra.nucleo.atributos;
 using dn32.infra.Nucleo.Models;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +22,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using dn32.infra.nucleo.excecoes;
+using dn32.infra.nucleo.configuracoes;
 
 namespace dn32.infra.EntityFramework
 {

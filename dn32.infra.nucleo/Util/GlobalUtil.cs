@@ -1,11 +1,11 @@
-﻿using dn32.infra.nucleo.controladores;
-using dn32.infra.Nucleo.Interfaces;
+﻿using dn32.infra.dados;
+using dn32.infra.nucleo.controladores;
+using dn32.infra.nucleo.especificacoes;
+using dn32.infra.nucleo.validacoes;
+using dn32.infra.nucleo.interfaces;
 using dn32.infra.servicos;
-using dn32.infra.Specifications;
-using dn32.infra.Validation;
 using System;
 using System.Linq;
-using dn32.infra.dados;
 
 namespace dn32.infra.Util
 {
@@ -68,9 +68,9 @@ namespace dn32.infra.Util
         private static string[] DnEntityNames => new[]
         {
             typeof(DnControlador<DnEntidade>).Name,
-            typeof(servicos.DnServico<DnEntidade>).Name,
-            typeof(IDnRepository<DnEntidade>).Name,
-            typeof(DnValidacao<DnEntidade>).Name,
+            typeof(DnServico<DnEntidade>).Name,
+            typeof(IDnRepositorio<DnEntidade>).Name,
+            typeof(DnDnValidacao<DnEntidade>).Name,
             typeof(DnEspecificacao<DnEntidade>).Name
         };
 
@@ -87,7 +87,7 @@ namespace dn32.infra.Util
         {
             return GetBase(currentType);
 
-            Type GetBase(Type type)
+            static Type GetBase(Type type)
             {
                 if (type == null || type == typeof(object))
                 {

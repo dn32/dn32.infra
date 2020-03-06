@@ -1,8 +1,8 @@
 ﻿using dn32.infra.extensoes;
-using dn32.infra.Specifications;
 using System;
 using System.Linq;
 using dn32.infra.dados;
+using dn32.infra.nucleo.especificacoes;
 
 namespace dn32.infra.EntityFramework.Oracle.Specifications
 {
@@ -27,7 +27,7 @@ namespace dn32.infra.EntityFramework.Oracle.Specifications
 
         public override IQueryable<TE> Where(IQueryable<TE> query)
         {
-            IgnoreOrder = true;
+            IgnorarAOrdenacao = true;
             return query.WhereProximityText(Term, TableName, Columns, Tolerance);
         }
 

@@ -1,12 +1,11 @@
-﻿using dn32.infra.Interfaces;
+﻿using dn32.infra.dados;
+using dn32.infra.extensoes;
+using dn32.infra.nucleo.interfaces;
+using dn32.infra.nucleo.especificacoes;
 using dn32.infra.Nucleo.Models;
-using dn32.infra.Nucleo.Specifications;
-using dn32.infra.Specifications;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using dn32.infra.dados;
-using dn32.infra.extensoes;
 
 #if NETCOREAPP3_1
 
@@ -30,7 +29,7 @@ namespace dn32.infra.EntityFramework.Specifications
 
         public override IQueryable<TE> Where(IQueryable<TE> query)
         {
-            IgnoreOrder = true;
+            IgnorarAOrdenacao = true;
 
 #if NETCOREAPP3_1
             var dbSet = query.DnCast<DbSet<TE>>();

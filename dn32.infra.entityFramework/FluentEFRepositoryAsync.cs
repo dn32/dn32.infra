@@ -1,6 +1,6 @@
 ﻿using dn32.infra.dados;
 using dn32.infra.extensoes;
-using dn32.infra.Interfaces;
+using dn32.infra.nucleo.interfaces;
 using dn32.infra.nucleo.atributos;
 using dn32.infra.nucleo.excecoes;
 using dn32.infra.Nucleo.Models;
@@ -51,20 +51,20 @@ namespace dn32.infra.EntityFramework
             }
         }
 
-        public virtual async Task<bool> ExisteAsync(ISpec spec)
+        public virtual async Task<bool> ExisteAsync(IDnEspecificacaoBase spec)
         {
-            return await GetSpec(spec).ToIQueryable(Query).AnyAsync();
+            return await GetSpec(spec).ConverterParaIQueryable(Query).AnyAsync();
         }
 
-        public virtual async Task<bool> ExisteAlternativoAsync<TO>(ISpec spec)
+        public virtual async Task<bool> ExisteAlternativoAsync<TO>(IDnEspecificacaoBase spec)
         {
-            return await GetSpecSelect<TO>(spec).ToIQueryable(Query).AnyAsync();
+            return await GetSpecSelect<TO>(spec).ConverterParaIQueryable(Query).AnyAsync();
         }
 
-        public virtual async Task<List<TE>> ListAsync(IDnSpecification ispec, DnPaginacao pagination = null)
+        public virtual async Task<List<TE>> ListAsync(IDnEspecificacao ispec, DnPaginacao pagination = null)
         {
             var spec = GetSpec(ispec);
-            var query = spec.ToIQueryable(Query);
+            var query = spec.ConverterParaIQueryable(Query);
             var taskList = await DnPaginateAsync(query, pagination);
             return await taskList.ToListAsync();
         }
@@ -75,20 +75,20 @@ namespace dn32.infra.EntityFramework
             return await CountSqlAsync(sql, includeExcludedLogically);
         }
 
-        public virtual async Task<int> QuantidadeAlternativoAsync<TO>(IDnSpecification<TO> spec)
+        public virtual async Task<int> QuantidadeAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> spec)
         {
-            if (spec.DnEntityType != typeof(TE))
+            if (spec.TipoDeEntidade != typeof(TE))
             {
-                var serviceName = $"{spec.DnEntityType.Name}Servico";
-                throw new DesenvolvimentoIncorretoException($"The type of input reported in the {spec} specification is not the same as that requested in the repository request.\r\nSpecification type: {spec.DnEntityType}.\r\nRequisition Tipo: {typeof(TE)}\r\nThis usually occurs when you make use of the wrong service. Make sure that when invoking the method that is causing this error you are making use of the service: {serviceName}");
+                var serviceName = $"{spec.TipoDeEntidade.Name}Servico";
+                throw new DesenvolvimentoIncorretoException($"The type of input reported in the {spec} specification is not the same as that requested in the repository request.\r\nSpecification type: {spec.TipoDeEntidade}.\r\nRequisition Tipo: {typeof(TE)}\r\nThis usually occurs when you make use of the wrong service. Make sure that when invoking the method that is causing this error you are making use of the service: {serviceName}");
             }
 
-            return await GetSpecSelect<TO>(spec).ToIQueryable(Query).CountAsync();
+            return await GetSpecSelect<TO>(spec).ConverterParaIQueryable(Query).CountAsync();
         }
 
-        public virtual async Task<int> QuantidadeAsync(IDnSpecification spec)
+        public virtual async Task<int> QuantidadeAsync(IDnEspecificacao spec)
         {
-            return await GetSpec(spec).ToIQueryable(Query).CountAsync();
+            return await GetSpec(spec).ConverterParaIQueryable(Query).CountAsync();
         }
 
         public virtual async Task<int> QuantidadeTotalAsync()
@@ -105,21 +105,21 @@ namespace dn32.infra.EntityFramework
 
         #region SPEC TE
 
-        public virtual async Task<TE> PrimeiroOuPadraoAsync(IDnSpecification spec)
+        public virtual async Task<TE> PrimeiroOuPadraoAsync(IDnEspecificacao spec)
         {
-            var val = GetSpec(spec).ToIQueryable(Query);
+            var val = GetSpec(spec).ConverterParaIQueryable(Query);
             return await val.FirstOrDefaultAsync();
         }
 
-        public virtual async Task<TO> UnicoOuPadraoAlternativoAsync<TO>(IDnSpecification<TO> spec)
+        public virtual async Task<TO> UnicoOuPadraoAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> spec)
         {
-            var query = GetSpecSelect<TO>(spec).ToIQueryable(Query);
+            var query = GetSpecSelect<TO>(spec).ConverterParaIQueryable(Query);
             return await query.FirstOrDefaultAsync();
         }
 
-        public virtual async Task<TE> SingleOrDefaultAsync(IDnSpecification spec)
+        public virtual async Task<TE> SingleOrDefaultAsync(IDnEspecificacao spec)
         {
-            var val = GetSpec(spec).ToIQueryable(Query);
+            var val = GetSpec(spec).ConverterParaIQueryable(Query);
 
             try
             {
@@ -133,18 +133,18 @@ namespace dn32.infra.EntityFramework
 
         #endregion
 
-        public virtual async Task<List<TO>> ListarAlternativoAsync<TO>(IDnSpecification<TO> ispec, DnPaginacao pagination = null)
+        public virtual async Task<List<TO>> ListarAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> ispec, DnPaginacao pagination = null)
         {
             var spec = GetSpecSelect<TO>(ispec);
-            var query = spec.ToIQueryable(Query);
+            var query = spec.ConverterParaIQueryable(Query);
             var DnPagination = await DnPaginateAsync(query, pagination);
             return await DnPagination.ToListAsync();
         }
 
-        public virtual async Task<TO> PrimeiroOuPadraoAlternativoAsync<TO>(IDnSpecification<TO> ispec)
+        public virtual async Task<TO> PrimeiroOuPadraoAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> ispec)
         {
             var spec = GetSpecSelect<TO>(ispec);
-            var query = spec.ToIQueryable(Query);
+            var query = spec.ConverterParaIQueryable(Query);
             return await query.FirstOrDefaultAsync();
         }
 
@@ -182,7 +182,7 @@ namespace dn32.infra.EntityFramework
 
         #region ENTITY ITEMS
 
-        public virtual async Task<TE> FindAsync(TE entity) => await FindSelectAsync(entity);
+        public virtual async Task<TE> BuscarAsync(TE entity) => await FindSelectAsync(entity);
 
         public async Task<TO> FindSelectAsync<TO>(TO entity) where TO : EntidadeBase
         {
@@ -268,7 +268,7 @@ namespace dn32.infra.EntityFramework
         public virtual async Task<TE> RemoverAsync(TE entity)
         {
             RunTheContextValidation();
-            var teEntity = await Service.BuscarAsync(entity, false);
+            var teEntity = await Servico.BuscarAsync(entity, false);
             var ret = Input.Remove(teEntity).Entity;
 
             RemoveDnCompositionsAndDnAggregations(entity);
@@ -285,7 +285,7 @@ namespace dn32.infra.EntityFramework
             {
                 var compositionPropertyType = compositionProperty.PropertyType;
                 var compositionListElements = ListAllByForeignKey(entity, compositionPropertyType.GetListTypeNonNull());
-                var dbSet = TransactionObjects.GetObjectInputDataInternal(compositionPropertyType.GetListTypeNonNull());
+                var dbSet = ObjetosTransacionais.ObterObjetoInputDataInterno(compositionPropertyType.GetListTypeNonNull());
                 if (compositionListElements.Count > 0)
                 {
                     var method = dbSet.GetType().GetMethods().Last(x => x.Name == "RemoverLista");

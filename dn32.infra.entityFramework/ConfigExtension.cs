@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using dn32.infra.nucleo.configuracoes;
 
 #if NETCOREAPP3_1
 

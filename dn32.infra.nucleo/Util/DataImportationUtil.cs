@@ -80,52 +80,52 @@ namespace dn32.infra.Nucleo.Util
                 return list;
             }
 
-            {
-                var worksheets = workbook.Worksheets.ToList();
-                var worksheet = worksheets.FirstOrDefault(x => x.Name.Equals(typeof(T).Name, StringComparison.InvariantCultureIgnoreCase));
-                if (worksheet == null) throw new InvalidOperationException($"worksheet {typeof(T).Name} not found");
-                var columns = worksheet.ColumnsUsed().ToList();
-                var cells = worksheet.Cells().ToList();
-                var type = typeof(T);
-                var properties = type.GetProperties();
-                var xlsxProperty = new List<PropertyInfo>();
+            //{
+            //    var worksheets = workbook.Worksheets.ToList();
+            //    var worksheet = worksheets.FirstOrDefault(x => x.Name.Equals(typeof(T).Name, StringComparison.InvariantCultureIgnoreCase));
+            //    if (worksheet == null) throw new InvalidOperationException($"worksheet {typeof(T).Name} not found");
+            //    var columns = worksheet.ColumnsUsed().ToList();
+            //    var cells = worksheet.Cells().ToList();
+            //    var type = typeof(T);
+            //    var properties = type.GetProperties();
+            //    var xlsxProperty = new List<PropertyInfo>();
 
 
 
-                var propertiesCount = columns.Count;
-                var itemsCount = cells.Count / propertiesCount - 1;
+            //    var propertiesCount = columns.Count;
+            //    var itemsCount = cells.Count / propertiesCount - 1;
 
-                for (int i = 0; i < propertiesCount; i++)
-                {
-                    var cell = cells[i];
-                    var valor = cell.Value;
-                    var property = properties.FirstOrDefault(x => x.Name == cell.Value?.ToString());
-                    xlsxProperty.Add(property);
-                }
+            //    for (int i = 0; i < propertiesCount; i++)
+            //    {
+            //        var cell = cells[i];
+            //        var valor = cell.Value;
+            //        var property = properties.FirstOrDefault(x => x.Name == cell.Value?.ToString());
+            //        xlsxProperty.Add(property);
+            //    }
 
 
-                var list = new List<Tuple<IXLCell, T>>();
+            //    var list = new List<Tuple<IXLCell, T>>();
 
-                for (int linha = 1; linha <= itemsCount; linha++)
-                {
-                    var statusCell = worksheet.Column(propertiesCount + 1).Cell(linha + 1);
+            //    for (int linha = 1; linha <= itemsCount; linha++)
+            //    {
+            //        var statusCell = worksheet.Column(propertiesCount + 1).Cell(linha + 1);
 
-                    var entidade = Activator.CreateInstance<T>();
-                    list.Add(new Tuple<IXLCell, T>(statusCell, entidade));
+            //        var entidade = Activator.CreateInstance<T>();
+            //        list.Add(new Tuple<IXLCell, T>(statusCell, entidade));
 
-                    for (int i = 0; i < propertiesCount; i++)
-                    {
-                        var property = xlsxProperty[i];
-                        if (property == null) { continue; }
-                        var celNum = linha * columns.Count + i;
-                        var cell = cells[celNum];
-                        var valor = cell.Value;
-                        property.SetValue(entidade, cell.Value?.ToString() ?? property.PropertyType.GetDnDefaultValue());
-                    }
-                }
-            }
+            //        for (int i = 0; i < propertiesCount; i++)
+            //        {
+            //            var property = xlsxProperty[i];
+            //            if (property == null) { continue; }
+            //            var celNum = linha * columns.Count + i;
+            //            var cell = cells[celNum];
+            //            var valor = cell.Value;
+            //            property.SetValue(entidade, cell.Value?.ToString() ?? property.PropertyType.GetDnDefaultValue());
+            //        }
+            //    }
+            //}
 
-            return null;
+            //return null;
         }
 
         private static void Example<T>(int addExample, IXLWorksheet worksheet, PropertyInfo[] propertiesExample, int i, DnPropriedadeJsonAtributo property)

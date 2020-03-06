@@ -1,4 +1,5 @@
-﻿using dn32.infra.Nucleo.Models;
+﻿using dn32.infra.nucleo.configuracoes;
+using dn32.infra.Nucleo.Models;
 using dn32.infra.servicos;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -8,27 +9,27 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 
-namespace dn32.infra.Nucleo.Services
+namespace dn32.infra.nucleo.servicos
 {
-    public abstract class DnAuthenticationService : DnServicoTransacionalBase
+    public abstract class DnServicoDeAutenticacao : DnServicoTransacionalBase
     {
-        public abstract Task<(bool sucess, List<Claim> claims)> AuthenticateAsync(DnAuthenticationUser user);
+        public abstract Task<(bool sucess, List<Claim> claims)> AutenticarAsync(DnUsuarioParaAutenticacao usuario);
 
-        public virtual void Register(DnAuthenticationUser user) { }
+        public virtual void Registrar(DnUsuarioParaAutenticacao usuario) { }
 
-        public virtual async Task<string> LoginAsync(DnAuthenticationUser user)
+        public virtual async Task<string> EntrarAsync(DnUsuarioParaAutenticacao user)
         {
             if (user is null) { throw new ArgumentNullException(nameof(user)); }
             if (string.IsNullOrWhiteSpace(user.Email)) { throw new ArgumentNullException(nameof(user.Email)); }
 
-            var (sucess, claims) = await AuthenticateAsync(user);
+            var (sucesso, claims) = await AutenticarAsync(user);
 
-            if (sucess)
+            if (sucesso)
             {
                 if (claims == null) { claims = new List<Claim>(); }
                 claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")));
                 var identity = new ClaimsIdentity(new GenericIdentity(user.Email), claims);
-                return GenerateToken(identity, Setup.ConfiguracoesGlobais.InformacoesDoJWT.Expires ?? TimeSpan.FromDays(1));
+                return GerarToken(identity, Setup.ConfiguracoesGlobais.InformacoesDoJWT.Expires ?? TimeSpan.FromDays(1));
             }
             else
             {
@@ -36,7 +37,7 @@ namespace dn32.infra.Nucleo.Services
             }
         }
 
-        protected virtual string GenerateToken(ClaimsIdentity identity, TimeSpan expires)
+        protected virtual string GerarToken(ClaimsIdentity identity, TimeSpan tempoParaExpiracao)
         {
             var now = DateTime.Now;
             var handler = new JwtSecurityTokenHandler();
@@ -47,7 +48,7 @@ namespace dn32.infra.Nucleo.Services
                 SigningCredentials = Setup.ConfiguracoesGlobais.InformacoesDoJWT.SigningCredentials,
                 Subject = identity,
                 NotBefore = now,
-                Expires = now.Add(expires)
+                Expires = now.Add(tempoParaExpiracao)
             });
 
             return handler.WriteToken(securityToken);

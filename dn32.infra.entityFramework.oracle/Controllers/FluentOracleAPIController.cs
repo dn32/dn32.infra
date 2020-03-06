@@ -1,13 +1,11 @@
-﻿using dn32.infra.nucleo.controladores;
+﻿using dn32.infra.dados;
 using dn32.infra.EntityFramework.Oracle.Specifications;
-using dn32.infra.Nucleo.Specifications;
+using dn32.infra.nucleo.atributos;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
-using dn32.infra.dados;
-using dn32.infra.nucleo.atributos;
 
 namespace dn32.infra.EntityFramework.Oracle.Controllers
 {

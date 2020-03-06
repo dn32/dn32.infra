@@ -1,12 +1,13 @@
 ﻿using dn32.infra.extensoes;
-using dn32.infra.Nucleo.Interfaces;
 using dn32.infra.servicos;
-using dn32.infra.Validation;
+using dn32.infra.validacoes;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using dn32.infra.dados;
 using dn32.infra.nucleo.servicos;
+using dn32.infra.nucleo.interfaces;
+using dn32.infra.nucleo.configuracoes;
 
 namespace dn32.infra.Nucleo.Models
 {
@@ -16,16 +17,16 @@ namespace dn32.infra.Nucleo.Models
     public class SessaoDeRequisicaoDoUsuario
     {
         internal Dictionary<Type, DnServicoBase> Services { get; set; }
-        internal ITransactionObjects ObjetosDaTransacao { get; set; }
+        internal IDnObjetosTransacionais ObjetosDaTransacao { get; set; }
         internal Guid IdentificadorDaSessao { get; set; }
-        public ContextDnValidationException ContextDnValidationException { get; set; }
+        public DnContextoDeValidacaoException ContextDnValidationException { get; set; }
         public DnPaginacao Pagination { get; set; }
 
         internal object HttpContext;
 
         public SessaoDeRequisicaoDoUsuario()
         {
-            this.ContextDnValidationException = new ContextDnValidationException();
+            this.ContextDnValidationException = new DnContextoDeValidacaoException();
         }
 
         /// <summary>

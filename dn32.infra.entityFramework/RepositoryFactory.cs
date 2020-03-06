@@ -1,13 +1,13 @@
 ﻿using dn32.infra.dados;
-using dn32.infra.Interfaces;
+using dn32.infra.nucleo.interfaces;
 using dn32.infra.Nucleo.Factory;
-using dn32.infra.Nucleo.Interfaces;
 using dn32.infra.Nucleo.Models;
 using dn32.infra.servicos;
 using System;
 using System.Linq;
 using System.Reflection;
 using dn32.infra.nucleo.excecoes;
+using dn32.infra.nucleo.configuracoes;
 
 namespace dn32.infra.EntityFramework
 {
@@ -18,7 +18,7 @@ namespace dn32.infra.EntityFramework
     /// <typeparam Nome="T">
     ///  O tipo da entidade do repositório a ser criado.
     /// </typeparam>
-    internal class RepositoryFactory : IRepositoryFactory
+    internal class RepositoryFactory : IFrabricaDeRepositorio
     {
         /// <summary>
         /// Cria um novo repositório.
@@ -32,7 +32,7 @@ namespace dn32.infra.EntityFramework
         /// <returns>
         /// O repositório criado.
         /// </returns>
-        public IDnRepository<T> Create<T>(ITransactionObjects transactionObjects, DnServico<T> service) where T : EntidadeBase
+        public IDnRepositorio<T> Create<T>(IDnObjetosTransacionais transactionObjects, DnServico<T> service) where T : EntidadeBase
         {
             if (Setup.ConfiguracoesGlobais.Conexoes == null) { throw new DesenvolvimentoIncorretoException($"Arquitetura was not initialized properly"); }
 
@@ -95,20 +95,20 @@ namespace dn32.infra.EntityFramework
                     connetion = conn.Single();
                 }
 
-                var transactionObjectsType = repository.TransactionObjectsType;
+                var transactionObjectsType = repository.TipoDeObjetosTransacionais;
                 transactionObjects = TransactionObjectsFactory.Create(transactionObjectsType, connetion, service.SessaoDaRequisicao);
                 service.SessaoDaRequisicao.ObjetosDaTransacao = transactionObjects;
             }
 
-            repository.TransactionObjects = transactionObjects;
-            repository.Service = service;
+            repository.ObjetosTransacionais = transactionObjects;
+            repository.Servico = service;
 
             return repository;
         }
 
-        internal IDnRepository<T> Create<T>(Type repositoryType) where T : EntidadeBase
+        internal IDnRepositorio<T> Create<T>(Type repositoryType) where T : EntidadeBase
         {
-            return Activator.CreateInstance(repositoryType) as IDnRepository<T>;
+            return Activator.CreateInstance(repositoryType) as IDnRepositorio<T>;
         }
 
         //Todo - validar no boot se todas as entidades tem tipo de BD,ou se só tem um tipo de bd instanciado na aplicação

@@ -1,18 +1,18 @@
 ﻿using ClosedXML.Excel;
-using dn32.infra.nucleo.excecoes;
-using dn32.infra.nucleo.erros_de_validacao;
+using dn32.infra.dados;
 using dn32.infra.Factory;
-using dn32.infra.Interfaces;
-using dn32.infra.Nucleo.Interfaces;
+using dn32.infra.nucleo.interfaces;
+using dn32.infra.nucleo.erros_de_validacao;
+using dn32.infra.nucleo.excecoes;
+using dn32.infra.nucleo.validacoes;
 using dn32.infra.Nucleo.Models;
 using dn32.infra.Nucleo.Util;
-using dn32.infra.Validation;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using dn32.infra.dados;
+using dn32.infra.nucleo.configuracoes;
 
 namespace dn32.infra.servicos
 {
@@ -26,15 +26,15 @@ namespace dn32.infra.servicos
 
         protected virtual void TransformarResultadoDaConsulta<TO>(TO entidade) { }
 
-        protected internal new IDnRepository<T> Repositorio
+        protected internal new IDnRepositorio<T> Repositorio
         {
-            get => base.Repositorio as IDnRepository<T>;
+            get => base.Repositorio as IDnRepositorio<T>;
             set => base.Repositorio = value;
         }
 
-        protected internal new DnValidacao<T> Validacao
+        protected internal new DnDnValidacao<T> Validacao
         {
-            get => base.Validacao as DnValidacao<T>;
+            get => base.Validacao as DnDnValidacao<T>;
             set => base.Validacao = value;
         }
 
@@ -44,15 +44,15 @@ namespace dn32.infra.servicos
 
             ValidarInicializacaoDoServico();
             this.Repositorio = Setup.ConfiguracoesGlobais.FabricaDeRepositorio.Create(ObjetosDaTransacao, this);
-            this.Validacao = ValidationFactory.Create<T>();
-            this.Validacao.Init(this);
+            this.Validacao = DnFabricaDeValidacao.Criar<T>();
+            this.Validacao.Inicializar(this);
         }
 
         #endregion
 
         #region PASSAGEM DIRETA PARA O REPOSITÓRIO
 
-        public virtual async Task<List<TO>> ListarAlternativoAsync<TO>(IDnSpecification<TO> especificacao, DnPaginacao paginacao = null)
+        public virtual async Task<List<TO>> ListarAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> especificacao, DnPaginacao paginacao = null)
         {
             var lista = await Repositorio.ListarAlternativoAsync(especificacao, paginacao);
             lista.ForEach(x => Repositorio.Desanexar(x));
@@ -60,7 +60,7 @@ namespace dn32.infra.servicos
             return lista;
         }
 
-        public virtual async Task<List<T>> ListarAsync(IDnSpecification especificacao, DnPaginacao pagination = null)
+        public virtual async Task<List<T>> ListarAsync(IDnEspecificacao especificacao, DnPaginacao pagination = null)
         {
             var lista = await Repositorio.ListAsync(especificacao, pagination);
             lista.ForEach(x => Repositorio.Desanexar(x));
@@ -68,7 +68,7 @@ namespace dn32.infra.servicos
             return lista;
         }
 
-        public virtual async Task<TO> PrimeiroOuPadraoAlternativoAsync<TO>(IDnSpecification<TO> especificacao)
+        public virtual async Task<TO> PrimeiroOuPadraoAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> especificacao)
         {
             var entidade = await Repositorio.PrimeiroOuPadraoAlternativoAsync(especificacao);
             entidade = Repositorio.Desanexar(entidade);
@@ -76,7 +76,7 @@ namespace dn32.infra.servicos
             return entidade;
         }
 
-        public virtual async Task<T> PrimeiroOuPadraoAsync(IDnSpecification especificacao)
+        public virtual async Task<T> PrimeiroOuPadraoAsync(IDnEspecificacao especificacao)
         {
             var entidade = await Repositorio.PrimeiroOuPadraoAsync(especificacao);
             entidade = Repositorio.Desanexar(entidade);
@@ -84,7 +84,7 @@ namespace dn32.infra.servicos
             return entidade;
         }
 
-        public virtual async Task<T> UnicoOuPadraoAsync(IDnSpecification especificacao)
+        public virtual async Task<T> UnicoOuPadraoAsync(IDnEspecificacao especificacao)
         {
             var entidade = await Repositorio.SingleOrDefaultAsync(especificacao);
             entidade = Repositorio.Desanexar(entidade);
@@ -92,7 +92,7 @@ namespace dn32.infra.servicos
             return entidade;
         }
 
-        public virtual async Task<TO> UnicoOuPadraoAlternativoAsync<TO>(IDnSpecification<TO> especificacao)
+        public virtual async Task<TO> UnicoOuPadraoAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> especificacao)
         {
             var entidade = await Repositorio.UnicoOuPadraoAlternativoAsync(especificacao);
             entidade = Repositorio.Desanexar(entidade);
@@ -100,15 +100,15 @@ namespace dn32.infra.servicos
             return entidade;
         }
 
-        public virtual async Task<int> QuantidadeAlternativoAsync<TO>(IDnSpecification<TO> especificacao) => await Repositorio.QuantidadeAlternativoAsync(especificacao);
+        public virtual async Task<int> QuantidadeAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> especificacao) => await Repositorio.QuantidadeAlternativoAsync(especificacao);
 
-        public virtual async Task<int> QuantidadeAsync(IDnSpecification especificacao) => await Repositorio.QuantidadeAsync(especificacao);
+        public virtual async Task<int> QuantidadeAsync(IDnEspecificacao especificacao) => await Repositorio.QuantidadeAsync(especificacao);
 
         public virtual async Task<int> QuantidadeTotalAsync() => await Repositorio.QuantidadeTotalAsync();
 
         public virtual async Task<int> QuantidadeAsync(T entidade, bool includeExcludedLogically = false) => await Repositorio.QuantidadeAsync(entidade, includeExcludedLogically);
 
-        public virtual void RemoverLista(IDnSpecification especificacao) => Repositorio.RemoverLista(especificacao);
+        public virtual void RemoverLista(IDnEspecificacao especificacao) => Repositorio.RemoverLista(especificacao);
 
         public virtual async Task EliminarTudoAsync(string APAGAR_TUDO)
         {
@@ -117,12 +117,12 @@ namespace dn32.infra.servicos
         }
 
         public virtual async Task<bool> HaSomenteUmAsync(T entidade, bool includeExcludedLogically = false) => await Repositorio.HaSomenteUmAsync(entidade, includeExcludedLogically).ConfigureAwait(false);
-     
-        public virtual async Task<bool> ExisteAsync(ISpec especificacao) => await Repositorio.ExisteAsync(especificacao);
+
+        public virtual async Task<bool> ExisteAsync(IDnEspecificacaoBase especificacao) => await Repositorio.ExisteAsync(especificacao);
 
         public virtual async Task<bool> ExisteAsync(T entidade, bool checkId = true, bool includeExcludedLogically = false) => await Repositorio.ExisteAsync(entidade, includeExcludedLogically);
-        
-        public virtual async Task<bool> ExisteAlternativoAsync<TO>(ISpec especificacao) => await Repositorio.ExisteAlternativoAsync<TO>(especificacao);
+
+        public virtual async Task<bool> ExisteAlternativoAsync<TO>(IDnEspecificacaoBase especificacao) => await Repositorio.ExisteAlternativoAsync<TO>(especificacao);
 
         public virtual async Task AdicionarListaAsync(params T[] entidades)
         {
@@ -153,7 +153,7 @@ namespace dn32.infra.servicos
             var anotherServices = await Validacao.AdidionarOuAtualizarAsync(entidade);
             var exists = SessaoDaRequisicao.ContextDnValidationException.Inconsistencies.RemoveAll(x => x.NomeDoErroDeValidacao == nameof(DnEntidadeExisteErroDeValidacao)) > 0;
 
-            Validacao.RunTheContextValidation(anotherServices);
+            Validacao.ExecutarAsValidacoes(anotherServices);
 
             if (exists)
             {
@@ -167,8 +167,8 @@ namespace dn32.infra.servicos
 
         public virtual async Task<T> BuscarAsync(T entidade, bool checarId = true, bool desanexar = true)
         {
-            Validacao.Find(entidade, checarId);
-            entidade = await Repositorio.FindAsync(entidade);
+            Validacao.Buscar(entidade, checarId);
+            entidade = await Repositorio.BuscarAsync(entidade);
             entidade = desanexar ? Repositorio.Desanexar(entidade) : entidade;
             TransformarResultadoDaConsulta(entidade);
             return entidade;
@@ -230,7 +230,7 @@ namespace dn32.infra.servicos
                 try
                 {
                     var entidade = item.Item2;
-                    Validacao.ClearInconsistencies();
+                    Validacao.LimparInconsistencias();
 
                     if (await ExisteAsync(entidade, true, true))
                     {
@@ -243,7 +243,7 @@ namespace dn32.infra.servicos
                         await Repositorio.AdicionarAsync(entidade);
                     }
 
-                    Validacao.RunTheContextValidation();
+                    Validacao.ExecutarAsValidacoes();
 
                     item.Item1.Value = "Sucess!";
                     item.Item1.Style.Font.FontColor = XLColor.FromArgb(0x04AC15);
@@ -255,7 +255,7 @@ namespace dn32.infra.servicos
                 }
             }
 
-            Validacao.ClearInconsistencies();
+            Validacao.LimparInconsistencias();
 
             return workbook;
         }

@@ -1,6 +1,6 @@
 ﻿using dn32.infra.nucleo.controladores;
 using dn32.infra.nucleo.excecoes;
-using dn32.infra.Nucleo.Interfaces;
+using dn32.infra.nucleo.interfaces;
 using dn32.infra.Nucleo.Models;
 using dn32.infra.servicos;
 using System;
@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using dn32.infra.extensoes;
 using dn32.infra.nucleo.servicos;
+using dn32.infra.nucleo.configuracoes;
 
 namespace dn32.infra.Factory
 {
@@ -142,7 +143,7 @@ namespace dn32.infra.Factory
         private static SessaoDeRequisicaoDoUsuario CreateUserSession(object httpContext, Guid sessionId, DnServicoBase service)
         {
             //Todo arrumar
-            ITransactionObjects transactionObjects = null;// ITransactionObjects.Create();
+            IDnObjetosTransacionais transactionObjects = null;// ITransactionObjects.Create();
 
             var serviceType = GetSpecializedService(service.GetType());
 

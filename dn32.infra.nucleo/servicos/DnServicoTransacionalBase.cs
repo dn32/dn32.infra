@@ -1,25 +1,25 @@
 ﻿using dn32.infra.Factory;
+using dn32.infra.nucleo.especificacoes;
 using dn32.infra.nucleo.servicos;
-using dn32.infra.Nucleo.Interfaces;
+using dn32.infra.nucleo.validacoes;
+using dn32.infra.nucleo.interfaces;
 using dn32.infra.Nucleo.Models;
-using dn32.infra.Specifications;
-using dn32.infra.Validation;
 
 namespace dn32.infra.servicos
 {
     public abstract class DnServicoTransacionalBase : DnServicoBase
     {
-        internal ITransactionObjects ObjetosDaTransacao => SessaoDaRequisicao.ObjetosDaTransacao;
+        internal IDnObjetosTransacionais ObjetosDaTransacao => SessaoDaRequisicao.ObjetosDaTransacao;
 
-        protected new internal TransactionalValidation Validacao
+        protected new internal DnValidacaoTransacional Validacao
         {
-            get => base.Validacao as TransactionalValidation;
+            get => base.Validacao as DnValidacaoTransacional;
             set => base.Validacao = value;
         }
 
-        protected new internal ITransactionlRepository Repositorio
+        protected new internal IDnRepositorioTransacional Repositorio
         {
-            get => base.Repositorio as ITransactionlRepository;
+            get => base.Repositorio as IDnRepositorioTransacional;
             set => base.Repositorio = value;
         }
 
@@ -28,7 +28,7 @@ namespace dn32.infra.servicos
             base.DefinirSessaoDoUsuario(sessaoDaRequisicao);
         }
 
-        protected T CriarEspecificacao<T>() where T : BaseSpecification
+        protected T CriarEspecificacao<T>() where T : DnEspecificacaoBase
         {
             return SpecFactory.Criar<T>(this);
         }

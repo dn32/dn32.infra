@@ -1,7 +1,6 @@
 ﻿using dn32.infra.extensoes;
 using dn32.infra.nucleo.atributos;
 using dn32.infra.Nucleo.Extensoes;
-using dn32.infra.Nucleo.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -15,6 +14,7 @@ using System.Reflection;
 using System.Web;
 using dn32.infra.atributos;
 using dn32.infra.enumeradores;
+using dn32.infra.nucleo.configuracoes;
 
 namespace dn32.infra.Nucleo.Doc.Controllers
 {

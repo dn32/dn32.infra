@@ -20,7 +20,7 @@
 //using System.Reflection;
 //using dn32.infra.atributos;
 //using dn32.infra.Extensoes;
-//using dn32.infra.Interfaces;
+//using dn32.infra.nucleo.interfaces;
 //using dn32.infra.Model;
 //using dn32.infra.Sample.Test.SupportElements.Model;
 

@@ -1,5 +1,5 @@
 ﻿using dn32.infra.nucleo.excecoes;
-using dn32.infra.Interfaces;
+using dn32.infra.nucleo.interfaces;
 using System.Collections.Generic;
 using dn32.infra.dados;
 
@@ -7,52 +7,52 @@ namespace dn32.infra.extensoes
 {
     public static class SpecExtension
     {
-        public static bool Exists(this ISpec spec)
+        public static bool Exists(this IDnEspecificacaoBase spec)
         {
             return (bool)spec.Execute(nameof(Exists));
         }
 
-        public static object List(this ISpec spec, DnPaginacao pagination = null)
+        public static object List(this IDnEspecificacaoBase spec, DnPaginacao pagination = null)
         {
             return spec.Execute(nameof(List), new object[] { pagination });
         }
 
-        public static object FirstOrDefault(this ISpec spec)
+        public static object FirstOrDefault(this IDnEspecificacaoBase spec)
         {
             return spec.Execute(nameof(FirstOrDefault));
         }
 
-        public static object Execute(this ISpec spec, string method, params object[] parameters)
+        public static object Execute(this IDnEspecificacaoBase spec, string method, params object[] parameters)
         {
             return spec.CallSelectOrNoSelectMethod(method, parameters);
         }
 
-        public static object CallSelectOrNoSelectMethod(this ISpec spec, string methodName, params object[] parameters)
+        public static object CallSelectOrNoSelectMethod(this IDnEspecificacaoBase spec, string methodName, params object[] parameters)
         {
             var paramList = new List<object> { spec };
             paramList.AddRange(parameters);
             parameters = paramList.ToArray();
 
-            if (spec != null && spec.Service == null)
+            if (spec != null && spec.Servico == null)
             {
                 throw new DesenvolvimentoIncorretoException($"The past spec does not have a valid service. See at the time the spec is created if a service has been passed in the spec creator.");
             }
 
-            if (spec is IDnSpecificationOut spec2)
+            if (spec is IDnEspecificacaoAlternativa spec2)
             {
-                var service = spec2.DnEntityType.GetServiceInstanceByEntity(spec2.Service.SessaoDaRequisicao);
+                var service = spec2.TipoDeEntidade.GetServiceInstanceByEntity(spec2.Servico.SessaoDaRequisicao);
                 var method = service.GetType().GetMethod($"{methodName}Select");
                 if (method == null)
                 {
                     throw new DesenvolvimentoIncorretoException($"Method not found: {methodName}Select");
                 }
 
-                return method.MakeGenericMethod(spec2.DnEntityOutType).Invoke(service, parameters);
+                return method.MakeGenericMethod(spec2.TipoDeRetorno).Invoke(service, parameters);
             }
 
-            if (spec is IDnSpecification spec3)
+            if (spec is IDnEspecificacao spec3)
             {
-                var service = spec3.DnEntityType.GetServiceInstanceByEntity(spec3.Service.SessaoDaRequisicao);
+                var service = spec3.TipoDeEntidade.GetServiceInstanceByEntity(spec3.Servico.SessaoDaRequisicao);
                 var method = service.GetType().GetMethodWithoutAmbiguity(methodName, parameters);
                 if (method == null)
                 {

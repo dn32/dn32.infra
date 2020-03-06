@@ -100,15 +100,15 @@ namespace dn32.infra.nucleo.controladores
         }
 
         private bool AsValidacoesApresentamSucesso() =>
-            this.Servico.SessaoDaRequisicao.ContextDnValidationException.IsValid;
+            this.Servico.SessaoDaRequisicao.ContextDnValidationException.EhValido;
 
         private bool HaObjetosNaTransacao() => this.Servico.ObjetosDaTransacao != null;
 
         private async Task SalvarAlteracoes()
         {
-            if (this.Servico.ObjetosDaTransacao.Session.ChangeTracker.HasChanges())
+            if (this.Servico.ObjetosDaTransacao.Sessao.ChangeTracker.HasChanges())
             {
-                await this.Servico.ObjetosDaTransacao.Session.SaveChangesAsync();
+                await this.Servico.ObjetosDaTransacao.Sessao.SaveChangesAsync();
             }
         }
     }

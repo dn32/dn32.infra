@@ -1,21 +1,10 @@
-﻿// -----------------------------------------------------------------------
-// <copyright company="DnControlador System">
-//     Copyright © DnControlador System. All rights reserved.
-//     TODOS OS DIREITOS RESERVADOS.
-// </copyright>
-// -----------------------------------------------------------------------
+﻿using System;
 
-using System;
-
-namespace dn32.infra.Interfaces
+namespace dn32.infra.nucleo.interfaces
 {
-    public interface IDnSpecificationOut : ISpec
+    public interface IDnEspecificacaoAlternativa : IDnEspecificacaoBase
     {
-        Type DnEntityType { get; }
-        Type DnEntityOutType { get; }
-    }
-
-    public interface IDnSpecification<TO> : IDnSpecificationOut
-    {
+        Type TipoDeEntidade { get; }
+        Type TipoDeRetorno { get; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using dn32.infra.Filters;
-using dn32.infra.Nucleo.Interfaces;
+using dn32.infra.nucleo.interfaces;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -16,7 +16,7 @@ namespace dn32.infra
         public Type GenericRepositoryType { get; internal set; }
         public Type GenericValidationType { get; internal set; }
         public Type GenericControllerType { get; internal set; }
-        internal IRepositoryFactory FabricaDeRepositorio { get; set; }
+        internal IFrabricaDeRepositorio FabricaDeRepositorio { get; set; }
         public InformacoesDoJWT InformacoesDoJWT { get; set; }
         public string RedisConnectionString { get; set; }
         public Type RedisService { get; set; }

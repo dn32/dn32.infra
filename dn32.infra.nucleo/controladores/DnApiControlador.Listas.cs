@@ -1,9 +1,9 @@
 ﻿using dn32.infra.dados;
 using dn32.infra.nucleo.atributos;
+using dn32.infra.nucleo.especificacoes;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using dn32.infra.Nucleo.Specifications;
 
 namespace dn32.infra.nucleo.controladores
 {
@@ -50,6 +50,6 @@ namespace dn32.infra.nucleo.controladores
             return await this.CrieResultadoAsync(lista, this.PaginacaoDaUltimaRequisicao);
         }
 
-        private DnAllSpec<T> CriarEspecificacaoDeConsultarTudo() => this.CriarEspecificacao<DnAllSpec<T>>().SetParameter(isList: true);
+        private DnTudoEspecificacao<T> CriarEspecificacaoDeConsultarTudo() => this.CriarEspecificacao<DnTudoEspecificacao<T>>().AdicionarParametro(ehListagem: true);
     }
 }

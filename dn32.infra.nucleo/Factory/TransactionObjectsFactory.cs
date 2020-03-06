@@ -1,4 +1,4 @@
-﻿using dn32.infra.Nucleo.Interfaces;
+﻿using dn32.infra.nucleo.interfaces;
 using dn32.infra.Nucleo.Models;
 using System;
 
@@ -12,9 +12,9 @@ namespace dn32.infra.Nucleo.Factory
         /// <returns>
         /// A insância da classe.
         /// </returns>
-        public static ITransactionObjects Create(Type transactionObjectsType, Connection connection, SessaoDeRequisicaoDoUsuario userSessionRequest)
+        public static IDnObjetosTransacionais Create(Type transactionObjectsType, Connection connection, SessaoDeRequisicaoDoUsuario userSessionRequest)
         {
-            return Activator.CreateInstance(transactionObjectsType, connection, userSessionRequest) as ITransactionObjects;
+            return Activator.CreateInstance(transactionObjectsType, connection, userSessionRequest) as IDnObjetosTransacionais;
         }
     }
 }

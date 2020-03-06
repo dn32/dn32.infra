@@ -1,12 +1,13 @@
 ﻿using dn32.infra.Factory;
 using dn32.infra.Nucleo.Models;
-using dn32.infra.Nucleo.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using dn32.infra.extensoes;
+using dn32.infra.nucleo.servicos;
+using dn32.infra.nucleo.configuracoes;
 
 namespace dn32.infra.Nucleo.Doc.Controllers
 {
@@ -53,14 +54,14 @@ namespace dn32.infra.Nucleo.Doc.Controllers
                 throw new InvalidOperationException("Use UseJwt at Arquitetura startup to set autenticacao parameters");
             }
 
-            var autenticacaoUser = new DnAuthenticationUser
+            var autenticacaoUser = new DnUsuarioParaAutenticacao
             {
                 Email = email,
                 Password = senha
             };
 
-            var service = ServiceFactory.Create(Setup.ConfiguracoesGlobais.InformacoesDoJWT.DnAuthenticationServiceType, HttpContext, "DocAutenticacaoServiceType for DnDoc").DnCast<DnAuthenticationService>();
-            var token = await service.LoginAsync(autenticacaoUser);
+            var service = ServiceFactory.Create(Setup.ConfiguracoesGlobais.InformacoesDoJWT.DnAuthenticationServiceType, HttpContext, "DocAutenticacaoServiceType for DnDoc").DnCast<DnServicoDeAutenticacao>();
+            var token = await service.EntrarAsync(autenticacaoUser);
             if (string.IsNullOrWhiteSpace(token))
             {
                 throw new InvalidOperationException("Houve um erro na tentativa de autenticação");

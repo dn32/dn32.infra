@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace dn32.infra.Interfaces
+namespace dn32.infra.nucleo.interfaces
 {
     public interface IDnEntidadeComInclusao
     {

@@ -1,5 +1,4 @@
-﻿using dn32.infra.Interfaces;
-using dn32.infra.Nucleo.Interfaces;
+﻿using dn32.infra.nucleo.interfaces;
 using dn32.infra.Nucleo.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,18 +15,18 @@ namespace dn32.infra.EntityFramework
     /// <summary>
     /// Obtetos de transação.
     /// </summary>
-    public class TransactionObjects : ITransactionObjects
+    public class TransactionObjects : IDnObjetosTransacionais
     {
         /// <summary>
         /// Sessão do EF.
         /// </summary>
-        public DbContext Session { get; set; }
+        public DbContext Sessao { get; set; }
 
         public SessaoDeRequisicaoDoUsuario UserSessionRequest { get; set; }
 
         public void Dispose()
         {
-            this.Session.Dispose();
+            this.Sessao.Dispose();
         }
 
         /// <summary>
@@ -40,17 +39,17 @@ namespace dn32.infra.EntityFramework
         public TransactionObjects(Connection connection, SessaoDeRequisicaoDoUsuario userSessionRequest)
         {
             this.UserSessionRequest = userSessionRequest;
-            this.Session = ContextFactory.Create(connection, UserSessionRequest);
+            this.Sessao = ContextFactory.Create(connection, UserSessionRequest);
         }
 
-        public DbSet<TX> GetObjectInputDataInternal<TX>() where TX : EntidadeBase
+        public DbSet<TX> ObterObjetoInputInterno<TX>() where TX : EntidadeBase
         {
-            return this.Session.Set<TX>();
+            return this.Sessao.Set<TX>();
         }
 
-        public IQueryable GetObjectInputDataInternal(Type type)
+        public IQueryable ObterObjetoInputDataInterno(Type type)
         {
-            return typeof(DbContext).GetMethod(nameof(DbContext.Set))?.MakeGenericMethod(type).Invoke(Session, null).DnCast<IQueryable>();
+            return typeof(DbContext).GetMethod(nameof(DbContext.Set))?.MakeGenericMethod(type).Invoke(Sessao, null).DnCast<IQueryable>();
         }
 
         /// <summary>
@@ -62,9 +61,9 @@ namespace dn32.infra.EntityFramework
         /// <returns>
         /// A referência da tabela do banco de dados.
         /// </returns>
-        public virtual IQueryable<TX> GetObjectQueryInternal<TX>() where TX : EntidadeBase
+        public virtual IQueryable<TX> ObterObjetoQueryInterno<TX>() where TX : EntidadeBase
         {
-            return this.Session.Set<TX>();
+            return this.Sessao.Set<TX>();
         }
     }
 }

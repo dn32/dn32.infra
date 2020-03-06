@@ -3,6 +3,7 @@ using StackExchange.Redis;
 using System;
 using System.Threading.Tasks;
 using dn32.infra.dados;
+using dn32.infra.nucleo.configuracoes;
 
 namespace dn32.infra.Redis
 {

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using dn32.infra.nucleo.configuracoes;
 
 namespace dn32.infra.Nucleo.Factory
 {
