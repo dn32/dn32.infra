@@ -1,6 +1,7 @@
 ﻿using dn32.infra.Nucleo.Models;
 using System;
 using dn32.infra.enumeradores;
+using dn32.infra.nucleo.modelos;
 
 namespace dn32.infra.nucleo.atributos
 {

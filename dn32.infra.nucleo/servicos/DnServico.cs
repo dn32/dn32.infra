@@ -152,7 +152,7 @@ namespace dn32.infra.servicos
             TransformarParaSalvar(entidade, null);
 
             var anotherServices = await Validacao.AdidionarOuAtualizarAsync(entidade);
-            var exists = SessaoDaRequisicao.ContextDnValidationException.Inconsistencies.RemoveAll(x => x.NomeDoErroDeValidacao == nameof(DnEntidadeExisteErroDeValidacao)) > 0;
+            var exists = SessaoDaRequisicao.ContextoDeValidacao.Inconsistencies.RemoveAll(x => x.NomeDoErroDeValidacao == nameof(DnEntidadeExisteErroDeValidacao)) > 0;
 
             Validacao.ExecutarAsValidacoes(anotherServices);
 

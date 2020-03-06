@@ -120,10 +120,10 @@ namespace dn32.infra.nucleo.fabricas
             var sessaoDaRequisicao = Activator.CreateInstance(tipo).DnCast<SessaoDeRequisicaoDoUsuario>();
             sessaoDaRequisicao.ObjetosDaTransacao = transactionObjects;
             sessaoDaRequisicao.IdentificadorDaSessao = identificadorDaRequisicao;
-            sessaoDaRequisicao.Services = new Dictionary<Type, DnServicoBase>();
+            sessaoDaRequisicao.Servicos = new Dictionary<Type, DnServicoBase>();
             sessaoDaRequisicao.HttpContext = httpContext;
 
-            sessaoDaRequisicao.Services.Add(tipoDeServico, servico);
+            sessaoDaRequisicao.Servicos.Add(tipoDeServico, servico);
             Setup.AdicionarSessaoDeRequisicao(sessaoDaRequisicao);
 
             return sessaoDaRequisicao;

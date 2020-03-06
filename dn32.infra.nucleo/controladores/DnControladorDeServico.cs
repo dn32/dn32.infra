@@ -19,7 +19,7 @@ namespace dn32.infra.nucleo.controladores
 
         protected internal bool TransacaoEstaAberta { get; set; }
 
-        public virtual DnPaginacao PaginacaoDaUltimaRequisicao => this.Servico.SessaoDaRequisicao.Pagination;
+        public virtual DnPaginacao PaginacaoDaUltimaRequisicao => this.Servico.SessaoDaRequisicao.Paginacao;
 
         protected internal Guid IdentificadorDaSessaoDaRequisicao => this.Servico.IdentificadorDaSessaoDaRequisicao;
 
@@ -101,7 +101,7 @@ namespace dn32.infra.nucleo.controladores
         }
 
         private bool AsValidacoesApresentamSucesso() =>
-            this.Servico.SessaoDaRequisicao.ContextDnValidationException.EhValido;
+            this.Servico.SessaoDaRequisicao.ContextoDeValidacao.EhValido;
 
         private bool HaObjetosNaTransacao() => this.Servico.ObjetosDaTransacao != null;
 

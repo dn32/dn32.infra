@@ -242,7 +242,7 @@ namespace dn32.infra.validacoes
 
             if (!await validation.DnCast<DnValidacao<T>>().Servico.ExisteAsync(entity, validation.ChecagemDeChavesOk, includeExcludedLogically))
             {
-                var keys = entity.GetKeyValues().Select(x => $"{{{x.Property.Name}:{x.Value}}}").ToArray();
+                var keys = entity.GetKeyValues().Select(x => $"{{{x.Propriedade.Name}:{x.Valor}}}").ToArray();
                 var keyValues = string.Join(", ", keys);
                 validation.AdicionarInconsistencia(new DnEntidadeNaoEncontradaErroDeValidacao(keyValues));
             }
@@ -257,7 +257,7 @@ namespace dn32.infra.validacoes
 
             if (await validation.DnCast<DnValidacao<T>>().Servico.QuantidadeAsync(entity, includeExcludedLogically) > 1)
             {
-                var keys = entity.GetKeyValues().Select(x => $"-{{{x.Property.Name}:{x.Value}}}").ToArray();
+                var keys = entity.GetKeyValues().Select(x => $"-{{{x.Propriedade.Name}:{x.Valor}}}").ToArray();
                 var keyValues = string.Join(", ", keys);
                 validation.AdicionarInconsistencia(new DnEntidadeExisteErroDeValidacao(keyValues));
             }
@@ -272,7 +272,7 @@ namespace dn32.infra.validacoes
 
             if (await validation.DnCast<DnValidacao<T>>().Servico.ExisteAsync(entity, checkId))
             {
-                var keys = entity.GetKeyAndDnUniqueKeyValues().Select(x => $"{{{x.Property.Name}:{x.Value}}}").ToArray();
+                var keys = entity.GetKeyAndDnUniqueKeyValues().Select(x => $"{{{x.Propriedade.Name}:{x.Valor}}}").ToArray();
                 var keyValues = string.Join(", ", keys);
                 validation.AdicionarInconsistencia(new DnEntidadeExisteErroDeValidacao(keyValues));
             }

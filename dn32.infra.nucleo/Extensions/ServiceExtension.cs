@@ -23,13 +23,13 @@ namespace dn32.infra.extensoes
                 throw new DesenvolvimentoIncorretoException($"The service instance attempt using the {nameof(GetServiceInstanceByServiceType)} method failed because the passed type is not a {nameof(DnServicoTransacionalBase)}");
             }
 
-            if (SessionRequest.Services.TryGetValue(serviceType, out var ser))
+            if (SessionRequest.Servicos.TryGetValue(serviceType, out var ser))
             {
                 return ser as DnServicoTransacionalBase;
             }
 
             var service = FabricaDeServico.Criar(serviceType, SessionRequest.LocalHttpContext, SessionRequest);
-            SessionRequest.Services.Add(serviceType, service);
+            SessionRequest.Servicos.Add(serviceType, service);
 
             return service;
         }

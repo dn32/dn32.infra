@@ -11,7 +11,7 @@ using System.Reflection;
 using dn32.infra.extensoes;
 using dn32.infra.nucleo.configuracoes;
 
-namespace dn32.infra.Filters
+namespace dn32.infra.nucleo.filtros
 {
     public class DnAutorizacaoFilter : IAuthorizationFilter
     {
@@ -30,13 +30,13 @@ namespace dn32.infra.Filters
 
             if (Setup.ConfiguracoesGlobais.InformacoesDoJWT != null)
             {
-                JWTOnDnAuthorizationFilter(context);
+                ValidarAutenticacao(context);
             }
 
-            OnDnAuthorizationFilter(context);
+            AutenticadoComSucesso(context);
         }
 
-        protected virtual void JWTOnDnAuthorizationFilter(AuthorizationFilterContext context)
+        protected virtual void ValidarAutenticacao(AuthorizationFilterContext context)
         {
             var tokenRequest = context.HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Replace("Bearer", "").Trim();
             tokenRequest = string.IsNullOrWhiteSpace(tokenRequest) ? context.HttpContext.Request.Query["Authorization"].ToString()?.Replace("Bearer", "")?.Trim() : tokenRequest;
@@ -48,7 +48,7 @@ namespace dn32.infra.Filters
             }
             else
             {
-                var par = SigningConfigurations.GetTokenValidationParameters();
+                var par = ObterDadosDoToken();
                 var handler = new JwtSecurityTokenHandler();
                 try
                 {
@@ -61,7 +61,7 @@ namespace dn32.infra.Filters
             }
         }
 
-        protected virtual void OnDnAuthorizationFilter(AuthorizationFilterContext context)
+        protected virtual void AutenticadoComSucesso(AuthorizationFilterContext context)
         {
         }
 
@@ -76,6 +76,22 @@ namespace dn32.infra.Filters
             context.Result = content;
             context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
             return;
+        }
+
+        private static TokenValidationParameters ObterDadosDoToken()
+        {
+            var Info = Setup.ConfiguracoesGlobais.InformacoesDoJWT;
+            return new TokenValidationParameters
+            {
+                IssuerSigningKey = Info.SymmetricSecurityKey,
+                ValidAudience = Info.Audience,
+                ValidIssuer = Info.Issuer,
+                ValidateIssuerSigningKey = Info.ValidateIssuerSigningKey,
+                ValidateLifetime = Info.ValidateLifetime,
+                ValidateIssuer = Info.ValidateIssuer,
+                ValidateAudience = Info.ValidateAudience,
+                ClockSkew = Info.ClockSkew
+            };
         }
     }
 }

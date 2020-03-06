@@ -69,7 +69,7 @@ namespace dn32.infra.EntityFramework
 
         // DnControladorDeServico<TE> IDnRepository<TE>.Servico { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
-        internal protected void RunTheContextValidation() => Servico.SessaoDaRequisicao.ContextDnValidationException.Validate();
+        internal protected void RunTheContextValidation() => Servico.SessaoDaRequisicao.ContextoDeValidacao.Validate();
 
         #endregion
 

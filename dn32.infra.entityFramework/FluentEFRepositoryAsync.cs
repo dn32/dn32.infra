@@ -239,7 +239,7 @@ namespace dn32.infra.EntityFramework
             }
 
             pagination.QuantidadeTotalDeItens = await query.CountAsync();
-            SessionRequest.Pagination = pagination;
+            SessionRequest.Paginacao = pagination;
 
             return query.Skip(pagination.Salto).Take(pagination.ItensPorPagina);
         }

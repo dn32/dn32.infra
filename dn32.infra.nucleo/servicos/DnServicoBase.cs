@@ -32,13 +32,13 @@ namespace dn32.infra.nucleo.servicos
             var identificadorDaSessaoGuid = Guid.Parse(identificadorDaSessao);
             SessaoDaRequisicao = Setup.ObterSessaoDeUmaRequisicao(identificadorDaSessaoGuid);
 
-            if (SessaoDaRequisicao.Services.TryGetValue(typeof(TS), out var ser))
+            if (SessaoDaRequisicao.Servicos.TryGetValue(typeof(TS), out var ser))
             {
                 return ser as TS;
             }
 
             var servico = FabricaDeServico.CriarServicoEmTempoReal(typeof(TS), identificadorDaSessaoGuid) as TS;
-            SessaoDaRequisicao.Services.Add(typeof(TS), servico);
+            SessaoDaRequisicao.Servicos.Add(typeof(TS), servico);
             return servico;
         }
 

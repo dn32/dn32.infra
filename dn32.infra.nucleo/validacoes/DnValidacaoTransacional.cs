@@ -23,30 +23,30 @@ namespace dn32.infra.nucleo.validacoes
 
         public void AdicionarInconsistencia(DnErroDeValidacao inconsistencia)
         {
-            this.Servico.SessaoDaRequisicao.ContextDnValidationException.AddInconsistency(inconsistencia);
+            this.Servico.SessaoDaRequisicao.ContextoDeValidacao.AddInconsistency(inconsistencia);
         }
 
         public void LimparInconsistencias()
         {
-            this.Servico.SessaoDaRequisicao.ContextDnValidationException.Inconsistencies.Clear();
+            this.Servico.SessaoDaRequisicao.ContextoDeValidacao.Inconsistencies.Clear();
         }
 
         public void ExecutarAsValidacoes()
         {
             if (PausarODisparoDeErrosDeValidacao) return;
-            this.Servico.SessaoDaRequisicao.ContextDnValidationException.Validate();
+            this.Servico.SessaoDaRequisicao.ContextoDeValidacao.Validate();
         }
 
         public void ExecutarAsValidacoes(List<DnServicoTransacionalBase> anotherServices)
         {
             if (PausarODisparoDeErrosDeValidacao) return;
 
-            anotherServices.SelectMany(x => x.SessaoDaRequisicao.ContextDnValidationException.Inconsistencies).ToList().ForEach(ex =>
+            anotherServices.SelectMany(x => x.SessaoDaRequisicao.ContextoDeValidacao.Inconsistencies).ToList().ForEach(ex =>
             {
-                Servico.SessaoDaRequisicao.ContextDnValidationException.AddInconsistency(ex);
+                Servico.SessaoDaRequisicao.ContextoDeValidacao.AddInconsistency(ex);
             });
 
-            this.Servico.SessaoDaRequisicao.ContextDnValidationException.Validate();
+            this.Servico.SessaoDaRequisicao.ContextoDeValidacao.Validate();
         }
 
         public void ValorDeveSerInformado(object valor, string mensagem = "")

@@ -1,9 +1,8 @@
-﻿using dn32.infra.Util;
-using dn32.infra.validacoes;
-using System;
-using dn32.infra.dados;
-using dn32.infra.nucleo.validacoes;
+﻿using dn32.infra.dados;
 using dn32.infra.nucleo.configuracoes;
+using dn32.infra.nucleo.validacoes;
+using dn32.infra.Util;
+using System;
 
 namespace dn32.infra.nucleo.fabricas
 {

@@ -23,6 +23,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using dn32.infra.nucleo.excecoes;
 using dn32.infra.nucleo.configuracoes;
+using dn32.infra.nucleo.modelos;
 
 namespace dn32.infra.EntityFramework
 {
@@ -32,7 +33,7 @@ namespace dn32.infra.EntityFramework
     /// </summary>
     public abstract class EfContext : DbContext
     {
-        internal protected delegate void EntityChangeEventHandler(ICollection<DnEventEntity> DnEventEntity);
+        internal protected delegate void EntityChangeEventHandler(ICollection<DnDadosDeEntidadeAlterada> DnEventEntity);
         internal protected event EntityChangeEventHandler EntityChangingEventEvent;
         internal protected event EntityChangeEventHandler EntityChangedEventEvent;
 
@@ -192,14 +193,14 @@ namespace dn32.infra.EntityFramework
 
         internal protected SessaoDeRequisicaoDoUsuario UserSessionRequest { get; internal set; }
 
-        private void AfterSave(List<DnEventEntity> eventChangeList)
+        private void AfterSave(List<DnDadosDeEntidadeAlterada> eventChangeList)
         {
             if (EntityChangedEventEvent == null) { return; }
             eventChangeList.ForEach(x => SetEventChangeCurrentValue(x));
             EntityChangedEventEvent.Invoke(eventChangeList);
         }
 
-        private List<DnEventEntity> BeforeSave()
+        private List<DnDadosDeEntidadeAlterada> BeforeSave()
         {
             var changedEntities = ChangeTracker.Entries().Where(e => e.State == EntityState.Added || e.State == EntityState.Deleted || e.State == EntityState.Modified).ToList();
             var eventChangeList = changedEntities.Select(GetEventChange).Where(x => x != null).ToList();
@@ -207,30 +208,30 @@ namespace dn32.infra.EntityFramework
             return eventChangeList;
         }
 
-        private void SetEventChangeCurrentValue(DnEventEntity DnEventEntity)
+        private void SetEventChangeCurrentValue(DnDadosDeEntidadeAlterada DnEventEntity)
         {
-            var currentValuesGetValue = DnEventEntity.ChangedEntity.CurrentValues.GetType().GetMethod("GetValue", new[] { typeof(IProperty) });
-            var properties = DnEventEntity.ChangedEntity.CurrentValues.Properties.ToList();
+            var currentValuesGetValue = DnEventEntity.EntradaDeEntidade.CurrentValues.GetType().GetMethod("GetValue", new[] { typeof(IProperty) });
+            var properties = DnEventEntity.EntradaDeEntidade.CurrentValues.Properties.ToList();
 
-            DnEventEntity.Properties.ForEach(x =>
+            DnEventEntity.Propriedades.ForEach(x =>
             {
                 var property = properties.Next();
-                x.CurrentValue = currentValuesGetValue?.MakeGenericMethod(property.ClrType).Invoke(DnEventEntity.ChangedEntity.CurrentValues, new[] { property });
+                x.NovoValor = currentValuesGetValue?.MakeGenericMethod(property.ClrType).Invoke(DnEventEntity.EntradaDeEntidade.CurrentValues, new[] { property });
             });
         }
 
-        private DnEventEntity GetEventChange(EntityEntry entityChanged)
+        private DnDadosDeEntidadeAlterada GetEventChange(EntityEntry entityChanged)
         {
             var currentValuesGetValue = entityChanged.CurrentValues.GetType().GetMethod("GetValue", new[] { typeof(IProperty) });
             var originalValuesGetValue = entityChanged.OriginalValues.GetType().GetMethod("GetValue", new[] { typeof(IProperty) });
 
             var properties = entityChanged.OriginalValues.Properties.Select(x =>
             {
-                return new DnEventEntityProperty
+                return new DnDadosDePropriedadeAlterada
                 {
-                    CurrentValue = currentValuesGetValue?.MakeGenericMethod(x.ClrType).Invoke(entityChanged.CurrentValues, new[] { x }),
-                    OriginalValue = originalValuesGetValue?.MakeGenericMethod(x.ClrType).Invoke(entityChanged.OriginalValues, new[] { x }),
-                    PropertyName = x.Name
+                    NovoValor = currentValuesGetValue?.MakeGenericMethod(x.ClrType).Invoke(entityChanged.CurrentValues, new[] { x }),
+                    ValorOriginal = originalValuesGetValue?.MakeGenericMethod(x.ClrType).Invoke(entityChanged.OriginalValues, new[] { x }),
+                    NomeDaPropriedade = x.Name
                 };
             }).ToList();
 
@@ -241,13 +242,13 @@ namespace dn32.infra.EntityFramework
                 return null;
             }
 
-            return new DnEventEntity
+            return new DnDadosDeEntidadeAlterada
             {
-                Properties = properties,
-                CurrentEntity = entityChanged.Entity,
-                CurrentEntityType = currentEntityType,
-                ChangedEntity = entityChanged,
-                EntityState = entityChanged.State
+                Propriedades = properties,
+                EntidadeAtual = entityChanged.Entity,
+                TipoDaEntidadeAtual = currentEntityType,
+                EntradaDeEntidade = entityChanged,
+                EstadoDaEntidade = entityChanged.State
             };
         }
     }

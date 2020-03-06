@@ -1,4 +1,5 @@
 ﻿using dn32.infra.nucleo.configuracoes;
+using dn32.infra.nucleo.modelos;
 using dn32.infra.Nucleo.Models;
 using dn32.infra.servicos;
 using Microsoft.IdentityModel.Tokens;

@@ -10,6 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
 using dn32.infra.nucleo.atributos;
+using dn32.infra.nucleo.modelos;
 
 namespace dn32.infra.extensoes
 {
@@ -104,7 +105,7 @@ namespace dn32.infra.extensoes
             return entityType?.GetProperties()?.Where(x => x.Name.Equals("Id", StringComparison.InvariantCultureIgnoreCase) || x?.GetCustomAttribute<KeyAttribute>(true) != null || x?.GetCustomAttribute<DnChaveUnicaAtributo>(true) != null)?.ToList();
         }
 
-        public static List<KeyValue> GetKeyAndDnUniqueKeyValues(this object entity)
+        public static List<DnChaveEValor> GetKeyAndDnUniqueKeyValues(this object entity)
         {
             var properties = entity?.GetType()?.GetKeyAndDnUniqueKeyProperties();
             return PropertiesToKeyValueList(entity, properties);
@@ -147,13 +148,13 @@ namespace dn32.infra.extensoes
         }
 
         // Todo2 documentar
-        public static List<KeyValue> GetDnUniqueKeyValues(this object entity)
+        public static List<DnChaveEValor> GetDnUniqueKeyValues(this object entity)
         {
             var properties = entity?.GetType()?.GetDnUniqueKeyProperties();
             return PropertiesToKeyValueList(entity, properties);
         }
 
-        public static List<KeyValue> GetForeignKeyValues(this object entity, Type outType)
+        public static List<DnChaveEValor> GetForeignKeyValues(this object entity, Type outType)
         {
             static DnReferenciaAtributo GetReference(PropertyInfo property)
             {
@@ -161,7 +162,7 @@ namespace dn32.infra.extensoes
                             ?? property.GetCustomAttribute<DnAgregacaoDeMuitosParaMuitosAtributo>(true) ?? null;
             }
 
-            var returnList = new List<KeyValue>();
+            var returnList = new List<DnChaveEValor>();
             var localType = entity.GetType();
             var elements = entity
                         .GetType()
@@ -196,11 +197,11 @@ namespace dn32.infra.extensoes
                     var columnName = destinalKeyProperty.GetColumnName();
                     var value = localKeylProperty.GetValue(entity);
 
-                    returnList.Add(new KeyValue
+                    returnList.Add(new DnChaveEValor
                     {
-                        Property = localKeylProperty,
-                        ColumnName = columnName,
-                        Value = value.GetDbValue()
+                        Propriedade = localKeylProperty,
+                        NomeDaColuna = columnName,
+                        Valor = value.GetDbValue()
                     });
                 }
             }
@@ -209,23 +210,23 @@ namespace dn32.infra.extensoes
         }
 
         // Todo2 documentar
-        public static List<KeyValue> GetKeyValues(this object entity)
+        public static List<DnChaveEValor> GetKeyValues(this object entity)
         {
             var properties = entity?.GetType()?.GetKeyProperties();
             return PropertiesToKeyValueList(entity, properties);
         }
 
-        private static List<KeyValue> PropertiesToKeyValueList(object entity, List<PropertyInfo> properties)
+        private static List<DnChaveEValor> PropertiesToKeyValueList(object entity, List<PropertyInfo> properties)
         {
-            var returnList = new List<KeyValue>();
+            var returnList = new List<DnChaveEValor>();
 
             foreach (var property in properties)
             {
-                returnList.Add(new KeyValue
+                returnList.Add(new DnChaveEValor
                 {
-                    Property = property,
-                    ColumnName = property.GetColumnName(),
-                    Value = property.GetValue(entity).GetDbValue(property)
+                    Propriedade = property,
+                    NomeDaColuna = property.GetColumnName(),
+                    Valor = property.GetValue(entity).GetDbValue(property)
                 });
             }
 

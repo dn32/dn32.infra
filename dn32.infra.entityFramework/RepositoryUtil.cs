@@ -1,4 +1,5 @@
 ﻿using dn32.infra.extensoes;
+using dn32.infra.nucleo.modelos;
 using dn32.infra.Nucleo.Models;
 using System;
 using System.Collections.Generic;
@@ -31,9 +32,9 @@ namespace dn32.infra.EntityFramework
             return sql;
         }
 
-        private static string GetStringOrNumberValue(KeyValue keyValue)
+        private static string GetStringOrNumberValue(DnChaveEValor keyValue)
         {
-            return $"{keyValue.ColumnName} = {keyValue.Value}";
+            return $"{keyValue.NomeDaColuna} = {keyValue.Valor}";
         }
 
         internal static string GetForeignKeyFilterSql(object entity, Type outType, out bool nonKeys)

@@ -7,6 +7,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using dn32.infra.dados;
 using dn32.infra.Factory.Proxy;
+using dn32.infra.nucleo.modelos;
 using dn32.infra.Nucleo.Models;
 using dn32.infra.Nucleo.Util;
 using dn32.infra.servicos;
@@ -84,7 +85,7 @@ namespace dn32.infra.nucleo.extensoes
             string[] campos,
             out MapperConfiguration configuracoesDeMapeamento)
         {
-            var descricoes = new DnClassDescription(typeof(T), campos);
+            var descricoes = new DnDescricaoDaClasse(typeof(T), campos);
             var id = UtilitarioDeRandomico.ObterString(6);
             var nomeDaDll = $"DnDll_{id}";
             var tipo = descricoes.CriarOTipo(nomeDaDll);
@@ -113,30 +114,30 @@ namespace dn32.infra.nucleo.extensoes
             return ret as IQueryable<object>;
         }
 
-        internal static void ObterTodosOsTiposPorDescricao(this DnClassDescription descricao, List<Tuple<Type, Type>> tipos)
+        internal static void ObterTodosOsTiposPorDescricao(this DnDescricaoDaClasse descricao, List<Tuple<Type, Type>> tipos)
         {
-            var descricoes = descricao.Properties.Where(propriedade => propriedade.DnClassDescription != null);
+            var descricoes = descricao.Propriedades.Where(propriedade => propriedade.DescricaoDaClasse != null);
             foreach (var propriedade in descricoes)
             {
-                tipos.Add(new Tuple<Type, Type>(propriedade.Type, propriedade.DynamicProperty));
-                ObterTodosOsTiposPorDescricao(propriedade.DnClassDescription, tipos);
+                tipos.Add(new Tuple<Type, Type>(propriedade.Tipo, propriedade.TipoDaPropriedadeDinamica));
+                ObterTodosOsTiposPorDescricao(propriedade.DescricaoDaClasse, tipos);
             }
         }
 
-        internal static Type CriarOTipo(this DnClassDescription descricao, string nomeDaDll)
+        internal static Type CriarOTipo(this DnDescricaoDaClasse descricao, string nomeDaDll)
         {
             var construtorPrincipal = CriarTipo(nomeDaDll);
 
-            foreach (var propriedade in descricao.Properties)
+            foreach (var propriedade in descricao.Propriedades)
             {
-                if (propriedade.DnClassDescription != null)
+                if (propriedade.DescricaoDaClasse != null)
                 {
-                    propriedade.DynamicProperty = CriarOTipo(propriedade.DnClassDescription, nomeDaDll);
-                    construtorPrincipal.CreateProperty(propriedade.Name, propriedade.DynamicProperty);
+                    propriedade.TipoDaPropriedadeDinamica = CriarOTipo(propriedade.DescricaoDaClasse, nomeDaDll);
+                    construtorPrincipal.CreateProperty(propriedade.Nome, propriedade.TipoDaPropriedadeDinamica);
                 }
                 else
                 {
-                    construtorPrincipal.CreateProperty(propriedade.Name, propriedade.Type);
+                    construtorPrincipal.CreateProperty(propriedade.Nome, propriedade.Tipo);
                 }
             }
 

@@ -16,38 +16,34 @@ namespace dn32.infra.Nucleo.Models
     /// </summary>
     public class SessaoDeRequisicaoDoUsuario
     {
-        internal Dictionary<Type, DnServicoBase> Services { get; set; }
+        internal Dictionary<Type, DnServicoBase> Servicos { get; set; }
         internal IDnObjetosTransacionais ObjetosDaTransacao { get; set; }
         internal Guid IdentificadorDaSessao { get; set; }
-        public DnContextoDeValidacaoException ContextDnValidationException { get; set; }
-        public DnPaginacao Pagination { get; set; }
+        public DnContextoDeValidacaoException ContextoDeValidacao { get; set; }
+        public DnPaginacao Paginacao { get; set; }
 
         internal object HttpContext;
 
+        public HttpContext LocalHttpContext => this.HttpContext as HttpContext;
+
         public SessaoDeRequisicaoDoUsuario()
         {
-            this.ContextDnValidationException = new DnContextoDeValidacaoException();
+            ContextoDeValidacao = new DnContextoDeValidacaoException();
         }
-
-        /// <summary>
-        /// HttpContext da requisição vinda do controller.
-        /// </summary>
-
-        public HttpContext LocalHttpContext => this.HttpContext as HttpContext;
 
         public void Dispose(bool primaryService)
         {
             Setup.RemoverSessaoDeRequisicao(this.IdentificadorDaSessao);
             ObjetosDaTransacao?.Dispose();
 
-            foreach (var service in this.Services.Values)
+            foreach (var service in this.Servicos.Values)
             {
                 service.Dispose(false);
             }
 
             if (primaryService)
             {
-                Services.Clear();
+                Servicos.Clear();
             }
         }
 

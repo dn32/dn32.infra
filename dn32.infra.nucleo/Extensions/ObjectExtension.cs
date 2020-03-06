@@ -1,4 +1,5 @@
 ﻿using dn32.infra.nucleo.atributos;
+using dn32.infra.nucleo.modelos;
 using dn32.infra.Nucleo.Models;
 using Newtonsoft.Json;
 using System;
@@ -149,7 +150,7 @@ namespace dn32.infra.extensoes
         /// </returns>
         public static string GetAllDataOfObject(this object objectToCheck)
         {
-            var propertyData = new List<NameAndValue>();
+            var propertyData = new List<DnNomeEValor>();
             GetAllFieldsDataOfObject(objectToCheck, propertyData);
             return JsonConvert.SerializeObject(propertyData, Formatting.None);
         }
@@ -162,7 +163,7 @@ namespace dn32.infra.extensoes
         /// Lista de valores.
         /// </param>
         /// <returns>A lista com nome e valor de todos os campos do objeto.</returns>
-        private static void GetAllFieldsDataOfObject(this object obj, List<NameAndValue> propertyData)
+        private static void GetAllFieldsDataOfObject(this object obj, List<DnNomeEValor> propertyData)
         {
             if (obj == null || obj is IQueryable)
             {
@@ -193,7 +194,7 @@ namespace dn32.infra.extensoes
                 {
                     if (item.FieldType.IsPrimitive || item.FieldType.IsValueType || item.FieldType == typeof(string))
                     {
-                        propertyData.Add(new NameAndValue { Name = item?.Name?.Replace("k__BackingField", string.Empty, StringComparison.OrdinalIgnoreCase) ?? "", Value = item?.GetValue(obj) });
+                        propertyData.Add(new DnNomeEValor { Nome = item?.Name?.Replace("k__BackingField", string.Empty, StringComparison.OrdinalIgnoreCase) ?? "", Valor = item?.GetValue(obj) });
                     }
                     else if (item.FieldType.IsClass && !typeof(IEnumerable).IsAssignableFrom(item.FieldType))
                     {

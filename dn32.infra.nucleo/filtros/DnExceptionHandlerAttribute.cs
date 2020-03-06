@@ -11,7 +11,7 @@ using dn32.infra.extensoes;
 using dn32.infra.nucleo.insonsistencias;
 using dn32.infra.nucleo.modelos;
 
-namespace dn32.infra.Filters
+namespace dn32.infra.nucleo.filtros
 {
     public class DnExceptionHandlerAttribute : ExceptionFilterAttribute
     {
@@ -74,9 +74,8 @@ namespace dn32.infra.Filters
                 })
                 .ToList();
 
-                inconsistencies.ForEach(GetGlobalization);
+                inconsistencies.ForEach(ObterGlobalizacao);
 
-                // filterContext.Result =
                 var result = new DnRetornoDeValidacao
                 {
                     Inconsistencias = inconsistencies,
@@ -119,7 +118,7 @@ namespace dn32.infra.Filters
             }
         }
 
-        public virtual void GetGlobalization(DnInconsistencia inconsistence)
+        public virtual void ObterGlobalizacao(DnInconsistencia inconsistence)
         {
         }
     }

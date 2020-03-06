@@ -9,6 +9,7 @@ using dn32.infra.extensoes;
 using dn32.infra.nucleo.servicos;
 using dn32.infra.nucleo.configuracoes;
 using dn32.infra.nucleo.fabricas;
+using dn32.infra.nucleo.modelos;
 
 namespace dn32.infra.Nucleo.Doc.Controllers
 {
@@ -51,15 +52,9 @@ namespace dn32.infra.Nucleo.Doc.Controllers
         public async Task<IActionResult> Autenticar(string email, string senha)
         {
             if (Setup.ConfiguracoesGlobais.InformacoesDoJWT == null)
-            {
                 throw new InvalidOperationException("Use UseJwt at Arquitetura startup to set autenticacao parameters");
-            }
 
-            var autenticacaoUser = new DnUsuarioParaAutenticacao
-            {
-                Email = email,
-                Password = senha
-            };
+            var autenticacaoUser = new DnUsuarioParaAutenticacao { Email = email, Senha = senha };
 
             var service = FabricaDeServico.Criar(Setup.ConfiguracoesGlobais.InformacoesDoJWT.DnAuthenticationServiceType, HttpContext, "DocAutenticacaoServiceType for DnDoc").DnCast<DnServicoDeAutenticacao>();
             var token = await service.EntrarAsync(autenticacaoUser);
