@@ -90,6 +90,11 @@ namespace dn32.infra.nucleo.extensoes
                 tipoDaUltimaJuncao = filtro?.TipoDeJuncao ?? EnumTipoDeJuncao.E;
             }
 
+            if (expressaoCompleta == null)
+            {
+                expressaoCompleta = x => true;
+            }
+
             return expressaoCompleta;
         }
     }

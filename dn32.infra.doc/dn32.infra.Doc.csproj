@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\dn32.infra.nucleo\dn32.infra.nucleo.csproj" />
+    <ProjectReference Include="..\dn32.infra\dn32.infra.csproj" />
   </ItemGroup>
 
 

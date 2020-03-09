@@ -4,7 +4,7 @@
 @model List<EntityModelAndName>
 
 @{
-    var title = "Available entities";
+    var title = "Entidades disponíveis";
     ViewData["Title"] = title.G();
 }
 
@@ -15,7 +15,7 @@
         foreach (var entity in Model)
         {
             <div class="service">
-                <span class="title"><a href="/DnDoc/Model?Nome=@entity.FullName">@entity.FriendlyName</a></span>
+                <span class="title"><a href="/dndoc/modelo?Nome=@entity.FullName">@entity.FriendlyName</a></span>
                 <span class="Descricaoription">@entity.FriendlyName</span>
             </div>
         }

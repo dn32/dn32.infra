@@ -7,5 +7,6 @@ namespace dn32.infra.nucleo.modelos
     {
         public DnFormularioJsonAtributo Formulario { get; set; }
         public List<DnPropriedadeJsonAtributo> Propriedades { get; set; }
+        public string Desabilitado { get; internal set; }
     }
 }

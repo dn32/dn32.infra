@@ -24,13 +24,13 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container principal-menu">
 
-                <a class="navbar-brand @(controller == "dndoc" && (action == "servico" || action == "index") ? "active" : "")" asp-area="" asp-controller="dndoc" asp-action="Index">@(("servico").G())</a> |
+                <a class="navbar-brand @(controller == "dndoc" && (action == "servico" || action == "index") ? "active" : "")" asp-area="" asp-controller="dndoc" asp-action="Index">@(("Serviço").G())</a> |
 
-                <a class="navbar-brand @(controller == "dndoc" && action == "entidade" ? "active" : "")" asp-area="" asp-controller="dndoc" asp-action="entidade">@(("entidade").G())</a> |
+                <a class="navbar-brand @(controller == "dndoc" && action == "entidade" ? "active" : "")" asp-area="" asp-controller="dndoc" asp-action="entidade">@(("Entidade").G())</a> |
 
-                <a class="navbar-brand @(controller == "dndoc" && (action == "modelo" || action == "modelonaoentidade") ? "active" : "")" asp-area="" asp-controller="dndoc" asp-action="modelonaoentidade">@(("modelo").G())</a> |
+                <a class="navbar-brand @(controller == "dndoc" && (action == "modelo" || action == "modelonaoentidade") ? "active" : "")" asp-area="" asp-controller="dndoc" asp-action="modelonaoentidade">@(("Modelo").G())</a> |
 
-                <a class="navbar-brand @(controller == "autenticacao" ? "active" : "")" asp-area="" asp-controller="dndoc" asp-action="Token">@(("autenticacao").G())</a>
+                <a class="navbar-brand @(controller == "autenticacao" ? "active" : "")" asp-area="" asp-controller="dndoc" asp-action="Token">@(("Autenticacao").G())</a>
 
             </div>
         </nav>

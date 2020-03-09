@@ -9,12 +9,12 @@ namespace dn32.infra.Nucleo.Util
     public class PropertySelectorDynamicContractJsonResolver : DefaultContractResolver
     {
         private readonly string[] PropertyToIgnore;
-        private readonly string[] PropertyToShow;
+        private readonly string[] PropriedadesDesejadas;
 
-        public PropertySelectorDynamicContractJsonResolver(string[] propertyToIgnore, string[] propriedadeAConsiderar)
+        public PropertySelectorDynamicContractJsonResolver(string[] propertyToIgnore, string[] propriedadesDesejadas)
         {
             PropertyToIgnore = propertyToIgnore;
-            PropertyToShow = propriedadeAConsiderar;
+            PropriedadesDesejadas = propriedadesDesejadas;
         }
 
         protected override IList<JsonProperty> CreateProperties(Type type, MemberSerialization memberSerialization)
@@ -27,9 +27,9 @@ namespace dn32.infra.Nucleo.Util
                 propertiesResult = properties.Where(x => !PropertyToIgnore.Contains(x.PropertyName, StringComparer.InvariantCultureIgnoreCase)).ToList();
             }
 
-            if (PropertyToShow != null && PropertyToShow.Length > 0)
+            if (PropriedadesDesejadas != null && PropriedadesDesejadas.Length > 0)
             {
-                propertiesResult = properties.Where(x => PropertyToShow.Contains(x.PropertyName, StringComparer.InvariantCultureIgnoreCase)).ToList();
+                propertiesResult = properties.Where(x => PropriedadesDesejadas.Contains(x.PropertyName, StringComparer.InvariantCultureIgnoreCase)).ToList();
             }
 
             if (propertiesResult == null || propertiesResult.Count == 0)

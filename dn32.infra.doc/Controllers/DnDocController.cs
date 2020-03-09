@@ -15,6 +15,7 @@ using System.Web;
 using dn32.infra.atributos;
 using dn32.infra.enumeradores;
 using dn32.infra.nucleo.configuracoes;
+using dn32.infra.dados;
 
 namespace dn32.infra.Nucleo.Doc.Controllers
 {
@@ -98,10 +99,11 @@ namespace dn32.infra.Nucleo.Doc.Controllers
             {
                 var jsonSchema = type.GetDnJsonSchema(false);
                 jsonSchema.Formulario.Nome = type.GetFriendlyName();
+                jsonSchema.Desabilitado = type.GetCustomAttribute<DnDesabilitadoAttribute>(true)?.Motivo ?? "";
                 jsonSchema.Propriedades.Where(x => x.Propriedade.GetCustomAttribute<DnDocAtributo>()?.Apresentacao != EnumApresentar.Ocultar).ToList()
                 .ForEach(x =>
                 {
-                    x.Descricao = x.Descricao.G();
+                    x.Descricao = x.Descricao?.G() ?? x.Propriedade.GetCustomAttribute<DnPropriedadeJsonAtributo>(true)?.Descricao;
                     x.Link = GetModelLink(x.Tipo);
                 });
 
@@ -114,7 +116,8 @@ namespace dn32.infra.Nucleo.Doc.Controllers
                         Nome = (x.GetCustomAttribute<DnPropriedadeJsonAtributo>(true)?.Descricao ?? x.Name.ToLower().ToTitleCase()),
                         Descricao = (x.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? x.GetCustomAttribute<DnPropriedadeJsonAtributo>(true)?.Descricao ?? x.Name).G(),
                         Formulario = EnumTipoDeComponenteDeFormularioDeTela.Texto,
-                        Tipo = x.FieldType.BaseType
+                        Tipo = x.FieldType.BaseType,
+                        Desabilitado = x.GetCustomAttribute<DnDesabilitadoAttribute>(true)?.Motivo ?? ""
                     }).ToList();
                 }
 
@@ -255,25 +258,25 @@ namespace dn32.infra.Nucleo.Doc.Controllers
                 if (DnAction?.Paginacao == true)
                 {
                     parameters.AddRange(new[] {
-                    new DocParameter("CurrentPage", typeof(string), EnumParameterSouce.Header, "The current page", "1"),
-                    new DocParameter("ItemsPerPage", typeof(string), EnumParameterSouce.Header, "The number of items per page", "10"),
-                    new DocParameter("StartAtZero", typeof(bool), EnumParameterSouce.Header, "If the first page is 0", "true")
+                    new DocParameter(Parametros.NomePaginaAtual, typeof(string), EnumParameterSouce.Header, "A página atual", "1"),
+                    new DocParameter(Parametros.NomeItensPorPagina, typeof(string), EnumParameterSouce.Header, "O número de páginas", "10"),
+                    new DocParameter(Parametros.NomeIniciarNaPaginaZero, typeof(bool), EnumParameterSouce.Header, "Se a primeira página é 0.", "true")
                 });
                 }
 
                 if (DnAction?.EspecificacaoDinamica == true)
                 {
                     parameters.AddRange(new[] {
-                    //new DocParameter("PropertyToIgnore", typeof(string), EnumParameterSouce.Header, "The properties you want to ignore in the query", "Code,Adress.Code"),
-                    new DocParameter("PropertyToShow", typeof(string), EnumParameterSouce.Header, "The properties you want to get in the query", "LastName,FirstName,Code,Andress.Name".G()),
-                    new DocParameter("PropertyToOrder", typeof(string), EnumParameterSouce.Header, "The properties by which to sort", "LastName,FirstName".G())
+                    //new DocParameter(Parametros.NomePropertyToIgnore, typeof(string), EnumParameterSouce.Header, "The properties you want to ignore in the query", "Code,Adress.Code"),
+                    new DocParameter(Parametros.NomePropriedadesDesejadas, typeof(string), EnumParameterSouce.Header, "As propriedades úteis para sua listagem", "Nome,Sobrenome,Endereco.Cidade"),
+                    new DocParameter(Parametros.NomePropriedadesDeOrdenacao, typeof(string), EnumParameterSouce.Header, "As propriedades a usar como ordenacao", "Nome,Sobrenome".G())
                 });
                 }
 
 
                 if (Setup.ConfiguracoesGlobais.InformacoesDoJWT != null)
                 {
-                    parameters.Add(new DocParameter("Authorization", typeof(string), EnumParameterSouce.Header, "The autenticacao Token", "Bearer xxxxx"));
+                    parameters.Add(new DocParameter("Authorization", typeof(string), EnumParameterSouce.Header, "O token de autenticação", "Bearer xxxxx"));
                 }
 
                 var action_ = new DnActionSchema
@@ -289,7 +292,8 @@ namespace dn32.infra.Nucleo.Doc.Controllers
                     Description = description.G(),
                     ApiBaseUrl = DnDocExtension.ApiBaseUrl,
                     ReturnType = returnType,
-                    MethodName = methodName
+                    MethodName = methodName,
+                    Desabilitado = action.GetCustomAttribute<DnDesabilitadoAttribute>(true)?.Motivo ?? ""
                 };
 
                 action_.Example = GetExampleAction(action_);
@@ -392,7 +396,8 @@ xhr.addEventListener(""readystatechange"", function() {{
                         Description = (x.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? x.GetCustomAttribute<DnFormularioJsonAtributo>(true)?.Descricao ?? x.Name).G(),
                         FriendlyName = x.GetCustomAttribute<DnFormularioJsonAtributo>(true)?.Nome ?? x.GetFriendlyName().ToLower().ToTitleCase(),
                         Name = x.Name.ToDnJsonStringNormalized(),
-                        FullName = x.FullName
+                        FullName = x.FullName,
+                        Grupo = x.GetCustomAttribute<DnFormularioJsonAtributo>(true)?.Grupo ?? "N/A",
                     })
                     .OrderBy(x => x.Name)
                     .ToList();

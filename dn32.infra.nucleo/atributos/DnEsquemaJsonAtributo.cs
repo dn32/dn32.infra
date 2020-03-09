@@ -5,7 +5,9 @@ namespace dn32.infra.nucleo.atributos
 {
     public class DnEsquemaJsonAtributo : Attribute
     {
-        public string Nome { get; set; }
+        private string nome;
+
+        public string Nome { get => nome ?? NomeDaPropriedade; set => nome = value; }
 
         public string Descricao { get; set; }
 

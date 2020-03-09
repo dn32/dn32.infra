@@ -17,10 +17,18 @@
             return $"{name}: {type.GetFriendlyName(false)}";
         }
     }
+    string Is(bool operation, string text)
+    {
+        return operation ? text : "";
+    }
 }
 
 <div class="one-service-container">
     <h4 class="general-title">@Model.Name.G()</h4>
+
+    <h5 style="color:red">
+        @Html.Raw(Is(!string.IsNullOrEmpty(Model.Desabilitado), "<span style='white-space: nowrap;'><img src='/DnDoc/img/no.png'/>  " + Model.Desabilitado + "</a></span>"))
+    </h5>
 
     @{
         <div class="actions-container">

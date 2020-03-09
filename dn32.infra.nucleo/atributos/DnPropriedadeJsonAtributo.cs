@@ -56,5 +56,7 @@ namespace dn32.infra.nucleo.atributos
         public bool EhChaveExterna { get; internal set; }
 
         public IEnumerable<DnOperacaoDeCondicionalDeTelaAtributo> OperacaoDeCondicional { get; internal set; }
+        
+        public string Desabilitado { get; internal set; }
     }
 }

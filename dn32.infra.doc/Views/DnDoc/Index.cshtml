@@ -10,18 +10,26 @@
 
 <div class="services-container">
 
-    <span class="total-endpoints">@("Total".G()): @(string.Format("{0:0,0}",(Model.Count * 28))) @("endpoints".G())</span>
-  
+    <span class="total-endpoints">@("Total".G()): @(string.Format("{0:0,0}", (Model.Count * 28))) @("endpoints".G())</span>
+
     <div style="display:inline-flex; width:100%">
         <h4 class="general-title">@title.G() (@Model.Count)</h4>
     </div>
 
     @{
-        foreach (var entity in Model)
+        var grupos = Model.GroupBy(x => x.Grupo).ToList();
+        foreach (var grupo in grupos)
         {
-            <div class="service">
-                <span class="title"><a href="/dndoc/servico?Nome=@entity.Name">@entity.FriendlyName</a></span>
-                <span class="Descricaoription">@entity.Description</span>
+            <div style="border: solid 1px #ddd; padding: 10px;margin: 10px 0px 10px 0px;border-radius: 5px;">
+                <h6>@grupo.First().Grupo</h6>
+
+                @foreach (var entity in grupo.ToList())
+                {
+                    <div class="service">
+                        <span class="title"><a href="/dndoc/servico?Nome=@entity.Name">@entity.FriendlyName</a></span>
+                    </div>
+                }
+
             </div>
         }
     }

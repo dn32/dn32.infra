@@ -19,5 +19,6 @@ namespace dn32.infra.Nucleo.Doc.Controllers
         public string Example { get; set; }
         public string ReturnType { get; set; }
         public string MethodName { get; set; }
+        public string Desabilitado { get; internal set; }
     }
 }

@@ -7,13 +7,13 @@ namespace dn32.infra.nucleo.especificacoes
 {
     public class DnDinamicaEspeficicacao<T> : DnEspecificacao<T> where T : DnEntidade
     {
-        public string[] Campos { get; set; }
+        public string[] Propriedades { get; set; }
 
         public bool EhListagem { get; set; }
 
-        public DnDinamicaEspeficicacao<T> SetParameters(string[] campos, bool ehListagem)
+        public DnDinamicaEspeficicacao<T> SetParameters(string[] propriedades, bool ehListagem)
         {
-            Campos = campos;
+            Propriedades = propriedades;
             EhListagem = ehListagem;
             return this;
         }
@@ -21,7 +21,7 @@ namespace dn32.infra.nucleo.especificacoes
         public override IQueryable<T> Where(IQueryable<T> query)
         {
             query = query.ObterInclusoes(EhListagem);
-            return query.ProjetarDeFormaDinamica(Servico, Campos);
+            return query.ProjetarDeFormaDinamica(Servico, Propriedades);
         }
 
         public override IOrderedQueryable<T> Order(IQueryable<T> query) =>

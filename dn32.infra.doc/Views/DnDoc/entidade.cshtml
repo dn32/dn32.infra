@@ -4,7 +4,7 @@
 @model List<EntityModelAndName>
 
 @{
-    var title = "Available entities";
+    var title = "Entidades disponíveis";
     ViewData["Title"] = title.G();
 }
 
@@ -12,11 +12,20 @@
     <span class="general-title">@title.G() (@Model.Count)</span>
 
     @{
-        foreach (var entity in Model)
+        var grupos = Model.GroupBy(x => x.Grupo).ToList();
+        foreach (var grupo in grupos)
         {
-            <div class="service">
-                <span class="title"><a href="/DnDoc/Model?Nome=@entity.FullName">@entity.Name</a></span>
-                <span class="Descricaoription">@entity.FriendlyName</span>
+            <div style="border: solid 1px #ddd; padding: 10px;margin: 10px 0px 10px 0px;border-radius: 5px;">
+                <h6>@grupo.First().Grupo</h6>
+
+                @foreach (var entity in grupo.ToList())
+                {
+                    <div class="service">
+                        <span class="title"><a href="/dndoc/modelo?Nome=@entity.FullName">@entity.Name</a></span>
+                        @*<span class="Descricaoription">@entity.FriendlyName</span>*@
+                    </div>
+                }
+
             </div>
         }
     }

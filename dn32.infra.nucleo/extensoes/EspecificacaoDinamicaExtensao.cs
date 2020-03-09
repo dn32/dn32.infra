@@ -36,11 +36,11 @@ namespace dn32.infra.nucleo.extensoes
         }
 
         public static string[] ObterPropriedadesAConsiderar(this HttpRequest requisicao) =>
-         requisicao.ObterParametros("propriedadeAConsiderar");
+         requisicao.ObterParametros(Parametros.NomePropriedadesDesejadas);
 
 
         public static string[] ObterPropriedadesAOrdenar(this HttpRequest requisicao) =>
-             requisicao.ObterParametros("propriedadeAOrdenar");
+             requisicao.ObterParametros(Parametros.NomePropriedadesDeOrdenacao);
 
         public static IQueryable<T> ProjetarDeFormaDinamica<T>(
             this IQueryable<T> consulta,
