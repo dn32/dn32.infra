@@ -113,7 +113,7 @@ namespace dn32.infra.Nucleo.Doc.Controllers
                     new DnPropriedadeJsonAtributo
                     {
                         NomeDaPropriedade = x.Name,
-                        Nome = (x.GetCustomAttribute<DnPropriedadeJsonAtributo>(true)?.Descricao ?? x.Name.ToLower().ToTitleCase()),
+                        Nome = (x.GetCustomAttribute<DnPropriedadeJsonAtributo>(true)?.Descricao ?? x.Name),
                         Descricao = (x.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? x.GetCustomAttribute<DnPropriedadeJsonAtributo>(true)?.Descricao ?? x.Name).G(),
                         Formulario = EnumTipoDeComponenteDeFormularioDeTela.Texto,
                         Tipo = x.FieldType.BaseType,
@@ -394,8 +394,8 @@ xhr.addEventListener(""readystatechange"", function() {{
                     .Select(x => new EntityModelAndName
                     {
                         Description = (x.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? x.GetCustomAttribute<DnFormularioJsonAtributo>(true)?.Descricao ?? x.Name).G(),
-                        FriendlyName = x.GetCustomAttribute<DnFormularioJsonAtributo>(true)?.Nome ?? x.GetFriendlyName().ToLower().ToTitleCase(),
-                        Name = x.Name.ToDnJsonStringNormalized(),
+                        FriendlyName = x.GetCustomAttribute<DnFormularioJsonAtributo>(true)?.Nome ?? x.GetFriendlyName(),
+                        Name = x.Name,//.ToDnJsonStringNormalized(),
                         FullName = x.FullName,
                         Grupo = x.GetCustomAttribute<DnFormularioJsonAtributo>(true)?.Grupo ?? "N/A",
                     })
@@ -422,7 +422,7 @@ xhr.addEventListener(""readystatechange"", function() {{
                     {
                         Description = (x.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? x.GetCustomAttribute<DnFormularioJsonAtributo>(true)?.Descricao ?? x.GetFriendlyName()).G(),
                         FriendlyName = x.GetCustomAttribute<DnFormularioJsonAtributo>(true)?.Nome ?? x.GetFriendlyName(),
-                        Name = x.Name.ToDnJsonStringNormalized(),
+                        Name = x.Name,//.ToDnJsonStringNormalized(),
                         FullName = x.FullName
                     })
                     .OrderBy(x => x.Name)

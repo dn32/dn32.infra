@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace dn32.infra.extensoes
 {
@@ -24,17 +25,10 @@ namespace dn32.infra.extensoes
 
         public static T DnClone<T>(this object obj1)
         {
-            if (!typeof(T).IsSerializable)
-            {
-                throw new ArgumentException("The type must be serializable.", "source");
-            }
+            if (!typeof(T).IsSerializable) throw new ArgumentException("The type must be serializable.", "source");
+            if (obj1 is null) return default;
 
-            if (obj1 is null)
-            {
-                return default;
-            }
-
-            System.Runtime.Serialization.IFormatter formatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+            var formatter = new BinaryFormatter();
             Stream stream = new MemoryStream();
             using (stream)
             {
