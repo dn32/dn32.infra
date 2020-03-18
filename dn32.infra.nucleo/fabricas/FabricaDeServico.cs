@@ -1,5 +1,4 @@
 ﻿using dn32.infra.nucleo.controladores;
-using dn32.infra.nucleo.excecoes;
 using dn32.infra.nucleo.interfaces;
 using dn32.infra.Nucleo.Models;
 using dn32.infra.servicos;
@@ -9,6 +8,7 @@ using System.Linq;
 using dn32.infra.extensoes;
 using dn32.infra.nucleo.servicos;
 using dn32.infra.nucleo.configuracoes;
+using dn32.infra.excecoes;
 
 namespace dn32.infra.nucleo.fabricas
 {

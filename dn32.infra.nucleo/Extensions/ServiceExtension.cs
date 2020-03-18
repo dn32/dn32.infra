@@ -1,11 +1,11 @@
-﻿using dn32.infra.nucleo.excecoes;
-using dn32.infra.Factory;
+﻿using dn32.infra.Factory;
 using dn32.infra.Nucleo.Models;
 using dn32.infra.servicos;
 using System;
 using dn32.infra.dados;
 using dn32.infra.nucleo.configuracoes;
 using dn32.infra.nucleo.fabricas;
+using dn32.infra.excecoes;
 
 namespace dn32.infra.extensoes
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq.Expressions;
+using dn32.infra.excecoes;
 using dn32.infra.extensoes;
-using dn32.infra.nucleo.excecoes;
 
 namespace dn32.infra.nucleo.extensoes
 {

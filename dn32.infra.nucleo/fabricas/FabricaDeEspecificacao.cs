@@ -1,5 +1,5 @@
-﻿using dn32.infra.nucleo.especificacoes;
-using dn32.infra.nucleo.excecoes;
+﻿using dn32.infra.excecoes;
+using dn32.infra.nucleo.especificacoes;
 using dn32.infra.servicos;
 using System;
 

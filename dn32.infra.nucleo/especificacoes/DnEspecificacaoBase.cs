@@ -1,7 +1,7 @@
-﻿using dn32.infra.nucleo.excecoes;
-using dn32.infra.servicos;
+﻿using dn32.infra.servicos;
 using System.Linq;
 using dn32.infra.dados;
+using dn32.infra.excecoes;
 
 namespace dn32.infra.nucleo.especificacoes
 {

@@ -1,5 +1,4 @@
-﻿using dn32.infra.nucleo.excecoes;
-using dn32.infra.Nucleo.Extensoes;
+﻿using dn32.infra.Nucleo.Extensoes;
 using dn32.infra.Nucleo.Models;
 using Newtonsoft.Json;
 using System;
@@ -11,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using dn32.infra.nucleo.atributos;
 using dn32.infra.nucleo.modelos;
+using dn32.infra.excecoes;
 
 namespace dn32.infra.extensoes
 {

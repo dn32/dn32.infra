@@ -21,9 +21,9 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using dn32.infra.nucleo.excecoes;
 using dn32.infra.nucleo.configuracoes;
 using dn32.infra.nucleo.modelos;
+using dn32.infra.excecoes;
 
 namespace dn32.infra.EntityFramework
 {

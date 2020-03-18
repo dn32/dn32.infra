@@ -1,7 +1,7 @@
-﻿using dn32.infra.nucleo.excecoes;
-using dn32.infra.nucleo.interfaces;
+﻿using dn32.infra.nucleo.interfaces;
 using System.Collections.Generic;
 using dn32.infra.dados;
+using dn32.infra.excecoes;
 
 namespace dn32.infra.extensoes
 {

@@ -26,7 +26,7 @@ namespace dn32.infra.nucleo.interfaces
         Task<TE> RemoverAsync(TE entity);
         Task<bool> ExisteAlternativoAsync<TO>(IDnEspecificacaoBase spec);
         Task<bool> ExisteAsync(IDnEspecificacaoBase spec);
-        Task<List<TE>> ListAsync(IDnEspecificacao spec, DnPaginacao pagination = null);
+        Task<List<TE>> ListarAsync(IDnEspecificacao spec, DnPaginacao pagination = null);
         Task<List<TO>> ListarAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> spec, DnPaginacao pagination = null);
         Task<TO> PrimeiroOuPadraoAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> spec);
         Task<TE> PrimeiroOuPadraoAsync(IDnEspecificacao spec);

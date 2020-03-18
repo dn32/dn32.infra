@@ -1,9 +1,9 @@
 ﻿using dn32.infra.dados;
+using dn32.infra.excecoes;
 using dn32.infra.extensoes;
 using dn32.infra.Filters;
 using dn32.infra.nucleo.controladores;
 using dn32.infra.nucleo.especificacoes;
-using dn32.infra.nucleo.excecoes;
 using dn32.infra.nucleo.fabricas;
 using dn32.infra.nucleo.interfaces;
 using dn32.infra.nucleo.servicos;

@@ -38,7 +38,7 @@ namespace dn32.infra.nucleo.controladores
         [DnActionAtributo(Paginacao = true, EspecificacaoDinamica = true)]
         public virtual async Task<ResultadoPadraoPaginadoComTermo<List<T>>> ListarPorTermo(string termo)
         {
-            var especificacao = this.CriarEspecificacaoPorTermo(termo, ehLista: false);
+            var especificacao = this.CriarEspecificacaoPorTermo(termo, ehLista: true);
             var lista = await this.Servico.ListarAsync(especificacao);
             return await this.CrieResultadoAsync(lista, this.PaginacaoDaUltimaRequisicao, termo);
         }

@@ -3,7 +3,6 @@ using dn32.infra.dados;
 using dn32.infra.Factory;
 using dn32.infra.nucleo.interfaces;
 using dn32.infra.nucleo.erros_de_validacao;
-using dn32.infra.nucleo.excecoes;
 using dn32.infra.nucleo.validacoes;
 using dn32.infra.Nucleo.Models;
 using dn32.infra.Nucleo.Util;
@@ -14,6 +13,7 @@ using System.IO;
 using System.Threading.Tasks;
 using dn32.infra.nucleo.configuracoes;
 using dn32.infra.nucleo.fabricas;
+using dn32.infra.excecoes;
 
 namespace dn32.infra.servicos
 {
@@ -63,7 +63,7 @@ namespace dn32.infra.servicos
 
         public virtual async Task<List<T>> ListarAsync(IDnEspecificacao especificacao, DnPaginacao pagination = null)
         {
-            var lista = await Repositorio.ListAsync(especificacao, pagination);
+            var lista = await Repositorio.ListarAsync(especificacao, pagination);
             lista.ForEach(x => Repositorio.Desanexar(x));
             lista.ForEach(TransformarResultadoDaConsulta);
             return lista;

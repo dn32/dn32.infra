@@ -1,5 +1,4 @@
 ﻿using dn32.infra.nucleo.controladores;
-using dn32.infra.nucleo.excecoes;
 using dn32.infra.Factory.Proxy;
 using dn32.infra.nucleo.atributos;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
@@ -9,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using dn32.infra.nucleo.configuracoes;
+using dn32.infra.excecoes;
 
 namespace dn32.infra.nucleo.fabricas
 {

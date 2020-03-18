@@ -2,7 +2,6 @@
 using dn32.infra.extensoes;
 using dn32.infra.nucleo.interfaces;
 using dn32.infra.nucleo.atributos;
-using dn32.infra.nucleo.excecoes;
 using dn32.infra.Nucleo.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,6 +13,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
+using dn32.infra.excecoes;
 
 namespace dn32.infra.EntityFramework
 {
@@ -61,7 +61,7 @@ namespace dn32.infra.EntityFramework
             return await GetSpecSelect<TO>(spec).ConverterParaIQueryable(Query).AnyAsync();
         }
 
-        public virtual async Task<List<TE>> ListAsync(IDnEspecificacao ispec, DnPaginacao pagination = null)
+        public virtual async Task<List<TE>> ListarAsync(IDnEspecificacao ispec, DnPaginacao pagination = null)
         {
             var spec = GetSpec(ispec);
             var query = spec.ConverterParaIQueryable(Query);

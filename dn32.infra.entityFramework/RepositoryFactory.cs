@@ -5,9 +5,9 @@ using dn32.infra.servicos;
 using System;
 using System.Linq;
 using System.Reflection;
-using dn32.infra.nucleo.excecoes;
 using dn32.infra.nucleo.configuracoes;
 using dn32.infra.nucleo.fabricas;
+using dn32.infra.excecoes;
 
 namespace dn32.infra.EntityFramework
 {
