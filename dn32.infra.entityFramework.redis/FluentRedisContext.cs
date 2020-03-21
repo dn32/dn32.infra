@@ -3,6 +3,7 @@ using StackExchange.Redis;
 using System;
 using System.Threading.Tasks;
 using dn32.infra.extensoes;
+using System.Net;
 
 namespace dn32.infra.Redis
 {
@@ -30,12 +31,14 @@ namespace dn32.infra.Redis
 
         public DnRedisContext(string connectionString)
         {
+            if (string.IsNullOrWhiteSpace(connectionString)) throw new InvalidOperationException("Uma string de conexão deve ser informada para o REDIS");
+
             ConfigurationOptions = new ConfigurationOptions
             {
                 AbortOnConnectFail = false,
                 SyncTimeout = int.MaxValue,
                 ConnectTimeout = 3000,
-                EndPoints = { connectionString }
+                EndPoints =  { connectionString }
             };
         }
 

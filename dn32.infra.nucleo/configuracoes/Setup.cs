@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -107,7 +108,12 @@ namespace dn32.infra.nucleo.configuracoes
         #endregion
 
         public static List<Type> ObterEntidades()
-            => Modelos.Values.Where(x => !x.IsAbstract && x.IsPublic).ToList();
+            => Modelos.Values.Where(x =>
+                !x.IsAbstract &&
+                x.IsPublic &&
+                !x.IsDefined(typeof(NotMappedAttribute), false) &&
+                x.IsSubclassOf(typeof(DnEntidade))
+            ).ToList();
 
         public static DnConfiguracoesGlobais UsarJWT<S>(this DnConfiguracoesGlobais configuracoes, InformacoesDoJWT informacoesDoJWT) where S : DnServicoDeAutenticacao
         {
@@ -201,9 +207,24 @@ namespace dn32.infra.nucleo.configuracoes
         {
             TodosOsTipos = AppDomain.CurrentDomain.GetAssemblies()
                                     .Where(x => !x.IsDynamic)
-                                    .OrderBy(x => x.FullName)
-                                    .SelectMany(x => x.ExportedTypes)
+                                    .OrderBy((Func<Assembly, string>)(x => x.FullName))
+                                    .SelectMany(x => GetExportedTypes(x))
                                     .ToList();
+        }
+
+        private static IEnumerable<Type> GetExportedTypes(Assembly x)
+        {
+            try
+            {
+                return x.ExportedTypes;
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+                Console.ResetColor();
+                return new List<Type>();
+            }
         }
 
         private static void ExecutarValidacoes()

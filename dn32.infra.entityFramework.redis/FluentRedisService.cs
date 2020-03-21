@@ -16,16 +16,16 @@ namespace dn32.infra.Redis
             RedisRepository = new DnRedisRepository(Setup.ConfiguracoesGlobais.StringDeConexaoDoRedis);
         }
 
-        public async Task<T> GetValueAsync<T>(string key) => await RedisRepository.GetValueAsync<T>(key);
+        public async Task<T> ObterValorAsync<T>(string key) => await RedisRepository.GetValueAsync<T>(key);
 
-        public async Task<T> GetDnEntityAsync<T>(DnEntidade entity) => await RedisRepository.GetValueAsync<T>(entity.GetHashCode().ToString());
+        public async Task<T> ObterEntidadeAsync<T>(DnEntidade entity) => await RedisRepository.GetValueAsync<T>(entity.GetHashCode().ToString());
 
-        public async Task<bool> SetDnEntityAsync(DnEntidade entity, TimeSpan? timeOut = null) => await RedisRepository.SetValueAsync(entity.GetHashCode().ToString(), entity, timeOut);
+        public async Task<bool> SalvarEntidadeAsync(DnEntidade entity, TimeSpan? timeOut = null) => await RedisRepository.SetValueAsync(entity.GetHashCode().ToString(), entity, timeOut);
 
-        public async Task<bool> SetValueAsync(string key, object value, TimeSpan? timeOut = null) => await RedisRepository.SetValueAsync(key, value, timeOut);
+        public async Task<bool> SalvarValorAsync(string key, object value, TimeSpan? timeOut = null) => await RedisRepository.SetValueAsync(key, value, timeOut);
 
-        public async Task<bool> SetPrimitiveValueAsync(string key, RedisValue value, TimeSpan? timeOut = null) => await RedisRepository.SetPrimitiveValueAsync(key, value, timeOut);
+        public async Task<bool> SalvarValorPrimitivoAsync(string key, RedisValue value, TimeSpan? timeOut = null) => await RedisRepository.SetPrimitiveValueAsync(key, value, timeOut);
 
-        public async Task<bool> RenewTimeOutAsync(string key, object stringValue = null) => await RedisRepository.RenewTimeOutAsync(key, stringValue);
+        public async Task<bool> ReiniviarTimeOutAsync(string key, object stringValue = null) => await RedisRepository.RenewTimeOutAsync(key, stringValue);
     }
 }

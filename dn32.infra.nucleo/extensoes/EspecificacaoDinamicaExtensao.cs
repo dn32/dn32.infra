@@ -47,8 +47,8 @@ namespace dn32.infra.nucleo.extensoes
             DnServicoTransacionalBase servico,
             string[] campos = null) where T : EntidadeBase
         {
-            var requisicao = servico.HttpContextLocal.Request;
-            if (campos == null || campos.Length == 0)
+            var requisicao = servico.HttpContextLocal?.Request;
+            if ((campos == null || campos.Length == 0) && requisicao != null)
             {
                 campos = requisicao.ObterPropriedadesAConsiderar();
             }
@@ -69,13 +69,13 @@ namespace dn32.infra.nucleo.extensoes
 
         public static IOrderedQueryable<T> ProjetarDeFormaDinamicaOrdenada<T>(this IQueryable<T> consulta, DnServicoTransacionalBase servico, string[] campos = null) where T : EntidadeBase
         {
-            var requisicao = servico.HttpContextLocal.Request;
-            if (campos == null || campos.Length == 0)
+            var requisicao = servico.HttpContextLocal?.Request;
+            if (requisicao != null && (campos == null || campos.Length == 0))
             {
-                campos = requisicao.ObterPropriedadesAConsiderar();
+                campos = requisicao?.ObterPropriedadesAConsiderar();
             }
 
-            var ordem = requisicao.ObterPropriedadesAOrdenar();
+            var ordem = requisicao?.ObterPropriedadesAOrdenar();
             var ordemEmTexto = ordem?.Length > 0 ? string.Join(",", ordem) : campos?.FirstOrDefault();
             return string.IsNullOrEmpty(ordemEmTexto) ? consulta.OrderBy(x => x) : consulta.OrderBy(ordemEmTexto);
         }

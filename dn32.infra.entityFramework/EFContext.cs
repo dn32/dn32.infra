@@ -56,7 +56,7 @@ namespace dn32.infra.EntityFramework
         /// </param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var exportedTypes = Setup.Modelos.Values.ToList();
+            var exportedTypes = Setup.ObterEntidades().ToList();
             foreach (var type in exportedTypes)
             {
                 if (type.IsDefined(typeof(NotMappedAttribute), false) || type.IsAbstract)

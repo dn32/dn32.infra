@@ -19,15 +19,15 @@
   </PropertyGroup>-->
 
   <Target Name="CopyPackage" AfterTargets="Pack">
-     <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\Drive\Pacotes" />
+     <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\Dropbox\FOut" />
   </Target>
 
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <Version>0.0.0.1-beta$([System.DateTime]::UtcNow.ToString(MMdd))</Version>
-  </PropertyGroup>
+  <!--<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <Version>0.0.0.1-beta$([System.DateTime]::UtcNow.ToString(MMddHHmm))</Version>
+  </PropertyGroup>-->
   
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <Version>0.0.0.1-beta01</Version>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <Version>0.0.0.1-beta02</Version>
   </PropertyGroup>
 
 </Project>
