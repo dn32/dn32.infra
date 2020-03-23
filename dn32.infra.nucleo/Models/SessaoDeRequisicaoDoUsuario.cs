@@ -8,6 +8,7 @@ using dn32.infra.dados;
 using dn32.infra.nucleo.servicos;
 using dn32.infra.nucleo.interfaces;
 using dn32.infra.nucleo.configuracoes;
+using System.Threading.Tasks;
 
 namespace dn32.infra.Nucleo.Models
 {
@@ -71,6 +72,14 @@ namespace dn32.infra.Nucleo.Models
                 CodeAvailableForEntity.Remove(key);
                 CodeAvailableForEntity.Add(key, entitiCodes);
             }
+        }
+
+        public bool EnableLogicalDeletion => ObjetosDaTransacao.Sessao.EnableLogicalDeletion;
+
+        public async Task SalvarTudoAsync()
+        {
+            ContextoDeValidacao.Validate();
+            await ObjetosDaTransacao.Sessao.SaveChangesAsync();
         }
     }
 }

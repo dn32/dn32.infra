@@ -21,7 +21,7 @@ namespace dn32.infra.EntityFramework
         /// <summary>
         /// Sessão do EF.
         /// </summary>
-        public DbContext Sessao { get; set; }
+        public DnDbContext Sessao { get; set; }
 
         public SessaoDeRequisicaoDoUsuario UserSessionRequest { get; set; }
 

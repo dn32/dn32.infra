@@ -7,7 +7,7 @@ namespace dn32.infra.nucleo.interfaces
 {
     public interface IDnObjetosTransacionais : IDisposable
     {
-        DbContext Sessao { get; }
+        DnDbContext Sessao { get; }
 
         IQueryable<TX> ObterObjetoQueryInterno<TX>() where TX : EntidadeBase;
 

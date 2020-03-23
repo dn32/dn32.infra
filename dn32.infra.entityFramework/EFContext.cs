@@ -31,7 +31,7 @@ namespace dn32.infra.EntityFramework
     /// <summary>
     /// Contexto do EF no net Core
     /// </summary>
-    public abstract class EfContext : DbContext
+    public abstract class EfContext : DnDbContext
     {
         internal protected delegate void EntityChangeEventHandler(ICollection<DnDadosDeEntidadeAlterada> DnEventEntity);
         internal protected event EntityChangeEventHandler EntityChangingEventEvent;
@@ -189,7 +189,7 @@ namespace dn32.infra.EntityFramework
 
         protected virtual bool UseLogicalDeletion(Type type, EntityTypeBuilder entity, ModelBuilder modelBuilder) => false;
 
-        public virtual bool EnableLogicalDeletion { get; set; }
+        public override bool EnableLogicalDeletion { get; set; }
 
         internal protected SessaoDeRequisicaoDoUsuario UserSessionRequest { get; internal set; }
 

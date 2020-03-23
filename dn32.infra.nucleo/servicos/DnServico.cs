@@ -136,7 +136,7 @@ namespace dn32.infra.servicos
         {
             TransformarParaSalvar(entidade, false);
 
-            if (await ExisteAsync(entidade, true, true))
+            if (SessaoDaRequisicao.EnableLogicalDeletion && await ExisteAsync(entidade, true, true))
             {
                 return await AtualizarAsync(entidade); // Restore deleted
             }
