@@ -117,7 +117,9 @@ namespace dn32.infra.Nucleo.Doc.Controllers
                         Descricao = (x.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? x.GetCustomAttribute<DnPropriedadeJsonAtributo>(true)?.Descricao ?? x.Name).G(),
                         Formulario = EnumTipoDeComponenteDeFormularioDeTela.Texto,
                         Tipo = x.FieldType.BaseType,
-                        Desabilitado = x.GetCustomAttribute<DnDesabilitadoAttribute>(true)?.Motivo ?? ""
+                        Desabilitado = x.GetCustomAttribute<DnDesabilitadoAttribute>(true)?.Motivo ?? "",
+                        Valor = (int)x.GetValue(0),
+                        EhEnumerador=true
                     }).ToList();
                 }
 
