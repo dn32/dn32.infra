@@ -9,6 +9,7 @@ using dn32.infra.nucleo.servicos;
 using dn32.infra.nucleo.interfaces;
 using dn32.infra.nucleo.configuracoes;
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
 
 namespace dn32.infra.Nucleo.Models
 {
@@ -17,7 +18,7 @@ namespace dn32.infra.Nucleo.Models
     /// </summary>
     public class SessaoDeRequisicaoDoUsuario
     {
-        internal Dictionary<Type, DnServicoBase> Servicos { get; set; }
+        internal ConcurrentDictionary<Type, DnServicoBase> Servicos { get; set; }
         internal IDnObjetosTransacionais ObjetosDaTransacao { get; set; }
         internal Guid IdentificadorDaSessao { get; set; }
         public DnContextoDeValidacaoException ContextoDeValidacao { get; set; }

@@ -9,6 +9,7 @@ using dn32.infra.extensoes;
 using dn32.infra.nucleo.servicos;
 using dn32.infra.nucleo.configuracoes;
 using dn32.infra.excecoes;
+using System.Collections.Concurrent;
 
 namespace dn32.infra.nucleo.fabricas
 {
@@ -120,10 +121,10 @@ namespace dn32.infra.nucleo.fabricas
             var sessaoDaRequisicao = Activator.CreateInstance(tipo).DnCast<SessaoDeRequisicaoDoUsuario>();
             sessaoDaRequisicao.ObjetosDaTransacao = transactionObjects;
             sessaoDaRequisicao.IdentificadorDaSessao = identificadorDaRequisicao;
-            sessaoDaRequisicao.Servicos = new Dictionary<Type, DnServicoBase>();
+            sessaoDaRequisicao.Servicos = new ConcurrentDictionary<Type, DnServicoBase>();
             sessaoDaRequisicao.HttpContext = httpContext;
 
-            sessaoDaRequisicao.Servicos.Add(tipoDeServico, servico);
+            sessaoDaRequisicao.Servicos.TryAdd(tipoDeServico, servico);
             Setup.AdicionarSessaoDeRequisicao(sessaoDaRequisicao);
 
             return sessaoDaRequisicao;

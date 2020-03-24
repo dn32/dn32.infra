@@ -6,6 +6,7 @@ using dn32.infra.dados;
 using dn32.infra.nucleo.configuracoes;
 using dn32.infra.nucleo.fabricas;
 using dn32.infra.excecoes;
+using dn32.infra.nucleo.servicos;
 
 namespace dn32.infra.extensoes
 {
@@ -23,15 +24,7 @@ namespace dn32.infra.extensoes
                 throw new DesenvolvimentoIncorretoException($"The service instance attempt using the {nameof(GetServiceInstanceByServiceType)} method failed because the passed type is not a {nameof(DnServicoTransacionalBase)}");
             }
 
-            if (SessionRequest.Servicos.TryGetValue(serviceType, out var ser))
-            {
-                return ser as DnServicoTransacionalBase;
-            }
-
-            var service = FabricaDeServico.Criar(serviceType, SessionRequest.LocalHttpContext, SessionRequest);
-            SessionRequest.Servicos.Add(serviceType, service);
-
-            return service;
+            return SessionRequest.Servicos.GetOrAdd(serviceType, FabricaDeServico.Criar(serviceType, SessionRequest.LocalHttpContext, SessionRequest)) as DnServicoTransacionalBase;
         }
 
         public static DnServicoTransacionalBase GetServiceInstanceByEntity(this Type entityType, SessaoDeRequisicaoDoUsuario SessionRequest)
@@ -45,7 +38,5 @@ namespace dn32.infra.extensoes
             var serviceType = type.MakeGenericType(entityType).GetSpecializedService();
             return serviceType.GetServiceInstanceByServiceType(SessionRequest);
         }
-
-
     }
 }
