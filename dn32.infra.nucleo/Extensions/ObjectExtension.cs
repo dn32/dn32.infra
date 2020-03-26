@@ -23,6 +23,10 @@ namespace dn32.infra.extensoes
             return value != null;
         }
 
+        public static T DnCloneFromJson<T>(this object obj1)=>
+        
+            JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(obj1));
+
         public static T DnClone<T>(this object obj1)
         {
             if (!typeof(T).IsSerializable) throw new ArgumentException("The type must be serializable.", "source");

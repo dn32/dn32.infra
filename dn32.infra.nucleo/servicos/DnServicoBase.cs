@@ -1,10 +1,8 @@
-using dn32.infra.Factory;
 using dn32.infra.nucleo.configuracoes;
 using dn32.infra.nucleo.fabricas;
 using dn32.infra.nucleo.interfaces;
 using dn32.infra.nucleo.validacoes;
 using dn32.infra.Nucleo.Models;
-using dn32.infra.validacoes;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Security.Claims;
