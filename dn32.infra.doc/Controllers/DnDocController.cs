@@ -118,7 +118,7 @@ namespace dn32.infra.Nucleo.Doc.Controllers
                         Formulario = EnumTipoDeComponenteDeFormularioDeTela.Texto,
                         Tipo = x.FieldType.BaseType,
                         Desabilitado = x.GetCustomAttribute<DnDesabilitadoAttribute>(true)?.Motivo ?? "",
-                        Valor = x.GetValue(0),
+                        Valor = (int)x.GetValue(0),
                         EhEnumerador=true
                     }).ToList();
                 }
@@ -222,7 +222,7 @@ namespace dn32.infra.Nucleo.Doc.Controllers
 
             DnActionSchema Onter(HttpMethodAttribute met)
             {
-                var routeAtributeAction = action.GetCustomAttribute<RouteAttribute>();
+                var routeAtributeAction = action.GetCustomAttribute<RouteAttribute>(false);
                 var routerAttribute = routeAtributeAction?.Template ?? routeAtributeController?.Template;
                 var template = routerAttribute ?? met.Template ?? action.Name;
 

@@ -1,6 +1,7 @@
 ﻿using dn32.infra.dados;
 using dn32.infra.extensoes;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace dn32.infra.nucleo.controladores

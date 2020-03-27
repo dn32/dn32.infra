@@ -71,7 +71,7 @@ namespace dn32.infra.EntityFramework
                     {
                         throw new Exception($"The entity {type.Name} must contains a least one key");
                     }
-
+               
                     var entity = modelBuilder.Entity(type);
                     entity.HasKey(keys);
 
