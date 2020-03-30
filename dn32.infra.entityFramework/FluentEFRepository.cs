@@ -79,7 +79,10 @@ namespace dn32.infra.EntityFramework
         {
             if (entity != null)
             {
-                Session.Entry(entity).State = EntityState.Detached;
+                if (entity.IsDnEntity())
+                {
+                    Session.Entry(entity).State = EntityState.Detached;
+                }
             }
 
             return entity;
@@ -415,6 +418,7 @@ namespace dn32.infra.EntityFramework
             }
 
             var currentEntity = await Servico.BuscarAsync(entity, true, false);
+            if (currentEntity == null) throw new InvalidOperationException("Entidade não encontrada no banco de dados.");
 
             ObjetosTransacionais.Sessao.Entry(currentEntity).CurrentValues.SetValues(entity);
 

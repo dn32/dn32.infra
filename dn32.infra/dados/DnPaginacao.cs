@@ -19,7 +19,7 @@ namespace dn32.infra.dados
     }
 
     //Todo - 001 Testar
-    [DnDocAtributo]
+    [DnDocAttribute]
     public class DnPaginacao
     {
         #region CAMPOS

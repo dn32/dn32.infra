@@ -2,7 +2,7 @@
 
 namespace dn32.infra.dados
 {
-    [DnDocAtributo]
+    [DnDocAttribute]
     public class ResultadoPadrao<T>
     {
         public T Dados { get; set; }

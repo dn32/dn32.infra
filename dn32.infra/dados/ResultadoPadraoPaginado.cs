@@ -2,7 +2,7 @@
 
 namespace dn32.infra.dados
 {
-    [DnDocAtributo]
+    [DnDocAttribute]
     public class ResultadoPadraoPaginado<T> : ResultadoPadrao<T>
     {
         public DnPaginacao Paginacao { get; set; }

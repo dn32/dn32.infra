@@ -97,7 +97,7 @@
                 @foreach (var property in Model.Propriedades.OrderBy(x => x.Nome))
                 {
                     if (property.Formulario == EnumTipoDeComponenteDeFormularioDeTela.Nenhum) { continue; }
-                    if (property.Propriedade.GetCustomAttribute<DnDocAtributo>()?.Apresentacao == EnumApresentar.Ocultar) { continue; }
+                    if (property.Propriedade.GetCustomAttribute<DnDocAttribute>()?.Apresentacao == EnumApresentar.Ocultar) { continue; }
 
                     var range = (property.Minimo == property.Maximo ? property.Minimo.ToString() : property.Minimo + ", " + property.Maximo);
                     range = range == "0" ? "" : $" ({range})";

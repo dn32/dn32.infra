@@ -54,9 +54,9 @@ namespace dn32.infra.Nucleo.Doc.Controllers
             {
                 if (Setup.Controladores.TryGetValue(type, out Type controllerType))
                 {
-                    if (controllerType.GetCustomAttribute<DnDocAtributo>()?.Apresentacao == EnumApresentar.Ocultar)
+                    if (controllerType.GetCustomAttribute<DnDocAttribute>()?.Apresentacao == EnumApresentar.Ocultar)
                     {
-                        throw new InvalidOperationException("DnDocAtributoAttribute is EnumDnMostrar.Hidden");
+                        throw new InvalidOperationException("DnDocAttributeAttribute is EnumDnMostrar.Hidden");
                     }
 
                     var model = type.GetDnJsonSchema(false);
@@ -67,7 +67,7 @@ namespace dn32.infra.Nucleo.Doc.Controllers
                               .GetMethods()
                               .Where(method => method.IsPublic && !method.IsDefined(typeof(NonActionAttribute)))
                               .Where(method => !method.Name.StartsWith("get_") && !method.Name.Equals("Dispose") && !method.Name.Equals("GetType") && !method.Name.StartsWith("set_"))
-                              .Where(method => method.GetCustomAttribute<DnDocAtributo>()?.Apresentacao != EnumApresentar.Ocultar)
+                              .Where(method => method.GetCustomAttribute<DnDocAttribute>()?.Apresentacao != EnumApresentar.Ocultar)
                               .FirstOrDefault(method => method.Name.Equals(nomeDaAcao, StringComparison.InvariantCultureIgnoreCase));
 
                         if (actionMethod == null) { return Content("Action not found"); }
@@ -100,7 +100,7 @@ namespace dn32.infra.Nucleo.Doc.Controllers
                 var jsonSchema = type.GetDnJsonSchema(false);
                 jsonSchema.Formulario.Nome = type.GetFriendlyName();
                 jsonSchema.Desabilitado = type.GetCustomAttribute<DnDesabilitadoAttribute>(true)?.Motivo ?? "";
-                jsonSchema.Propriedades.Where(x => x.Propriedade.GetCustomAttribute<DnDocAtributo>()?.Apresentacao != EnumApresentar.Ocultar).ToList()
+                jsonSchema.Propriedades.Where(x => x.Propriedade.GetCustomAttribute<DnDocAttribute>()?.Apresentacao != EnumApresentar.Ocultar).ToList()
                 .ForEach(x =>
                 {
                     x.Descricao = x.Descricao?.G() ?? x.Propriedade.GetCustomAttribute<DnPropriedadeJsonAtributo>(true)?.Descricao;
@@ -148,9 +148,9 @@ namespace dn32.infra.Nucleo.Doc.Controllers
             {
                 if (Setup.Controladores.TryGetValue(type, out Type controllerType))
                 {
-                    if (controllerType.GetCustomAttribute<DnDocAtributo>()?.Apresentacao == EnumApresentar.Ocultar)
+                    if (controllerType.GetCustomAttribute<DnDocAttribute>()?.Apresentacao == EnumApresentar.Ocultar)
                     {
-                        throw new InvalidOperationException("DnDocAtributoAttribute is EnumDnMostrar.Hidden");
+                        throw new InvalidOperationException("DnDocAttributeAttribute is EnumDnMostrar.Hidden");
                     }
 
                     var model = type.GetDnJsonSchema(false);
@@ -161,7 +161,7 @@ namespace dn32.infra.Nucleo.Doc.Controllers
                               .GetMethods()
                               .Where(method => method.IsPublic && !method.IsDefined(typeof(NonActionAttribute)))
                               .Where(method => !method.Name.StartsWith("get_") && !method.Name.Equals("Dispose") && !method.Name.Equals("GetType") && !method.Name.StartsWith("set_"))
-                              .Where(method => method.GetCustomAttribute<DnDocAtributo>()?.Apresentacao != EnumApresentar.Ocultar)
+                              .Where(method => method.GetCustomAttribute<DnDocAttribute>()?.Apresentacao != EnumApresentar.Ocultar)
                               .SelectMany(action =>
                               {
                                   return GetActionData(action, type, controllerType, routeAtributeController);
@@ -369,7 +369,7 @@ xhr.addEventListener(""readystatechange"", function() {{
 
                         if (Setup.Controladores.TryGetValue(type, out Type controllerType))
                         {
-                            if (controllerType.GetCustomAttribute<DnDocAtributo>()?.Apresentacao == EnumApresentar.Ocultar)
+                            if (controllerType.GetCustomAttribute<DnDocAttribute>()?.Apresentacao == EnumApresentar.Ocultar)
                             {
                                 return;
                             }
@@ -384,14 +384,14 @@ xhr.addEventListener(""readystatechange"", function() {{
                     AllTypes = Setup.TodosOsTipos
                                   .GroupBy(x => x.FullName)
                                   .Select(x => x.First())
-                                  .Where(x => x.GetCustomAttribute<DnDocAtributo>()?.Apresentacao != EnumApresentar.Ocultar)
+                                  .Where(x => x.GetCustomAttribute<DnDocAttribute>()?.Apresentacao != EnumApresentar.Ocultar)
                                   .Where(x => x.GetCustomAttribute<DnControladorApiAtributo>()?.GerarAutomaticamente != false)
                                   .OrderBy(x => x.Name)
                                   .ToDictionary(x => x.FullName, x => x);
                 }
 
                 AllEntities = Models.Values
-                    .Where(x => x.GetCustomAttribute<DnDocAtributo>()?.Apresentacao != EnumApresentar.Ocultar)
+                    .Where(x => x.GetCustomAttribute<DnDocAttribute>()?.Apresentacao != EnumApresentar.Ocultar)
                     .Where(x => x.GetCustomAttribute<DnControladorApiAtributo>()?.GerarAutomaticamente != false)
                     .Select(x => new EntityModelAndName
                     {
@@ -419,7 +419,7 @@ xhr.addEventListener(""readystatechange"", function() {{
                     .Where(x => x.FullName?.StartsWith("Microsoft") == false)
                     .Where(x => x.FullName?.StartsWith("Internal") == false)
                     .Where(x => x.FullName?.StartsWith("FxResources") == false)
-                    .Where(x => x.GetCustomAttribute<DnDocAtributo>()?.Apresentacao == EnumApresentar.Mostrar)
+                    .Where(x => x.GetCustomAttribute<DnDocAttribute>()?.Apresentacao == EnumApresentar.Mostrar)
                     .Select(x => new EntityModelAndName
                     {
                         Description = (x.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? x.GetCustomAttribute<DnFormularioJsonAtributo>(true)?.Descricao ?? x.GetFriendlyName()).G(),

@@ -297,6 +297,7 @@ namespace dn32.infra.extensoes
         {
             return obj?.GetType().GetNonNullableType().Is(typeof(DnEntidade)) ?? false;
         }
+
         public static Type GetTaskType(this Type type)
         {
             if (type == typeof(Task)) { return null; }
