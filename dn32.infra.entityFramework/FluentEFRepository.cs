@@ -74,8 +74,9 @@ namespace dn32.infra.EntityFramework
 
         #endregion
 
+        public virtual TE Desanexar(TE entity) => Desanexar<TE>(entity);
 
-        public TX Desanexar<TX>(TX entity)
+        public virtual TX Desanexar<TX>(TX entity)
         {
             if (entity != null)
             {

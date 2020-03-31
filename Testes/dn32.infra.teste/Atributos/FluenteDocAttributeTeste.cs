@@ -9,14 +9,14 @@ namespace dn32.infra.Teste.Atributos
         [Test]
         public void MostrarOk()
         {
-            var atributo = new DnDocAtributo(EnumApresentar.Mostrar);
+            var atributo = new DnDocAttribute(EnumApresentar.Mostrar);
             Assert.AreEqual(EnumApresentar.Mostrar, atributo.Apresentacao);
         }
 
         [Test]
         public void OcultarOk()
         {
-            var atributo = new DnDocAtributo(EnumApresentar.Ocultar);
+            var atributo = new DnDocAttribute(EnumApresentar.Ocultar);
             Assert.AreEqual(EnumApresentar.Ocultar, atributo.Apresentacao);
         }
     }

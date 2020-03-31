@@ -18,6 +18,7 @@ namespace dn32.infra.nucleo.interfaces
         #endregion
 
         void RemoverLista(IDnEspecificacao spec);
+        TE Desanexar(TE entity);
         TX Desanexar<TX>(TX entity);
         Task RemoverListaAsync(params TE[] entities);
         Task<TE> AtualizarAsync(TE entity);

@@ -28,7 +28,6 @@ namespace dn32.infra.Redis
             }
         }
 
-
         public DnRedisContext(string connectionString)
         {
             if (string.IsNullOrWhiteSpace(connectionString)) throw new InvalidOperationException("Uma string de conexão deve ser informada para o REDIS");
