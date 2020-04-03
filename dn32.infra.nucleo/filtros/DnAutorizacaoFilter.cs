@@ -10,6 +10,7 @@ using System.Net;
 using System.Reflection;
 using dn32.infra.extensoes;
 using dn32.infra.nucleo.configuracoes;
+using System.Security.Claims;
 
 namespace dn32.infra.nucleo.filtros
 {
@@ -31,6 +32,11 @@ namespace dn32.infra.nucleo.filtros
             if (Setup.ConfiguracoesGlobais.InformacoesDoJWT != null)
             {
                 ValidarAutenticacao(context);
+
+                if (!ValideAutorizacao(context, context?.HttpContext.User))
+                {
+                    throw new UnauthorizedAccessException("Acesso negado");
+                }
             }
 
             AutenticadoComSucesso(context);
@@ -44,7 +50,7 @@ namespace dn32.infra.nucleo.filtros
 
             if (string.IsNullOrWhiteSpace(tokenRequest) || tokenRequest == "undefined" && tokenRequest == "null")
             {
-                Forbidden(context, "É necessário enviar um token de autenticação por meio do parâmetro 'Authorization' que pode ser por cookie, header, ou query string.");
+                throw new UnauthorizedAccessException("É necessário enviar um token de autenticação por meio do parâmetro 'Authorization' que pode ser por cookie, header, ou query string.");
             }
             else
             {
@@ -56,14 +62,14 @@ namespace dn32.infra.nucleo.filtros
                 }
                 catch (Exception ex)
                 {
-                    Forbidden(context, ex.Message);
+                    throw new UnauthorizedAccessException(ex.Message);
                 }
             }
         }
 
-        protected virtual void AutenticadoComSucesso(AuthorizationFilterContext context)
-        {
-        }
+        protected virtual bool ValideAutorizacao(AuthorizationFilterContext context, ClaimsPrincipal user) => true;
+
+        protected virtual void AutenticadoComSucesso(AuthorizationFilterContext context) { }
 
         private void Forbidden(AuthorizationFilterContext context, string message)
         {

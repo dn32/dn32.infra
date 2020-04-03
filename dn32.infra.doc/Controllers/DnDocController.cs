@@ -119,7 +119,7 @@ namespace dn32.infra.Nucleo.Doc.Controllers
                         Tipo = x.FieldType.BaseType,
                         Desabilitado = x.GetCustomAttribute<DnDesabilitadoAttribute>(true)?.Motivo ?? "",
                         Valor = (int)x.GetValue(0),
-                        EhEnumerador=true
+                        EhEnumerador = true
                     }).ToList();
                 }
 
@@ -276,7 +276,8 @@ namespace dn32.infra.Nucleo.Doc.Controllers
                 }
 
 
-                if (Setup.ConfiguracoesGlobais.InformacoesDoJWT != null)
+                var anonimo = controllerType.GetCustomAttribute<AllowAnonymousAttribute>(true) != null || action.GetCustomAttribute<AllowAnonymousAttribute>(true) != null;
+                if (Setup.ConfiguracoesGlobais.InformacoesDoJWT != null && !anonimo)
                 {
                     parameters.Add(new DocParameter("Authorization", typeof(string), EnumParameterSouce.Header, "O token de autenticação", "Bearer xxxxx"));
                 }

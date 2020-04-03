@@ -10,7 +10,7 @@ namespace dn32.infra.nucleo.erros_de_validacao
         public override string ChaveDeGlobalizacao => nameof(DnCampoDeTelaRequeridoErroDeValidacao);
 
         public DnCampoDeTelaRequeridoErroDeValidacao(PropertyInfo propriedade, string propriedadeDeComposicao, string campoDeComposicao) :
-            base(propriedade, true, $"O campo '{(campoDeComposicao == null ? propriedade.GetUiPropertyName() : campoDeComposicao + "." + propriedade.GetUiPropertyName())} deve possuir um valor.", propriedadeDeComposicao, campoDeComposicao)
+            base(propriedade, true, $"O campo '{(campoDeComposicao == null ? propriedade.GetUiPropertyName() : (!string.IsNullOrWhiteSpace(campoDeComposicao) ? (campoDeComposicao + ".") : "" + propriedade.GetUiPropertyName()))}' deve possuir um valor.", propriedadeDeComposicao, campoDeComposicao)
         {
         }
     }
