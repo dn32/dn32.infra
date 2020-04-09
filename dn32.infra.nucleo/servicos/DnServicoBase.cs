@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace dn32.infra.nucleo.servicos
 {
-    public abstract class DnServicoBase
+    public abstract class DnServicoBase : IDisposable
     {
         protected virtual DnValidacaoBase Validacao { get; set; }
 
@@ -21,7 +21,7 @@ namespace dn32.infra.nucleo.servicos
 
         protected internal HttpContext HttpContextLocal => SessaoDaRequisicao.LocalHttpContext;
 
-        protected internal ClaimsPrincipal Usuario => SessaoDaRequisicao.LocalHttpContext.User as ClaimsPrincipal;
+        protected internal ClaimsPrincipal Usuario => SessaoDaRequisicao.LocalHttpContext?.User as ClaimsPrincipal;
 
         private bool Disposed { get; set; }
 
@@ -47,5 +47,7 @@ namespace dn32.infra.nucleo.servicos
         {
             SessaoDaRequisicao = sessaoDaRequisicao;
         }
+
+        public void Dispose() => Dispose(true);
     }
 }

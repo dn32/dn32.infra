@@ -514,6 +514,8 @@ namespace dn32.infra.EntityFramework
 
         private string GetParameter(string key)
         {
+            if (Servico.SessaoDaRequisicao.SessaoSemContexto) return string.Empty;
+
             Servico.SessaoDaRequisicao.LocalHttpContext.Request.Headers.TryGetValue(key, out StringValues value);
             if (!string.IsNullOrEmpty(value))
             {
@@ -525,7 +527,7 @@ namespace dn32.infra.EntityFramework
                 return "";
             }
 
-            return Servico.SessaoDaRequisicao.LocalHttpContext.Request?.Form[key];
+            return Servico.SessaoDaRequisicao.LocalHttpContext.Request.Form[key];
         }
 
 

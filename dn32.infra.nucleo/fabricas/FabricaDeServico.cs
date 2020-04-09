@@ -1,15 +1,13 @@
-﻿using dn32.infra.nucleo.controladores;
+﻿using dn32.infra.excecoes;
+using dn32.infra.extensoes;
+using dn32.infra.nucleo.configuracoes;
 using dn32.infra.nucleo.interfaces;
+using dn32.infra.nucleo.servicos;
 using dn32.infra.Nucleo.Models;
 using dn32.infra.servicos;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using dn32.infra.extensoes;
-using dn32.infra.nucleo.servicos;
-using dn32.infra.nucleo.configuracoes;
-using dn32.infra.excecoes;
 using System.Collections.Concurrent;
+using System.Linq;
 
 namespace dn32.infra.nucleo.fabricas
 {
@@ -58,6 +56,23 @@ namespace dn32.infra.nucleo.fabricas
             return Criar(typeof(TS), httpContext).DnCast<TS>();
         }
 
+        /// <summary>
+        /// Específico para criação de serviço com tempo de vida manipulado manualmente.
+        /// Salve as alterações por conta própria e destrua o serviço quando acabar de usar.
+        /// MUITO CUIDADO!!!! Esse método só deve ser utilizado se você estiver muito certo do que está fazendo.
+        /// </summary>
+        /// <typeparam Nome="TS">
+        /// O tipo de serviço a ser criado.
+        /// </typeparam>
+        /// <param Nome="httpContext">
+        /// O contexto do controller.
+        /// </param>
+        /// <returns></returns>
+        public static TS CriarServicoInterno<TS>() where TS : DnServicoTransacionalBase, new()
+        {
+            return Criar<TS>(null).DnCast<TS>();
+        }
+
         public static DnServicoTransacionalBase Criar(Type tipoDeServico, object httpContext, string justificativa)
         {
             if (string.IsNullOrWhiteSpace(justificativa))
@@ -87,7 +102,7 @@ namespace dn32.infra.nucleo.fabricas
         /// </returns>
         internal static object CriarServicoEmTempoReal(Type tipoDeServico, Guid identificadorDaRequisicao)
         {
-            var service = FabricaDeServicoLazy.Criar(tipoDeServico, identificadorDaRequisicao); 
+            var service = FabricaDeServicoLazy.Criar(tipoDeServico, identificadorDaRequisicao);
             service.DefinirSessaoDoUsuario(Setup.ObterSessaoDeUmaRequisicao(identificadorDaRequisicao));
             return service;
         }
@@ -123,6 +138,7 @@ namespace dn32.infra.nucleo.fabricas
             sessaoDaRequisicao.IdentificadorDaSessao = identificadorDaRequisicao;
             sessaoDaRequisicao.Servicos = new ConcurrentDictionary<Type, DnServicoBase>();
             sessaoDaRequisicao.HttpContext = httpContext;
+            sessaoDaRequisicao.SessaoSemContexto = httpContext == null;
 
             sessaoDaRequisicao.Servicos.TryAdd(tipoDeServico, servico);
             Setup.AdicionarSessaoDeRequisicao(sessaoDaRequisicao);

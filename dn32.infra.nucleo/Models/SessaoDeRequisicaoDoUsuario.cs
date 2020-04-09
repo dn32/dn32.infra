@@ -26,6 +26,8 @@ namespace dn32.infra.Nucleo.Models
 
         internal object HttpContext;
 
+        public bool SessaoSemContexto { get; set; }
+
         public HttpContext LocalHttpContext => this.HttpContext as HttpContext;
 
         public SessaoDeRequisicaoDoUsuario()

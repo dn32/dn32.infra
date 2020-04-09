@@ -14,7 +14,7 @@ namespace dn32.infra.nucleo.controladores
 
         public new HttpContext HttpContext => this.localHttpContext ?? base.HttpContext;
 
-        public new IPrincipal User => this.HttpContext.User;
+        public new IPrincipal User => this.HttpContext?.User;
 
         public void SetLocalHttpContext(HttpContext httpContext)
         {

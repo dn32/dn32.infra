@@ -37,7 +37,7 @@ namespace dn32.infra.EntityFramework
             {
                 efContext.Database.EnsureCreated();
                 //Todo - Fix to net core 3
-                // efContext.Database.Migrate();
+                efContext.Database.Migrate();
             }
         }
     }
