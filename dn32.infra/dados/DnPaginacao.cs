@@ -78,9 +78,9 @@ namespace dn32.infra.dados
             };
         }
 
-        public static DnPaginacao Criar(int paginaAtual, bool iniciaComZero, int itensPorPagina)
+        public static DnPaginacao Criar(int paginaAtual, bool iniciaComZero, int itensPorPagina, bool liberarMaisDe100Itens = false)
         {
-            if(itensPorPagina > 100 && itensPorPagina != int.MaxValue)
+            if(liberarMaisDe100Itens == false && itensPorPagina > 100 && itensPorPagina != int.MaxValue)
             {
                 throw new DesenvolvimentoIncorretoException($"Você tentou fazer uma paginação com {itensPorPagina} itens em uma página. Isso causaria um problema de performance. O máximo que pode solicitar é 100 itens por página.");
             }
