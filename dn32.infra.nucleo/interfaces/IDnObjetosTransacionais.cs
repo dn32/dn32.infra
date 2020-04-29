@@ -2,6 +2,8 @@
 using System;
 using System.Linq;
 using dn32.infra.dados;
+using dn32.infra.Nucleo.Models;
+using dn32.infra.nucleo.configuracoes;
 
 namespace dn32.infra.nucleo.interfaces
 {
