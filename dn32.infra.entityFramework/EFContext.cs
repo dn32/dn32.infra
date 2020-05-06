@@ -66,7 +66,7 @@ namespace dn32.infra.EntityFramework
 
                 if (type.IsSubclassOf(typeof(DnEntidade)))
                 {
-                    var keys = type.GetProperties().Where(x => x.GetCustomAttribute<KeyAttribute>() != null).Select(x => x.Name).ToArray();
+                    var keys = type.GetProperties().Where(x => x.GetCustomAttribute<KeyAttribute>(true) != null).Select(x => x.Name).ToArray();
                     if (keys.Length == 0)
                     {
                         throw new Exception($"The entity {type.Name} must contains a least one key");

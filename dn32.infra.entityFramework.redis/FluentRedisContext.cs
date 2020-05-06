@@ -4,18 +4,21 @@ using System;
 using System.Threading.Tasks;
 using dn32.infra.extensoes;
 using System.Net;
+using System.Collections.Generic;
 
 namespace dn32.infra.Redis
 {
     public class DnRedisContext
     {
-        private ConnectionMultiplexer _multiplexer { get; set; }
+        protected ConnectionMultiplexer _multiplexer { get; set; }
 
-        private ConfigurationOptions ConfigurationOptions { get; set; }
+        protected ConfigurationOptions ConfigurationOptions { get; set; }
 
-        private IDatabase Db => Multiplexer.GetDatabase();
+        protected IDatabase Db => Multiplexer.GetDatabase();
 
-        public ConnectionMultiplexer Multiplexer
+        public virtual IServer Server => Multiplexer.GetServer(ConfigurationOptions.EndPoints[0]);
+
+        public virtual ConnectionMultiplexer Multiplexer
         {
             get
             {
@@ -30,6 +33,11 @@ namespace dn32.infra.Redis
 
         public DnRedisContext(string connectionString)
         {
+            ObterConfiguracoes(connectionString);
+        }
+
+        protected virtual void ObterConfiguracoes(string connectionString)
+        {
             if (string.IsNullOrWhiteSpace(connectionString)) throw new InvalidOperationException("Uma string de conexão deve ser informada para o REDIS");
 
             ConfigurationOptions = new ConfigurationOptions
@@ -37,21 +45,35 @@ namespace dn32.infra.Redis
                 AbortOnConnectFail = false,
                 SyncTimeout = int.MaxValue,
                 ConnectTimeout = 3000,
-                EndPoints =  { connectionString }
+                EndPoints = { connectionString },
+                AllowAdmin = true
             };
         }
 
-        public async Task<bool> SetObjectAsync(string key, object value, TimeSpan? expireTime = null)
+        public virtual async Task<List<T>> ListarPorPrefixo<T>(string pattern)
+        {
+            var keys = Server.KeysAsync(pattern: pattern);
+            var servidores = new List<T>();
+            await foreach (var key in keys)
+            {
+                var json = await Db.StringGetAsync(key);
+                servidores.Add(JsonConvert.DeserializeObject<T>(json));
+            }
+
+            return servidores;
+        }
+
+        public virtual async Task<bool> SetObjectAsync(string key, object value, TimeSpan? expireTime = null)
         {
             return await Db.StringSetAsync($"{key}:valor", JsonConvert.SerializeObject(value), expireTime);
         }
 
-        public async Task<bool> SetPrimitiveValueAsync(string key, RedisValue redisValue, TimeSpan? expireTime = null)
+        public virtual async Task<bool> SetPrimitiveValueAsync(string key, RedisValue redisValue, TimeSpan? expireTime = null)
         {
             return await Db.StringSetAsync($"{key}:valor", redisValue, expireTime);
         }
 
-        public async Task<T> GetPrimitiveAsync<T>(string key, bool renewTimeout = false)
+        public virtual async Task<T> GetPrimitiveAsync<T>(string key, bool renewTimeout = false)
         {
             var stringValue = await Db.StringGetAsync($"{key}:valor");
             if (string.IsNullOrEmpty(stringValue)) return default;
@@ -60,7 +82,7 @@ namespace dn32.infra.Redis
             return newValue.DnCast<T>();
         }
 
-        public async Task<T> GetObjectAsync<T>(string key, bool renewTimeout = false)
+        public virtual async Task<T> GetObjectAsync<T>(string key, bool renewTimeout = false)
         {
             var stringValue = await Db.StringGetAsync($"{key}:valor");
             if (string.IsNullOrEmpty(stringValue)) { return default; }
@@ -68,7 +90,18 @@ namespace dn32.infra.Redis
             return JsonConvert.DeserializeObject<T>(stringValue);
         }
 
-        public async Task<bool> RenewTimeOut(string key, object stringValue = null)
+        //public virtual async Task<T> ListObjectsAsync<T>(string key)
+        //{
+
+        //    IServer server = _multiplexer.GetServer("redisdb:6379");
+        //    IEnumerable<RedisKey> list = server.Keys(pattern: "XYZ.*", pageOffset: 0, pageSize: 1000);
+
+
+
+        //    // return JsonConvert.DeserializeObject<T>(list);
+        //}
+
+        public virtual async Task<bool> RenewTimeOut(string key, object stringValue = null)
         {
             var redisValueTime = await Db.StringGetAsync($"{key}:time");
             stringValue ??= await Db.StringGetAsync($"{key}:valor");
