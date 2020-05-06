@@ -21,6 +21,8 @@ namespace dn32.infra.servicos
     {
         #region PROPRIEDADES
 
+        protected virtual void Salvo(object elemento) { }
+
         protected virtual void TransformarParaSalvar(T entidade, bool? ehAtualizacao) { }
 
         protected virtual void TransformarResultadoDaConsulta(T entidade) { }
@@ -130,21 +132,25 @@ namespace dn32.infra.servicos
             foreach (var item in entidades) { TransformarParaSalvar(item, false); }
             await Validacao.AdicionarListaAsync(entidades);
             await Repositorio.AdicionarListaAsync(entidades);
+            Salvo(entidades);
         }
 
         public virtual async Task<T> AdicionarAsync(T entidade)
         {
             TransformarParaSalvar(entidade, false);
-
+            T retorno;
             if (SessaoDaRequisicao.EnableLogicalDeletion && await ExisteAsync(entidade, true, true))
             {
-                return await AtualizarAsync(entidade); // Restore deleted
+                retorno = await AtualizarAsync(entidade); // Restore deleted
             }
             else
             {
                 await Validacao.AdicionarAsync(entidade);
-                return await Repositorio.AdicionarAsync(entidade);
+                retorno = await Repositorio.AdicionarAsync(entidade);
             }
+
+            Salvo(entidade);
+            return retorno;
         }
 
         public virtual async Task<T> AdidionarOuAtualizarAsync(T entidade)
@@ -155,15 +161,19 @@ namespace dn32.infra.servicos
             var exists = SessaoDaRequisicao.ContextoDeValidacao.Inconsistencies.RemoveAll(x => x.NomeDoErroDeValidacao == nameof(DnEntidadeExisteErroDeValidacao)) > 0;
 
             Validacao.ExecutarAsValidacoes(anotherServices);
+            T retorno;
 
             if (exists)
             {
-                return await AtualizarAsync(entidade);
+                retorno = await AtualizarAsync(entidade);
             }
             else
             {
-                return await AdicionarAsync(entidade);
+                retorno = await AdicionarAsync(entidade);
             }
+
+            Salvo(entidade);
+            return retorno;
         }
 
         public virtual async Task<T> BuscarAsync(T entidade, bool checarId = true, bool desanexar = true)
@@ -179,17 +189,17 @@ namespace dn32.infra.servicos
         {
             TransformarParaSalvar(entidade, true);
             await Validacao.AtualizarAsync(entidade);
-            return await Repositorio.AtualizarAsync(entidade);
-            //return Repository.Detach(entidade);//Detach aqui não permite salvar a entidade
+            var retorno = await Repositorio.AtualizarAsync(entidade);
+            Salvo(entidade);
+            return retorno;
         }
 
-        public virtual async Task AtualizarListaAsync(params T[] entidades) => await AtualizarListaAsync(entidades);
-
-        public virtual async Task AtualizarListaAsync(IEnumerable<T> entidades)
+        public virtual async Task AtualizarListaAsync(params T[] entidades) 
         {
             foreach (var item in entidades) { TransformarParaSalvar(item, true); }
             await Validacao.AtualizarListaAsync(entidades);
             await Repositorio.AtualizarListaAsync(entidades);
+            Salvo(entidades);
         }
 
         public virtual async Task<T> RemoverAsync(T entidade)
