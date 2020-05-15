@@ -21,7 +21,7 @@ namespace dn32.infra.servicos
     {
         #region PROPRIEDADES
 
-        protected virtual void Salvo(object elemento) { }
+        protected virtual async Task Salvo(T entidade) => await Task.Run(() => { });
 
         protected virtual void TransformarParaSalvar(T entidade, bool? ehAtualizacao) { }
 
@@ -132,7 +132,9 @@ namespace dn32.infra.servicos
             foreach (var item in entidades) { TransformarParaSalvar(item, false); }
             await Validacao.AdicionarListaAsync(entidades);
             await Repositorio.AdicionarListaAsync(entidades);
-            Salvo(entidades);
+
+            foreach (var item in entidades)
+                await Salvo(item);
         }
 
         public virtual async Task<T> AdicionarAsync(T entidade)
@@ -149,7 +151,7 @@ namespace dn32.infra.servicos
                 retorno = await Repositorio.AdicionarAsync(entidade);
             }
 
-            Salvo(entidade);
+            await Salvo(entidade);
             return retorno;
         }
 
@@ -172,7 +174,7 @@ namespace dn32.infra.servicos
                 retorno = await AdicionarAsync(entidade);
             }
 
-            Salvo(entidade);
+            await Salvo(entidade);
             return retorno;
         }
 
@@ -190,16 +192,17 @@ namespace dn32.infra.servicos
             TransformarParaSalvar(entidade, true);
             await Validacao.AtualizarAsync(entidade);
             var retorno = await Repositorio.AtualizarAsync(entidade);
-            Salvo(entidade);
+            await Salvo(entidade);
             return retorno;
         }
 
-        public virtual async Task AtualizarListaAsync(params T[] entidades) 
+        public virtual async Task AtualizarListaAsync(params T[] entidades)
         {
             foreach (var item in entidades) { TransformarParaSalvar(item, true); }
             await Validacao.AtualizarListaAsync(entidades);
             await Repositorio.AtualizarListaAsync(entidades);
-            Salvo(entidades);
+            foreach (var item in entidades)
+                await Salvo(item);
         }
 
         public virtual async Task<T> RemoverAsync(T entidade)
