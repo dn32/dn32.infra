@@ -159,7 +159,8 @@ namespace dn32.infra.extensoes
                 if (property.PropertyType.IsNullableEnum())
                 {
                     var firstEnum = Enum.GetValues(property.PropertyType.GetTypeByNullType()).GetValue(0);
-                    property.SetValue(obj, firstEnum);
+                    if (property.SetMethod != null)
+                        property.SetValue(obj, firstEnum);
                 }
                 else
                 {
@@ -169,7 +170,8 @@ namespace dn32.infra.extensoes
                         var newValue = Convert.ChangeType(value, property.PropertyType.GetNonNullableType(), CultureInfo.InvariantCulture);
                         if (property.SetMethod != null)
                         {
-                            property.SetValue(obj, newValue);
+                            if (property.SetMethod != null)
+                                property.SetValue(obj, newValue);
                         }
                     }
                 }
