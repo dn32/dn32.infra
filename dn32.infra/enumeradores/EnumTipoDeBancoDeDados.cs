@@ -1,6 +1,6 @@
-﻿namespace dn32.infra.EntityFramework
+﻿namespace dn32.infra.enumeradores
 {
-    public enum DnEnumTipoDeBancoDeDados
+    public enum EnumTipoDeBancoDeDados
     {
         SQL_SERVER,
         ORACLE,

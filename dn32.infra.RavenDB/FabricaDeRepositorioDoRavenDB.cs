@@ -1,8 +1,7 @@
-﻿using dn32.infra.dados;
-using dn32.infra.nucleo.repositorios;
+﻿using dn32.infra.nucleo.repositorios;
 using System;
 
-namespace dn32.infra.EntityFramework
+namespace dn32.infra.RavenDB
 {
     /// <summary>
     /// Classe interna. Nunca a deixe pública, pois o acesso a um repositório à partir de um serviço terceiro não deve ser permitido.
@@ -11,8 +10,8 @@ namespace dn32.infra.EntityFramework
     /// <typeparam Nome="T">
     ///  O tipo da entidade do repositório a ser criado.
     /// </typeparam>
-    internal class RepositoryFactory : FrabricaDeRepositorioBase
+    internal class FabricaDeRepositorioDoRavenDB : FrabricaDeRepositorioBase
     {
-        protected override Type ObterTipoDeRepositorioPadrao<T>() => typeof(DnEFRepository<T>);
+        protected override Type ObterTipoDeRepositorioPadrao<T>() => typeof(DnRavenDbRepositorio<RavenDBEntidadeBase>);
     }
 }

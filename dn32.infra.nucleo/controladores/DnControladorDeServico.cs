@@ -5,6 +5,7 @@ using dn32.infra.servicos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
@@ -107,9 +108,9 @@ namespace dn32.infra.nucleo.controladores
 
         private async Task SalvarAlteracoes()
         {
-            if (this.Servico.ObjetosDaTransacao.Sessao.ChangeTracker.HasChanges())
+            if (Servico.ObjetosDaTransacao.contexto.HaAlteracao)
             {
-                await this.Servico.ObjetosDaTransacao.Sessao.SaveChangesAsync();
+                await Servico.ObjetosDaTransacao.contexto.SaveChangesAsync();
             }
         }
     }

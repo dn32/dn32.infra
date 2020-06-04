@@ -29,9 +29,9 @@ namespace dn32.infra.servicos
 
         protected virtual void TransformarResultadoDaConsulta<TO>(TO entidade) { }
 
-        protected internal new IDnRepositorio<T> Repositorio
+        protected internal new DnRepositorio<T> Repositorio
         {
-            get => base.Repositorio as IDnRepositorio<T>;
+            get => base.Repositorio as DnRepositorio<T>;
             set => base.Repositorio = value;
         }
 

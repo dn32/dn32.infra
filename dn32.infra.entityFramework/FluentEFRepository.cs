@@ -34,7 +34,7 @@ namespace dn32.infra.EntityFramework
     /// <typeparam Nome="TE">
     /// O tipo de entidade do repositório.
     /// </typeparam>
-    public partial class DnEFRepository<TE> : IDnRepositorio<TE> where TE : EntidadeBase
+    public partial class DnEFRepository<TE> : DnRepositorio<TE> where TE : EntidadeBase
     {
         public DnEFRepository()
         {
@@ -42,16 +42,14 @@ namespace dn32.infra.EntityFramework
 
         #region PROPERTIES
 
-        public IDnObjetosTransacionais ObjetosTransacionais { get; set; }
-
-        public virtual Type TipoDeObjetosTransacionais => typeof(TransactionObjects);
+        public override Type TipoDeObjetosTransacionais => typeof(EFTransactionObjects);
 
         public SessaoDeRequisicaoDoUsuario SessionRequest => Servico.SessaoDaRequisicao;
 
         /// <summary>
         /// A referência da sessão do EF.
         /// </summary>
-        protected internal EfContext Session => ObjetosTransacionais.Sessao as EfContext;
+        protected internal EfContext Session => ObjetosTransacionais.contexto as EfContext;
 
         /// <summary>
         /// A query contem a referência de todas as tabelas/documentos do banco de dados.
@@ -63,20 +61,15 @@ namespace dn32.infra.EntityFramework
         /// </summary>
         internal DbSet<TE> Input => this.ObjetosTransacionais.ObterObjetoInputInterno<TE>() as DbSet<TE>;
 
-        /// <summary>
-        /// O serviço qual esse repositório representa.
-        /// </summary>
-        public DnServico<TE> Servico { get; set; }
-
         // DnControladorDeServico<TE> IDnRepository<TE>.Servico { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
         internal protected void RunTheContextValidation() => Servico.SessaoDaRequisicao.ContextoDeValidacao.Validate();
 
         #endregion
 
-        public virtual TE Desanexar(TE entity) => Desanexar<TE>(entity);
+        public override TE Desanexar(TE entity) => Desanexar<TE>(entity);
 
-        public virtual TX Desanexar<TX>(TX entity)
+        public override TX Desanexar<TX>(TX entity)
         {
             if (entity != null)
             {
@@ -152,7 +145,7 @@ namespace dn32.infra.EntityFramework
                             }
                             else
                             { //update
-                                ObjetosTransacionais.Sessao.Entry(currentEntity).CurrentValues.SetValues(auth);
+                                ((DbContext)ObjetosTransacionais.contexto).Entry(currentEntity).CurrentValues.SetValues(auth);
                             }
                         }
                     }
@@ -196,7 +189,7 @@ namespace dn32.infra.EntityFramework
                                 }
                             }
 
-                            ObjetosTransacionais.Sessao.Entry(currentEntity).CurrentValues.SetValues(compositionValue);
+                            ((DbContext)ObjetosTransacionais.contexto).Entry(currentEntity).CurrentValues.SetValues(compositionValue);
                             continue;
                         }
                     }
@@ -361,7 +354,7 @@ namespace dn32.infra.EntityFramework
 
         internal protected IQueryable<TO> FromSqlSelect<TO>(string sql, params object[] parameters) where TO : EntidadeBase
         {
-            var source = ObjetosTransacionais.ObterObjetoInputInterno<TO>();
+            var source = ObjetosTransacionais.ObterObjetoInputInterno<TO>() as DbSet<TO>;
 
 #if NETCOREAPP3_1
             return source.FromSqlRaw(sql, parameters);
@@ -380,7 +373,7 @@ namespace dn32.infra.EntityFramework
 
         #region ENTITY ITEMS
 
-        public virtual async Task<object> FindAsync(object entity)
+        public override async Task<object> FindAsync(object entity)
         {
             var type = entity.GetType();
             var method = GetType().GetMethod(nameof(FindSelectAsync))?.MakeGenericMethod(type);
@@ -407,7 +400,7 @@ namespace dn32.infra.EntityFramework
         /// </param>
 
 
-        public virtual async Task<TE> AtualizarAsync(TE entity)
+        public override async Task<TE> AtualizarAsync(TE entity)
         {
             RunTheContextValidation();
 
@@ -421,7 +414,7 @@ namespace dn32.infra.EntityFramework
             var currentEntity = await Servico.BuscarAsync(entity, true, false);
             if (currentEntity == null) throw new InvalidOperationException("Entidade não encontrada no banco de dados.");
 
-            ObjetosTransacionais.Sessao.Entry(currentEntity).CurrentValues.SetValues(entity);
+            ((DbContext)ObjetosTransacionais.contexto).Entry(currentEntity).CurrentValues.SetValues(entity);
 
             lock (SessionRequest)
             {
@@ -434,25 +427,25 @@ namespace dn32.infra.EntityFramework
         }
 
         //Todo - tratar recuperação de exclusão lógica, como foi feito no Atualizar
-        public virtual async Task AtualizarListaAsync(IEnumerable<TE> entities)
+        public override async Task AtualizarListaAsync(IEnumerable<TE> entities)
         {
             RunTheContextValidation();
             foreach (var entity in entities)
             {
                 DefineForeignKeyOfCompositionsOrAggregations(entity);
                 var currentEntity = await Servico.BuscarAsync(entity);
-                ObjetosTransacionais.Sessao.Entry(currentEntity).CurrentValues.SetValues(entity);
+                ((DbContext)ObjetosTransacionais.contexto).Entry(currentEntity).CurrentValues.SetValues(entity);
                 await UpdateCompositionListAsync(entity, true);
             }
         }
 
-        public virtual void RemoverLista(IDnEspecificacao spec)
+        public override void RemoverLista(IDnEspecificacao spec)
         {
             var list = GetSpec(spec).ConverterParaIQueryable(Query).ToList();
             this.Input.RemoveRange(list);
         }
 
-        public virtual async Task RemoverListaAsync(params TE[] entities)
+        public override async Task RemoverListaAsync(params TE[] entities)
         {
             var tasks = entities.Select(RemoverAsync).ToArray();
             await Task.WhenAll(tasks);

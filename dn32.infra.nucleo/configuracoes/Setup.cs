@@ -6,6 +6,7 @@ using dn32.infra.nucleo.controladores;
 using dn32.infra.nucleo.especificacoes;
 using dn32.infra.nucleo.fabricas;
 using dn32.infra.nucleo.interfaces;
+using dn32.infra.nucleo.repositorios;
 using dn32.infra.nucleo.servicos;
 using dn32.infra.nucleo.validacoes;
 using dn32.infra.Nucleo.Models;
@@ -21,6 +22,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo(@"dn32.infra.RavenDB, PublicKey=00240000048000009400000006020000002400005253413100040000010001004937541a190ae55d1f8699f95f30229168f1197dba44da4ca1d93ddf769ae93c94667a1bca78b2ae5817773d33b88eb5fb98b8b153ca7b637f0d2023c50dd125b1f13150ae7b57b99127a0b51267b82a5987f18f67f2916571939b75f8953046a4c110efe84ed22170536460d6d9b1f52bbfd382c6570c0878f2054656a2a19d")]
 [assembly: InternalsVisibleTo(@"dn32.infra.EntityFramework, PublicKey=00240000048000009400000006020000002400005253413100040000010001000da51e0f449f6ee7879b256b497e9f64eda760b5fac3d47a4ba8a54664303024f451098b69154691fad078fe77ee79ac2b6a9770fd7a6555a4c49a2a58e82f411939e1eb44ac4a1327acdd13f2c8ec7698644d019f04197838434be8cb53877f1d22acab90ae7735acc363fdb393a11fa34afe780d1c5fb26f37a8fd6e4d9b9f")]
 [assembly: InternalsVisibleTo(@"dn32.infra.Doc, PublicKey=00240000048000009400000006020000002400005253413100040000010001008963bf4072062c4090dd8b8b1b3335b78ac84c4e55c7903a918af1d62ecf0e2ab5504ca1fa722b67f5968cdbbf2f1436cc9303018d57511caefbae6cf903f681d721a1122bcdc4f35fa4aafade1e9900468a69aba391d3e9c2eb3087bd37727bbcc30f704666c62beccdca492d8e5467088b696c39306fa582637041a8c40dc4")]
 namespace dn32.infra.nucleo.configuracoes
@@ -97,7 +99,7 @@ namespace dn32.infra.nucleo.configuracoes
             return configuracoes;
         }
 
-        internal static DnConfiguracoesGlobais DefinirFabricaDeRepositorio(this DnConfiguracoesGlobais configuracoes, IFrabricaDeRepositorio fabricaDeRepositorio)
+        internal static DnConfiguracoesGlobais DefinirFabricaDeRepositorio(this DnConfiguracoesGlobais configuracoes, FrabricaDeRepositorioBase fabricaDeRepositorio)
         {
             if (configuracoes != null)
                 configuracoes.FabricaDeRepositorio = fabricaDeRepositorio;
@@ -198,7 +200,7 @@ namespace dn32.infra.nucleo.configuracoes
             Controladores = new Dictionary<Type, Type>();
             SessoesDeRequisicoesDeUsuarios = new ConcurrentDictionary<Guid, SessaoDeRequisicaoDoUsuario>();
             Servicos.Add(typeof(DnEntidade), typeof(DnServico<DnEntidade>));
-            Repositorios.Add(typeof(DnEntidade), typeof(IDnRepositorio<DnEntidade>));
+            Repositorios.Add(typeof(DnEntidade), typeof(DnRepositorio<DnEntidade>));
             Validacoes.Add(typeof(DnEntidade), typeof(DnValidacao<DnEntidade>));
             Controladores.Add(typeof(DnEntidade), typeof(DnControlador<DnEntidade>));
         }
@@ -244,9 +246,10 @@ namespace dn32.infra.nucleo.configuracoes
                 .Where(x => x.Item1 != null).ToList()
                 .ForEach(AddService);
 
-            tipos.Select(x => GlobalUtil.GetDnEntityTypeByInterface(x, typeof(IDnRepositorio<EntidadeBase>)))
-               .Where(x => x?.Item1 != null).ToList()
-               .ForEach(AddRepository);
+            tipos.Where(x => x.Is(typeof(IDnRepositorioTransacional)))
+                .Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnRepositorio<EntidadeBase>)))
+                .Where(x => x.Item1 != null).ToList()
+                .ForEach(AddRepository);
 
             tipos.Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnValidacao<EntidadeBase>)))
                .Where(x => x.Item1 != null).ToList()

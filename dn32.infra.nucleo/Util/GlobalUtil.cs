@@ -69,7 +69,7 @@ namespace dn32.infra.Util
         {
             typeof(DnControlador<DnEntidade>).Name,
             typeof(DnServico<DnEntidade>).Name,
-            typeof(IDnRepositorio<DnEntidade>).Name,
+            typeof(DnRepositorio<DnEntidade>).Name,
             typeof(DnValidacao<DnEntidade>).Name,
             typeof(DnEspecificacao<DnEntidade>).Name
         };

@@ -10,6 +10,7 @@ using dn32.infra.nucleo.interfaces;
 using dn32.infra.nucleo.configuracoes;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
+using Microsoft.EntityFrameworkCore;
 
 namespace dn32.infra.Nucleo.Models
 {
@@ -77,12 +78,12 @@ namespace dn32.infra.Nucleo.Models
             }
         }
 
-        public bool EnableLogicalDeletion => ObjetosDaTransacao.Sessao.EnableLogicalDeletion;
+        public bool EnableLogicalDeletion => ObjetosDaTransacao.contexto.EnableLogicalDeletion;
 
         public async Task SalvarTudoAsync()
         {
             ContextoDeValidacao.Validate();
-            await ObjetosDaTransacao.Sessao.SaveChangesAsync();
+            await ObjetosDaTransacao.contexto.SaveChangesAsync();
         }
     }
 }

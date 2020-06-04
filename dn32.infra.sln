@@ -42,6 +42,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.nucleo.teste", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.teste", "Testes\dn32.infra.teste\dn32.infra.teste.csproj", "{D61A415E-1A97-48E4-9F29-E5537D30DD1A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dn32.infra.RavenDB", "dn32.infra.RavenDB\dn32.infra.RavenDB.csproj", "{92118941-60F5-4F98-9A55-9EEBED80B84B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,10 @@ Global
 		{D61A415E-1A97-48E4-9F29-E5537D30DD1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D61A415E-1A97-48E4-9F29-E5537D30DD1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D61A415E-1A97-48E4-9F29-E5537D30DD1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92118941-60F5-4F98-9A55-9EEBED80B84B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92118941-60F5-4F98-9A55-9EEBED80B84B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92118941-60F5-4F98-9A55-9EEBED80B84B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92118941-60F5-4F98-9A55-9EEBED80B84B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,6 +129,7 @@ Global
 		{2EC8A8BB-4939-4F28-9E4D-A2D60EDA209D} = {F1AE78C0-4894-4D1C-9A02-AB71E94306F7}
 		{52C76FD8-FD52-4FC7-B33C-612E505D1B7F} = {4158C429-5F1F-4FC6-B3E0-23FB8679F639}
 		{D61A415E-1A97-48E4-9F29-E5537D30DD1A} = {4158C429-5F1F-4FC6-B3E0-23FB8679F639}
+		{92118941-60F5-4F98-9A55-9EEBED80B84B} = {4158C429-5F1F-4FC6-B3E0-23FB8679F639}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {123E34D5-DA60-4929-9110-E760ECAC5050}

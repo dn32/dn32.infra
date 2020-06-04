@@ -1,6 +1,8 @@
-﻿using dn32.infra.Filters;
+﻿using dn32.infra.dados;
+using dn32.infra.Filters;
 using dn32.infra.nucleo.configuracoes;
 using dn32.infra.nucleo.interfaces;
+using dn32.infra.nucleo.repositorios;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -16,9 +18,10 @@ namespace dn32.infra.nucleo.configuracoes
         public Type TipoGenericoDeRepositorio { get; internal set; }
         public Type TipoGenericoDeValidacao { get; internal set; }
         public Type TipoGenericoDeControlador { get; internal set; }
-        internal IFrabricaDeRepositorio FabricaDeRepositorio { get; set; }
+        internal FrabricaDeRepositorioBase FabricaDeRepositorio { get; set; }
         public InformacoesDoJWT InformacoesDoJWT { get; set; }
         public string StringDeConexaoDoRedis { get; set; }
         public Type TipoDeServicoDoRedis { get; set; }
+        public Dictionary<string, string> Valores { get; set; } = new Dictionary<string, string>();
     }
 }

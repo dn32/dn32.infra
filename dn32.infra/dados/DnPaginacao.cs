@@ -15,6 +15,7 @@ namespace dn32.infra.dados
         public const string NomeQuantidadeTotalDeItens = "quantidade_total_de_itens";
         public const string NomeSalto = "salto";
         public const string NomeNumeroTotalDePaginas = "numero_total_de_paginas";
+        public const string DuracaoDaConsultaNoBDEmMs = "duracao_da_consulta_no_bd_em_ms";
         
     }
 
@@ -54,6 +55,9 @@ namespace dn32.infra.dados
 
         [JsonProperty(Parametros.NomeNumeroTotalDePaginas)]
         public virtual int NumeroDePaginas => ObterNumeroDePaginas();
+
+        [JsonProperty(Parametros.DuracaoDaConsultaNoBDEmMs)]
+        public long DuracaoDaConsultaNoBDEmMs { get; set; }
 
         #endregion
 
