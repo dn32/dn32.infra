@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.2;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <LangVersion>8</LangVersion>
     <Nullable>warnings</Nullable>
     <AssemblyOriginatorKeyFile>dn32.infra.nucleo.snk</AssemblyOriginatorKeyFile>
@@ -37,7 +37,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="3.1.0" />
-    <PackageReference Include="ClosedXML" Version="0.95.2" />
+    <!-- <PackageReference Include="ClosedXML" Version="0.95.2" /> -->
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.5.1" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.1.0" />
   </ItemGroup>

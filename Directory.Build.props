@@ -5,7 +5,8 @@
     <RepositoryUrl>https://github.com/dn32/dn32.infra</RepositoryUrl>
     <SignAssembly>true</SignAssembly>
     <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <!-- <GeneratePackageOnBuild>true</GeneratePackageOnBuild> -->
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Nullable>warnings</Nullable>
   </PropertyGroup>
 

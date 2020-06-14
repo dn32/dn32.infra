@@ -79,24 +79,24 @@ namespace dn32.infra.Nucleo.TestSupport
                 var aggregation = SortedAggregations.Single(x => x.EntityType == item.type);
                 object value = aggregation.Instance;
 
-                var externalKeys = item.attr.ChavesExternas;
-                var localKeys = item.attr.ChavesLocais;
+                var externalKeys = item?.attr?.ChavesExternas;
+                var localKeys = item?.attr?.ChavesLocais;
 
-                for (int i = 0; i < externalKeys.Length; i++)
+                for (int i = 0; i < externalKeys?.Length; i++)
                 {
                     var externalKey = externalKeys[i];
-                    var localKey = localKeys[i];
+                    var localKey = localKeys?[i]??"";
 
                     if (value != null)
                     {
-                        var externalValue = item.type.GetProperty(externalKey)?.GetValue(value);
+                        var externalValue = item?.type.GetProperty(externalKey)?.GetValue(value);
                         entity.GetType().GetProperty(localKey)?.SetValue(entity, externalValue);
                     }
                 }
 
                 {
                     //Set complex object
-                    if (item.isList)
+                    if (item?.isList == true)
                     {
                         var typeList = typeof(List<>).MakeGenericType(item.type);
                         if (value == null)
@@ -109,7 +109,7 @@ namespace dn32.infra.Nucleo.TestSupport
                         }
                     }
 
-                    item.property.SetValue(entity, value);
+                    item?.property?.SetValue(entity, value);
                 }
             }
         }
