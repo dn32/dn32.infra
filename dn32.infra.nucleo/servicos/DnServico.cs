@@ -1,4 +1,4 @@
-﻿using ClosedXML.Excel;
+﻿// using ClosedXML.Excel;
 using dn32.infra.dados;
 using dn32.infra.Factory;
 using dn32.infra.nucleo.interfaces;
@@ -235,46 +235,46 @@ namespace dn32.infra.servicos
             throw new DesenvolvimentoIncorretoException($"You can not initialize the {nameof(DnServico<T>)}");
         }
 
-        //Todo - Em desenvolvimento a importação do XMLS
-        internal virtual async Task<XLWorkbook> ImportFileStreamAsync(Stream stream)
-        {
-            var workbook = new XLWorkbook(stream);
-            var lista = DataImportationUtil.ImportFileStream<T>(workbook);
+        // //Todo - Em desenvolvimento a importação do XMLS
+        // internal virtual async Task<XLWorkbook> ImportFileStreamAsync(Stream stream)
+        // {
+        //     var workbook = new XLWorkbook(stream);
+        //     var lista = DataImportationUtil.ImportFileStream<T>(workbook);
 
-            foreach (var item in lista)
-            {
-                try
-                {
-                    var entidade = item.Item2;
-                    Validacao.LimparInconsistencias();
+        //     foreach (var item in lista)
+        //     {
+        //         try
+        //         {
+        //             var entidade = item.Item2;
+        //             Validacao.LimparInconsistencias();
 
-                    if (await ExisteAsync(entidade, true, true))
-                    {
-                        await Validacao.AtualizarAsync(entidade);
-                        await Repositorio.AtualizarAsync(entidade);
-                    }
-                    else
-                    {
-                        await Validacao.AdicionarAsync(entidade);
-                        await Repositorio.AdicionarAsync(entidade);
-                    }
+        //             if (await ExisteAsync(entidade, true, true))
+        //             {
+        //                 await Validacao.AtualizarAsync(entidade);
+        //                 await Repositorio.AtualizarAsync(entidade);
+        //             }
+        //             else
+        //             {
+        //                 await Validacao.AdicionarAsync(entidade);
+        //                 await Repositorio.AdicionarAsync(entidade);
+        //             }
 
-                    Validacao.ExecutarAsValidacoes();
+        //             Validacao.ExecutarAsValidacoes();
 
-                    item.Item1.Value = "Sucess!";
-                    item.Item1.Style.Font.FontColor = XLColor.FromArgb(0x04AC15);
-                }
-                catch (Exception ex)
-                {
-                    item.Item1.Style.Font.FontColor = XLColor.FromArgb(0xDC4C3F);
-                    item.Item1.Value = ex.Message.Replace("* ", "").Trim();
-                }
-            }
+        //             item.Item1.Value = "Sucess!";
+        //             item.Item1.Style.Font.FontColor = XLColor.FromArgb(0x04AC15);
+        //         }
+        //         catch (Exception ex)
+        //         {
+        //             item.Item1.Style.Font.FontColor = XLColor.FromArgb(0xDC4C3F);
+        //             item.Item1.Value = ex.Message.Replace("* ", "").Trim();
+        //         }
+        //     }
 
-            Validacao.LimparInconsistencias();
+        //     Validacao.LimparInconsistencias();
 
-            return workbook;
-        }
+        //     return workbook;
+        // }
 
         #endregion
     }

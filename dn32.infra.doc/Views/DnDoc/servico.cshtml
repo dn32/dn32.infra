@@ -39,7 +39,7 @@
 <div class="one-service-container">
     <h4 class="general-title">@Model.Formulario?.Nome (@actions.Count) </h4>
 
-    <h6 style="text-align:center;">@Model.Formulario.Descricao</h6>
+    <h6 style="text-align:center;">@Model?.Formulario?.Descricao</h6>
 
     @{
         string Is(bool operation, string text)
@@ -51,26 +51,28 @@
 
             @foreach (var action in actions)
             {
+                if(action == null) continue;
+
                 if (action == null) { continue; }
                 //var parameters = action.Parameters?.Select(x => GetTypeName(x.Tipo, x.Name)).ToArray() ?? new string[] { };
                 //var paramString = string.Join(", ", parameters);
                 var actionName = action?.MethodName ?? "";
 
-                <div class="action" onclick="navegate('/dndoc/acao?servico=@Model.Formulario.Tipo.GetListTypeNonNull().Name&nomeDaAcao=@actionName')">
-                    <span class="method @action.Method.ToLower()">@action.Method</span>
-                    <span class="name">@action.Name.G()</span>
-                    <span class="Descricaoription">@action.Description</span>
-                    @if (@action.Method == "GET")
+                <div class="action" onclick="navegate('/dndoc/acao?servico=@Model?.Formulario?.Tipo.GetListTypeNonNull().Name&nomeDaAcao=@actionName')">
+                    <span class="method @action?.Method.ToLower()">@action?.Method</span>
+                    <span class="name">@action?.Name.G()</span>
+                    <span class="Descricaoription">@action?.Description</span>
+                    @if (@action?.Method == "GET")
                     {
-                        <span class="route"><a href="@(action.ApiBaseUrl + action.Route)">@action.Route</a></span>
+                        <span class="route"><a href="@(action?.ApiBaseUrl + action?.Route)">@action?.Route</a></span>
                     }
                     else
                     {
-                        <span class="route">@action.Route</span>
+                        <span class="route">@action?.Route</span>
                     }
 
                     <span style="color:red">
-                        @Html.Raw(Is(!string.IsNullOrEmpty(action.Desabilitado), "<span style='white-space: nowrap;'><img src='/DnDoc/img/no.png'/>  " + action.Desabilitado + "</a></span>"))
+                        @Html.Raw(Is(!string.IsNullOrEmpty(action?.Desabilitado), "<span style='white-space: nowrap;'><img src='/DnDoc/img/no.png'/>  " + action?.Desabilitado + "</a></span>"))
                     </span>
 
                     @*@if (!string.EhNuloOrWhiteSpace(paramString))
@@ -94,7 +96,11 @@
                         <th>@(("Others").G())</th>
                     </tr>
                 </thead>
-                @foreach (var property in Model.Propriedades.OrderBy(x => x.Nome))
+                @{
+                   var propriedades =  Model?.Propriedades?.OrderBy(x => x.Nome).ToList()
+                                             ?? new List<DnPropriedadeJsonAtributo>();
+                }
+                @foreach (var property in propriedades)
                 {
                     if (property.Formulario == EnumTipoDeComponenteDeFormularioDeTela.Nenhum) { continue; }
                     if (property.Propriedade.GetCustomAttribute<DnDocAttribute>()?.Apresentacao == EnumApresentar.Ocultar) { continue; }
@@ -122,7 +128,7 @@
                 <span>@("Example valor".G())</span>
 
                 @{
-                    var exampleValue = Model.Formulario?.Tipo?.GetExampleValue() ?? "";
+                    var exampleValue = Model?.Formulario?.Tipo?.GetExampleValue() ?? "";
 
                     var json = exampleValue.SerializarParaDnJson(Newtonsoft.Json.Formatting.Indented);
 

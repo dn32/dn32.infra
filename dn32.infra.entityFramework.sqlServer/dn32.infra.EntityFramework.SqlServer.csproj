@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.2;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <LangVersion>8</LangVersion>
     <SignAssembly>true</SignAssembly>
     <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
@@ -19,7 +19,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\dn32.infra.EntityFramework\dn32.infra.EntityFramework.csproj" />
+    <ProjectReference Include="..\dn32.infra.entityFramework\dn32.infra.EntityFramework.csproj" />
   </ItemGroup>
 
 

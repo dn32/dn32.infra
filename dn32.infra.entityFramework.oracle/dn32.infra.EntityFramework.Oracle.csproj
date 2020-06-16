@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp2.2;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <LangVersion>8</LangVersion>
     <SignAssembly>true</SignAssembly>
     <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
@@ -10,12 +10,8 @@
     <AssemblyOriginatorKeyFile>dn32.infra.EntityFramework.Oracle.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.2' ">
-    <RuntimeFrameworkVersion>2.2.8</RuntimeFrameworkVersion>
-  </PropertyGroup>
-  
   <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.2' ">
-    <PackageReference Include="Oracle.EntityFrameworkCore" Version="2.19.70" />
+    <PackageReference Include="Oracle.EntityFrameworkCore" Version="3.19.0-beta1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.6" />
@@ -28,7 +24,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\dn32.infra.EntityFramework\dn32.infra.EntityFramework.csproj" />
+    <ProjectReference Include="..\dn32.infra.entityFramework\dn32.infra.EntityFramework.csproj" />
   </ItemGroup>
 
 </Project>

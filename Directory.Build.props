@@ -18,8 +18,12 @@
     --><!--<OutputPath>..\pack\$(MSBuildProjectName)\lib</OutputPath>--><!--
   </PropertyGroup>-->
 
-  <Target Name="CopyPackage" AfterTargets="Pack">
+  <Target Name="CopyPackage" AfterTargets="Pack" Condition=" '$(OS)' == 'Windows_NT' ">
      <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="C:\Users\Marcelo\OneDrive - SOCIEDADE DE ENSINO SUPERIOR ESTACIO DE SA\FOut" />
+  </Target>
+
+  <Target Name="CopyPackage" AfterTargets="Pack" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
+     <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="/home/marcelo/dev/out" />
   </Target>
 
   <!--<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -27,7 +31,7 @@
   </PropertyGroup>-->
   
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <Version>0.0.0.6</Version>
+    <Version>0.0.0.7</Version>
   </PropertyGroup>
 
 </Project>
