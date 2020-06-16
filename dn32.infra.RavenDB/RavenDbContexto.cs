@@ -48,7 +48,9 @@ namespace dn32.infra.RavenDB
 
             IDocumentStore documentStore = new DocumentStore
             {
+#if RELEASE
                 Certificate = clientCertificate,
+#endif
                 Urls = new[] { serverURL },
                 Database = databaseName
             };

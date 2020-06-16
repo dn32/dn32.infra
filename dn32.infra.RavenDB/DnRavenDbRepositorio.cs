@@ -26,7 +26,7 @@ namespace dn32.infra.RavenDB
         public RavenDBObjetosDeTransacao ObjetosTransacionaisRavenDB => ObjetosTransacionais as RavenDBObjetosDeTransacao;
 
         protected internal IAsyncDocumentSession Sessao => ObjetosTransacionaisRavenDB.Contexto.Sessao;
-        
+
         protected internal IQueryable<TE> Query => this.ObjetosTransacionais.ObterObjetoQueryInterno<TE>();
 
         public override Type TipoDeObjetosTransacionais => typeof(RavenDBObjetosDeTransacao);
@@ -40,7 +40,7 @@ namespace dn32.infra.RavenDB
         public override async Task AdicionarListaAsync(TE[] entities)
         {
             foreach (var entity in entities)
-                await Sessao.StoreAsync(entity);
+                await Sessao.StoreAsync(entity, entity.Id);
         }
 
         public override Task<TE> AtualizarAsync(TE entity)
@@ -174,11 +174,6 @@ namespace dn32.infra.RavenDB
             return Servico.SessaoDaRequisicao.LocalHttpContext.Request.Form[key];
         }
 
-        public override Task<List<TE>> ListarAsync(IDnEspecificacao spec, DnPaginacao pagination = null)
-        {
-            throw new NotImplementedException();
-        }
-
         public override Task<TO> PrimeiroOuPadraoAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> spec)
         {
             throw new NotImplementedException();
@@ -230,6 +225,11 @@ namespace dn32.infra.RavenDB
         }
 
         public override Task<object> FindAsync(object entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task<List<TE>> ListarAsync(IDnEspecificacao spec, DnPaginacao pagination = null)
         {
             throw new NotImplementedException();
         }

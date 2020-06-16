@@ -2,7 +2,7 @@
 
 namespace dn32.infra.RavenDB
 {
-    public class RavenDBEntidadeBase : EntidadeBase
+    public class RavenDBEntidadeBase : DnEntidade
     {
         public string Id { get; set; }
     }

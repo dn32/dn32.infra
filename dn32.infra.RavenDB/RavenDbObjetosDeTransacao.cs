@@ -3,6 +3,7 @@ using dn32.infra.nucleo.configuracoes;
 using dn32.infra.nucleo.interfaces;
 using dn32.infra.nucleo.Interfaces;
 using dn32.infra.Nucleo.Models;
+using Raven.Client.Documents;
 using System;
 using System.Linq;
 
@@ -16,6 +17,8 @@ namespace dn32.infra.RavenDB
         public IDnDbContext contexto { get; set; }
 
         public RavenDbContexto Contexto => contexto as RavenDbContexto;
+
+        public IDocumentStore Store => Contexto.Store as IDocumentStore;
 
         public SessaoDeRequisicaoDoUsuario UserSessionRequest { get; set; }
 

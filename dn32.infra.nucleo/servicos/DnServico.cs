@@ -135,6 +135,8 @@ namespace dn32.infra.servicos
 
             foreach (var item in entidades)
                 await Salvo(item);
+
+            await SessaoDaRequisicao.SalvarTudoAsync();
         }
 
         public virtual async Task<T> AdicionarAsync(T entidade)
