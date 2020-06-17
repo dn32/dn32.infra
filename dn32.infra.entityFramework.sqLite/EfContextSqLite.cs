@@ -1,4 +1,6 @@
 ﻿// ReSharper disable CommentTypo
+using dn32.infra.atributos;
+using dn32.infra.enumeradores;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -8,7 +10,7 @@ namespace dn32.infra.EntityFramework.SqLite
     /// <summary>
     /// Contexto do EF no net Core
     /// </summary>
-    [TipoDeBancoDeDadosAtributo(DnEnumTipoDeBancoDeDados.SQLITE)]
+    [DnTipoDeBancoDeDadosAtributo(EnumTipoDeBancoDeDados.SQLITE)]
     public class EfContextSqLite : EfContext
     {
         public static LoggerFactory LoggerFactory;
@@ -22,13 +24,11 @@ namespace dn32.infra.EntityFramework.SqLite
             optionsBuilder.UseSqlite(ConnectionString);
 
 #if DEBUG
-#if NETCOREAPP3_1
             LoggerFactory ??= new LoggerFactory(new[] { new Microsoft.Extensions.Logging.Debug.DebugLoggerProvider() });
 
             optionsBuilder
                 .UseLoggerFactory(LoggerFactory)
                 .EnableSensitiveDataLogging();
-#endif
 #endif
 
             base.OnConfiguring(optionsBuilder);

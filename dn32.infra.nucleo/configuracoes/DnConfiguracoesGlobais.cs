@@ -23,5 +23,6 @@ namespace dn32.infra.nucleo.configuracoes
         public string StringDeConexaoDoRedis { get; set; }
         public Type TipoDeServicoDoRedis { get; set; }
         public Dictionary<string, string> Valores { get; set; } = new Dictionary<string, string>();
+        public bool MostrarLogsDoBDEmDebug { get; set; } = true;
     }
 }

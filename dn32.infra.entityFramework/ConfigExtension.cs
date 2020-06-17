@@ -4,16 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using dn32.infra.nucleo.configuracoes;
-
-#if NETCOREAPP3_1
-
 using Microsoft.EntityFrameworkCore.Query;
-
-#else
-
-using Remotion.Linq.Parsing.ExpressionVisitors;
-
-#endif
 
 namespace dn32.infra.EntityFramework
 {

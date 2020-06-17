@@ -26,7 +26,7 @@ namespace dn32.infra.nucleo.fabricas
         internal static DnServicoTransacionalBase Criar(Type tipoDeServico, object httpContext, SessaoDeRequisicaoDoUsuario sessaoDeRequisicao = null)
         {
             var sessionId = Guid.NewGuid();
-            tipoDeServico = GetSpecializedService(tipoDeServico);
+            tipoDeServico = ObterServicoEspecializado(tipoDeServico);
             var service = FabricaDeServicoLazy.Criar(tipoDeServico, sessionId);
             var userSession = sessaoDeRequisicao ?? CreateUserSession(httpContext, sessionId, service);
             service.DefinirSessaoDoUsuario(userSession);
@@ -109,7 +109,7 @@ namespace dn32.infra.nucleo.fabricas
 
         #region PRIVATE
 
-        private static Type GetSpecializedService(Type tipoDeServico)
+        private static Type ObterServicoEspecializado(Type tipoDeServico)
         {
             var args = tipoDeServico.GetGenericArguments();
 
@@ -131,7 +131,7 @@ namespace dn32.infra.nucleo.fabricas
             //Todo arrumar
             IDnObjetosTransacionais transactionObjects = null;// ITransactionObjects.Create();
 
-            var tipoDeServico = GetSpecializedService(servico.GetType());
+            var tipoDeServico = ObterServicoEspecializado(servico.GetType());
             var tipo = Setup.ConfiguracoesGlobais.TipoDeSessaoDeRequisicaoDeUsuario ?? typeof(SessaoDeRequisicaoDoUsuario);
             var sessaoDaRequisicao = Activator.CreateInstance(tipo).DnCast<SessaoDeRequisicaoDoUsuario>();
             sessaoDaRequisicao.ObjetosDaTransacao = transactionObjects;

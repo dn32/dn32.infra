@@ -1,6 +1,8 @@
 ﻿// ReSharper disable CommentTypo
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using dn32.infra.atributos;
+using dn32.infra.enumeradores;
 
 namespace dn32.infra.EntityFramework.MemoryDatabase
 {
@@ -8,7 +10,7 @@ namespace dn32.infra.EntityFramework.MemoryDatabase
     /// <summary>
     /// Contexto do EF no net Core
     /// </summary>
-    [TipoDeBancoDeDadosAtributo(DnEnumTipoDeBancoDeDados.MEMORY)]
+    [DnTipoDeBancoDeDadosAtributo(EnumTipoDeBancoDeDados.MEMORY)]
     public class EfContextMemory : EfContext
     {
         public EfContextMemory(string connectionString) : base(connectionString)

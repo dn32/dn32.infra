@@ -19,18 +19,18 @@ namespace dn32.infra.nucleo.repositorios
         {
             if (Setup.ConfiguracoesGlobais.Conexoes == null) { throw new DesenvolvimentoIncorretoException($"A arquitetura não foi iniciada"); }
 
-            var TipoDeBancoDeDadosAtributo = GetTheEntityTipoDeBancoDeDadosAtributo(typeof(T));
-            if (TipoDeBancoDeDadosAtributo == null)
+            var DnTipoDeBancoDeDadosAtributo = GetTheEntityTipoDeBancoDeDadosAtributo(typeof(T));
+            if (DnTipoDeBancoDeDadosAtributo == null)
             {
                 if (Setup.ConfiguracoesGlobais.Conexoes.Count == 1)
                 {
-                    TipoDeBancoDeDadosAtributo = Setup.ConfiguracoesGlobais.Conexoes.Single().TipoDoContexto.GetCustomAttribute<DnTipoDeBancoDeDadosAtributo>() ?? throw new DesenvolvimentoIncorretoException($"The entity {typeof(T).Name} needs a database type specification. Example: [TipoDeBancoDeDadosAtributo (DnTipoDeBancoDeDadosAtributo.ORACLE)]"); ;
+                    DnTipoDeBancoDeDadosAtributo = Setup.ConfiguracoesGlobais.Conexoes.Single().TipoDoContexto.GetCustomAttribute<DnTipoDeBancoDeDadosAtributo>() ?? throw new DesenvolvimentoIncorretoException($"The entity {typeof(T).Name} needs a database type specification. Example: [DnTipoDeBancoDeDadosAtributo (DnTipoDeBancoDeDadosAtributo.ORACLE)]"); ;
                 }
             }
 
-            if (TipoDeBancoDeDadosAtributo == null)
+            if (DnTipoDeBancoDeDadosAtributo == null)
             {
-                throw new DesenvolvimentoIncorretoException($"The entity {typeof(T).Name} needs a database type specification. Example: [TipoDeBancoDeDadosAtributo (DnTipoDeBancoDeDadosAtributo.ORACLE)]"); ;
+                throw new DesenvolvimentoIncorretoException($"The entity {typeof(T).Name} needs a database type specification. Example: [DnTipoDeBancoDeDadosAtributo (DnTipoDeBancoDeDadosAtributo.ORACLE)]"); ;
             }
 
             var localType = Setup.ConfiguracoesGlobais.TipoGenericoDeRepositorio?.MakeGenericType(typeof(T)) ?? ObterTipoDeRepositorioPadrao<T>();// typeof(DnEFRepository<T>);
@@ -46,17 +46,17 @@ namespace dn32.infra.nucleo.repositorios
             {
                 Conexao connetion;
 
-                if (string.IsNullOrWhiteSpace(TipoDeBancoDeDadosAtributo.Identifier))
+                if (string.IsNullOrWhiteSpace(DnTipoDeBancoDeDadosAtributo.Identifier))
                 {
-                    var conn = Setup.ConfiguracoesGlobais.Conexoes.Where(x => x.TipoDoContexto.GetCustomAttribute<DnTipoDeBancoDeDadosAtributo>()?.TipoDeBancoDeDados == TipoDeBancoDeDadosAtributo.TipoDeBancoDeDados);
+                    var conn = Setup.ConfiguracoesGlobais.Conexoes.Where(x => x.TipoDoContexto.GetCustomAttribute<DnTipoDeBancoDeDadosAtributo>()?.TipoDeBancoDeDados == DnTipoDeBancoDeDadosAtributo.TipoDeBancoDeDados);
                     if (conn.Count() > 1)
                     {
-                        throw new DesenvolvimentoIncorretoException($"More than one connection of the same type was found with the same type \"{TipoDeBancoDeDadosAtributo.TipoDeBancoDeDados}\". Adicionar identifiers for them.");
+                        throw new DesenvolvimentoIncorretoException($"More than one connection of the same type was found with the same type \"{DnTipoDeBancoDeDadosAtributo.TipoDeBancoDeDados}\". Adicionar identifiers for them.");
                     }
 
                     if (conn.Count() == 0)
                     {
-                        throw new DesenvolvimentoIncorretoException($"Could not find connection of requested \"{TipoDeBancoDeDadosAtributo.TipoDeBancoDeDados}\" type in entity \"{typeof(T).Name}\"");
+                        throw new DesenvolvimentoIncorretoException($"Could not find connection of requested \"{DnTipoDeBancoDeDadosAtributo.TipoDeBancoDeDados}\" type in entity \"{typeof(T).Name}\"");
                     }
                     connetion = conn.Single();
                 }
@@ -64,16 +64,16 @@ namespace dn32.infra.nucleo.repositorios
                 {
                     if (Setup.ConfiguracoesGlobais.Conexoes == null) { throw new DesenvolvimentoIncorretoException($"Arquitetura was not initialized properly"); }
                     var conn = Setup.ConfiguracoesGlobais.Conexoes.Where(x =>
-                                    x.TipoDoContexto.GetCustomAttribute<DnTipoDeBancoDeDadosAtributo>()?.TipoDeBancoDeDados == TipoDeBancoDeDadosAtributo.TipoDeBancoDeDados &&
-                                    x.IdentificadorDaConexao.Equals(TipoDeBancoDeDadosAtributo.Identifier, StringComparison.InvariantCultureIgnoreCase));
+                                    x.TipoDoContexto.GetCustomAttribute<DnTipoDeBancoDeDadosAtributo>()?.TipoDeBancoDeDados == DnTipoDeBancoDeDadosAtributo.TipoDeBancoDeDados &&
+                                    x.IdentificadorDaConexao.Equals(DnTipoDeBancoDeDadosAtributo.Identifier, StringComparison.InvariantCultureIgnoreCase));
                     if (conn.Count() > 1)
                     {
-                        throw new DesenvolvimentoIncorretoException($"More than one connection of the same type was found with the same identifier \"{TipoDeBancoDeDadosAtributo.Identifier}\"");
+                        throw new DesenvolvimentoIncorretoException($"More than one connection of the same type was found with the same identifier \"{DnTipoDeBancoDeDadosAtributo.Identifier}\"");
                     }
 
                     if (conn.Count() == 0)
                     {
-                        throw new DesenvolvimentoIncorretoException($"Could not find connection of requested \"{TipoDeBancoDeDadosAtributo.TipoDeBancoDeDados}\" type and identifier \"{TipoDeBancoDeDadosAtributo.Identifier}\" in entity \"{typeof(T).Name}\"");
+                        throw new DesenvolvimentoIncorretoException($"Could not find connection of requested \"{DnTipoDeBancoDeDadosAtributo.TipoDeBancoDeDados}\" type and identifier \"{DnTipoDeBancoDeDadosAtributo.Identifier}\" in entity \"{typeof(T).Name}\"");
                     }
                     connetion = conn.Single();
                 }

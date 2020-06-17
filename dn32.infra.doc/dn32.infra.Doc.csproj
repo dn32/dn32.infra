@@ -22,15 +22,7 @@
     <EmbeddedResource Include="DnDoc\**\*.*" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.2' ">
-    <RuntimeFrameworkVersion>2.2.8</RuntimeFrameworkVersion>
-  </PropertyGroup>
-  
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.2' ">
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.1' ">
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.0" />
   </ItemGroup>
 

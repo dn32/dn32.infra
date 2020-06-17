@@ -17,14 +17,8 @@ where lower({column}) is not null and UTL_MATCH.jaro_winkler_similarity(lower({c
 order by UTL_MATCH.jaro_winkler_similarity(lower({column}), lower({{0}})) DESC
 ";
 
-#if NETCOREAPP3_1
             var dbSet = query.DnCast<DbSet<T>>();
             return dbSet.FromSqlRaw(sql, term);
-#else
-#pragma warning disable EF1000 // Possible SQL injection vulnerability.
-            return query.FromSql(sql, term);
-#pragma warning restore EF1000 // Possible SQL injection vulnerability.
-#endif
         }
 
         public static IQueryable<T> WhereProximityText<T>(this IQueryable<T> query, string term, string table, string[] columns, int tolerance) where T : DnEntidade
@@ -39,14 +33,8 @@ WHERE {column} IS NOT NULL AND UTL_MATCH.JARO_WINKLER_SIMILARITY(LOWER({column})
             var union = string.Join("\nUNION ALL\n", sqlArray);
             var sql = $@"SELECT * FROM ({union}) ORDER BY PRECISAO__ DESC";
 
-#if NETCOREAPP3_1
             var dbSet = query.DnCast<DbSet<T>>();
             return dbSet.FromSqlRaw(sql, term);
-#else
-#pragma warning disable EF1000 // Possible SQL injection vulnerability.
-            return query.FromSql(sql, term);
-#pragma warning restore EF1000 // Possible SQL injection vulnerability.
-#endif
         }
     }
 }

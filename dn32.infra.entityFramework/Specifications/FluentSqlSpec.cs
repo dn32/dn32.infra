@@ -7,11 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
-#if NETCOREAPP3_1
-
-#else
-#endif
-
 namespace dn32.infra.EntityFramework.Specifications
 {
     public class DnSqlSpec<TE> : DnEspecificacao<TE> where TE : DnEntidade
@@ -31,12 +26,8 @@ namespace dn32.infra.EntityFramework.Specifications
         {
             IgnorarAOrdenacao = true;
 
-#if NETCOREAPP3_1
             var dbSet = query.DnCast<DbSet<TE>>();
             return dbSet.FromSqlRaw(Sql, Parameters);
-#else
-            return query.FromSql(Sql, Parameters);
-#endif
         }
 
         public override IOrderedQueryable<TE> Order(IQueryable<TE> query) => throw new NotImplementedException();

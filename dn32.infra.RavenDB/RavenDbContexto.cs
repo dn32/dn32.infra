@@ -6,6 +6,7 @@ using dn32.infra.Nucleo.Models;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace dn32.infra.RavenDB
@@ -65,9 +66,10 @@ namespace dn32.infra.RavenDB
             Sessao.Dispose();
         }
 
-        public async Task SaveChangesAsync()
+        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            await Sessao.SaveChangesAsync();
+            await Sessao.SaveChangesAsync(cancellationToken);
+            return 0;
         }
 
         //        internal protected delegate void EntityChangeEventHandler(ICollection<DnDadosDeEntidadeAlterada> DnEventEntity);

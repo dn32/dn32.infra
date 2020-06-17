@@ -91,6 +91,15 @@ namespace dn32.infra.nucleo.configuracoes
             return configuracoes;
         }
 
+        public static DnConfiguracoesGlobais NaoMostrarLogsDoBDEmDebug(this DnConfiguracoesGlobais configuracoes)
+        {
+            if (configuracoes != null)
+                configuracoes.MostrarLogsDoBDEmDebug = false;
+
+            return configuracoes;
+        }
+
+        
         public static DnConfiguracoesGlobais DefinirTipoGenericoDeSessaoDeRequisicao<T>(this DnConfiguracoesGlobais configuracoes) where T : SessaoDeRequisicaoDoUsuario
         {
             if (configuracoes != null)

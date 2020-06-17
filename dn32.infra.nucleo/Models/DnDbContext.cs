@@ -1,5 +1,6 @@
 ﻿using dn32.infra.nucleo.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace dn32.infra.nucleo.interfaces
@@ -10,6 +11,6 @@ namespace dn32.infra.nucleo.interfaces
 
         public bool HaAlteracao => ChangeTracker.HasChanges();
 
-        public abstract Task SaveChangesAsync();
+     //   public abstract Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

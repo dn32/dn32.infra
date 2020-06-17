@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace dn32.infra.nucleo.Interfaces
@@ -6,7 +7,7 @@ namespace dn32.infra.nucleo.Interfaces
     public interface IDnDbContext : IDisposable
     {
         bool EnableLogicalDeletion { get; set; }
-        Task SaveChangesAsync();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         bool HaAlteracao { get; }
     }
 }

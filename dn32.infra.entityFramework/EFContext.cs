@@ -156,12 +156,12 @@ namespace dn32.infra.EntityFramework
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 #if DEBUG
-
+if(Setup.ConfiguracoesGlobais.MostrarLogsDoBDEmDebug){
             ContextLogFactory ??= new LoggerFactory(new[] { new DebugLoggerProvider() });
             optionsBuilder
                 .UseLoggerFactory(ContextLogFactory)
                     .EnableSensitiveDataLogging();
-
+}
 #endif
         }
 
@@ -171,7 +171,7 @@ namespace dn32.infra.EntityFramework
 
             var eventChange = BeforeSave();
 
-            var ret = await base.SaveChangesAsync();
+            var ret = await base.SaveChangesAsync(true, new CancellationToken());
 
             AfterSave(eventChange);
 

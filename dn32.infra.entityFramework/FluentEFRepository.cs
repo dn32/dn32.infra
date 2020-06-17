@@ -355,12 +355,7 @@ namespace dn32.infra.EntityFramework
         internal protected IQueryable<TO> FromSqlSelect<TO>(string sql, params object[] parameters) where TO : EntidadeBase
         {
             var source = ObjetosTransacionais.ObterObjetoInputInterno<TO>() as DbSet<TO>;
-
-#if NETCOREAPP3_1
             return source.FromSqlRaw(sql, parameters);
-#else
-            return source.FromSql(sql, parameters);
-#endif
         }
 
         internal protected ICollection ListAllNotPaginate(string sql, Type dbEntityType)
