@@ -14,7 +14,7 @@
   <ItemGroup>
     <PackageReference Include="Oracle.EntityFrameworkCore" Version="3.19.0-beta1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.5" />
   </ItemGroup>
   
   <ItemGroup>
