@@ -1,19 +1,17 @@
-﻿using dn32.infra.atributos;
+﻿using System.Security.Cryptography.X509Certificates;
+using System.Threading;
+using System.Threading.Tasks;
+using dn32.infra.atributos;
 using dn32.infra.enumeradores;
 using dn32.infra.nucleo.configuracoes;
 using dn32.infra.nucleo.Interfaces;
 using dn32.infra.Nucleo.Models;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace dn32.infra.RavenDB
-{
-    [DnTipoDeBancoDeDadosAtributo(EnumTipoDeBancoDeDados.RAVENDB)]
-    public class RavenDbContexto : IDnDbContext
-    {
+namespace dn32.infra.RavenDB {
+    [DnTipoDeBancoDeDadosAtributo (EnumTipoDeBancoDeDados.RAVENDB)]
+    public class RavenDbContexto : IDnDbContext {
         internal protected SessaoDeRequisicaoDoUsuario UserSessionRequest { get; internal set; }
 
         public bool EnableLogicalDeletion { get; set; }
@@ -30,45 +28,39 @@ namespace dn32.infra.RavenDB
 
         public bool HaAlteracao => Sessao.Advanced.HasChanges;
 
-        public RavenDbContexto(string connectionString)
-        {
+        public RavenDbContexto (string connectionString) {
             ConnectionString = connectionString;
-            Store = CreateDocumentStore();
-            Sessao = Store.OpenAsyncSession();
+            Store = CreateDocumentStore ();
+            Sessao = Store.OpenAsyncSession ();
             Sessao.Advanced.MaxNumberOfRequestsPerSession = 10000;
         }
 
-        private IDocumentStore CreateDocumentStore()
-        {
+        private IDocumentStore CreateDocumentStore () {
             NomeDoBD = Setup.ConfiguracoesGlobais.Valores["nomeDoBD"];
             EnderecoDoCertificado = Setup.ConfiguracoesGlobais.Valores["enderecoDoCertificado"];
 
             string serverURL = ConnectionString;
             string databaseName = NomeDoBD;
-            var clientCertificate = new X509Certificate2(EnderecoDoCertificado);
 
-            IDocumentStore documentStore = new DocumentStore
-            {
-#if RELEASE
-                Certificate = clientCertificate,
-#endif
-                Urls = new[] { serverURL },
+            var documentStore = new DocumentStore {
+                Urls = new [] { serverURL },
                 Database = databaseName
             };
 
-            documentStore.Initialize();
+            if (!string.IsNullOrWhiteSpace (EnderecoDoCertificado))
+                documentStore.Certificate = new X509Certificate2 (EnderecoDoCertificado);
+
+            documentStore.Initialize ();
 
             return documentStore;
         }
 
-        public void Dispose()
-        {
-            Sessao.Dispose();
+        public void Dispose () {
+            Sessao.Dispose ();
         }
 
-        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            await Sessao.SaveChangesAsync(cancellationToken);
+        public async Task<int> SaveChangesAsync (CancellationToken cancellationToken = default) {
+            await Sessao.SaveChangesAsync (cancellationToken);
             return 0;
         }
 

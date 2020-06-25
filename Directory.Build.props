@@ -7,6 +7,9 @@
     <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Nullable>warnings</Nullable>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -26,12 +29,16 @@
      <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="/home/marcelo/dev/out" />
   </Target>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
   <!--<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Version>0.0.0.1-beta$([System.DateTime]::UtcNow.ToString(MMddHHmm))</Version>
   </PropertyGroup>-->
   
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <Version>0.0.0.8</Version>
+    <Version>0.0.0.10</Version>
   </PropertyGroup>
 
 </Project>
