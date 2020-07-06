@@ -9,7 +9,7 @@ namespace dn32.infra.Redis
     {
         protected DnRedisContext Context { get; set; }
 
-        public DnRepositorioDoRedis(string connectionString) => Context = ObterContexto(connectionString);
+        public DnRepositorioDoRedis(string connectionString) => Context ??= ObterContexto(connectionString);
 
         protected virtual DnRedisContext ObterContexto(string connectionString) => new DnRedisContext(connectionString);
 
