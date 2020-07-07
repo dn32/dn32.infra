@@ -89,7 +89,9 @@ namespace dn32.infra.nucleo.controladores
 
         private void LimparMemoria()
         {
-            this.Servico.Dispose(true);
+            if (!this.Servico.EscopoSingleton)
+                this.Servico.Dispose(true);
+
             this.TransacaoEstaAberta = false;
         }
 

@@ -13,24 +13,37 @@ namespace dn32.infra.nucleo.fabricas
 {
     public static class FabricaDeServico
     {
-        internal static TS Criar<TS>(object httpContext) where TS : DnServicoTransacionalBase, new()
+        private static ConcurrentDictionary<Type, DnServicoTransacionalBase> ServicosSingleton { get; set; } = new ConcurrentDictionary<Type, DnServicoTransacionalBase>();
+
+        internal static TS Criar<TS>(object httpContext, bool escopoSingleton = false) where TS : DnServicoTransacionalBase, new()
         {
-            return Criar(typeof(TS), httpContext) as TS;
+            return Criar(typeof(TS), httpContext, null, escopoSingleton) as TS;
         }
 
-        internal static DnServicoTransacionalBase Criar(Type tipoDeServico, SessaoDeRequisicaoDoUsuario sessaoDeRequisicao)
+        internal static DnServicoTransacionalBase Criar(Type tipoDeServico, SessaoDeRequisicaoDoUsuario sessaoDeRequisicao, bool escopoSingleton = false)
         {
-            return Criar(tipoDeServico, sessaoDeRequisicao.HttpContext, sessaoDeRequisicao);
+            return Criar(tipoDeServico, sessaoDeRequisicao.HttpContext, sessaoDeRequisicao, escopoSingleton);
         }
 
-        internal static DnServicoTransacionalBase Criar(Type tipoDeServico, object httpContext, SessaoDeRequisicaoDoUsuario sessaoDeRequisicao = null)
+        internal static DnServicoTransacionalBase Criar(Type tipoDeServico, object httpContext, SessaoDeRequisicaoDoUsuario sessaoDeRequisicao = null, bool escopoSingleton = false)
         {
-            var sessionId = Guid.NewGuid();
-            tipoDeServico = ObterServicoEspecializado(tipoDeServico);
-            var service = FabricaDeServicoLazy.Criar(tipoDeServico, sessionId);
-            var userSession = sessaoDeRequisicao ?? CreateUserSession(httpContext, sessionId, service);
-            service.DefinirSessaoDoUsuario(userSession);
-            return service;
+            lock (ServicosSingleton)
+            {
+                if (escopoSingleton && ServicosSingleton.TryGetValue(tipoDeServico, out var servicoOut))
+                    return servicoOut;
+
+                var sessionId = Guid.NewGuid();
+                tipoDeServico = ObterServicoEspecializado(tipoDeServico);
+                var service = FabricaDeServicoLazy.Criar(tipoDeServico, sessionId);
+                var userSession = sessaoDeRequisicao ?? CreateUserSession(httpContext, sessionId, service);
+                service.DefinirSessaoDoUsuario(userSession);
+                service.EscopoSingleton = escopoSingleton;
+
+                if (escopoSingleton)
+                    ServicosSingleton.TryAdd(tipoDeServico, service);
+
+                return service;
+            }
         }
 
         /// <summary>
@@ -68,9 +81,9 @@ namespace dn32.infra.nucleo.fabricas
         /// O contexto do controller.
         /// </param>
         /// <returns></returns>
-        public static TS CriarServicoInterno<TS>() where TS : DnServicoTransacionalBase, new()
+        public static TS CriarServicoInterno<TS>(bool escopoSingleton = false) where TS : DnServicoTransacionalBase, new()
         {
-            return Criar<TS>(null).DnCast<TS>();
+            return Criar<TS>(null, escopoSingleton).DnCast<TS>();
         }
 
         public static DnServicoTransacionalBase Criar(Type tipoDeServico, object httpContext, string justificativa)

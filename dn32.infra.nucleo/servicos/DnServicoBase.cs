@@ -11,6 +11,8 @@ namespace dn32.infra.nucleo.servicos
 {
     public abstract class DnServicoBase : IDisposable
     {
+        internal bool EscopoSingleton { get; set; }
+
         protected virtual DnValidacaoBase Validacao { get; set; }
 
         protected virtual IDnRepositorioBase Repositorio { get; set; }
@@ -34,6 +36,8 @@ namespace dn32.infra.nucleo.servicos
 
         public void Dispose(bool servicoPrimario)
         {
+            if (this.EscopoSingleton) return;
+
             if (Disposed)
             {
                 return;
