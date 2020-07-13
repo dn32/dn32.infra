@@ -11,6 +11,7 @@ using System.Reflection;
 using dn32.infra.extensoes;
 using dn32.infra.nucleo.configuracoes;
 using System.Security.Claims;
+using dn32.infra.Util;
 
 namespace dn32.infra.nucleo.filtros
 {
@@ -44,26 +45,17 @@ namespace dn32.infra.nucleo.filtros
 
         protected virtual void ValidarAutenticacao(AuthorizationFilterContext context)
         {
-            var tokenRequest = context.HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Replace("Bearer", "").Trim();
-            tokenRequest = string.IsNullOrWhiteSpace(tokenRequest) ? context.HttpContext.Request.Query["Authorization"].ToString()?.Replace("Bearer", "")?.Trim() : tokenRequest;
-            tokenRequest = string.IsNullOrWhiteSpace(tokenRequest) ? context.HttpContext.Request.Cookies["Authorization"]?.Replace("Bearer", "")?.Trim() : tokenRequest;
+            var token = context.HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Replace("Bearer", "").Trim();
+            token = string.IsNullOrWhiteSpace(token) ? context.HttpContext.Request.Query["Authorization"].ToString()?.Replace("Bearer", "")?.Trim() : token;
+            token = string.IsNullOrWhiteSpace(token) ? context.HttpContext.Request.Cookies["Authorization"]?.Replace("Bearer", "")?.Trim() : token;
 
-            if (string.IsNullOrWhiteSpace(tokenRequest) || tokenRequest == "undefined" && tokenRequest == "null")
+            if (string.IsNullOrWhiteSpace(token) || token == "undefined" && token == "null")
             {
                 throw new UnauthorizedAccessException("É necessário enviar um token de autenticação por meio do parâmetro 'Authorization' que pode ser por cookie, header, ou query string.");
             }
             else
             {
-                var par = ObterDadosDoToken();
-                var handler = new JwtSecurityTokenHandler();
-                try
-                {
-                    context.HttpContext.User = handler.ValidateToken(tokenRequest, par, out SecurityToken tok);
-                }
-                catch (Exception ex)
-                {
-                    throw new UnauthorizedAccessException(ex.Message);
-                }
+                context.HttpContext.User = UtilitarioDeAutenticacao.ObterPrincipal(token);
             }
         }
 
@@ -82,22 +74,6 @@ namespace dn32.infra.nucleo.filtros
             context.Result = content;
             context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;
             return;
-        }
-
-        private static TokenValidationParameters ObterDadosDoToken()
-        {
-            var Info = Setup.ConfiguracoesGlobais.InformacoesDoJWT;
-            return new TokenValidationParameters
-            {
-                IssuerSigningKey = Info.SymmetricSecurityKey,
-                ValidAudience = Info.Audience,
-                ValidIssuer = Info.Issuer,
-                ValidateIssuerSigningKey = Info.ValidateIssuerSigningKey,
-                ValidateLifetime = Info.ValidateLifetime,
-                ValidateIssuer = Info.ValidateIssuer,
-                ValidateAudience = Info.ValidateAudience,
-                ClockSkew = Info.ClockSkew
-            };
         }
     }
 }
