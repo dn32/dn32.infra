@@ -10,45 +10,14 @@ namespace dn32.infra.Util
     {
         private static string Secret { get; set; }
 
-        internal static void Initialize()
-        {
-            using (var hmac = new HMACSHA256())
-            {
-                //Secret = "KipzNHM2NUxLSElUWVJTNDY1NzY4NzAtOTBAIyQlKiomQClOTEtUTHM1c25iSkhHQ1tdeyE5NGFAQHNvaSlVSlNETEpLSMOib3AoQCMkJcKoJipqTTIzNDU2aEU1Vw==";
-                Secret = Convert.ToBase64String(hmac.Key);
-            }
-        }
-
-        //internal static bool ValidateToken(string token, out string username)
-        //{
-        //    username = null;
-
-        //    var simplePrinciple = GetPrincipal(token);
-
-        //    if (!(simplePrinciple?.Identity is ClaimsIdentity identity))
-        //    {
-        //        return false;
-        //    }
-
-        //    if (!identity.IsAuthenticated)
-        //    {
-        //        return false;
-        //    }
-
-        //    username = identity?.FindFirst(ClaimTypes.Name)?.Valor;
-
-        //    if (string.IsNullOrEmpty(username))
-        //    {
-        //        return false;
-        //    }
-
-        //    More validate to check whether username exists in system
-
-        //        return true;
-        //}
-
         public static ClaimsPrincipal GetPrincipal(string token)
         {
+            if (Secret == null)
+            {
+                using (var hmac = new HMACSHA256())
+                    Secret = Convert.ToBase64String(hmac.Key);
+            }
+
             if (string.IsNullOrWhiteSpace(token))
             {
                 throw new AccessViolationException("Token não informado");
@@ -87,6 +56,12 @@ namespace dn32.infra.Util
 
         public static string GenerateToken(int id, int expireMinutes = 20)
         {
+            if (Secret == null)
+            {
+                using (var hmac = new HMACSHA256())
+                    Secret = Convert.ToBase64String(hmac.Key);
+            }
+
             var symmetricKey = Convert.FromBase64String(Secret);
             var tokenHandler = new JwtSecurityTokenHandler();
 
