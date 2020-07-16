@@ -10,7 +10,7 @@ namespace dn32.infra.EntityFramework
 {
     public static class ConfigExtension
     {
-        public static DnConfiguracoesGlobais UsarEntityFramework(this DnConfiguracoesGlobais configuracoes)
+        public static DnConfiguracoesGlobais AdicionarEntityFramework(this DnConfiguracoesGlobais configuracoes)
         {
             return configuracoes.DefinirFabricaDeRepositorio(new RepositoryFactory());
         }

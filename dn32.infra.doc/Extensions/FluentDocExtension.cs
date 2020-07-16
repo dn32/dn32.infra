@@ -16,10 +16,10 @@ namespace dn32.infra
 
         internal static IDnGlobalization DnGlobalization { get; set; }
 
-        public static IMvcBuilder AddDnDoc(this IMvcBuilder builder, string apiBaseUrl)
+        public static IMvcBuilder AdicionarDnDoc(this IMvcBuilder builder, string apiBaseUrl)
         {
             ApiBaseUrl = apiBaseUrl;
-            builder.Services.AddDnDoc();
+            builder.Services.AdicionarDnDoc();
             return builder;
         }
 
@@ -29,7 +29,7 @@ namespace dn32.infra
             return builder;
         }
 
-        public static IServiceCollection AddDnDoc(this IServiceCollection services)
+        public static IServiceCollection AdicionarDnDoc(this IServiceCollection services)
         {
             services.Configure<StaticFileOptions>(opts =>
             {
@@ -39,7 +39,7 @@ namespace dn32.infra
             return services;
         }
 
-        public static IApplicationBuilder UseDnDoc(this IApplicationBuilder app)
+        public static IApplicationBuilder UsarDnDoc(this IApplicationBuilder app)
         {
             app.UseStaticFiles();
             return app;
