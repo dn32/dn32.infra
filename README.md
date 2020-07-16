@@ -5,5 +5,6 @@
     </a>
 </p>
 
+https://www.nuget.org/packages/dn32.infra/
 
 ### dn32.infra é a evolução de Fluente.Arquitetura
