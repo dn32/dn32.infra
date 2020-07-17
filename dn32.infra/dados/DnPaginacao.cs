@@ -1,16 +1,4 @@
-﻿
-/* Unmerged change from project 'dn32.infra (netstandard2.1)'
-Before:
-using System;
-
-
-using Newtonsoft.Json;
-After:
-using Newtonsoft.Json;
-using Newtonsoft.Json;
-*/
-
-
+﻿using Newtonsoft.Json;
 using System;
 
 namespace dn32.infra
