@@ -1,13 +1,11 @@
 ﻿using System;
-using dn32.infra.enumeradores;
-using dn32.infra.extensoes;
+using dn32.infra;
+using dn32.infra;
 using Newtonsoft.Json;
 
-namespace dn32.infra.atributos
-{
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    public class DnOperacaoDeCondicionalDeTelaAtributo : Attribute
-    {
+namespace dn32.infra {
+    [AttributeUsage (AttributeTargets.Property, AllowMultiple = true)]
+    public class DnOperacaoDeCondicionalDeTelaAtributo : Attribute {
         #region PROPRIEDADES
 
         private string _valor;
@@ -17,7 +15,7 @@ namespace dn32.infra.atributos
         public string ValorParaODisparo { get; }
 
         [JsonIgnore]
-        public object Valor { get => _valor; set => _valor = value?.ToString(); }
+        public object Valor { get => _valor; set => _valor = value?.ToString (); }
 
         public EnumTipoDeEventoDeTela TipoDeDisparo { get; set; } = EnumTipoDeEventoDeTela.Alterar;
 
@@ -30,24 +28,21 @@ namespace dn32.infra.atributos
 
         #endregion
 
-        public DnOperacaoDeCondicionalDeTelaAtributo(string propriedadeAvaliada, object valorParaODisparo)
-        {
+        public DnOperacaoDeCondicionalDeTelaAtributo (string propriedadeAvaliada, object valorParaODisparo) {
             PropriedadeAvaliada = propriedadeAvaliada;
-            ValorParaODisparo = valorParaODisparo?.SerializarParaDnJson();
+            ValorParaODisparo = valorParaODisparo?.SerializarParaDnJson ();
         }
 
-        public DnOperacaoDeCondicionalDeTelaAtributo(string propriedadeAvaliada, object valorParaODisparo, EnumTipoDeOperacaoDeTela operacao)
-        {
+        public DnOperacaoDeCondicionalDeTelaAtributo (string propriedadeAvaliada, object valorParaODisparo, EnumTipoDeOperacaoDeTela operacao) {
             PropriedadeAvaliada = propriedadeAvaliada;
-            ValorParaODisparo = valorParaODisparo?.SerializarParaDnJson();
+            ValorParaODisparo = valorParaODisparo?.SerializarParaDnJson ();
             Operacao = operacao;
         }
 
-        public DnOperacaoDeCondicionalDeTelaAtributo(string propriedadeAvaliada, object valorParaODisparo, EnumTipoDeOperacaoDeTela operacao, EnumTipoDeEventoDeTela tipoDeDisparo)
-        {
+        public DnOperacaoDeCondicionalDeTelaAtributo (string propriedadeAvaliada, object valorParaODisparo, EnumTipoDeOperacaoDeTela operacao, EnumTipoDeEventoDeTela tipoDeDisparo) {
             PropriedadeAvaliada = propriedadeAvaliada;
             TipoDeDisparo = tipoDeDisparo;
-            ValorParaODisparo = valorParaODisparo?.SerializarParaDnJson();
+            ValorParaODisparo = valorParaODisparo?.SerializarParaDnJson ();
             Operacao = operacao;
         }
     }

@@ -1,14 +1,14 @@
-﻿using dn32.infra.Factory;
-using dn32.infra.Nucleo.Models;
-using dn32.infra.servicos;
-using System;
-using dn32.infra.dados;
-using dn32.infra.nucleo.configuracoes;
-using dn32.infra.nucleo.fabricas;
-using dn32.infra.excecoes;
-using dn32.infra.nucleo.servicos;
+﻿using System;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
 
-namespace dn32.infra.extensoes
+namespace dn32.infra
 {
     public static class ServiceExtension
     {

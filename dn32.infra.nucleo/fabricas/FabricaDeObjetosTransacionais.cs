@@ -1,15 +1,12 @@
-﻿using dn32.infra.nucleo.configuracoes;
-using dn32.infra.nucleo.interfaces;
-using dn32.infra.Nucleo.Models;
-using System;
+﻿using System;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
 
-namespace dn32.infra.nucleo.fabricas
-{
-    public static class FabricaDeObjetosTransacionais
-    {
-        public static IDnObjetosTransacionais Criar(Type transactionObjectsType, Conexao connection, SessaoDeRequisicaoDoUsuario userSessionRequest)
-        {
-            return Activator.CreateInstance(transactionObjectsType, connection, userSessionRequest) as IDnObjetosTransacionais;
+namespace dn32.infra {
+    public static class FabricaDeObjetosTransacionais {
+        public static IDnObjetosTransacionais Criar (Type transactionObjectsType, Conexao connection, SessaoDeRequisicaoDoUsuario userSessionRequest) {
+            return Activator.CreateInstance (transactionObjectsType, connection, userSessionRequest) as IDnObjetosTransacionais;
         }
     }
 }

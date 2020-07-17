@@ -1,19 +1,17 @@
-﻿using dn32.infra.dados;
-using dn32.infra.nucleo.configuracoes;
-using dn32.infra.nucleo.interfaces;
-using dn32.infra.nucleo.Interfaces;
-using dn32.infra.Nucleo.Models;
-using Raven.Client.Documents;
-using System;
+﻿using System;
 using System.Linq;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using Raven.Client.Documents;
 
-namespace dn32.infra.RavenDB
-{
+namespace dn32.infra {
     /// <summary>
     /// Obtetos de transação.
     /// </summary>
-    public class RavenDBObjetosDeTransacao : IDnObjetosTransacionais
-    {
+    public class RavenDBObjetosDeTransacao : IDnObjetosTransacionais {
         public IDnDbContext contexto { get; set; }
 
         public RavenDbContexto Contexto => contexto as RavenDbContexto;
@@ -22,9 +20,8 @@ namespace dn32.infra.RavenDB
 
         public SessaoDeRequisicaoDoUsuario UserSessionRequest { get; set; }
 
-        public void Dispose()
-        {
-            this.Contexto.Dispose();
+        public void Dispose () {
+            this.Contexto.Dispose ();
         }
 
         /// <summary>
@@ -34,20 +31,17 @@ namespace dn32.infra.RavenDB
         /// <param Nome="dataBaseConnectionString">
         /// String de conexão com o banco de dados.
         /// </param>
-        public RavenDBObjetosDeTransacao(Conexao connection, SessaoDeRequisicaoDoUsuario userSessionRequest)
-        {
+        public RavenDBObjetosDeTransacao (Conexao connection, SessaoDeRequisicaoDoUsuario userSessionRequest) {
             this.UserSessionRequest = userSessionRequest;
-            this.contexto = RavenDbContextoFabrica.Create(connection, UserSessionRequest);
+            this.contexto = RavenDbContextoFabrica.Create (connection, UserSessionRequest);
         }
 
-        public IQueryable<TX> ObterObjetoInputInterno<TX>() where TX : EntidadeBase
-        {
-            return Contexto.Sessao.Query<TX>();
+        public IQueryable<TX> ObterObjetoInputInterno<TX> () where TX : EntidadeBase {
+            return Contexto.Sessao.Query<TX> ();
         }
 
-        public IQueryable ObterObjetoInputDataInterno(Type type)
-        {
-            throw new NotImplementedException();
+        public IQueryable ObterObjetoInputDataInterno (Type type) {
+            throw new NotImplementedException ();
 
         }
 
@@ -60,9 +54,8 @@ namespace dn32.infra.RavenDB
         /// <returns>
         /// A referência da tabela do banco de dados.
         /// </returns>
-        public virtual IQueryable<TX> ObterObjetoQueryInterno<TX>() where TX : EntidadeBase
-        {
-            return Contexto.Sessao.Query<TX>();
+        public virtual IQueryable<TX> ObterObjetoQueryInterno<TX> () where TX : EntidadeBase {
+            return Contexto.Sessao.Query<TX> ();
         }
     }
 }

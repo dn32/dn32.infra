@@ -1,14 +1,12 @@
-﻿using dn32.infra.nucleo.erros_de_validacao;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using dn32.infra;
 
-namespace dn32.infra.validacoes
-{
+namespace dn32.infra {
     [Serializable]
-    public class DnContextoDeValidacaoException : Exception
-    {
+    public class DnContextoDeValidacaoException : Exception {
         public bool EhErroDeValidacao => true;
 
         public List<DnErroDeValidacao> Inconsistencies { get; }
@@ -17,21 +15,20 @@ namespace dn32.infra.validacoes
 
         public bool EhInvalido => !this.EhValido;
 
-        public override string Message => string.Join("\n", this.Inconsistencies.Select(x => "* " + (x.MensagemDeGlobalizacao ?? x.Mensagem)).ToArray());
+        public override string Message => string.Join ("\n", this.Inconsistencies.Select (x => "* " + (x.MensagemDeGlobalizacao ?? x.Mensagem)).ToArray ());
 
-        public void AddInconsistency(DnErroDeValidacao exception) =>
-            Inconsistencies.Add(exception);
+        public void AddInconsistency (DnErroDeValidacao exception) =>
+            Inconsistencies.Add (exception);
 
-        public DnContextoDeValidacaoException() : base(string.Empty) =>
-            Inconsistencies = new List<DnErroDeValidacao>();
+        public DnContextoDeValidacaoException () : base (string.Empty) =>
+            Inconsistencies = new List<DnErroDeValidacao> ();
 
-        public void Validate()
-        {
+        public void Validate () {
             if (EhInvalido)
                 throw this;
         }
 
-        protected DnContextoDeValidacaoException(SerializationInfo serializationInfo, StreamingContext streamingContext) =>
-            throw new NotImplementedException();
+        protected DnContextoDeValidacaoException (SerializationInfo serializationInfo, StreamingContext streamingContext) =>
+            throw new NotImplementedException ();
     }
 }

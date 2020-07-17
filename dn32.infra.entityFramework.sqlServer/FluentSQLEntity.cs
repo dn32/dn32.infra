@@ -1,11 +1,9 @@
-﻿using dn32.infra.dados;
-using dn32.infra.enumeradores;
-using dn32.infra.atributos;
+﻿using dn32.infra;
+using dn32.infra;
+using dn32.infra;
 
-namespace dn32.infra.EntityFramework.SqlServer
+namespace dn32.infra
 {
     [DnTipoDeBancoDeDadosAtributo(EnumTipoDeBancoDeDados.SQL_SERVER)]
-    public abstract class DnSQLEntity : DnEntidade
-    {
-    }
+    public abstract class DnSQLEntity : DnEntidade { }
 }

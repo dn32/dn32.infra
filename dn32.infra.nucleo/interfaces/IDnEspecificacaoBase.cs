@@ -1,9 +1,7 @@
-﻿using dn32.infra.servicos;
+﻿using dn32.infra;
 
-namespace dn32.infra.nucleo.interfaces
-{
-    public interface IDnEspecificacaoBase
-    {
+namespace dn32.infra {
+    public interface IDnEspecificacaoBase {
         DnServicoTransacionalBase Servico { get; set; }
     }
 }

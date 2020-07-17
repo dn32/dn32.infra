@@ -1,10 +1,8 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using Newtonsoft.Json;
 
-namespace dn32.infra.nucleo.atributos
-{
-    public class DnEsquemaJsonAtributo : Attribute
-    {
+namespace dn32.infra {
+    public class DnEsquemaJsonAtributo : Attribute {
         private string nome;
 
         public string Nome { get => nome ?? NomeDaPropriedade; set => nome = value; }

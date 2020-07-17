@@ -1,18 +1,18 @@
-﻿using dn32.infra.Factory;
-using dn32.infra.nucleo.atributos;
-using dn32.infra.servicos;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using dn32.infra.dados;
-using dn32.infra.extensoes;
-using dn32.infra.nucleo.validacoes;
-using dn32.infra.nucleo.fabricas;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
 
-namespace dn32.infra.validacoes
+namespace dn32.infra
 {
     internal static class DnValidationExtension
     {

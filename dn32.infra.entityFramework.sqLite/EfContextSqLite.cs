@@ -1,10 +1,10 @@
 ﻿// ReSharper disable CommentTypo
-using dn32.infra.atributos;
-using dn32.infra.enumeradores;
+using dn32.infra;
+using dn32.infra;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace dn32.infra.EntityFramework.SqLite
+namespace dn32.infra
 {
     /// <inheritdoc />
     /// <summary>
@@ -15,9 +15,7 @@ namespace dn32.infra.EntityFramework.SqLite
     {
         public static LoggerFactory LoggerFactory;
 
-        public EfContextSqLite(string connectionString) : base(connectionString)
-        {
-        }
+        public EfContextSqLite(string connectionString) : base(connectionString) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

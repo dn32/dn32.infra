@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
-using StackExchange.Redis;
-using System;
-using System.Threading.Tasks;
-using dn32.infra.extensoes;
-using System.Net;
+﻿using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
+using dn32.infra;
+using Newtonsoft.Json;
+using StackExchange.Redis;
 
-namespace dn32.infra.Redis
+namespace dn32.infra
 {
     public class DnRedisContext
     {
@@ -54,7 +54,8 @@ namespace dn32.infra.Redis
         {
             var keys = Server.KeysAsync(pattern: pattern);
             var servidores = new List<T>();
-            await foreach (var key in keys)
+            await
+            foreach (var key in keys)
             {
                 var json = await Db.StringGetAsync(key);
                 servidores.Add(JsonConvert.DeserializeObject<T>(json));
@@ -95,8 +96,6 @@ namespace dn32.infra.Redis
 
         //    IServer server = _multiplexer.GetServer("redisdb:6379");
         //    IEnumerable<RedisKey> list = server.Keys(pattern: "XYZ.*", pageOffset: 0, pageSize: 1000);
-
-
 
         //    // return JsonConvert.DeserializeObject<T>(list);
         //}

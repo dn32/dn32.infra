@@ -1,46 +1,40 @@
-﻿using dn32.infra.excecoes;
-using dn32.infra.extensoes;
-using dn32.infra.nucleo.configuracoes;
-using dn32.infra.nucleo.interfaces;
-using dn32.infra.nucleo.servicos;
-using dn32.infra.Nucleo.Models;
-using dn32.infra.servicos;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
 
-namespace dn32.infra.nucleo.fabricas
-{
-    public static class FabricaDeServico
-    {
-        private static ConcurrentDictionary<Type, DnServicoTransacionalBase> ServicosSingleton { get; set; } = new ConcurrentDictionary<Type, DnServicoTransacionalBase>();
+namespace dn32.infra {
+    public static class FabricaDeServico {
+        private static ConcurrentDictionary<Type, DnServicoTransacionalBase> ServicosSingleton { get; set; } = new ConcurrentDictionary<Type, DnServicoTransacionalBase> ();
 
-        internal static TS Criar<TS>(object httpContext, bool escopoSingleton = false) where TS : DnServicoTransacionalBase, new()
-        {
-            return Criar(typeof(TS), httpContext, null, escopoSingleton) as TS;
+        internal static TS Criar<TS> (object httpContext, bool escopoSingleton = false) where TS : DnServicoTransacionalBase, new () {
+            return Criar (typeof (TS), httpContext, null, escopoSingleton) as TS;
         }
 
-        internal static DnServicoTransacionalBase Criar(Type tipoDeServico, SessaoDeRequisicaoDoUsuario sessaoDeRequisicao, bool escopoSingleton = false)
-        {
-            return Criar(tipoDeServico, sessaoDeRequisicao.HttpContext, sessaoDeRequisicao, escopoSingleton);
+        internal static DnServicoTransacionalBase Criar (Type tipoDeServico, SessaoDeRequisicaoDoUsuario sessaoDeRequisicao, bool escopoSingleton = false) {
+            return Criar (tipoDeServico, sessaoDeRequisicao.HttpContext, sessaoDeRequisicao, escopoSingleton);
         }
 
-        internal static DnServicoTransacionalBase Criar(Type tipoDeServico, object httpContext, SessaoDeRequisicaoDoUsuario sessaoDeRequisicao = null, bool escopoSingleton = false)
-        {
-            lock (ServicosSingleton)
-            {
-                if (escopoSingleton && ServicosSingleton.TryGetValue(tipoDeServico, out var servicoOut))
+        internal static DnServicoTransacionalBase Criar (Type tipoDeServico, object httpContext, SessaoDeRequisicaoDoUsuario sessaoDeRequisicao = null, bool escopoSingleton = false) {
+            lock (ServicosSingleton) {
+                if (escopoSingleton && ServicosSingleton.TryGetValue (tipoDeServico, out var servicoOut))
                     return servicoOut;
 
-                var sessionId = Guid.NewGuid();
-                tipoDeServico = ObterServicoEspecializado(tipoDeServico);
-                var service = FabricaDeServicoLazy.Criar(tipoDeServico, sessionId);
-                var userSession = sessaoDeRequisicao ?? CreateUserSession(httpContext, sessionId, service);
-                service.DefinirSessaoDoUsuario(userSession);
+                var sessionId = Guid.NewGuid ();
+                tipoDeServico = ObterServicoEspecializado (tipoDeServico);
+                var service = FabricaDeServicoLazy.Criar (tipoDeServico, sessionId);
+                var userSession = sessaoDeRequisicao ?? CreateUserSession (httpContext, sessionId, service);
+                service.DefinirSessaoDoUsuario (userSession);
                 service.EscopoSingleton = escopoSingleton;
 
                 if (escopoSingleton)
-                    ServicosSingleton.TryAdd(tipoDeServico, service);
+                    ServicosSingleton.TryAdd (tipoDeServico, service);
 
                 return service;
             }
@@ -59,14 +53,12 @@ namespace dn32.infra.nucleo.fabricas
         /// Explique por que você está fazendo uso desse método.
         /// </param>
         /// <returns></returns>
-        public static TS Criar<TS>(object httpContext, string justificativa) where TS : DnServicoTransacionalBase, new()
-        {
-            if (string.IsNullOrWhiteSpace(justificativa))
-            {
-                throw new DesenvolvimentoIncorretoException("Informe uma justividativa.");
+        public static TS Criar<TS> (object httpContext, string justificativa) where TS : DnServicoTransacionalBase, new () {
+            if (string.IsNullOrWhiteSpace (justificativa)) {
+                throw new DesenvolvimentoIncorretoException ("Informe uma justividativa.");
             }
 
-            return Criar(typeof(TS), httpContext).DnCast<TS>();
+            return Criar (typeof (TS), httpContext).DnCast<TS> ();
         }
 
         /// <summary>
@@ -81,24 +73,20 @@ namespace dn32.infra.nucleo.fabricas
         /// O contexto do controller.
         /// </param>
         /// <returns></returns>
-        public static TS CriarServicoInterno<TS>(bool escopoSingleton = false) where TS : DnServicoTransacionalBase, new()
-        {
-            return Criar<TS>(null, escopoSingleton).DnCast<TS>();
+        public static TS CriarServicoInterno<TS> (bool escopoSingleton = false) where TS : DnServicoTransacionalBase, new () {
+            return Criar<TS> (null, escopoSingleton).DnCast<TS> ();
         }
 
-        public static DnServicoTransacionalBase Criar(Type tipoDeServico, object httpContext, string justificativa)
-        {
-            if (string.IsNullOrWhiteSpace(justificativa))
-            {
-                throw new DesenvolvimentoIncorretoException("Informe uma justividativa.");
+        public static DnServicoTransacionalBase Criar (Type tipoDeServico, object httpContext, string justificativa) {
+            if (string.IsNullOrWhiteSpace (justificativa)) {
+                throw new DesenvolvimentoIncorretoException ("Informe uma justividativa.");
             }
 
-            if (tipoDeServico.IsDnEntity())
-            {
-                tipoDeServico = typeof(DnServico<>).MakeGenericType(tipoDeServico);
+            if (tipoDeServico.IsDnEntity ()) {
+                tipoDeServico = typeof (DnServico<>).MakeGenericType (tipoDeServico);
             }
 
-            return Criar(tipoDeServico, httpContext).DnCast<DnServicoTransacionalBase>();
+            return Criar (tipoDeServico, httpContext).DnCast<DnServicoTransacionalBase> ();
         }
 
         /// <summary>
@@ -113,48 +101,43 @@ namespace dn32.infra.nucleo.fabricas
         /// <returns>
         /// O serviço criado.
         /// </returns>
-        internal static object CriarServicoEmTempoReal(Type tipoDeServico, Guid identificadorDaRequisicao)
-        {
-            var service = FabricaDeServicoLazy.Criar(tipoDeServico, identificadorDaRequisicao);
-            service.DefinirSessaoDoUsuario(Setup.ObterSessaoDeUmaRequisicao(identificadorDaRequisicao));
+        internal static object CriarServicoEmTempoReal (Type tipoDeServico, Guid identificadorDaRequisicao) {
+            var service = FabricaDeServicoLazy.Criar (tipoDeServico, identificadorDaRequisicao);
+            service.DefinirSessaoDoUsuario (Setup.ObterSessaoDeUmaRequisicao (identificadorDaRequisicao));
             return service;
         }
 
         #region PRIVATE
 
-        private static Type ObterServicoEspecializado(Type tipoDeServico)
-        {
-            var args = tipoDeServico.GetGenericArguments();
+        private static Type ObterServicoEspecializado (Type tipoDeServico) {
+            var args = tipoDeServico.GetGenericArguments ();
 
-            if (args.Any())
-            {
-                var entityType = args.First();
-                if (!Setup.Servicos.TryGetValue(entityType, out tipoDeServico))
-                {
-                    var type = (Setup.ConfiguracoesGlobais.TipoGenericoDeServico) ?? typeof(DnServico<>);
-                    tipoDeServico = type.MakeGenericType(entityType);
+            if (args.Any ()) {
+                var entityType = args.First ();
+                if (!Setup.Servicos.TryGetValue (entityType, out tipoDeServico)) {
+                    var type = (Setup.ConfiguracoesGlobais.TipoGenericoDeServico) ?? typeof (DnServico<>);
+                    tipoDeServico = type.MakeGenericType (entityType);
                 }
             }
 
             return tipoDeServico;
         }
 
-        private static SessaoDeRequisicaoDoUsuario CreateUserSession(object httpContext, Guid identificadorDaRequisicao, DnServicoBase servico)
-        {
+        private static SessaoDeRequisicaoDoUsuario CreateUserSession (object httpContext, Guid identificadorDaRequisicao, DnServicoBase servico) {
             //Todo arrumar
-            IDnObjetosTransacionais transactionObjects = null;// ITransactionObjects.Create();
+            IDnObjetosTransacionais transactionObjects = null; // ITransactionObjects.Create();
 
-            var tipoDeServico = ObterServicoEspecializado(servico.GetType());
-            var tipo = Setup.ConfiguracoesGlobais.TipoDeSessaoDeRequisicaoDeUsuario ?? typeof(SessaoDeRequisicaoDoUsuario);
-            var sessaoDaRequisicao = Activator.CreateInstance(tipo).DnCast<SessaoDeRequisicaoDoUsuario>();
+            var tipoDeServico = ObterServicoEspecializado (servico.GetType ());
+            var tipo = Setup.ConfiguracoesGlobais.TipoDeSessaoDeRequisicaoDeUsuario ?? typeof (SessaoDeRequisicaoDoUsuario);
+            var sessaoDaRequisicao = Activator.CreateInstance (tipo).DnCast<SessaoDeRequisicaoDoUsuario> ();
             sessaoDaRequisicao.ObjetosDaTransacao = transactionObjects;
             sessaoDaRequisicao.IdentificadorDaSessao = identificadorDaRequisicao;
-            sessaoDaRequisicao.Servicos = new ConcurrentDictionary<Type, DnServicoBase>();
+            sessaoDaRequisicao.Servicos = new ConcurrentDictionary<Type, DnServicoBase> ();
             sessaoDaRequisicao.HttpContext = httpContext;
             sessaoDaRequisicao.SessaoSemContexto = httpContext == null;
 
-            sessaoDaRequisicao.Servicos.TryAdd(tipoDeServico, servico);
-            Setup.AdicionarSessaoDeRequisicao(sessaoDaRequisicao);
+            sessaoDaRequisicao.Servicos.TryAdd (tipoDeServico, servico);
+            Setup.AdicionarSessaoDeRequisicao (sessaoDaRequisicao);
 
             return sessaoDaRequisicao;
         }

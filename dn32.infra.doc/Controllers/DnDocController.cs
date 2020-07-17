@@ -4,20 +4,20 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Web;
-using dn32.infra.atributos;
-using dn32.infra.dados;
-using dn32.infra.enumeradores;
-using dn32.infra.extensoes;
-using dn32.infra.nucleo.atributos;
-using dn32.infra.nucleo.configuracoes;
-using dn32.infra.Nucleo.Extensoes;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace dn32.infra.Nucleo.Doc.Controllers {
+namespace dn32.infra {
 
 #if (!DEBUG)
     [ResponseCache (Duration = 60000, Location = ResponseCacheLocation.Client)]

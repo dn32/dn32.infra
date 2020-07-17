@@ -1,17 +1,17 @@
-﻿using dn32.infra.Factory;
-using dn32.infra.Nucleo.Models;
+﻿using System;
+using System.Threading.Tasks;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
-using dn32.infra.extensoes;
-using dn32.infra.nucleo.servicos;
-using dn32.infra.nucleo.configuracoes;
-using dn32.infra.nucleo.fabricas;
-using dn32.infra.nucleo.modelos;
 
-namespace dn32.infra.Nucleo.Doc.Controllers
+namespace dn32.infra
 {
     [AllowAnonymous]
     public class AutenticacaoController : Controller

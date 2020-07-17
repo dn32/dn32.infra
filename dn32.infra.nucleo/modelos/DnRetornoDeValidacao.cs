@@ -1,10 +1,8 @@
-﻿using dn32.infra.nucleo.insonsistencias;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using dn32.infra;
 
-namespace dn32.infra.nucleo.modelos
-{
-    public class DnRetornoDeValidacao
-    {
+namespace dn32.infra {
+    public class DnRetornoDeValidacao {
         public string Mensagem { get; set; }
 
         public bool EhErroDeValidacao { get; set; }

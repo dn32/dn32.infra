@@ -1,9 +1,7 @@
 ﻿using System;
 
-namespace dn32.infra.nucleo.interfaces
-{
-    public interface IDnEspecificacao : IDnEspecificacaoBase
-    {
+namespace dn32.infra {
+    public interface IDnEspecificacao : IDnEspecificacaoBase {
         Type TipoDeEntidade { get; }
     }
 }

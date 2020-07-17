@@ -1,11 +1,8 @@
-﻿using dn32.infra.atributos;
-using dn32.infra.dados;
-using dn32.infra.enumeradores;
+﻿using dn32.infra;
+using dn32.infra;
+using dn32.infra;
 
-namespace dn32.infra.EntityFramework.MySQL
-{
-    [DnTipoDeBancoDeDadosAtributo(EnumTipoDeBancoDeDados.MYSQL)]
-    public abstract class DnMySQLEntity : DnEntidade
-    {
-    }
+namespace dn32.infra {
+    [DnTipoDeBancoDeDadosAtributo (EnumTipoDeBancoDeDados.MYSQL)]
+    public abstract class DnMySQLEntity : DnEntidade { }
 }

@@ -1,50 +1,42 @@
-﻿using dn32.infra.extensoes;
-using dn32.infra.Nucleo.Extensoes;
-using System;
+﻿using System;
 using System.Reflection;
+using dn32.infra;
+using dn32.infra;
 
-namespace dn32.infra.Nucleo.Util
-{
-    public static class UtilitarioDeRandomico
-    {
-        private static readonly Random Random = new Random();
+namespace dn32.infra {
+    public static class UtilitarioDeRandomico {
+        private static readonly Random Random = new Random ();
 
-        public static int NextRandom()
-        {
-            return Random.Next(1, int.MaxValue);
+        public static int NextRandom () {
+            return Random.Next (1, int.MaxValue);
         }
 
-        public static int NextRandom(int max)
-        {
-            return Random.Next(0, max);
+        public static int NextRandom (int max) {
+            return Random.Next (0, max);
         }
 
-        public static int NextRandom(int min, double max)
-        {
-            int internalMax = max > int.MaxValue ? int.MaxValue : (int)max;
-            return Random.Next(min, internalMax);
+        public static int NextRandom (int min, double max) {
+            int internalMax = max > int.MaxValue ? int.MaxValue : (int) max;
+            return Random.Next (min, internalMax);
         }
 
-        public static string ObterString(double tamanho)
-        {
-            int internalSize = tamanho > int.MaxValue ? int.MaxValue : (int)tamanho;
+        public static string ObterString (double tamanho) {
+            int internalSize = tamanho > int.MaxValue ? int.MaxValue : (int) tamanho;
             var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             var stringChars = new char[internalSize];
 
-            for (int i = 0; i < stringChars.Length; i++)
-            {
-                stringChars[i] = chars[NextRandom(chars.Length - 1)];
+            for (int i = 0; i < stringChars.Length; i++) {
+                stringChars[i] = chars[NextRandom (chars.Length - 1)];
             }
 
-            return new string(stringChars);
+            return new string (stringChars);
         }
 
-        internal static object GetRandomValue(PropertyInfo property, int max = 0)
-        {
-            if (property == null) { throw new ArgumentNullException(nameof(property)); }
-            if (!property.PropertyType.GetNonNullableType().IsPrimitive()) { throw new InvalidOperationException($"Operation valid for primitive types only. {nameof(GetRandomValue)}"); }
+        internal static object GetRandomValue (PropertyInfo property, int max = 0) {
+            if (property == null) { throw new ArgumentNullException (nameof (property)); }
+            if (!property.PropertyType.GetNonNullableType ().IsPrimitive ()) { throw new InvalidOperationException ($"Operation valid for primitive types only. {nameof(GetRandomValue)}"); }
 
-            return property.GetExampleValue(max);
+            return property.GetExampleValue (max);
         }
     }
 }

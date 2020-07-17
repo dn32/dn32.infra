@@ -1,29 +1,25 @@
-﻿using dn32.infra.servicos;
-using System.Linq;
-using dn32.infra.dados;
-using dn32.infra.excecoes;
+﻿using System.Linq;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
 
-namespace dn32.infra.nucleo.especificacoes
-{
-    public abstract class DnEspecificacaoBase
-    {
-        internal DnEspecificacaoBase() { }
+namespace dn32.infra {
+    public abstract class DnEspecificacaoBase {
+        internal DnEspecificacaoBase () { }
 
         protected bool IgnorarAOrdenacao { get; set; } = false;
 
         public DnServicoTransacionalBase Servico { get; set; }
 
-        protected IQueryable<TX> ObterEntidade<TX>() where TX : EntidadeBase
-        {
+        protected IQueryable<TX> ObterEntidade<TX> () where TX : EntidadeBase {
             if (Servico == null)
-                throw new DesenvolvimentoIncorretoException($"Falha ao inicializar a especificação [{GetType().Name}]. \nVocê deve usar [CriarEspecificacao] presente no serviço ou no controlador.");
+                throw new DesenvolvimentoIncorretoException ($"Falha ao inicializar a especificação [{GetType().Name}]. \nVocê deve usar [CriarEspecificacao] presente no serviço ou no controlador.");
 
             var transactionObjects = Servico.ObjetosDaTransacao;
-            return transactionObjects.ObterObjetoQueryInterno<TX>();
+            return transactionObjects.ObterObjetoQueryInterno<TX> ();
         }
 
-        internal void DefinirServico(DnServicoTransacionalBase servico)
-        {
+        internal void DefinirServico (DnServicoTransacionalBase servico) {
             Servico = servico;
         }
     }

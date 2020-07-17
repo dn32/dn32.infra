@@ -1,8 +1,5 @@
-﻿using dn32.infra.Nucleo.Models;
+﻿using dn32.infra;
 
-namespace dn32.infra.Test
-{
-    public class UserSessionRequestCustom : SessaoDeRequisicaoDoUsuario
-    {
-    }
+namespace dn32.infra {
+    public class UserSessionRequestCustom : SessaoDeRequisicaoDoUsuario { }
 }

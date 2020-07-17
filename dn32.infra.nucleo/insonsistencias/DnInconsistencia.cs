@@ -1,10 +1,8 @@
-﻿using dn32.infra.nucleo.erros_de_validacao;
+﻿using dn32.infra;
 using Newtonsoft.Json;
 
-namespace dn32.infra.nucleo.insonsistencias
-{
-    public class DnInconsistencia
-    {
+namespace dn32.infra {
+    public class DnInconsistencia {
         public string Mensagem { get; set; }
 
         public string ChaveDeGlobalizacao { get; set; }

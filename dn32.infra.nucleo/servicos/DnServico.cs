@@ -1,21 +1,21 @@
 ﻿// using ClosedXML.Excel;
-using dn32.infra.dados;
-using dn32.infra.Factory;
-using dn32.infra.nucleo.interfaces;
-using dn32.infra.nucleo.erros_de_validacao;
-using dn32.infra.nucleo.validacoes;
-using dn32.infra.Nucleo.Models;
-using dn32.infra.Nucleo.Util;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using dn32.infra.nucleo.configuracoes;
-using dn32.infra.nucleo.fabricas;
-using dn32.infra.excecoes;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
 
-namespace dn32.infra.servicos
+namespace dn32.infra
 {
     public class DnServico<T> : DnServicoTransacionalBase where T : EntidadeBase
     {

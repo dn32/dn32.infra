@@ -1,6 +1,3 @@
-﻿namespace dn32.infra.nucleo.interfaces
-{
-    public interface IDnRepositorioBase
-    {
-    }
+﻿namespace dn32.infra {
+    public interface IDnRepositorioBase { }
 }

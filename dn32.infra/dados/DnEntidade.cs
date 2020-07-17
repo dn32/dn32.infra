@@ -1,7 +1,3 @@
-﻿
-namespace dn32.infra.dados
-{
-    public abstract class DnEntidade : EntidadeBase
-    {
-    }
+﻿namespace dn32.infra {
+    public abstract class DnEntidade : EntidadeBase { }
 }

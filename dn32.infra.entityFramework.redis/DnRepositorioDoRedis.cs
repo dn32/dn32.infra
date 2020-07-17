@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace dn32.infra.Redis
+namespace dn32.infra
 {
     public class DnRepositorioDoRedis
     {

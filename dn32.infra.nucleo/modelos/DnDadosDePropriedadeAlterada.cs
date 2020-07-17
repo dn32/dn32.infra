@@ -1,11 +1,8 @@
-﻿
-namespace dn32.infra.nucleo.modelos
-{
-    public class DnDadosDePropriedadeAlterada
-    {
+﻿namespace dn32.infra {
+    public class DnDadosDePropriedadeAlterada {
         public string NomeDaPropriedade { get; set; }
         public object ValorOriginal { get; set; }
         public object NovoValor { get; set; }
-        public bool HaAlteracao => ValorOriginal?.ToString() != NovoValor?.ToString();
+        public bool HaAlteracao => ValorOriginal?.ToString () != NovoValor?.ToString ();
     }
 }

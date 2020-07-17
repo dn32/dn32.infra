@@ -1,6 +1,3 @@
-﻿namespace dn32.infra.nucleo.interfaces
-{
-    public interface IDnEspecificacaoAlternativaGenerica<TO> : IDnEspecificacaoAlternativa
-    {
-    }
+﻿namespace dn32.infra {
+    public interface IDnEspecificacaoAlternativaGenerica<TO> : IDnEspecificacaoAlternativa { }
 }

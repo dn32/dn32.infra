@@ -1,15 +1,13 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using dn32.infra.atributos;
-using dn32.infra.enumeradores;
+using dn32.infra;
+using dn32.infra;
+using Newtonsoft.Json;
 
-namespace dn32.infra.nucleo.atributos
-{
-    [AttributeUsage(AttributeTargets.Property)]
-    public class DnPropriedadeJsonAtributo : DnEsquemaJsonAtributo
-    {
+namespace dn32.infra {
+    [AttributeUsage (AttributeTargets.Property)]
+    public class DnPropriedadeJsonAtributo : DnEsquemaJsonAtributo {
         public bool EhRequerido { get; set; }
 
         public int Minimo { get; set; }
@@ -56,7 +54,7 @@ namespace dn32.infra.nucleo.atributos
         public bool EhChaveExterna { get; internal set; }
 
         public IEnumerable<DnOperacaoDeCondicionalDeTelaAtributo> OperacaoDeCondicional { get; internal set; }
-        
+
         public string Desabilitado { get; internal set; }
     }
 }

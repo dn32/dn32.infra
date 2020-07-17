@@ -1,12 +1,10 @@
-﻿using dn32.infra.atributos;
-using dn32.infra.excecoes;
+﻿using System;
+using dn32.infra;
+using dn32.infra;
 using Newtonsoft.Json;
-using System;
 
-namespace dn32.infra.dados
-{
-    public class Parametros
-    {
+namespace dn32.infra {
+    public class Parametros {
         public const string NomePropriedadesDesejadas = "propriedades_desejadas";
         public const string NomePropriedadesDeOrdenacao = "propriedades_de_ordenacao";
         public const string NomePaginaAtual = "pagina_atual";
@@ -16,13 +14,12 @@ namespace dn32.infra.dados
         public const string NomeSalto = "salto";
         public const string NomeNumeroTotalDePaginas = "numero_total_de_paginas";
         public const string DuracaoDaConsultaNoBDEmMs = "duracao_da_consulta_no_bd_em_ms";
-        
+
     }
 
     //Todo - 001 Testar
     [DnDocAttribute]
-    public class DnPaginacao
-    {
+    public class DnPaginacao {
         #region CAMPOS
 
         private const int ITENS_POR_PAGINA_PADRAO = 10;
@@ -34,66 +31,58 @@ namespace dn32.infra.dados
 
         #region PROPRIEDADES
 
-        [JsonProperty(Parametros.NomeQuantidadeTotalDeItens)]
+        [JsonProperty (Parametros.NomeQuantidadeTotalDeItens)]
         public virtual int QuantidadeTotalDeItens { get; set; }
 
-        [JsonProperty(Parametros.NomeIniciarNaPaginaZero)]
+        [JsonProperty (Parametros.NomeIniciarNaPaginaZero)]
         public virtual bool IniciaComZero => _iniciaEmZero;
 
-        [JsonProperty(Parametros.NomeSalto)]
-        public virtual int Salto => ObterOTamanhoDoSalto();
+        [JsonProperty (Parametros.NomeSalto)]
+        public virtual int Salto => ObterOTamanhoDoSalto ();
 
-        [JsonProperty(Parametros.NomeItensPorPagina)]
-        public virtual int ItensPorPagina => ObterItensPorPagina();
+        [JsonProperty (Parametros.NomeItensPorPagina)]
+        public virtual int ItensPorPagina => ObterItensPorPagina ();
 
-        [JsonProperty(Parametros.NomePaginaAtual)]
-        public virtual int PaginaAtual
-        {
-            get => ObterPaginaAtual();
+        [JsonProperty (Parametros.NomePaginaAtual)]
+        public virtual int PaginaAtual {
+            get => ObterPaginaAtual ();
             set => _paginaAtual = value;
         }
 
-        [JsonProperty(Parametros.NomeNumeroTotalDePaginas)]
-        public virtual int NumeroDePaginas => ObterNumeroDePaginas();
+        [JsonProperty (Parametros.NomeNumeroTotalDePaginas)]
+        public virtual int NumeroDePaginas => ObterNumeroDePaginas ();
 
-        [JsonProperty(Parametros.DuracaoDaConsultaNoBDEmMs)]
+        [JsonProperty (Parametros.DuracaoDaConsultaNoBDEmMs)]
         public long DuracaoDaConsultaNoBDEmMs { get; set; }
 
         #endregion
 
         #region CONSTRUTORES
 
-        public DnPaginacao() { }
+        public DnPaginacao () { }
 
-        public static DnPaginacao Criar(int paginaAtual)
-        {
-            return new DnPaginacao
-            {
+        public static DnPaginacao Criar (int paginaAtual) {
+            return new DnPaginacao {
                 _paginaAtual = paginaAtual
             };
         }
 
-        public static DnPaginacao Criar(int paginaAtual, bool iniciaComZero)
-        {
-            return new DnPaginacao
-            {
+        public static DnPaginacao Criar (int paginaAtual, bool iniciaComZero) {
+            return new DnPaginacao {
                 _paginaAtual = paginaAtual,
-                _iniciaEmZero = iniciaComZero
+                    _iniciaEmZero = iniciaComZero
             };
         }
 
-        public static DnPaginacao Criar(int paginaAtual, bool iniciaComZero, int itensPorPagina, bool liberarMaisDe100Itens = false)
-        {
-            if(liberarMaisDe100Itens == false && itensPorPagina > 100 && itensPorPagina != int.MaxValue)
-            {
-                throw new DesenvolvimentoIncorretoException($"Você tentou fazer uma paginação com {itensPorPagina} itens em uma página. Isso causaria um problema de performance. O máximo que pode solicitar é 100 itens por página.");
+        public static DnPaginacao Criar (int paginaAtual, bool iniciaComZero, int itensPorPagina, bool liberarMaisDe100Itens = false) {
+            if (liberarMaisDe100Itens == false && itensPorPagina > 100 && itensPorPagina != int.MaxValue) {
+                throw new DesenvolvimentoIncorretoException ($"Você tentou fazer uma paginação com {itensPorPagina} itens em uma página. Isso causaria um problema de performance. O máximo que pode solicitar é 100 itens por página.");
             }
 
-            return new DnPaginacao
-            {
+            return new DnPaginacao {
                 _paginaAtual = paginaAtual,
-                _itensPorPagina = itensPorPagina,
-                _iniciaEmZero = iniciaComZero
+                    _itensPorPagina = itensPorPagina,
+                    _iniciaEmZero = iniciaComZero
             };
         }
 
@@ -101,15 +90,15 @@ namespace dn32.infra.dados
 
         #region INTERNOS
 
-        protected int ObterItensPorPagina() => _itensPorPagina == 0 ? ITENS_POR_PAGINA_PADRAO : _itensPorPagina;
+        protected int ObterItensPorPagina () => _itensPorPagina == 0 ? ITENS_POR_PAGINA_PADRAO : _itensPorPagina;
 
-        protected int ObterPaginaAtual() => !_iniciaEmZero && _paginaAtual == 0 ? 1 : _paginaAtual;
+        protected int ObterPaginaAtual () => !_iniciaEmZero && _paginaAtual == 0 ? 1 : _paginaAtual;
 
-        protected int ObterNumeroDePaginas() => IncrementarAQuantidadeDePaginasSeSobraremItens(QuantidadeTotalDeItens / ItensPorPagina);
+        protected int ObterNumeroDePaginas () => IncrementarAQuantidadeDePaginasSeSobraremItens (QuantidadeTotalDeItens / ItensPorPagina);
 
-        protected int IncrementarAQuantidadeDePaginasSeSobraremItens(int produtoDaDivisao) => QuantidadeTotalDeItens % ItensPorPagina > 0 ? produtoDaDivisao + 1 : produtoDaDivisao;
+        protected int IncrementarAQuantidadeDePaginasSeSobraremItens (int produtoDaDivisao) => QuantidadeTotalDeItens % ItensPorPagina > 0 ? produtoDaDivisao + 1 : produtoDaDivisao;
 
-        protected int ObterOTamanhoDoSalto() => ItensPorPagina * (IniciaComZero ? PaginaAtual : PaginaAtual - 1);
+        protected int ObterOTamanhoDoSalto () => ItensPorPagina * (IniciaComZero ? PaginaAtual : PaginaAtual - 1);
 
         #endregion
     }

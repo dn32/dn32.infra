@@ -1,7 +1,6 @@
-﻿
-using dn32.infra.nucleo.configuracoes;
+﻿using dn32.infra;
 
-namespace dn32.infra.Redis
+namespace dn32.infra
 {
     public static class DnRedisExtension
     {

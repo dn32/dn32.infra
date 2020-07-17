@@ -1,18 +1,15 @@
-﻿using dn32.infra.excecoes;
-using dn32.infra.nucleo.especificacoes;
-using dn32.infra.servicos;
-using System;
+﻿using System;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
 
-namespace dn32.infra.nucleo.fabricas
-{
-    public static class FabricaDeEspecificacao
-    {
-        public static T Criar<T>(DnServicoTransacionalBase service) where T : DnEspecificacaoBase
-        {
-            if (!(Activator.CreateInstance(typeof(T)) is T ts))
-                throw new DesenvolvimentoIncorretoException($"Failed to initialize specification [{typeof(T).Name}] type with specified constructor parameters not found.");
+namespace dn32.infra {
+    public static class FabricaDeEspecificacao {
+        public static T Criar<T> (DnServicoTransacionalBase service) where T : DnEspecificacaoBase {
+            if (!(Activator.CreateInstance (typeof (T)) is T ts))
+                throw new DesenvolvimentoIncorretoException ($"Failed to initialize specification [{typeof(T).Name}] type with specified constructor parameters not found.");
 
-            ts.DefinirServico(service);
+            ts.DefinirServico (service);
             return ts;
         }
     }

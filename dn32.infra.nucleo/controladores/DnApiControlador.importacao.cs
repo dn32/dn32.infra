@@ -1,14 +1,12 @@
-﻿using dn32.infra.enumeradores;
-using dn32.infra.Nucleo.Util;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using dn32.infra;
+using dn32.infra;
+using Microsoft.AspNetCore.Mvc;
 
-namespace dn32.infra.nucleo.controladores
-{
-    public partial class DnApiControlador<T>
-    {
+namespace dn32.infra {
+    public partial class DnApiControlador<T> {
         // //Todo - O processo de importação não foi concluído. Falta tratar os enumeradores e eventuais tipos especiais e possíveis nulos
         // [HttpGet]
         // public virtual ActionResult ObterTemplateDeImportacao(EnumTipoDeTemplate tipo, int quantidadeDeExemplosAAdicionar = 0)

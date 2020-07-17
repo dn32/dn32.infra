@@ -1,7 +1,5 @@
-﻿namespace dn32.infra.enumeradores
-{
-    public enum EnumTipoDeFiltro
-    {
+﻿namespace dn32.infra {
+    public enum EnumTipoDeFiltro {
         //Numérico
         MaiorQue = 1,
         MenorQue = 2,

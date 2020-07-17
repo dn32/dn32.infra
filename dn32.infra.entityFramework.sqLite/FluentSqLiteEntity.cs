@@ -1,11 +1,9 @@
-﻿using dn32.infra.dados;
-using dn32.infra.atributos;
-using dn32.infra.enumeradores;
+﻿using dn32.infra;
+using dn32.infra;
+using dn32.infra;
 
-namespace dn32.infra.EntityFramework.SqLite
+namespace dn32.infra
 {
     [DnTipoDeBancoDeDadosAtributo(EnumTipoDeBancoDeDados.SQLITE)]
-    public abstract class DnSqLiteEntity : DnEntidade
-    {
-    }
+    public abstract class DnSqLiteEntity : DnEntidade { }
 }

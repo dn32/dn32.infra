@@ -1,21 +1,10 @@
-﻿// -----------------------------------------------------------------------
-// <copyright company="DnControlador System">
-//     Copyright © DnControlador System. All rights reserved.
-//     TODOS OS DIREITOS RESERVADOS.
-// </copyright>
-// -----------------------------------------------------------------------
+﻿using System;
 
-// ReSharper disable CommentTypo
-
-using System;
-
-namespace dn32.infra.Test
-{
+namespace dn32.infra {
     /// <summary>
     /// Extensão de testes automatizados.
     /// </summary>
-    public static class DnTest
-    {
+    public static class DnTest {
         /// <summary>
         /// Obtem uma data baseado em string como exemplo: 31/12/18.
         /// </summary>
@@ -25,9 +14,8 @@ namespace dn32.infra.Test
         /// <returns>
         /// A data solicitada.
         /// </returns>
-        public static DateTime GetDate(this string ddMMyy)
-        {
-            return DateTime.ParseExact(ddMMyy, "dd/MM/yy", System.Globalization.CultureInfo.InvariantCulture);
+        public static DateTime GetDate (this string ddMMyy) {
+            return DateTime.ParseExact (ddMMyy, "dd/MM/yy", System.Globalization.CultureInfo.InvariantCulture);
         }
     }
 }

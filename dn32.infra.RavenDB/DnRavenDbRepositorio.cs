@@ -1,17 +1,16 @@
-﻿using dn32.infra.dados;
-using dn32.infra.excecoes;
-using dn32.infra.nucleo.especificacoes;
-using dn32.infra.nucleo.interfaces;
-using Microsoft.Extensions.Primitives;
-using Raven.Client.Documents;
-using Raven.Client.Documents.Session;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using Microsoft.Extensions.Primitives;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 
-namespace dn32.infra.RavenDB
-{
+namespace dn32.infra {
     /// <inheritdoc />
     /// <summary>
     /// Repositório base com entidade do sistema baseado em Entidade Framework.
@@ -19,219 +18,181 @@ namespace dn32.infra.RavenDB
     /// <typeparam Nome="TE">
     /// O tipo de entidade do repositório.
     /// </typeparam>
-    public class DnRavenDbRepositorio<TE> : DnRepositorio<TE> where TE : RavenDBEntidadeBase
-    {
-        public DnRavenDbRepositorio() { }
+    public class DnRavenDbRepositorio<TE> : DnRepositorio<TE> where TE : RavenDBEntidadeBase {
+        public DnRavenDbRepositorio () { }
 
         public RavenDBObjetosDeTransacao ObjetosTransacionaisRavenDB => ObjetosTransacionais as RavenDBObjetosDeTransacao;
 
         protected internal IAsyncDocumentSession Sessao => ObjetosTransacionaisRavenDB.Contexto.Sessao;
 
-        protected internal IQueryable<TE> Query => this.ObjetosTransacionais.ObterObjetoQueryInterno<TE>();
+        protected internal IQueryable<TE> Query => this.ObjetosTransacionais.ObterObjetoQueryInterno<TE> ();
 
-        public override Type TipoDeObjetosTransacionais => typeof(RavenDBObjetosDeTransacao);
+        public override Type TipoDeObjetosTransacionais => typeof (RavenDBObjetosDeTransacao);
 
-        public override async Task<TE> AdicionarAsync(TE entity)
-        {
-            await Sessao.StoreAsync(entity);
+        public override async Task<TE> AdicionarAsync (TE entity) {
+            await Sessao.StoreAsync (entity);
             return entity;
         }
 
-        public override async Task AdicionarListaAsync(TE[] entities)
-        {
+        public override async Task AdicionarListaAsync (TE[] entities) {
             foreach (var entity in entities)
-                await Sessao.StoreAsync(entity, entity.Id);
+                await Sessao.StoreAsync (entity, entity.Id);
         }
 
-        public override Task<TE> AtualizarAsync(TE entity)
-        {
-            throw new NotImplementedException();
+        public override Task<TE> AtualizarAsync (TE entity) {
+            throw new NotImplementedException ();
         }
 
-        public override Task AtualizarListaAsync(IEnumerable<TE> entities)
-        {
-            throw new NotImplementedException();
+        public override Task AtualizarListaAsync (IEnumerable<TE> entities) {
+            throw new NotImplementedException ();
         }
 
-        public override Task<TE> BuscarAsync(TE entity)
-        {
-            throw new NotImplementedException();
+        public override Task<TE> BuscarAsync (TE entity) {
+            throw new NotImplementedException ();
         }
 
-
-        public override Task EliminarTudoAsync()
-        {
-            throw new NotImplementedException();
+        public override Task EliminarTudoAsync () {
+            throw new NotImplementedException ();
         }
 
-        public override Task<bool> ExisteAlternativoAsync<TO>(IDnEspecificacaoBase spec)
-        {
-            throw new NotImplementedException();
+        public override Task<bool> ExisteAlternativoAsync<TO> (IDnEspecificacaoBase spec) {
+            throw new NotImplementedException ();
         }
 
-        private DnEspecificacaoAlternativa<TE, TO> GetSpecSelect<TO>(IDnEspecificacaoBase spec1)
-        {
-            if (spec1 is IDnEspecificacaoAlternativaGenerica<TO> spec)
-            {
-                if (spec.TipoDeEntidade != typeof(TE))
-                {
+        private DnEspecificacaoAlternativa<TE, TO> GetSpecSelect<TO> (IDnEspecificacaoBase spec1) {
+            if (spec1 is IDnEspecificacaoAlternativaGenerica<TO> spec) {
+                if (spec.TipoDeEntidade != typeof (TE)) {
                     var serviceName = $"{spec.TipoDeEntidade.Name}Servico";
-                    throw new DesenvolvimentoIncorretoException($"The type of input reported in the {spec} specification is not the same as that requested in the repository request.\r\nSpecification type: {spec.TipoDeEntidade}.\r\nRequisition Tipo: {typeof(TE)}\r\nThis usually occurs when you make use of the wrong service. Make sure that when invoking the method that is causing this error you are making use of the service: {serviceName}");
+                    throw new DesenvolvimentoIncorretoException ($"The type of input reported in the {spec} specification is not the same as that requested in the repository request.\r\nSpecification type: {spec.TipoDeEntidade}.\r\nRequisition Tipo: {typeof(TE)}\r\nThis usually occurs when you make use of the wrong service. Make sure that when invoking the method that is causing this error you are making use of the service: {serviceName}");
                 }
 
-                if (spec.TipoDeRetorno != typeof(TO))
-                {
+                if (spec.TipoDeRetorno != typeof (TO)) {
                     var serviceName = $"{typeof(TE).Name}Servico";
-                    throw new DesenvolvimentoIncorretoException($"The type of output reported in the {spec} specification is not the same as that requested in the repository request.\r\nSpecification type: {spec.TipoDeEntidade}.\r\nRequisition Tipo: {typeof(TO)}\r\nThis usually occurs when you make use of the wrong service. Make sure that when invoking the method that is causing this error you are making use of the service: {serviceName}");
+                    throw new DesenvolvimentoIncorretoException ($"The type of output reported in the {spec} specification is not the same as that requested in the repository request.\r\nSpecification type: {spec.TipoDeEntidade}.\r\nRequisition Tipo: {typeof(TO)}\r\nThis usually occurs when you make use of the wrong service. Make sure that when invoking the method that is causing this error you are making use of the service: {serviceName}");
                 }
 
                 return spec as DnEspecificacaoAlternativa<TE, TO>;
             }
 
-            throw new DesenvolvimentoIncorretoException("The specification is of a different type than expected");
+            throw new DesenvolvimentoIncorretoException ("The specification is of a different type than expected");
         }
 
-        protected DnEspecificacao<TE> GetSpec(IDnEspecificacaoBase spec1)
-        {
-            if (spec1 is DnEspecificacao<TE> spec)
-            {
+        protected DnEspecificacao<TE> GetSpec (IDnEspecificacaoBase spec1) {
+            if (spec1 is DnEspecificacao<TE> spec) {
                 return spec as DnEspecificacao<TE>;
             }
 
-            throw new DesenvolvimentoIncorretoException("The specification is of a different type than expected");
+            throw new DesenvolvimentoIncorretoException ("The specification is of a different type than expected");
         }
 
         public new RavenDBObjetosDeTransacao ObjetosTransacionais => base.ObjetosTransacionais as RavenDBObjetosDeTransacao;
 
-        public override async Task<bool> ExisteAsync(IDnEspecificacaoBase spec)
-        {
-            var existe = await GetSpec(spec).ConverterParaIQueryable(Query).AnyAsync();
+        public override async Task<bool> ExisteAsync (IDnEspecificacaoBase spec) {
+            var existe = await GetSpec (spec).ConverterParaIQueryable (Query).AnyAsync ();
             return existe;
         }
 
-        public override async Task<TE> SingleOrDefaultAsync(IDnEspecificacao spec)
-        {
-            var entidade = await GetSpec(spec).ConverterParaIQueryable(Query).FirstOrDefaultAsync();
+        public override async Task<TE> SingleOrDefaultAsync (IDnEspecificacao spec) {
+            var entidade = await GetSpec (spec).ConverterParaIQueryable (Query).FirstOrDefaultAsync ();
             return entidade;
         }
 
-        public override TE Desanexar(TE entity) => entity;
+        public override TE Desanexar (TE entity) => entity;
 
-        public override TX Desanexar<TX>(TX entity) => entity;
+        public override TX Desanexar<TX> (TX entity) => entity;
 
-        public override async Task<bool> ExisteAsync(TE entity, bool includeExcludedLogically = false)
-        {
-            return await Query.AnyAsync(x => x.Id == entity.Id);
+        public override async Task<bool> ExisteAsync (TE entity, bool includeExcludedLogically = false) {
+            return await Query.AnyAsync (x => x.Id == entity.Id);
         }
 
-        public override Task<bool> HaSomenteUmAsync(TE entity, bool includeExcludedLogically)
-        {
-            throw new NotImplementedException();
+        public override Task<bool> HaSomenteUmAsync (TE entity, bool includeExcludedLogically) {
+            throw new NotImplementedException ();
         }
 
-        public override Task<List<TO>> ListarAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> ispec, DnPaginacao pagination = null)
-        {
-            throw new NotImplementedException();
+        public override Task<List<TO>> ListarAlternativoAsync<TO> (IDnEspecificacaoAlternativaGenerica<TO> ispec, DnPaginacao pagination = null) {
+            throw new NotImplementedException ();
         }
 
-        protected async Task<IQueryable<TX>> DnPaginateAsync<TX>(IQueryable<TX> query, DnPaginacao pagination = null)
-        {
-            if (pagination == null)
-            {
-                pagination = GetPagination() ?? DnPaginacao.Criar(0, true, 20);
+        protected async Task<IQueryable<TX>> DnPaginateAsync<TX> (IQueryable<TX> query, DnPaginacao pagination = null) {
+            if (pagination == null) {
+                pagination = GetPagination () ?? DnPaginacao.Criar (0, true, 20);
             }
 
-            pagination.QuantidadeTotalDeItens = await query.CountAsync();
+            pagination.QuantidadeTotalDeItens = await query.CountAsync ();
             Servico.SessaoDaRequisicao.Paginacao = pagination;
 
-            return query.Skip(pagination.Salto).Take(pagination.ItensPorPagina);
+            return query.Skip (pagination.Salto).Take (pagination.ItensPorPagina);
         }
 
-        private DnPaginacao GetPagination()
-        {
-            var currentPageInt = int.TryParse(GetParameter(Parametros.NomePaginaAtual), out var currentPageInt_) ? currentPageInt_ : 0;
-            var itemsPerPageInt = int.TryParse(GetParameter(Parametros.NomeItensPorPagina), out var itemsPerPageInt_) ? itemsPerPageInt_ : 20;
-            var startAtZeroBool = !bool.TryParse(GetParameter(Parametros.NomeIniciarNaPaginaZero), out var startAtZeroBool_) || startAtZeroBool_;
+        private DnPaginacao GetPagination () {
+            var currentPageInt = int.TryParse (GetParameter (Parametros.NomePaginaAtual), out var currentPageInt_) ? currentPageInt_ : 0;
+            var itemsPerPageInt = int.TryParse (GetParameter (Parametros.NomeItensPorPagina), out var itemsPerPageInt_) ? itemsPerPageInt_ : 20;
+            var startAtZeroBool = !bool.TryParse (GetParameter (Parametros.NomeIniciarNaPaginaZero), out var startAtZeroBool_) || startAtZeroBool_;
 
-            return DnPaginacao.Criar(currentPageInt, startAtZeroBool, itemsPerPageInt);
+            return DnPaginacao.Criar (currentPageInt, startAtZeroBool, itemsPerPageInt);
         }
 
-        private string GetParameter(string key)
-        {
+        private string GetParameter (string key) {
             if (Servico.SessaoDaRequisicao.SessaoSemContexto) return string.Empty;
 
-            Servico.SessaoDaRequisicao.LocalHttpContext.Request.Headers.TryGetValue(key, out StringValues value);
-            if (!string.IsNullOrEmpty(value))
-            {
+            Servico.SessaoDaRequisicao.LocalHttpContext.Request.Headers.TryGetValue (key, out StringValues value);
+            if (!string.IsNullOrEmpty (value)) {
                 return value;
             }
 
-            if (Servico.SessaoDaRequisicao.LocalHttpContext.Request.Method == "GET" || Servico.SessaoDaRequisicao.LocalHttpContext.Request.HasFormContentType == false)
-            {
+            if (Servico.SessaoDaRequisicao.LocalHttpContext.Request.Method == "GET" || Servico.SessaoDaRequisicao.LocalHttpContext.Request.HasFormContentType == false) {
                 return "";
             }
 
             return Servico.SessaoDaRequisicao.LocalHttpContext.Request.Form[key];
         }
 
-        public override Task<TO> PrimeiroOuPadraoAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> spec)
-        {
-            throw new NotImplementedException();
+        public override Task<TO> PrimeiroOuPadraoAlternativoAsync<TO> (IDnEspecificacaoAlternativaGenerica<TO> spec) {
+            throw new NotImplementedException ();
         }
 
-        public override Task<TE> PrimeiroOuPadraoAsync(IDnEspecificacao spec)
-        {
-            throw new NotImplementedException();
+        public override Task<TE> PrimeiroOuPadraoAsync (IDnEspecificacao spec) {
+            throw new NotImplementedException ();
         }
 
-        public override Task<int> QuantidadeAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> spec)
-        {
-            throw new NotImplementedException();
+        public override Task<int> QuantidadeAlternativoAsync<TO> (IDnEspecificacaoAlternativaGenerica<TO> spec) {
+            throw new NotImplementedException ();
         }
 
-        public override Task<int> QuantidadeAsync(TE entity, bool includeExcludedLogically)
-        {
-            throw new NotImplementedException();
+        public override Task<int> QuantidadeAsync (TE entity, bool includeExcludedLogically) {
+            throw new NotImplementedException ();
         }
 
-        public override Task<int> QuantidadeAsync(IDnEspecificacao spec)
-        {
-            throw new NotImplementedException();
+        public override Task<int> QuantidadeAsync (IDnEspecificacao spec) {
+            throw new NotImplementedException ();
         }
 
-        public override Task<int> QuantidadeTotalAsync()
-        {
-            throw new NotImplementedException();
+        public override Task<int> QuantidadeTotalAsync () {
+            throw new NotImplementedException ();
         }
 
-        public override Task<TE> RemoverAsync(TE entity)
-        {
-            throw new NotImplementedException();
+        public override Task<TE> RemoverAsync (TE entity) {
+            throw new NotImplementedException ();
         }
 
-        public override void RemoverLista(IDnEspecificacao spec)
-        {
-            throw new NotImplementedException();
+        public override void RemoverLista (IDnEspecificacao spec) {
+            throw new NotImplementedException ();
         }
 
-        public override Task RemoverListaAsync(params TE[] entities)
-        {
-            throw new NotImplementedException();
+        public override Task RemoverListaAsync (params TE[] entities) {
+            throw new NotImplementedException ();
         }
 
-        public override Task<TO> UnicoOuPadraoAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> spec)
-        {
-            throw new NotImplementedException();
+        public override Task<TO> UnicoOuPadraoAlternativoAsync<TO> (IDnEspecificacaoAlternativaGenerica<TO> spec) {
+            throw new NotImplementedException ();
         }
 
-        public override Task<object> FindAsync(object entity)
-        {
-            throw new NotImplementedException();
+        public override Task<object> FindAsync (object entity) {
+            throw new NotImplementedException ();
         }
 
-        public override Task<List<TE>> ListarAsync(IDnEspecificacao spec, DnPaginacao pagination = null)
-        {
-            throw new NotImplementedException();
+        public override Task<List<TE>> ListarAsync (IDnEspecificacao spec, DnPaginacao pagination = null) {
+            throw new NotImplementedException ();
         }
 
         //        #region PROPERTIES
@@ -600,7 +561,6 @@ namespace dn32.infra.RavenDB
         //        /// Entidade a ser atualizada com o identificador preenchido.
         //        /// </param>
 
-
         //        public virtual async Task<TE> AtualizarAsync(TE entity)
         //        {
         //            RunTheContextValidation();
@@ -724,8 +684,6 @@ namespace dn32.infra.RavenDB
         //            return Servico.SessaoDaRequisicao.LocalHttpContext.Request.Form[key];
         //        }
 
-
         //        #endregion
     }
 }
-

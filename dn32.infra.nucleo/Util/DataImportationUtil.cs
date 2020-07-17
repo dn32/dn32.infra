@@ -1,12 +1,12 @@
 ﻿// using ClosedXML.Excel;
-// using dn32.infra.extensoes;
-// using dn32.infra.nucleo.atributos;
+// using dn32.infra;
+// using dn32.infra;
 // using System;
 // using System.Collections.Generic;
 // using System.Linq;
 // using System.Reflection;
 
-// namespace dn32.infra.Nucleo.Util
+// namespace dn32.infra
 // {
 //     public static class DataImportationUtil
 //     {
@@ -90,8 +90,6 @@
 //             //    var properties = type.GetProperties();
 //             //    var xlsxProperty = new List<PropertyInfo>();
 
-
-
 //             //    var propertiesCount = columns.Count;
 //             //    var itemsCount = cells.Count / propertiesCount - 1;
 
@@ -102,7 +100,6 @@
 //             //        var property = properties.FirstOrDefault(x => x.Name == cell.Value?.ToString());
 //             //        xlsxProperty.Add(property);
 //             //    }
-
 
 //             //    var list = new List<Tuple<IXLCell, T>>();
 

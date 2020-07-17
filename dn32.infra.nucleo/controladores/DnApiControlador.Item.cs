@@ -1,60 +1,53 @@
-﻿using dn32.infra.dados;
-using dn32.infra.nucleo.atributos;
-using dn32.infra.nucleo.especificacoes;
+﻿using System.Threading.Tasks;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
-namespace dn32.infra.nucleo.controladores
-{
-    public partial class DnApiControlador<T>
-    {
+namespace dn32.infra {
+    public partial class DnApiControlador<T> {
         [HttpGet]
-        [Route("/api/[controller]/BuscarPorEntidade")]
-        public virtual async Task<ResultadoPadrao<T>> BuscarPorEntidadeGet([FromQuery] T entidade)
-        {
-            return await this.CrieResultadoAsync(await this.Servico.BuscarAsync(entidade, false));
+        [Route ("/api/[controller]/BuscarPorEntidade")]
+        public virtual async Task<ResultadoPadrao<T>> BuscarPorEntidadeGet ([FromQuery] T entidade) {
+            return await this.CrieResultadoAsync (await this.Servico.BuscarAsync (entidade, false));
         }
 
         [HttpPost]
-        [Route("/api/[controller]/BuscarPorEntidade")]
-        public virtual async Task<ResultadoPadrao<T>> BuscarPorEntidadePost([FromBody] T entidade)
-        {
-            return await this.CrieResultadoAsync(await this.Servico.BuscarAsync(entidade, false));
+        [Route ("/api/[controller]/BuscarPorEntidade")]
+        public virtual async Task<ResultadoPadrao<T>> BuscarPorEntidadePost ([FromBody] T entidade) {
+            return await this.CrieResultadoAsync (await this.Servico.BuscarAsync (entidade, false));
         }
 
         [HttpGet]
-        [Route("/api/[controller]/BuscarPorFiltro")]
-        [DnActionAtributo(EspecificacaoDinamica = true)]
-        public virtual async Task<ResultadoPadrao<T>> BuscarPorFiltroGet([FromQuery] Filtro[] filtros)
-        {
-            var especificacao = this.CriarEspecificacaoDeFiltros(filtros, false);
-            var item = await this.Servico.UnicoOuPadraoAsync(especificacao);
-            return await this.CrieResultadoAsync(item);
+        [Route ("/api/[controller]/BuscarPorFiltro")]
+        [DnActionAtributo (EspecificacaoDinamica = true)]
+        public virtual async Task<ResultadoPadrao<T>> BuscarPorFiltroGet ([FromQuery] Filtro[] filtros) {
+            var especificacao = this.CriarEspecificacaoDeFiltros (filtros, false);
+            var item = await this.Servico.UnicoOuPadraoAsync (especificacao);
+            return await this.CrieResultadoAsync (item);
         }
 
         [HttpPost]
-        [Route("/api/[controller]/BuscarPorFiltro")]
-        [DnActionAtributo(EspecificacaoDinamica = true)]
-        public virtual async Task<ResultadoPadrao<T>> BuscarPorFiltroPost([FromBody] Filtro[] filtros)
-        {
-            var especificacao = this.CriarEspecificacaoDeFiltros(filtros, false);
-            var item = await this.Servico.UnicoOuPadraoAsync(especificacao);
-            return await this.CrieResultadoAsync(item);
+        [Route ("/api/[controller]/BuscarPorFiltro")]
+        [DnActionAtributo (EspecificacaoDinamica = true)]
+        public virtual async Task<ResultadoPadrao<T>> BuscarPorFiltroPost ([FromBody] Filtro[] filtros) {
+            var especificacao = this.CriarEspecificacaoDeFiltros (filtros, false);
+            var item = await this.Servico.UnicoOuPadraoAsync (especificacao);
+            return await this.CrieResultadoAsync (item);
         }
 
         [HttpGet]
-        [DnActionAtributo(EspecificacaoDinamica = true)]
-        public virtual async Task<ResultadoPadrao<T>> BuscarPorTermo(string termo)
-        {
-            var especificacao = this.CriarEspecificacaoPorTermo(termo, ehLista: false);
-            var item = await this.Servico.UnicoOuPadraoAsync(especificacao);
-            return await this.CrieResultadoAsync(item);
+        [DnActionAtributo (EspecificacaoDinamica = true)]
+        public virtual async Task<ResultadoPadrao<T>> BuscarPorTermo (string termo) {
+            var especificacao = this.CriarEspecificacaoPorTermo (termo, ehLista : false);
+            var item = await this.Servico.UnicoOuPadraoAsync (especificacao);
+            return await this.CrieResultadoAsync (item);
         }
 
-        private DnTermoEspecificacao<T> CriarEspecificacaoPorTermo(string termo, bool ehLista) =>
-             this.CriarEspecificacao<DnTermoEspecificacao<T>>().SetParameter(termo, ehLista);
+        private DnTermoEspecificacao<T> CriarEspecificacaoPorTermo (string termo, bool ehLista) =>
+        this.CriarEspecificacao<DnTermoEspecificacao<T>> ().SetParameter (termo, ehLista);
 
-        private DnFiltrosEspecificacao<T> CriarEspecificacaoDeFiltros(Filtro[] filtros, bool ehLista) =>
-              this.CriarEspecificacao<DnFiltrosEspecificacao<T>>().SetParameter(filtros, ehLista);
+        private DnFiltrosEspecificacao<T> CriarEspecificacaoDeFiltros (Filtro[] filtros, bool ehLista) =>
+        this.CriarEspecificacao<DnFiltrosEspecificacao<T>> ().SetParameter (filtros, ehLista);
     }
 }

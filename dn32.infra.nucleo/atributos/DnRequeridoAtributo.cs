@@ -1,8 +1,5 @@
 ﻿using System;
 
-namespace dn32.infra.nucleo.atributos
-{
-    public class DnRequeridoAtributo : Attribute
-    {
-    }
+namespace dn32.infra {
+    public class DnRequeridoAtributo : Attribute { }
 }

@@ -1,9 +1,7 @@
-﻿using dn32.infra.enumeradores;
+﻿using dn32.infra;
 
-namespace dn32.infra.dados
-{
-    public class Filtro
-    {
+namespace dn32.infra {
+    public class Filtro {
         public EnumTipoDeFiltro TipoDeFiltro { get; set; }
 
         public EnumTipoDeJuncao TipoDeJuncao { get; set; }

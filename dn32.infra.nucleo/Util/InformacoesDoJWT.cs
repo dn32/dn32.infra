@@ -1,11 +1,9 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System;
+﻿using System;
 using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
-namespace dn32.infra.Filters
-{
-    public class InformacoesDoJWT
-    {
+namespace dn32.infra {
+    public class InformacoesDoJWT {
         public string Issuer { get; set; }
 
         public string Audience { get; set; }
@@ -24,10 +22,10 @@ namespace dn32.infra.Filters
 
         public bool ValidateAudience { get; set; } = true;
 
-        public TimeSpan ClockSkew { get; set; } = TimeSpan.FromSeconds(30);
+        public TimeSpan ClockSkew { get; set; } = TimeSpan.FromSeconds (30);
 
-        internal SymmetricSecurityKey SymmetricSecurityKey => new SymmetricSecurityKey(Encoding.Default.GetBytes(SecretKey));
+        internal SymmetricSecurityKey SymmetricSecurityKey => new SymmetricSecurityKey (Encoding.Default.GetBytes (SecretKey));
 
-        internal SigningCredentials SigningCredentials => new SigningCredentials(SymmetricSecurityKey, SecurityAlgorithms.HmacSha512);
+        internal SigningCredentials SigningCredentials => new SigningCredentials (SymmetricSecurityKey, SecurityAlgorithms.HmacSha512);
     }
 }

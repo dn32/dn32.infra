@@ -1,19 +1,17 @@
-﻿using dn32.infra.dados;
-using dn32.infra.nucleo.controladores;
-using dn32.infra.nucleo.especificacoes;
-using dn32.infra.nucleo.validacoes;
-using dn32.infra.nucleo.interfaces;
-using dn32.infra.servicos;
-using System;
+﻿using System;
 using System.Linq;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
 
-namespace dn32.infra.Util
-{
+namespace dn32.infra {
     /// <summary>
     /// Utilitários de uso global.
     /// </summary>
-    public static class GlobalUtil
-    {
+    public static class GlobalUtil {
         /// <summary>
         /// Obtem o tipo da entidade de um objeto baseado em um tipo esperado. Ex <see cref="servicos.DnControladorDeServico{T}"/>, <see cref="DnRepository{TE}"/>, etc. O retorno será o tipo de T.
         /// </summary>
@@ -26,52 +24,44 @@ namespace dn32.infra.Util
         /// <returns>
         /// O tipo.
         /// </returns>
-        internal static Tuple<Type, Type> GetDnEntityType(Type objectTypeToCheck, Type expectedType)
-        {
-            return new Tuple<Type, Type>(GetBase(objectTypeToCheck.BaseType), objectTypeToCheck);
+        internal static Tuple<Type, Type> GetDnEntityType (Type objectTypeToCheck, Type expectedType) {
+            return new Tuple<Type, Type> (GetBase (objectTypeToCheck.BaseType), objectTypeToCheck);
 
-            Type GetBase(Type type)
-            {
-                if (type == null)
-                {
+            Type GetBase (Type type) {
+                if (type == null) {
                     return null;
                 }
 
-                if (type == typeof(object))
-                {
+                if (type == typeof (object)) {
                     return null;
                 }
 
-                if (type.Name == expectedType.Name)
-                {
-                    var args = type.GetGenericArguments();
-                    return args.Length == 0 ? type : type.GetGenericArguments()[0];
+                if (type.Name == expectedType.Name) {
+                    var args = type.GetGenericArguments ();
+                    return args.Length == 0 ? type : type.GetGenericArguments () [0];
                 }
 
-                return GetBase(type.BaseType);
+                return GetBase (type.BaseType);
             }
         }
 
-        internal static Tuple<Type, Type> GetDnEntityTypeByInterface(Type objectTypeToCheck, Type expectedType)
-        {
-            var ints = objectTypeToCheck.GetInterfaces();
-            var interface_ = ints.FirstOrDefault(x => x.Name == expectedType.Name);
-            if (interface_ != null)
-            {
-                var args = interface_.GetGenericArguments();
-                return args.Length == 0 ? null : new Tuple<Type, Type>(interface_.GetGenericArguments()[0], objectTypeToCheck);
+        internal static Tuple<Type, Type> GetDnEntityTypeByInterface (Type objectTypeToCheck, Type expectedType) {
+            var ints = objectTypeToCheck.GetInterfaces ();
+            var interface_ = ints.FirstOrDefault (x => x.Name == expectedType.Name);
+            if (interface_ != null) {
+                var args = interface_.GetGenericArguments ();
+                return args.Length == 0 ? null : new Tuple<Type, Type> (interface_.GetGenericArguments () [0], objectTypeToCheck);
             }
 
             return null;
         }
 
-        private static string[] DnEntityNames => new[]
-        {
-            typeof(DnControlador<DnEntidade>).Name,
-            typeof(DnServico<DnEntidade>).Name,
-            typeof(DnRepositorio<DnEntidade>).Name,
-            typeof(DnValidacao<DnEntidade>).Name,
-            typeof(DnEspecificacao<DnEntidade>).Name
+        private static string[] DnEntityNames => new [] {
+            typeof (DnControlador<DnEntidade>).Name,
+            typeof (DnServico<DnEntidade>).Name,
+            typeof (DnRepositorio<DnEntidade>).Name,
+            typeof (DnValidacao<DnEntidade>).Name,
+            typeof (DnEspecificacao<DnEntidade>).Name
         };
 
         /// <summary>
@@ -83,26 +73,21 @@ namespace dn32.infra.Util
         /// <returns>
         /// O tipo.
         /// </returns>
-        public static Type GetDnEntityType(this Type currentType)
-        {
-            return GetBase(currentType);
+        public static Type GetDnEntityType (this Type currentType) {
+            return GetBase (currentType);
 
-            static Type GetBase(Type type)
-            {
-                if (type == null || type == typeof(object))
-                {
+            static Type GetBase (Type type) {
+                if (type == null || type == typeof (object)) {
                     return null;
                 }
 
-                if (!DnEntityNames.Contains(type.Name))
-                {
-                    return GetBase(type.BaseType);
+                if (!DnEntityNames.Contains (type.Name)) {
+                    return GetBase (type.BaseType);
                 }
 
-                var localType = type.GetGenericArguments().First();
-                if (!localType.IsSubclassOf(typeof(EntidadeBase)))
-                {
-                    throw new InvalidOperationException();
+                var localType = type.GetGenericArguments ().First ();
+                if (!localType.IsSubclassOf (typeof (EntidadeBase))) {
+                    throw new InvalidOperationException ();
                 }
 
                 return localType;

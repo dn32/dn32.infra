@@ -1,17 +1,17 @@
-﻿using dn32.infra.servicos;
-using StackExchange.Redis;
-using System;
-using System.Threading.Tasks;
-using dn32.infra.dados;
-using dn32.infra.nucleo.configuracoes;
+﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using dn32.infra;
+using dn32.infra;
+using dn32.infra;
+using StackExchange.Redis;
 
-namespace dn32.infra.Redis
+namespace dn32.infra
 {
     public class DnServicoDoRedis : DnServicoTransacionalBase
     {
         protected DnRepositorioDoRedis RepositorioDoRedis { get; set; }
-      
+
         public DnServicoDoRedis() => RepositorioDoRedis = ObterRepositorio(Setup.ConfiguracoesGlobais.StringDeConexaoDoRedis);
 
         protected virtual DnRepositorioDoRedis ObterRepositorio(string connectionString) => new DnRepositorioDoRedis(connectionString);
@@ -19,7 +19,7 @@ namespace dn32.infra.Redis
         public virtual async Task InscreverAsync(string canal, Func<string, Task> callbackAsync) => await RepositorioDoRedis.InscreverAsync(canal, callbackAsync);
 
         public virtual async Task Inscrever(string canal, Action<string> callback) => await RepositorioDoRedis.Inscrever(canal, callback);
-      
+
         public virtual async Task<List<T>> ListarPorPrefixo<T>(string pattern) => await RepositorioDoRedis.ListarPorPrefixo<T>(pattern);
 
         public virtual async Task RemoverInscricao(string canal) => await RepositorioDoRedis.RemoverInscricao(canal);

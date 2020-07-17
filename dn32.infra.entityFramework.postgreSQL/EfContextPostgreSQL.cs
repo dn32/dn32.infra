@@ -1,10 +1,10 @@
 ﻿// ReSharper disable CommentTypo
 
-using dn32.infra.atributos;
-using dn32.infra.enumeradores;
+using dn32.infra;
+using dn32.infra;
 using Microsoft.EntityFrameworkCore;
 
-namespace dn32.infra.EntityFramework.PostgreSQL
+namespace dn32.infra
 {
     /// <inheritdoc />
     /// <summary>
@@ -13,9 +13,7 @@ namespace dn32.infra.EntityFramework.PostgreSQL
     [DnTipoDeBancoDeDadosAtributo(EnumTipoDeBancoDeDados.POSTGREE_SQL)]
     public class EfContextPostgreSQL : EfContext
     {
-        public EfContextPostgreSQL(string connectionString) : base(connectionString)
-        {
-        }
+        public EfContextPostgreSQL(string connectionString) : base(connectionString) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

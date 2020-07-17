@@ -5,8 +5,8 @@
 //// </copyright>
 //// -----------------------------------------------------------------------
 
-//using dn32.infra.EntityFramework;
-//using dn32.infra.EntityFramework.SqLite;
+//using dn32.infra;
+//using dn32.infra;
 //using Microsoft.AspNetCore.Hosting;
 //using Microsoft.AspNetCore.Mvc.Testing;
 //using Microsoft.Extensions.DependencyInjection;
@@ -14,9 +14,9 @@
 //using Newtonsoft.Json.Serialization;
 //using System;
 //using System.Net.Http;
-//using static dn32.infra.Test.IndexPageTests;
+//using static dn32.infra.IndexPageTests;
 
-//namespace dn32.infra.Test
+//namespace dn32.infra
 //{
 //    public class IndexPageTests : IClassFixture<CustomWebApplicationFactory<RazorPagesProject.Startup>>
 //    {

@@ -1,13 +1,10 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System;
-using System.Collections.Generic;
 
-namespace dn32.infra.nucleo.modelos
-{
-    public class DnDadosDeEntidadeAlterada
-    {
+namespace dn32.infra {
+    public class DnDadosDeEntidadeAlterada {
         public List<DnDadosDePropriedadeAlterada> Propriedades { get; set; }
         public object EntidadeAtual { get; set; }
         public Type TipoDaEntidadeAtual { get; set; }

@@ -7,7 +7,7 @@
 
 //using System.Runtime.InteropServices;
 
-//namespace dn32.infra.Test
+//namespace dn32.infra
 //{
 //    [ComVisible(true)]
 //    public static class Setup

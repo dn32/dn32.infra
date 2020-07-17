@@ -6,20 +6,16 @@
 // -----------------------------------------------------------------------
 
 using System;
-using dn32.infra.nucleo.controladores;
+using dn32.infra;
 
-namespace dn32.infra.Test.Mock
-{
-    public static class MockControllerFactory
-    {
-        public static TC Create<TC>() where TC : DnControladorBase, new()
-        {
-            return Create(typeof(TC)) as TC;
+namespace dn32.infra.Mock {
+    public static class MockControllerFactory {
+        public static TC Create<TC> () where TC : DnControladorBase, new () {
+            return Create (typeof (TC)) as TC;
         }
 
-        public static DnControladorBase Create(Type controllerType)
-        {
-            return Activator.CreateInstance(controllerType) as DnControladorBase;
+        public static DnControladorBase Create (Type controllerType) {
+            return Activator.CreateInstance (controllerType) as DnControladorBase;
         }
     }
 }
