@@ -1,5 +1,7 @@
-﻿namespace dn32.infra {
-    public class EntityModelAndName {
+﻿namespace dn32.infra
+{
+    public class EntityModelAndName
+    {
         public string FullName { get; set; }
         public string FriendlyName { get; set; }
         public string Description { get; set; }

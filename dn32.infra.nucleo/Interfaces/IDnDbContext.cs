@@ -2,10 +2,12 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace dn32.infra {
-    public interface IDnDbContext : IDisposable {
+namespace dn32.infra
+{
+    public interface IDnDbContext : IDisposable
+    {
         bool EnableLogicalDeletion { get; set; }
-        Task<int> SaveChangesAsync (CancellationToken cancellationToken = default);
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         bool HaAlteracao { get; }
     }
 }

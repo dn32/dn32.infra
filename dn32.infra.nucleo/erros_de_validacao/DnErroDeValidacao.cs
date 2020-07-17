@@ -1,6 +1,5 @@
-﻿using System.Threading;
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Threading;
 
 namespace dn32.infra
 {

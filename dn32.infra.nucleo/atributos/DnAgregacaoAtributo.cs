@@ -1,9 +1,11 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
-namespace dn32.infra {
-    [AttributeUsage (AttributeTargets.Property)]
-    public class DnAgregacaoAtributo : DnReferenciaAtributo {
+namespace dn32.infra
+{
+    [AttributeUsage(AttributeTargets.Property)]
+    public class DnAgregacaoAtributo : DnReferenciaAtributo
+    {
         public string CampoAApresentar { get; set; }
 
         public string[] PropriedadesParaBusca { get; set; }
@@ -11,10 +13,12 @@ namespace dn32.infra {
         public bool PermitirAdicionar { get; set; }
 
         [JsonIgnore]
-        public string PropriedadeParaBusca {
+        public string PropriedadeParaBusca
+        {
             get => this.PropriedadesParaBusca?.Length > 0 ? this.PropriedadesParaBusca[0] : null;
-            set {
-                this.PropriedadesParaBusca = new [] { value };
+            set
+            {
+                this.PropriedadesParaBusca = new[] { value };
             }
         }
 

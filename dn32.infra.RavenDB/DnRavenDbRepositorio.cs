@@ -1,14 +1,10 @@
-﻿using System;
+﻿using Microsoft.Extensions.Primitives;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-
-
-
-using Microsoft.Extensions.Primitives;
-using Raven.Client.Documents;
-using Raven.Client.Documents.Session;
 
 namespace dn32.infra
 {

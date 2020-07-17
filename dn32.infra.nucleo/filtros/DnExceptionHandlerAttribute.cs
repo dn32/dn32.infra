@@ -1,15 +1,10 @@
-﻿using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-
-
-
-
-
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 
 namespace dn32.infra
 {

@@ -1,7 +1,9 @@
 ﻿using System;
 
-namespace dn32.infra {
-    public class DocParameter {
+namespace dn32.infra
+{
+    public class DocParameter
+    {
         public Type Type { get; set; }
 
         public string Name { get; set; }
@@ -14,14 +16,16 @@ namespace dn32.infra {
 
         public string Link { get; internal set; }
 
-        public DocParameter () {
+        public DocParameter()
+        {
             Source = EnumParameterSouce.Body;
         }
 
-        public DocParameter (string name, Type type, EnumParameterSouce source, string description, string example) {
+        public DocParameter(string name, Type type, EnumParameterSouce source, string description, string example)
+        {
             Name = name;
             Type = type;
-            Link = DnDocController.GetModelLink (Type);
+            Link = DnDocController.GetModelLink(Type);
             Source = source;
             Description = description;
             Example = example;

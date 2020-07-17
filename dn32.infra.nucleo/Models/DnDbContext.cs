@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
+﻿
 using Microsoft.EntityFrameworkCore;
 
 namespace dn32.infra

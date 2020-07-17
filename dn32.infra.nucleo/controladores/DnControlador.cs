@@ -1,9 +1,5 @@
-﻿using System;
-
-
-
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace dn32.infra
 {

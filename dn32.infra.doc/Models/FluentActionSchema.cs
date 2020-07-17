@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace dn32.infra {
-    public class DnActionSchema {
+namespace dn32.infra
+{
+    public class DnActionSchema
+    {
         public Type EntityType { get; set; }
         public Type ControllerType { get; set; }
         public MethodInfo Action { get; set; }

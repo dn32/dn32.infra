@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
+using System.Collections.Generic;
 
 namespace dn32.infra.Mock.ControllerMock
 {

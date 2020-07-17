@@ -1,11 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-
-
-using Microsoft.AspNetCore.Mvc;
-
-namespace dn32.infra
+﻿namespace dn32.infra
 {
     public partial class DnApiControlador<T>
     {

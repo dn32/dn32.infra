@@ -1,5 +1,7 @@
-﻿namespace dn32.infra {
-    public enum EnumTipoDeBancoDeDados {
+﻿namespace dn32.infra
+{
+    public enum EnumTipoDeBancoDeDados
+    {
         SQL_SERVER,
         ORACLE,
         RAVENDB,

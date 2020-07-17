@@ -1,6 +1,5 @@
-﻿using System.Reflection;
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Reflection;
 
 namespace dn32.infra
 {

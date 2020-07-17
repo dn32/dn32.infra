@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-
-
-
-using Microsoft.EntityFrameworkCore;
-
 namespace dn32.infra
 {
     public interface IDnObjetosTransacionais : IDisposable

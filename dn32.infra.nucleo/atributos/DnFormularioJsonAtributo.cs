@@ -1,9 +1,11 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
-namespace dn32.infra {
-    [AttributeUsage (AttributeTargets.Class)]
-    public class DnFormularioJsonAtributo : DnEsquemaJsonAtributo {
+namespace dn32.infra
+{
+    [AttributeUsage(AttributeTargets.Class)]
+    public class DnFormularioJsonAtributo : DnEsquemaJsonAtributo
+    {
         [JsonIgnore]
         public Type Tipo { get; set; }
 

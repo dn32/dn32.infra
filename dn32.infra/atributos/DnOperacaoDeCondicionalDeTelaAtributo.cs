@@ -1,7 +1,5 @@
-﻿using System;
-
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace dn32.infra
 {

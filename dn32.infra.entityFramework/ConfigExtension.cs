@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Query;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace dn32.infra
 {

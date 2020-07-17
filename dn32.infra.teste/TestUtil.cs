@@ -1,10 +1,8 @@
-﻿using System;
-using System.Runtime.InteropServices;
-
-
-using dn32.infra.Mock;
+﻿using dn32.infra.Mock;
 using dn32.infra.Mock.ControllerMock;
 using Newtonsoft.Json;
+using System;
+using System.Runtime.InteropServices;
 
 namespace dn32.infra
 {

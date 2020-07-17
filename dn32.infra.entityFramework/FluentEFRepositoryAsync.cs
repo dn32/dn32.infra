@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-
-
-
-
-
-
-using Microsoft.EntityFrameworkCore;
 
 namespace dn32.infra
 {

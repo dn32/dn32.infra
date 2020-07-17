@@ -1,13 +1,8 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
-
-
-
-
-
-using Raven.Client.Documents;
-using Raven.Client.Documents.Session;
 
 namespace dn32.infra
 {

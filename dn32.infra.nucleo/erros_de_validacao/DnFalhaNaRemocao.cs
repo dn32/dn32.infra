@@ -1,12 +1,15 @@
 ﻿using Newtonsoft.Json;
 
-namespace dn32.infra {
-    public class DnFalhaNaRemocaoDeDadosErroDeValidacao : DnErroDeValidacao {
-        [JsonProperty ("chave_de_globalizacao")]
-        public override string ChaveDeGlobalizacao => nameof (DnFalhaNaRemocaoDeDadosErroDeValidacao);
+namespace dn32.infra
+{
+    public class DnFalhaNaRemocaoDeDadosErroDeValidacao : DnErroDeValidacao
+    {
+        [JsonProperty("chave_de_globalizacao")]
+        public override string ChaveDeGlobalizacao => nameof(DnFalhaNaRemocaoDeDadosErroDeValidacao);
 
-        public DnFalhaNaRemocaoDeDadosErroDeValidacao () : base ($"Esta operação remove fisicamente todos os dados da tabela solicitada. " +
+        public DnFalhaNaRemocaoDeDadosErroDeValidacao() : base($"Esta operação remove fisicamente todos os dados da tabela solicitada. " +
             $"Se você realmente deseja fazer isso, adicione ao cabeçalho da solicitação o " +
-            $"termo \"APAGAR_TUDO=yes\" ") { }
+            $"termo \"APAGAR_TUDO=yes\" ")
+        { }
     }
 }

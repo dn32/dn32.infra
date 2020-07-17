@@ -1,11 +1,6 @@
-﻿using System;
+﻿using Raven.Client.Documents;
+using System;
 using System.Linq;
-
-
-
-
-
-using Raven.Client.Documents;
 
 namespace dn32.infra
 {

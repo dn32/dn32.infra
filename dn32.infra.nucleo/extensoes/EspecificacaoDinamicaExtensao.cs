@@ -1,17 +1,11 @@
-﻿using System;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Reflection.Emit;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
-
-
-
-
-
-
-using Microsoft.AspNetCore.Http;
 
 namespace dn32.infra
 {

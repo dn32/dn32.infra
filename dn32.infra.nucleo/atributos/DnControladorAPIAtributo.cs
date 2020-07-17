@@ -1,15 +1,19 @@
 ﻿using System;
 
-namespace dn32.infra {
-    [AttributeUsage (AttributeTargets.Class)]
-    public class DnControladorApiAtributo : Attribute {
+namespace dn32.infra
+{
+    [AttributeUsage(AttributeTargets.Class)]
+    public class DnControladorApiAtributo : Attribute
+    {
         public bool GerarAutomaticamente { get; set; }
 
-        public DnControladorApiAtributo () {
+        public DnControladorApiAtributo()
+        {
             GerarAutomaticamente = true;
         }
 
-        public DnControladorApiAtributo (bool gerarAutomaticamente = true) {
+        public DnControladorApiAtributo(bool gerarAutomaticamente = true)
+        {
             GerarAutomaticamente = gerarAutomaticamente;
         }
     }

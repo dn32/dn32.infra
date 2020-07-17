@@ -1,6 +1,5 @@
-﻿using System;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using System;
 
 namespace dn32.infra
 {

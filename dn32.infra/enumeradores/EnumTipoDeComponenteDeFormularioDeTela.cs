@@ -1,5 +1,7 @@
-﻿namespace dn32.infra {
-    public enum EnumTipoDeComponenteDeFormularioDeTela {
+﻿namespace dn32.infra
+{
+    public enum EnumTipoDeComponenteDeFormularioDeTela
+    {
         Nenhum = 0,
         Texto = 1,
         Combo = 2,

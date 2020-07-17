@@ -1,15 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-
-
-
-
-
-
-
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace dn32.infra
 {

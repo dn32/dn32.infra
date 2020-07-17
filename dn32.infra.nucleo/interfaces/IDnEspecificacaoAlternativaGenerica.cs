@@ -1,3 +1,4 @@
-﻿namespace dn32.infra {
+﻿namespace dn32.infra
+{
     public interface IDnEspecificacaoAlternativaGenerica<TO> : IDnEspecificacaoAlternativa { }
 }

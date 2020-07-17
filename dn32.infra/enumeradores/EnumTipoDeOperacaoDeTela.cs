@@ -1,5 +1,7 @@
-﻿namespace dn32.infra {
-    public enum EnumTipoDeOperacaoDeTela {
+﻿namespace dn32.infra
+{
+    public enum EnumTipoDeOperacaoDeTela
+    {
         Ocultar = 1,
         Desabilitar = 2,
         Focar = 4,

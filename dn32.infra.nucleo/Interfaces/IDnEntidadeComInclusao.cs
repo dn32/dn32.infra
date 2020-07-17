@@ -1,8 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace dn32.infra {
-    public interface IDnEntidadeComInclusao {
+namespace dn32.infra
+{
+    public interface IDnEntidadeComInclusao
+    {
         [NotMapped, JsonIgnore]
         string[] InclusoesParaLista { get; }
 
