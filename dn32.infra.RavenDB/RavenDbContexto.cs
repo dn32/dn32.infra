@@ -1,17 +1,19 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
-using dn32.infra;
-using dn32.infra;
-using dn32.infra;
-using dn32.infra;
-using dn32.infra;
+
+
+
+
+
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 
-namespace dn32.infra {
-    [DnTipoDeBancoDeDadosAtributo (EnumTipoDeBancoDeDados.RAVENDB)]
-    public class RavenDbContexto : IDnDbContext {
+namespace dn32.infra
+{
+    [DnTipoDeBancoDeDadosAtributo(EnumTipoDeBancoDeDados.RAVENDB)]
+    public class RavenDbContexto : IDnDbContext
+    {
         internal protected SessaoDeRequisicaoDoUsuario UserSessionRequest { get; internal set; }
 
         public bool EnableLogicalDeletion { get; set; }
@@ -28,40 +30,45 @@ namespace dn32.infra {
 
         public bool HaAlteracao => Sessao.Advanced.HasChanges;
 
-        public RavenDbContexto (string connectionString) {
+        public RavenDbContexto(string connectionString)
+        {
             ConnectionString = connectionString;
-            Store = CreateDocumentStore ();
-            Sessao = Store.OpenAsyncSession ();
+            Store = CreateDocumentStore();
+            Sessao = Store.OpenAsyncSession();
             Sessao.Advanced.MaxNumberOfRequestsPerSession = 10000;
         }
 
-        private IDocumentStore CreateDocumentStore () {
+        private IDocumentStore CreateDocumentStore()
+        {
             NomeDoBD = Setup.ConfiguracoesGlobais.Valores["nomeDoBD"];
             EnderecoDoCertificado = Setup.ConfiguracoesGlobais.Valores["enderecoDoCertificado"];
 
             string serverURL = ConnectionString;
             string databaseName = NomeDoBD;
 
-            var documentStore = new DocumentStore {
-                Urls = new [] { serverURL },
+            var documentStore = new DocumentStore
+            {
+                Urls = new[] { serverURL },
                 Database = databaseName
             };
 
-            if (!string.IsNullOrWhiteSpace (EnderecoDoCertificado))
-                documentStore.Certificate = new X509Certificate2 (EnderecoDoCertificado);
+            if (!string.IsNullOrWhiteSpace(EnderecoDoCertificado))
+                documentStore.Certificate = new X509Certificate2(EnderecoDoCertificado);
 
-            documentStore.Initialize ();
+            documentStore.Initialize();
 
             return documentStore;
         }
 
-        public void Dispose () {
-            Store.Dispose ();
-            Sessao.Dispose ();
+        public void Dispose()
+        {
+            Store.Dispose();
+            Sessao.Dispose();
         }
 
-        public async Task<int> SaveChangesAsync (CancellationToken cancellationToken = default) {
-            await Sessao.SaveChangesAsync (cancellationToken);
+        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            await Sessao.SaveChangesAsync(cancellationToken);
             return 0;
         }
 

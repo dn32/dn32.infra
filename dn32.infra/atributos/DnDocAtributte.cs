@@ -1,12 +1,15 @@
 ﻿using System;
-using dn32.infra;
 
-namespace dn32.infra {
-    [AttributeUsage (AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Property)]
-    public class DnDocAttribute : Attribute {
+
+namespace dn32.infra
+{
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Property)]
+    public class DnDocAttribute : Attribute
+    {
         public EnumApresentar Apresentacao { get; }
 
-        public DnDocAttribute (EnumApresentar apresentar = EnumApresentar.Mostrar) {
+        public DnDocAttribute(EnumApresentar apresentar = EnumApresentar.Mostrar)
+        {
             Apresentacao = apresentar;
         }
     }

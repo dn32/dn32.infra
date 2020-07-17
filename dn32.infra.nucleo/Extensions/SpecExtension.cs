@@ -1,56 +1,68 @@
 ﻿using System.Collections.Generic;
-using dn32.infra;
-using dn32.infra;
-using dn32.infra;
 
-namespace dn32.infra {
-    public static class SpecExtension {
-        public static bool Exists (this IDnEspecificacaoBase spec) {
-            return (bool) spec.Execute (nameof (Exists));
+
+
+
+namespace dn32.infra
+{
+    public static class SpecExtension
+    {
+        public static bool Exists(this IDnEspecificacaoBase spec)
+        {
+            return (bool)spec.Execute(nameof(Exists));
         }
 
-        public static object List (this IDnEspecificacaoBase spec, DnPaginacao pagination = null) {
-            return spec.Execute (nameof (List), new object[] { pagination });
+        public static object List(this IDnEspecificacaoBase spec, DnPaginacao pagination = null)
+        {
+            return spec.Execute(nameof(List), new object[] { pagination });
         }
 
-        public static object FirstOrDefault (this IDnEspecificacaoBase spec) {
-            return spec.Execute (nameof (FirstOrDefault));
+        public static object FirstOrDefault(this IDnEspecificacaoBase spec)
+        {
+            return spec.Execute(nameof(FirstOrDefault));
         }
 
-        public static object Execute (this IDnEspecificacaoBase spec, string method, params object[] parameters) {
-            return spec.CallSelectOrNoSelectMethod (method, parameters);
+        public static object Execute(this IDnEspecificacaoBase spec, string method, params object[] parameters)
+        {
+            return spec.CallSelectOrNoSelectMethod(method, parameters);
         }
 
-        public static object CallSelectOrNoSelectMethod (this IDnEspecificacaoBase spec, string methodName, params object[] parameters) {
+        public static object CallSelectOrNoSelectMethod(this IDnEspecificacaoBase spec, string methodName, params object[] parameters)
+        {
             var paramList = new List<object> { spec };
-            paramList.AddRange (parameters);
-            parameters = paramList.ToArray ();
+            paramList.AddRange(parameters);
+            parameters = paramList.ToArray();
 
-            if (spec != null && spec.Servico == null) {
-                throw new DesenvolvimentoIncorretoException ($"The past spec does not have a valid service. See at the time the spec is created if a service has been passed in the spec creator.");
+            if (spec != null && spec.Servico == null)
+            {
+                throw new DesenvolvimentoIncorretoException($"The past spec does not have a valid service. See at the time the spec is created if a service has been passed in the spec creator.");
             }
 
-            if (spec is IDnEspecificacaoAlternativa spec2) {
-                var service = spec2.TipoDeEntidade.GetServiceInstanceByEntity (spec2.Servico.SessaoDaRequisicao);
-                var method = service.GetType ().GetMethod ($"{methodName}Select");
-                if (method == null) {
-                    throw new DesenvolvimentoIncorretoException ($"Method not found: {methodName}Select");
+            if (spec is IDnEspecificacaoAlternativa spec2)
+            {
+                var service = spec2.TipoDeEntidade.GetServiceInstanceByEntity(spec2.Servico.SessaoDaRequisicao);
+                var method = service.GetType().GetMethod($"{methodName}Select");
+                if (method == null)
+                {
+                    throw new DesenvolvimentoIncorretoException($"Method not found: {methodName}Select");
                 }
 
-                return method.MakeGenericMethod (spec2.TipoDeRetorno).Invoke (service, parameters);
+                return method.MakeGenericMethod(spec2.TipoDeRetorno).Invoke(service, parameters);
             }
 
-            if (spec is IDnEspecificacao spec3) {
-                var service = spec3.TipoDeEntidade.GetServiceInstanceByEntity (spec3.Servico.SessaoDaRequisicao);
-                var method = service.GetType ().GetMethodWithoutAmbiguity (methodName, parameters);
-                if (method == null) {
-                    throw new DesenvolvimentoIncorretoException ($"Method not found: {methodName}");
+            if (spec is IDnEspecificacao spec3)
+            {
+                var service = spec3.TipoDeEntidade.GetServiceInstanceByEntity(spec3.Servico.SessaoDaRequisicao);
+                var method = service.GetType().GetMethodWithoutAmbiguity(methodName, parameters);
+                if (method == null)
+                {
+                    throw new DesenvolvimentoIncorretoException($"Method not found: {methodName}");
                 }
 
-                return method.Invoke (service, parameters);
+                return method.Invoke(service, parameters);
             }
 
-            throw new DesenvolvimentoIncorretoException ("The specification is of a different type than expected");
+            throw new DesenvolvimentoIncorretoException("The specification is of a different type than expected");
         }
 
         //public static T Adicionar<T>(this TransactionalService service, T entity) where T : BaseEntity

@@ -1,8 +1,9 @@
 ﻿using System;
-using dn32.infra;
-using dn32.infra;
 
-namespace dn32.infra {
+
+
+namespace dn32.infra
+{
     /// <summary>
     /// Classe interna. Nunca a deixe pública, pois o acesso a um repositório à partir de um serviço terceiro não deve ser permitido.
     /// A fábrica de repositórios.
@@ -10,7 +11,8 @@ namespace dn32.infra {
     /// <typeparam Nome="T">
     ///  O tipo da entidade do repositório a ser criado.
     /// </typeparam>
-    internal class RepositoryFactory : FrabricaDeRepositorioBase {
-        protected override Type ObterTipoDeRepositorioPadrao<T> () => typeof (DnEFRepository<T>);
+    internal class RepositoryFactory : FrabricaDeRepositorioBase
+    {
+        protected override Type ObterTipoDeRepositorioPadrao<T>() => typeof(DnEFRepository<T>);
     }
 }

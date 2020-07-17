@@ -1,14 +1,16 @@
 using System;
 using System.Security.Claims;
-using dn32.infra;
-using dn32.infra;
-using dn32.infra;
-using dn32.infra;
-using dn32.infra;
+
+
+
+
+
 using Microsoft.AspNetCore.Http;
 
-namespace dn32.infra {
-    public abstract class DnServicoBase : IDisposable {
+namespace dn32.infra
+{
+    public abstract class DnServicoBase : IDisposable
+    {
         internal bool EscopoSingleton { get; set; }
 
         protected virtual DnValidacaoBase Validacao { get; set; }
@@ -25,27 +27,31 @@ namespace dn32.infra {
 
         private bool Disposed { get; set; }
 
-        public virtual DnServicoBase ObterDependenciaDeServico<TS> (string identificadorDaSessao) where TS : DnServicoBase, new () {
-            var identificadorDaSessaoGuid = Guid.Parse (identificadorDaSessao);
-            SessaoDaRequisicao = Setup.ObterSessaoDeUmaRequisicao (identificadorDaSessaoGuid);
-            return SessaoDaRequisicao.Servicos.GetOrAdd (typeof (TS), (FabricaDeServico.CriarServicoEmTempoReal (typeof (TS), identificadorDaSessaoGuid) as TS));
+        public virtual DnServicoBase ObterDependenciaDeServico<TS>(string identificadorDaSessao) where TS : DnServicoBase, new()
+        {
+            var identificadorDaSessaoGuid = Guid.Parse(identificadorDaSessao);
+            SessaoDaRequisicao = Setup.ObterSessaoDeUmaRequisicao(identificadorDaSessaoGuid);
+            return SessaoDaRequisicao.Servicos.GetOrAdd(typeof(TS), (FabricaDeServico.CriarServicoEmTempoReal(typeof(TS), identificadorDaSessaoGuid) as TS));
         }
 
-        public void Dispose (bool servicoPrimario) {
+        public void Dispose(bool servicoPrimario)
+        {
             if (this.EscopoSingleton) return;
 
-            if (Disposed) {
+            if (Disposed)
+            {
                 return;
             }
 
             Disposed = true;
-            SessaoDaRequisicao.Dispose (servicoPrimario);
+            SessaoDaRequisicao.Dispose(servicoPrimario);
         }
 
-        protected internal virtual void DefinirSessaoDoUsuario (SessaoDeRequisicaoDoUsuario sessaoDaRequisicao) {
+        protected internal virtual void DefinirSessaoDoUsuario(SessaoDeRequisicaoDoUsuario sessaoDaRequisicao)
+        {
             SessaoDaRequisicao = sessaoDaRequisicao;
         }
 
-        public void Dispose () => Dispose (true);
+        public void Dispose() => Dispose(true);
     }
 }

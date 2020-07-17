@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
-using dn32.infra;
+
 using Newtonsoft.Json;
 
-namespace dn32.infra {
-    [AttributeUsage (AttributeTargets.Property)]
-    public class DnFiltroAtributo : Attribute {
+namespace dn32.infra
+{
+    [AttributeUsage(AttributeTargets.Property)]
+    public class DnFiltroAtributo : Attribute
+    {
         public EnumTipoDeFiltro TipoDeFiltro { get; set; } = EnumTipoDeFiltro.Igual;
 
         public string[] ChavesLocais { get; set; }
@@ -15,26 +17,32 @@ namespace dn32.infra {
         public string[] CamposParaLimpar { get; set; }
 
         [JsonIgnore]
-        public string ChaveLocal {
-            get => this.ChavesExternas?.First ();
-            set {
-                this.ChavesLocais = new [] { value };
+        public string ChaveLocal
+        {
+            get => this.ChavesExternas?.First();
+            set
+            {
+                this.ChavesLocais = new[] { value };
             }
         }
 
         [JsonIgnore]
-        public string ChaveExterna {
-            get => this.ChavesExternas?.First ();
-            set {
-                this.ChavesExternas = new [] { value };
+        public string ChaveExterna
+        {
+            get => this.ChavesExternas?.First();
+            set
+            {
+                this.ChavesExternas = new[] { value };
             }
         }
 
         [JsonIgnore]
-        public string CampoParaLimpar {
-            get => this.CamposParaLimpar?.First ();
-            set {
-                this.CamposParaLimpar = new [] { value };
+        public string CampoParaLimpar
+        {
+            get => this.CamposParaLimpar?.First();
+            set
+            {
+                this.CamposParaLimpar = new[] { value };
             }
         }
 

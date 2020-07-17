@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using dn32.infra;
+
 using Newtonsoft.Json;
 using StackExchange.Redis;
 

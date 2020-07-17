@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using dn32.infra;
-using dn32.infra;
+
+
 using Newtonsoft.Json;
 
-namespace dn32.infra {
-    [AttributeUsage (AttributeTargets.Property)]
-    public class DnPropriedadeJsonAtributo : DnEsquemaJsonAtributo {
+namespace dn32.infra
+{
+    [AttributeUsage(AttributeTargets.Property)]
+    public class DnPropriedadeJsonAtributo : DnEsquemaJsonAtributo
+    {
         public bool EhRequerido { get; set; }
 
         public int Minimo { get; set; }
