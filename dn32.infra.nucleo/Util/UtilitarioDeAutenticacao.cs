@@ -56,7 +56,7 @@ namespace dn32.infra
             }
             catch (SecurityTokenExpiredException)
             {
-                throw new TimeoutException("token expirado");
+                throw new AccessViolationException("token expirado");
             }
             catch (SecurityTokenInvalidSignatureException)
             {
