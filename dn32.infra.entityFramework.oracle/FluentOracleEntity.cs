@@ -4,6 +4,6 @@
 
 namespace dn32.infra
 {
-    [DnTipoDeBancoDeDadosAtributo(EnumTipoDeBancoDeDados.ORACLE)]
+    [DnTipoDeBancoDeDadosAttribute(EnumTipoDeBancoDeDados.ORACLE)]
     public abstract class DnOracleEntity : DnEntidade { }
 }

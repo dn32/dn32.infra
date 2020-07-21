@@ -9,7 +9,7 @@ namespace dn32.infra
     /// <summary>
     /// Contexto do EF no net Core
     /// </summary>
-    [DnTipoDeBancoDeDadosAtributo(EnumTipoDeBancoDeDados.SQL_SERVER)]
+    [DnTipoDeBancoDeDadosAttribute(EnumTipoDeBancoDeDados.SQL_SERVER)]
     public class EfContextSQLServer : EfContext
     {
         public EfContextSQLServer(string connectionString) : base(connectionString) { }

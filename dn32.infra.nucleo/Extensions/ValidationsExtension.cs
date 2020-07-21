@@ -36,7 +36,7 @@ namespace dn32.infra
             var properties = entity.GetType().GetProperties();
             foreach (var property in properties)
             {
-                var DnValidateAttribute = property.GetCustomAttribute<DnValidacaoAtributo>(true)?.DnCast<DnValidacaoAtributo>();
+                var DnValidateAttribute = property.GetCustomAttribute<DnValidacaoAttribute>(true)?.DnCast<DnValidacaoAttribute>();
                 if (DnValidateAttribute == null) { continue; }
 
                 DnValidateAttribute.Entidade = entity;
@@ -70,10 +70,10 @@ namespace dn32.infra
             var properties = entity.GetType().GetProperties().ToList();
             foreach (var property in properties)
             {
-                if (property.IsDefined(typeof(DnCriarValorRandomicoAoAdicionarEntidadeAtributo), true)) { continue; }
+                if (property.IsDefined(typeof(DnCriarValorRandomicoAoAdicionarEntidadeAttribute), true)) { continue; }
                 if (!string.IsNullOrWhiteSpace(compositionProperty))
                 {
-                    if (property.GetCustomAttribute<DnPropriedadeJsonAtributo>(true)?.Formulario == EnumTipoDeComponenteDeFormularioDeTela.Hidden)
+                    if (property.GetCustomAttribute<DnPropriedadeJsonAttribute>(true)?.Formulario == EnumTipoDeComponenteDeFormularioDeTela.Hidden)
                     {
                         continue;
                     }
@@ -82,8 +82,8 @@ namespace dn32.infra
                 if (value == null) { continue; }
                 if (property.PropertyType.EhNumerico())
                 {
-                    var min = property.GetCustomAttribute<DnPropriedadeJsonAtributo>()?.Minimo ?? property.GetCustomAttribute<RangeAttribute>()?.Minimum;
-                    var max = property.GetCustomAttribute<DnPropriedadeJsonAtributo>()?.Maximo ?? property.GetCustomAttribute<RangeAttribute>()?.Maximum;
+                    var min = property.GetCustomAttribute<DnPropriedadeJsonAttribute>()?.Minimo ?? property.GetCustomAttribute<RangeAttribute>()?.Minimum;
+                    var max = property.GetCustomAttribute<DnPropriedadeJsonAttribute>()?.Maximo ?? property.GetCustomAttribute<RangeAttribute>()?.Maximum;
                     var mindouble = min == null ? double.MinValue : double.Parse(min?.ToString() ?? "", CultureInfo.InvariantCulture);
                     var maxdouble = max == null ? double.MaxValue : double.Parse(max?.ToString() ?? "", CultureInfo.InvariantCulture);
                     var stringValue = value?.ToString() ?? "";
@@ -98,14 +98,14 @@ namespace dn32.infra
 
                 if (property.PropertyType == typeof(string) && property.PropertyType == typeof(String))
                 {
-                    var requ = property.GetCustomAttribute<RequiredAttribute>() != null || property.GetCustomAttribute<DnRequeridoAtributo>() != null;
+                    var requ = property.GetCustomAttribute<RequiredAttribute>() != null || property.GetCustomAttribute<DnRequeridoAttribute>() != null;
                     if (requ && property.GetValue(entity).IsDnNull())
                     { //Nesse caso já há uma inconsistência de requerido adicionada
                         return;
                     }
 
-                    var min = property.GetCustomAttribute<DnPropriedadeJsonAtributo>()?.Minimo ?? property.GetCustomAttribute<MinLengthAttribute>()?.Length;
-                    var max = property.GetCustomAttribute<DnPropriedadeJsonAtributo>()?.Maximo ?? property.GetCustomAttribute<MaxLengthAttribute>()?.Length;
+                    var min = property.GetCustomAttribute<DnPropriedadeJsonAttribute>()?.Minimo ?? property.GetCustomAttribute<MinLengthAttribute>()?.Length;
+                    var max = property.GetCustomAttribute<DnPropriedadeJsonAttribute>()?.Maximo ?? property.GetCustomAttribute<MaxLengthAttribute>()?.Length;
                     if (min == null || max == null) { continue; }
 
                     if (!new MinLengthAttribute(min.Value).IsValid(value))
@@ -132,7 +132,7 @@ namespace dn32.infra
             }
 
             var properties = typeof(T).GetPropertiesByAttribute<RequiredAttribute>();
-            var properties2 = typeof(T).GetPropertiesByAttribute<DnRequeridoAtributo>();
+            var properties2 = typeof(T).GetPropertiesByAttribute<DnRequeridoAttribute>();
 
             properties2.ForEach(x =>
             {
@@ -144,10 +144,10 @@ namespace dn32.infra
 
             foreach (var property in properties)
             {
-                if (property.IsDefined(typeof(DnCriarValorRandomicoAoAdicionarEntidadeAtributo), true)) { continue; }
+                if (property.IsDefined(typeof(DnCriarValorRandomicoAoAdicionarEntidadeAttribute), true)) { continue; }
                 if (!string.IsNullOrWhiteSpace(compositionProperty))
                 {
-                    if (property.GetCustomAttribute<DnPropriedadeJsonAtributo>(true)?.Formulario == EnumTipoDeComponenteDeFormularioDeTela.Hidden)
+                    if (property.GetCustomAttribute<DnPropriedadeJsonAttribute>(true)?.Formulario == EnumTipoDeComponenteDeFormularioDeTela.Hidden)
                     {
                         continue;
                     }
@@ -167,10 +167,10 @@ namespace dn32.infra
             var properties = entity.GetType().GetKeyProperties();
             foreach (var property in properties)
             {
-                if (property.IsDefined(typeof(DnCriarValorRandomicoAoAdicionarEntidadeAtributo), true)) { continue; }
+                if (property.IsDefined(typeof(DnCriarValorRandomicoAoAdicionarEntidadeAttribute), true)) { continue; }
                 if (!string.IsNullOrWhiteSpace(compositionProperty))
                 {
-                    if (property.GetCustomAttribute<DnPropriedadeJsonAtributo>(true)?.Formulario == EnumTipoDeComponenteDeFormularioDeTela.Hidden)
+                    if (property.GetCustomAttribute<DnPropriedadeJsonAttribute>(true)?.Formulario == EnumTipoDeComponenteDeFormularioDeTela.Hidden)
                     {
                         continue;
                     }
@@ -207,10 +207,10 @@ namespace dn32.infra
                         return;
                     }
 
-                    if (property.IsDefined(typeof(DnCriarValorRandomicoAoAdicionarEntidadeAtributo), true)) { return; }
+                    if (property.IsDefined(typeof(DnCriarValorRandomicoAoAdicionarEntidadeAttribute), true)) { return; }
                     if (!string.IsNullOrWhiteSpace(compositionProperty))
                     {
-                        if (property.GetCustomAttribute<DnPropriedadeJsonAtributo>(true)?.Formulario == EnumTipoDeComponenteDeFormularioDeTela.Hidden)
+                        if (property.GetCustomAttribute<DnPropriedadeJsonAttribute>(true)?.Formulario == EnumTipoDeComponenteDeFormularioDeTela.Hidden)
                         {
                             return;
                         }

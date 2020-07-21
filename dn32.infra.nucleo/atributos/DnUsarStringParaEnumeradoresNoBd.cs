@@ -3,5 +3,5 @@
 namespace dn32.infra
 {
     [AttributeUsage(AttributeTargets.Enum)]
-    public class DnUsarStringParaEnumeradoresNoBdAtributo : Attribute { }
+    public class DnUsarStringParaEnumeradoresNoBdAttribute : Attribute { }
 }

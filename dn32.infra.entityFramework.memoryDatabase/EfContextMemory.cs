@@ -10,7 +10,7 @@ namespace dn32.infra
     /// <summary>
     /// Contexto do EF no net Core
     /// </summary>
-    [DnTipoDeBancoDeDadosAtributo(EnumTipoDeBancoDeDados.MEMORY)]
+    [DnTipoDeBancoDeDadosAttribute(EnumTipoDeBancoDeDados.MEMORY)]
     public class EfContextMemory : EfContext
     {
         public EfContextMemory(string connectionString) : base(connectionString) { }

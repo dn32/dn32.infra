@@ -7,7 +7,7 @@
 //     /// <summary>
 //     /// Contexto do EF no net Core
 //     /// </summary>
-//     [DnTipoDeBancoDeDadosAtributo(EnumTipoDeBancoDeDados.ORACLE)]
+//     [DnTipoDeBancoDeDadosAttribute(EnumTipoDeBancoDeDados.ORACLE)]
 //     public class EfContextOracle : EfContext
 //     {
 

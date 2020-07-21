@@ -10,7 +10,7 @@ namespace dn32.infra
 
         public DnEntidadeNaoPossuiUmaPropriedadeBuscavelErroDeValidacao(string nomeDaEntidade) : base(
             $"A entidade {nomeDaEntidade} não possui uma propriedade " +
-            $"decorada com o atributo {nameof(DnBuscavelAtributo)}")
+            $"decorada com o atributo {nameof(DnBuscavelAttribute)}")
         { }
     }
 }

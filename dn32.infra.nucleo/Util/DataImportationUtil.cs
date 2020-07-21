@@ -125,7 +125,7 @@
 //             //return null;
 //         }
 
-//         private static void Example<T>(int addExample, IXLWorksheet worksheet, PropertyInfo[] propertiesExample, int i, DnPropriedadeJsonAtributo property)
+//         private static void Example<T>(int addExample, IXLWorksheet worksheet, PropertyInfo[] propertiesExample, int i, DnPropriedadeJsonAttribute property)
 //         {
 //             for (var x = 0; x < addExample; x++)
 //             {
@@ -136,7 +136,7 @@
 //             }
 //         }
 
-//         private static void Style(DnPropriedadeJsonAtributo property, IXLCell headerCell)
+//         private static void Style(DnPropriedadeJsonAttribute property, IXLCell headerCell)
 //         {
 //             headerCell.Style.Font.FontSize = 11;
 //             headerCell.Style.Protection.Locked = true;
@@ -157,7 +157,7 @@
 //                 headerCell.Style.Font.Bold = true;
 //         }
 
-//         private static void Comment(DnPropriedadeJsonAtributo property, IXLCell headerCell)
+//         private static void Comment(DnPropriedadeJsonAttribute property, IXLCell headerCell)
 //         {
 //             var isKeyComment = property.EhChave || property.EhDnChaveUnica ? $"\nIs Key" : "";
 //             var isPkComment = property.EhChaveExterna ? $"\nIs Fk" : "";

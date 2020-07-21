@@ -288,10 +288,10 @@ namespace dn32.infra
         //        */
         //        protected async Task UpdateCompositionListAsync(TE entity, bool isUpdate)
         //        {
-        //            var compositionProperties = entity.GetType().GetProperties().Where(x => x.IsDefined(typeof(DnComposicaoAtributo)));
+        //            var compositionProperties = entity.GetType().GetProperties().Where(x => x.IsDefined(typeof(DnComposicaoAttribute)));
         //            foreach (var compositionProperty in compositionProperties)
         //            {
-        //                var attr = compositionProperty.GetCustomAttribute<DnComposicaoAtributo>();
+        //                var attr = compositionProperty.GetCustomAttribute<DnComposicaoAttribute>();
         //                if (attr?.OperacaoAoSalvar == EnumTipoDeOperacaoParaComAsReferencias.Ignorar) { continue; }
         //                if (attr?.OperacaoAoSalvar == EnumTipoDeOperacaoParaComAsReferencias.Adicionar && isUpdate) { continue; }
 
@@ -399,7 +399,7 @@ namespace dn32.infra
 
         //            localProperties.ToList().ForEach(LocalProperty =>
         //            {
-        //                var composition = LocalProperty.GetCustomAttribute<DnReferenciaAtributo>(true);
+        //                var composition = LocalProperty.GetCustomAttribute<DnReferenciaAttribute>(true);
         //                if (composition == null) { return; }
         //                var externalProperties = LocalProperty.PropertyType.GetListTypeNonNull().GetProperties();
         //                var externalValue = LocalProperty.GetValue(entity);
@@ -454,7 +454,7 @@ namespace dn32.infra
         //                                    localKeyProperty.SetValue(entity, externalKeyValue);
         //                                }
 
-        //                                if (composition is DnAgregacaoAtributo aggre && externalValue != null)
+        //                                if (composition is DnAgregacaoAttribute aggre && externalValue != null)
         //                                {
         //                                    if (Session.Entry(externalValue).State == EntityState.Added && aggre.PermitirAdicionar)
         //                                    {
@@ -473,7 +473,7 @@ namespace dn32.infra
         //        private async Task CompleteEmptyKeysAsync(object compositionValue)
         //        {
         //            if (compositionValue == null) { return; }
-        //            var keyPoroperties = compositionValue.GetType().GetProperties().Where(x => x.IsDefined(typeof(DnCriarValorRandomicoAoAdicionarEntidadeAtributo))).ToList();
+        //            var keyPoroperties = compositionValue.GetType().GetProperties().Where(x => x.IsDefined(typeof(DnCriarValorRandomicoAoAdicionarEntidadeAttribute))).ToList();
         //            //Todo - Permitir esse atributo somente em tipos primitivos
         //            foreach (var property in keyPoroperties)
         //            {
@@ -482,7 +482,7 @@ namespace dn32.infra
         //                if (value.IsDnNull() || value.DnEquals(type.GetDnDefaultValue()))
         //                {
         //                    if (GetExistinEntityCode(compositionValue, property)) { return; }
-        //                    var attribute = property.GetCustomAttribute<DnCriarValorRandomicoAoAdicionarEntidadeAtributo>();
+        //                    var attribute = property.GetCustomAttribute<DnCriarValorRandomicoAoAdicionarEntidadeAttribute>();
         //                    if (attribute == null) { continue; }
         //                    await GenerateNewEntityCodes(compositionValue, property, attribute.TamanhoMaximo);
         //                }

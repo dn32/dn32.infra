@@ -5,7 +5,7 @@ using System.Linq;
 namespace dn32.infra
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class DnReferenciaAtributo : Attribute
+    public class DnReferenciaAttribute : Attribute
     {
         public string[] ChavesLocais { get; set; }
 

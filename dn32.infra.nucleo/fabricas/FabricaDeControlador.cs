@@ -16,10 +16,10 @@ namespace dn32.infra
 
             foreach (var entity in entities)
             {
-                if (entity.GetCustomAttribute<DnControladorApiAtributo>(true)?.GerarAutomaticamente == false) { continue; }
+                if (entity.GetCustomAttribute<DnControladorApiAttribute>(true)?.GerarAutomaticamente == false) { continue; }
                 if (Setup.Controladores.ContainsKey(entity)) { continue; }
 
-                if (entity.GetCustomAttribute<DnFormularioJsonAtributo>(true)?.EhSomenteLeitura == true)
+                if (entity.GetCustomAttribute<DnFormularioJsonAttribute>(true)?.EhSomenteLeitura == true)
                 {
                     baseController = typeof(DnApiSomenteLeituraControlador<>);
                 }

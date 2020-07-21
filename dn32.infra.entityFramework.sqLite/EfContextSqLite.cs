@@ -10,7 +10,7 @@ namespace dn32.infra
     /// <summary>
     /// Contexto do EF no net Core
     /// </summary>
-    [DnTipoDeBancoDeDadosAtributo(EnumTipoDeBancoDeDados.SQLITE)]
+    [DnTipoDeBancoDeDadosAttribute(EnumTipoDeBancoDeDados.SQLITE)]
     public class EfContextSqLite : EfContext
     {
         public static LoggerFactory LoggerFactory;

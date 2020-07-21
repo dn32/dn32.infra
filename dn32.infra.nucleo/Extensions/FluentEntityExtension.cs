@@ -63,7 +63,7 @@ namespace dn32.infra
 
         public static string GetUiPropertyName(this PropertyInfo property)
         {
-            return property.GetCustomAttribute<DnPropriedadeJsonAtributo>()?.Nome ??
+            return property.GetCustomAttribute<DnPropriedadeJsonAttribute>()?.Nome ??
                 property.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ??
                 property.GetCustomAttribute<JsonPropertyAttribute>()?.PropertyName ??
                 property?.Name.ToDnJsonStringNormalized();
@@ -92,12 +92,12 @@ namespace dn32.infra
 
         public static List<PropertyInfo> GetDnUniqueKeyProperties(this Type entityType)
         {
-            return entityType?.GetProperties()?.Where(x => x.IsDefined(typeof(DnChaveUnicaAtributo), true))?.ToList();
+            return entityType?.GetProperties()?.Where(x => x.IsDefined(typeof(DnChaveUnicaAttribute), true))?.ToList();
         }
 
         public static List<PropertyInfo> GetKeyAndDnUniqueKeyProperties(this Type entityType)
         {
-            return entityType?.GetProperties()?.Where(x => x.Name.Equals("Id", StringComparison.InvariantCultureIgnoreCase) || x?.GetCustomAttribute<KeyAttribute>(true) != null || x?.GetCustomAttribute<DnChaveUnicaAtributo>(true) != null)?.ToList();
+            return entityType?.GetProperties()?.Where(x => x.Name.Equals("Id", StringComparison.InvariantCultureIgnoreCase) || x?.GetCustomAttribute<KeyAttribute>(true) != null || x?.GetCustomAttribute<DnChaveUnicaAttribute>(true) != null)?.ToList();
         }
 
         public static List<DnChaveEValor> GetKeyAndDnUniqueKeyValues(this object entity)
@@ -120,8 +120,8 @@ namespace dn32.infra
         {
             if (property.PropertyType.EhNumerico())
             {
-                var min = property.GetCustomAttribute<DnPropriedadeJsonAtributo>()?.Minimo ?? property.GetCustomAttribute<RangeAttribute>()?.Minimum;
-                var max = property.GetCustomAttribute<DnPropriedadeJsonAtributo>()?.Maximo ?? property.GetCustomAttribute<RangeAttribute>()?.Maximum;
+                var min = property.GetCustomAttribute<DnPropriedadeJsonAttribute>()?.Minimo ?? property.GetCustomAttribute<RangeAttribute>()?.Minimum;
+                var max = property.GetCustomAttribute<DnPropriedadeJsonAttribute>()?.Maximo ?? property.GetCustomAttribute<RangeAttribute>()?.Maximum;
                 if (min == null || max == null) { return null; }
 
                 int minInt = min.ChangeType<int>();
@@ -132,8 +132,8 @@ namespace dn32.infra
 
             if (property.PropertyType == typeof(string) && property.PropertyType == typeof(String))
             {
-                var min = property.GetCustomAttribute<DnPropriedadeJsonAtributo>()?.Minimo ?? property.GetCustomAttribute<MinLengthAttribute>()?.Length;
-                var max = property.GetCustomAttribute<DnPropriedadeJsonAtributo>()?.Maximo ?? property.GetCustomAttribute<MaxLengthAttribute>()?.Length;
+                var min = property.GetCustomAttribute<DnPropriedadeJsonAttribute>()?.Minimo ?? property.GetCustomAttribute<MinLengthAttribute>()?.Length;
+                var max = property.GetCustomAttribute<DnPropriedadeJsonAttribute>()?.Maximo ?? property.GetCustomAttribute<MaxLengthAttribute>()?.Length;
                 if (min == null || max == null) { return null; }
 
                 return (min.Value, max.Value);
@@ -151,10 +151,10 @@ namespace dn32.infra
 
         public static List<DnChaveEValor> GetForeignKeyValues(this object entity, Type outType)
         {
-            static DnReferenciaAtributo GetReference(PropertyInfo property)
+            static DnReferenciaAttribute GetReference(PropertyInfo property)
             {
-                return property.GetCustomAttribute<DnComposicaoAtributo>(true) as DnReferenciaAtributo ??
-                    property.GetCustomAttribute<DnAgregacaoDeMuitosParaMuitosAtributo>(true) ?? null;
+                return property.GetCustomAttribute<DnComposicaoAttribute>(true) as DnReferenciaAttribute ??
+                    property.GetCustomAttribute<DnAgregacaoDeMuitosParaMuitosAttribute>(true) ?? null;
             }
 
             var returnList = new List<DnChaveEValor>();

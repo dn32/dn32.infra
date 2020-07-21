@@ -3,11 +3,11 @@
 namespace dn32.infra
 {
     [AttributeUsage(AttributeTargets.Enum)]
-    public class DnValorNuloParaEnumeradorAtributo : Attribute
+    public class DnValorNuloParaEnumeradorAttribute : Attribute
     {
         public int Valor { get; }
 
-        public DnValorNuloParaEnumeradorAtributo(int valor)
+        public DnValorNuloParaEnumeradorAttribute(int valor)
         {
             this.Valor = valor;
         }

@@ -10,7 +10,7 @@ namespace dn32.infra
     /// <summary>
     /// Contexto do EF no net Core
     /// </summary>
-    [DnTipoDeBancoDeDadosAtributo(EnumTipoDeBancoDeDados.POSTGREE_SQL)]
+    [DnTipoDeBancoDeDadosAttribute(EnumTipoDeBancoDeDados.POSTGREE_SQL)]
     public class EfContextPostgreSQL : EfContext
     {
         public EfContextPostgreSQL(string connectionString) : base(connectionString) { }

@@ -324,12 +324,12 @@ namespace dn32.infra
             }
         }
 
-        private static DnFormularioJsonAtributo GetDnJsonFormAttributeByType(this Type type)
+        private static DnFormularioJsonAttribute GetDnJsonFormAttributeByType(this Type type)
         {
-            var form = type.GetCustomAttribute<DnFormularioJsonAtributo>(true);
+            var form = type.GetCustomAttribute<DnFormularioJsonAttribute>(true);
             if (form == null)
             {
-                form = new DnFormularioJsonAtributo
+                form = new DnFormularioJsonAttribute
                 {
                     Descricao = type.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? type.Name,
                     Grupo = "",
@@ -342,12 +342,12 @@ namespace dn32.infra
             return form;
         }
 
-        private static DnPropriedadeJsonAtributo GetDnJsonPropertyAttributeByProperty(PropertyInfo property)
+        private static DnPropriedadeJsonAttribute GetDnJsonPropertyAttributeByProperty(PropertyInfo property)
         {
-            var attr = property.GetCustomAttribute<DnPropriedadeJsonAtributo>(true);
+            var attr = property.GetCustomAttribute<DnPropriedadeJsonAttribute>(true);
             if (attr == null)
             {
-                attr = new DnPropriedadeJsonAtributo
+                attr = new DnPropriedadeJsonAttribute
                 {
                     Descricao = property.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? property.Name,
                     Grupo = "",
@@ -372,11 +372,11 @@ namespace dn32.infra
                 };
             }
 
-            attr.OperacaoDeCondicional = property.GetCustomAttributes<DnOperacaoDeCondicionalDeTelaAtributo>();
-            attr.Agregacao = property.GetCustomAttribute<DnAgregacaoDeMuitosParaMuitosAtributo>(true) ?? property.GetCustomAttribute<DnAgregacaoAtributo>(true);
-            attr.Composicao = property.GetCustomAttribute<DnComposicaoAtributo>(true);
+            attr.OperacaoDeCondicional = property.GetCustomAttributes<DnOperacaoDeCondicionalDeTelaAttribute>();
+            attr.Agregacao = property.GetCustomAttribute<DnAgregacaoDeMuitosParaMuitosAttribute>(true) ?? property.GetCustomAttribute<DnAgregacaoAttribute>(true);
+            attr.Composicao = property.GetCustomAttribute<DnComposicaoAttribute>(true);
             attr.EhChave = property.IsDefined(typeof(KeyAttribute));
-            attr.EhDnChaveUnica = property.IsDefined(typeof(DnChaveUnicaAtributo));
+            attr.EhDnChaveUnica = property.IsDefined(typeof(DnChaveUnicaAttribute));
             attr.EhLista = property.PropertyType.IsList();
             attr.EhRequerido = attr.EhRequerido || property.IsDefined(typeof(RequiredAttribute), true);
             attr.PermiteNulo = (property.PropertyType.IsOfNullableType() && !attr.EhRequerido);
@@ -409,7 +409,7 @@ namespace dn32.infra
             var root = new DnJsonSchema
             {
                 Formulario = form,
-                Propriedades = new List<DnPropriedadeJsonAtributo>()
+                Propriedades = new List<DnPropriedadeJsonAttribute>()
             };
 
             type.GetProperties().ToList().ForEach(property =>
@@ -425,7 +425,7 @@ namespace dn32.infra
 
                 if (attr.Agregacao != null)
                 {
-                    if (attr.Agregacao.GetType()?.Is(typeof(DnAgregacaoDeMuitosParaMuitosAtributo)) == true)
+                    if (attr.Agregacao.GetType()?.Is(typeof(DnAgregacaoDeMuitosParaMuitosAttribute)) == true)
                     {
 
                     }
@@ -437,7 +437,7 @@ namespace dn32.infra
 
                     attr.Agregacao.DefinirTipo(property.PropertyType.GetListTypeNonNull().Name);
                     attr.Agregacao.DefinirNome(property.Name);
-                    attr.Agregacao.Filtro = property.GetCustomAttribute<DnFiltroAtributo>();
+                    attr.Agregacao.Filtro = property.GetCustomAttribute<DnFiltroAttribute>();
                     if (attr.Agregacao.Filtro != null)
                     {
                         attr.Agregacao.Filtro.NomeDaPropriedade = property.Name.ToDnJsonStringNormalized();
@@ -455,7 +455,7 @@ namespace dn32.infra
                     attr.Composicao.Formulario = GetDnJsonSchema(property.PropertyType, tablet);
                 }
 
-                if (property.IsDefined(typeof(RequiredAttribute)) || property.IsDefined(typeof(DnRequeridoAtributo)))
+                if (property.IsDefined(typeof(RequiredAttribute)) || property.IsDefined(typeof(DnRequeridoAttribute)))
                 {
                     attr.EhRequerido = true;
                 }
@@ -524,7 +524,7 @@ namespace dn32.infra
             }
 
             {
-                var props = new List<DnPropriedadeJsonAtributo>();
+                var props = new List<DnPropriedadeJsonAttribute>();
                 var row = 1;
 
                 properties.ForEach(property =>
@@ -550,7 +550,7 @@ namespace dn32.infra
             return root;
         }
 
-        private static void AdjustColumns(List<DnPropriedadeJsonAtributo> props)
+        private static void AdjustColumns(List<DnPropriedadeJsonAttribute> props)
         {
             var sum = props.Sum(y => y.LayoutDeGrid);
             var count = props.Count();
@@ -573,7 +573,7 @@ namespace dn32.infra
                 {
                     var fkProperty = schema.Propriedades.Single(x => x.NomeDaPropriedadeCaseSensitive.Equals(key));
                     fkProperty.EhChaveExterna = true;
-                    fkProperty.DestinoDeChaveExterna = property.Tipo.GetCustomAttribute<DnFormularioJsonAtributo>();
+                    fkProperty.DestinoDeChaveExterna = property.Tipo.GetCustomAttribute<DnFormularioJsonAttribute>();
                     if (fkProperty.DestinoDeChaveExterna != null) { fkProperty.DestinoDeChaveExterna.Tipo = property.Tipo; }
                 });
             });

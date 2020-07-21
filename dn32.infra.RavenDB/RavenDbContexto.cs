@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace dn32.infra
 {
-    [DnTipoDeBancoDeDadosAtributo(EnumTipoDeBancoDeDados.RAVENDB)]
+    [DnTipoDeBancoDeDadosAttribute(EnumTipoDeBancoDeDados.RAVENDB)]
     public class RavenDbContexto : IDnDbContext
     {
         internal protected SessaoDeRequisicaoDoUsuario UserSessionRequest { get; internal set; }
@@ -140,7 +140,7 @@ namespace dn32.infra
         //                            }
         //                            else
         //                            {
-        //                                if (!property.PropertyType.GetListTypeNonNull().IsDefined(typeof(DnUsarStringParaEnumeradoresNoBdAtributo)))
+        //                                if (!property.PropertyType.GetListTypeNonNull().IsDefined(typeof(DnUsarStringParaEnumeradoresNoBdAttribute)))
         //                                {
         //                                    entity.Property(property.Name).HasConversion<string>();// Converte os enumeradores para salvar o valor string no BD
         //                                }
@@ -157,11 +157,11 @@ namespace dn32.infra
 
         //        protected void ConvertNulableEnum<TEnum>(EntityTypeBuilder entity, PropertyInfo property) where TEnum : Enum
         //        {
-        //            if (typeof(TEnum).GetCustomAttribute<DnValorNuloParaEnumeradorAtributo>() is DnValorNuloParaEnumeradorAtributo DnEnumValueForSetNullAttribute)
+        //            if (typeof(TEnum).GetCustomAttribute<DnValorNuloParaEnumeradorAttribute>() is DnValorNuloParaEnumeradorAttribute DnEnumValueForSetNullAttribute)
         //            {
         //                ValueConverter converter = null;
 
-        //                if (property.PropertyType.GetListTypeNonNull().IsDefined(typeof(DnUsarStringParaEnumeradoresNoBdAtributo)))
+        //                if (property.PropertyType.GetListTypeNonNull().IsDefined(typeof(DnUsarStringParaEnumeradoresNoBdAttribute)))
         //                {
         //                    converter = new ValueConverter<TEnum, int?>(v => v.GetHashCode() == DnEnumValueForSetNullAttribute.Valor ? null : (int?)v.GetHashCode(), v => (TEnum)Enum.ToObject(typeof(TEnum), v ?? 0));
         //                }
@@ -174,7 +174,7 @@ namespace dn32.infra
         //            }
         //            else
         //            {
-        //                if (!property.PropertyType.GetListTypeNonNull().IsDefined(typeof(DnUsarStringParaEnumeradoresNoBdAtributo)))
+        //                if (!property.PropertyType.GetListTypeNonNull().IsDefined(typeof(DnUsarStringParaEnumeradoresNoBdAttribute)))
         //                {
         //                    entity.Property(property.Name).HasConversion<string>();// Converte os enumeradores para salvar o valor string no BD
         //                }
@@ -271,7 +271,7 @@ namespace dn32.infra
 
         //            var currentEntityType = entityChanged.Entity.GetType();
 
-        //            if (currentEntityType.GetCustomAttribute<DnLogAtributo>()?.Apresentar == EnumApresentar.Ocultar)
+        //            if (currentEntityType.GetCustomAttribute<DnLogAttribute>()?.Apresentar == EnumApresentar.Ocultar)
         //            {
         //                return null;
         //            }

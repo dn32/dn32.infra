@@ -21,7 +21,7 @@ namespace dn32.infra
 
         [HttpGet]
         [Route("/api/[controller]/BuscarPorFiltro")]
-        [DnActionAtributo(EspecificacaoDinamica = true)]
+        [DnActionAttribute(EspecificacaoDinamica = true)]
         public virtual async Task<ResultadoPadrao<T>> BuscarPorFiltroGet([FromQuery] Filtro[] filtros)
         {
             var especificacao = this.CriarEspecificacaoDeFiltros(filtros, false);
@@ -31,7 +31,7 @@ namespace dn32.infra
 
         [HttpPost]
         [Route("/api/[controller]/BuscarPorFiltro")]
-        [DnActionAtributo(EspecificacaoDinamica = true)]
+        [DnActionAttribute(EspecificacaoDinamica = true)]
         public virtual async Task<ResultadoPadrao<T>> BuscarPorFiltroPost([FromBody] Filtro[] filtros)
         {
             var especificacao = this.CriarEspecificacaoDeFiltros(filtros, false);
@@ -40,7 +40,7 @@ namespace dn32.infra
         }
 
         [HttpGet]
-        [DnActionAtributo(EspecificacaoDinamica = true)]
+        [DnActionAttribute(EspecificacaoDinamica = true)]
         public virtual async Task<ResultadoPadrao<T>> BuscarPorTermo(string termo)
         {
             var especificacao = this.CriarEspecificacaoPorTermo(termo, ehLista: false);

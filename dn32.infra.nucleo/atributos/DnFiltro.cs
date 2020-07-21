@@ -5,7 +5,7 @@ using System.Linq;
 namespace dn32.infra
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class DnFiltroAtributo : Attribute
+    public class DnFiltroAttribute : Attribute
     {
         public EnumTipoDeFiltro TipoDeFiltro { get; set; } = EnumTipoDeFiltro.Igual;
 

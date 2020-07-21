@@ -2,7 +2,7 @@
 
 namespace dn32.infra
 {
-    public abstract class DnValidacaoAtributo : Attribute
+    public abstract class DnValidacaoAttribute : Attribute
     {
         public abstract bool EhValidoQuando(object valor);
         public abstract string MensagemDeInvalido { get; }

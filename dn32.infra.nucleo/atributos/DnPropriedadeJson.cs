@@ -6,7 +6,7 @@ using System.Reflection;
 namespace dn32.infra
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class DnPropriedadeJsonAtributo : DnEsquemaJsonAtributo
+    public class DnPropriedadeJsonAttribute : DnEsquemaJsonAttribute
     {
         public bool EhRequerido { get; set; }
 
@@ -24,9 +24,9 @@ namespace dn32.infra
 
         public object Valor { get; set; }
 
-        public DnComposicaoAtributo Composicao { get; set; }
+        public DnComposicaoAttribute Composicao { get; set; }
 
-        public DnAgregacaoAtributo Agregacao { get; set; }
+        public DnAgregacaoAttribute Agregacao { get; set; }
 
         public bool EhEnumerador { get; set; }
 
@@ -48,12 +48,12 @@ namespace dn32.infra
         public PropertyInfo Propriedade { get; set; }
 
         [JsonIgnore]
-        public DnFormularioJsonAtributo DestinoDeChaveExterna { get; internal set; }
+        public DnFormularioJsonAttribute DestinoDeChaveExterna { get; internal set; }
 
         [JsonIgnore]
         public bool EhChaveExterna { get; internal set; }
 
-        public IEnumerable<DnOperacaoDeCondicionalDeTelaAtributo> OperacaoDeCondicional { get; internal set; }
+        public IEnumerable<DnOperacaoDeCondicionalDeTelaAttribute> OperacaoDeCondicional { get; internal set; }
 
         public string Desabilitado { get; internal set; }
     }

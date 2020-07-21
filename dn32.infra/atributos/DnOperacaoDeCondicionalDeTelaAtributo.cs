@@ -4,7 +4,7 @@ using System;
 namespace dn32.infra
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
-    public class DnOperacaoDeCondicionalDeTelaAtributo : Attribute
+    public class DnOperacaoDeCondicionalDeTelaAttribute : Attribute
     {
         #region PROPRIEDADES
 
@@ -28,20 +28,20 @@ namespace dn32.infra
 
         #endregion
 
-        public DnOperacaoDeCondicionalDeTelaAtributo(string propriedadeAvaliada, object valorParaODisparo)
+        public DnOperacaoDeCondicionalDeTelaAttribute(string propriedadeAvaliada, object valorParaODisparo)
         {
             PropriedadeAvaliada = propriedadeAvaliada;
             ValorParaODisparo = valorParaODisparo?.SerializarParaDnJson();
         }
 
-        public DnOperacaoDeCondicionalDeTelaAtributo(string propriedadeAvaliada, object valorParaODisparo, EnumTipoDeOperacaoDeTela operacao)
+        public DnOperacaoDeCondicionalDeTelaAttribute(string propriedadeAvaliada, object valorParaODisparo, EnumTipoDeOperacaoDeTela operacao)
         {
             PropriedadeAvaliada = propriedadeAvaliada;
             ValorParaODisparo = valorParaODisparo?.SerializarParaDnJson();
             Operacao = operacao;
         }
 
-        public DnOperacaoDeCondicionalDeTelaAtributo(string propriedadeAvaliada, object valorParaODisparo, EnumTipoDeOperacaoDeTela operacao, EnumTipoDeEventoDeTela tipoDeDisparo)
+        public DnOperacaoDeCondicionalDeTelaAttribute(string propriedadeAvaliada, object valorParaODisparo, EnumTipoDeOperacaoDeTela operacao, EnumTipoDeEventoDeTela tipoDeDisparo)
         {
             PropriedadeAvaliada = propriedadeAvaliada;
             TipoDeDisparo = tipoDeDisparo;

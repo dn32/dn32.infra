@@ -97,7 +97,7 @@
                 </thead>
                 @{
                    var propriedades =  Model?.Propriedades?.OrderBy(x => x.Nome).ToList()
-                                             ?? new List<DnPropriedadeJsonAtributo>();
+                                             ?? new List<DnPropriedadeJsonAttribute>();
                 }
                 @foreach (var property in propriedades)
                 {

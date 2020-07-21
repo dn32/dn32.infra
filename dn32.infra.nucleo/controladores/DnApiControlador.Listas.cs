@@ -7,7 +7,7 @@ namespace dn32.infra
     public partial class DnApiControlador<T>
     {
         [HttpGet]
-        [DnActionAtributo(Paginacao = true, EspecificacaoDinamica = true)]
+        [DnActionAttribute(Paginacao = true, EspecificacaoDinamica = true)]
         public virtual async Task<ResultadoPadraoPaginado<List<T>>> Listar()
         {
             var especificacao = this.CriarEspecificacaoDeConsultarTudo();
@@ -17,7 +17,7 @@ namespace dn32.infra
 
         [HttpGet]
         [Route("/api/[controller]/ListarPorFiltro")]
-        [DnActionAtributo(Paginacao = true, EspecificacaoDinamica = true)]
+        [DnActionAttribute(Paginacao = true, EspecificacaoDinamica = true)]
         public virtual async Task<ResultadoPadraoPaginado<List<T>>> ListarPorFiltroGet([FromQuery] Filtro[] filtros)
         {
             return await this.ListarPorFiltroInterno(filtros);
@@ -25,14 +25,14 @@ namespace dn32.infra
 
         [HttpPost]
         [Route("/api/[controller]/ListarPorFiltro")]
-        [DnActionAtributo(Paginacao = true, EspecificacaoDinamica = true)]
+        [DnActionAttribute(Paginacao = true, EspecificacaoDinamica = true)]
         public virtual async Task<ResultadoPadraoPaginado<List<T>>> ListarPorFiltroPost([FromBody] Filtro[] filtros)
         {
             return await this.ListarPorFiltroInterno(filtros);
         }
 
         [HttpGet]
-        [DnActionAtributo(Paginacao = true, EspecificacaoDinamica = true)]
+        [DnActionAttribute(Paginacao = true, EspecificacaoDinamica = true)]
         public virtual async Task<ResultadoPadraoPaginadoComTermo<List<T>>> ListarPorTermo(string termo)
         {
             var especificacao = this.CriarEspecificacaoPorTermo(termo, ehLista: true);

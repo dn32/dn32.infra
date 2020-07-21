@@ -4,7 +4,7 @@ using System;
 namespace dn32.infra
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class DnFormularioJsonAtributo : DnEsquemaJsonAtributo
+    public class DnFormularioJsonAttribute : DnEsquemaJsonAttribute
     {
         [JsonIgnore]
         public Type Tipo { get; set; }

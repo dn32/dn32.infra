@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace dn32.infra
 {
-    public class DnOperacaoDeCondicionalDeTelaAtributoTeste
+    public class DnOperacaoDeCondicionalDeTelaAttributeTeste
     {
         [Test]
         public void ComparacaoDeValorOk()
@@ -16,7 +16,7 @@ namespace dn32.infra
             const EnumTipoDeOperacaoDeTela operacao = EnumTipoDeOperacaoDeTela.Exibir;
             const EnumTipoDeComparacaoDeTela tipoDeComparacao = EnumTipoDeComparacaoDeTela.Igual;
 
-            var atributo = new DnOperacaoDeCondicionalDeTelaAtributo(
+            var atributo = new DnOperacaoDeCondicionalDeTelaAttribute(
                 propriedadeAvaliada, valorParaODisparo);
 
             Assert.AreEqual(propriedadeAvaliada, atributo.PropriedadeAvaliada);
@@ -36,7 +36,7 @@ namespace dn32.infra
             const EnumTipoDeOperacaoDeTela operacao = EnumTipoDeOperacaoDeTela.Focar;
             const EnumTipoDeComparacaoDeTela tipoDeComparacao = EnumTipoDeComparacaoDeTela.Igual;
 
-            var atributo = new DnOperacaoDeCondicionalDeTelaAtributo(
+            var atributo = new DnOperacaoDeCondicionalDeTelaAttribute(
                 propriedadeAvaliada, valorParaODisparo, operacao);
 
             Assert.AreEqual(propriedadeAvaliada, atributo.PropriedadeAvaliada);
@@ -56,7 +56,7 @@ namespace dn32.infra
             const EnumTipoDeOperacaoDeTela operacao = EnumTipoDeOperacaoDeTela.Focar;
             const EnumTipoDeComparacaoDeTela tipoDeComparacao = EnumTipoDeComparacaoDeTela.Diferente;
 
-            var atributo = new DnOperacaoDeCondicionalDeTelaAtributo(
+            var atributo = new DnOperacaoDeCondicionalDeTelaAttribute(
                 propriedadeAvaliada,
                 valorParaODisparo,
                 operacao,

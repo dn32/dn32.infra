@@ -9,7 +9,7 @@ namespace dn32.infra
     /// <summary>
     /// Contexto do EF no net Core
     /// </summary>
-    [DnTipoDeBancoDeDadosAtributo(EnumTipoDeBancoDeDados.MYSQL)]
+    [DnTipoDeBancoDeDadosAttribute(EnumTipoDeBancoDeDados.MYSQL)]
     public class EfContextMySQL : EfContext
     {
         public EfContextMySQL(string connectionString) : base(connectionString) { }

@@ -96,18 +96,18 @@ namespace dn32.infra
                 jsonSchema.Propriedades.Where(x => x.Propriedade.GetCustomAttribute<DnDocAttribute>()?.Apresentacao != EnumApresentar.Ocultar).ToList()
                     .ForEach(x =>
                     {
-                        x.Descricao = x.Descricao?.G() ?? x.Propriedade.GetCustomAttribute<DnPropriedadeJsonAtributo>(true)?.Descricao;
+                        x.Descricao = x.Descricao?.G() ?? x.Propriedade.GetCustomAttribute<DnPropriedadeJsonAttribute>(true)?.Descricao;
                         x.Link = GetModelLink(x.Tipo);
                     });
 
                 if (type.IsNullableEnum())
                 {
                     jsonSchema.Propriedades = type.GetFields().Where(x => x.Name != "value__").Select(x =>
-                     new DnPropriedadeJsonAtributo
+                     new DnPropriedadeJsonAttribute
                      {
                          NomeDaPropriedade = x.Name,
-                         Nome = (x.GetCustomAttribute<DnPropriedadeJsonAtributo>(true)?.Descricao ?? x.Name),
-                         Descricao = (x.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? x.GetCustomAttribute<DnPropriedadeJsonAtributo>(true)?.Descricao ?? x.Name).G(),
+                         Nome = (x.GetCustomAttribute<DnPropriedadeJsonAttribute>(true)?.Descricao ?? x.Name),
+                         Descricao = (x.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? x.GetCustomAttribute<DnPropriedadeJsonAttribute>(true)?.Descricao ?? x.Name).G(),
                          Formulario = EnumTipoDeComponenteDeFormularioDeTela.Texto,
                          Tipo = x.FieldType.BaseType,
                          Desabilitado = x.GetCustomAttribute<DnDesabilitadoAttribute>(true)?.Motivo ?? "",
@@ -243,13 +243,13 @@ namespace dn32.infra
                       Link = GetModelLink(x.ParameterType),
                       Type = x.ParameterType,
                       Name = x.Name,
-                      Description = (x.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? x.GetCustomAttribute<DnPropriedadeJsonAtributo>(true)?.Descricao ?? x.Name).G(),
+                      Description = (x.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? x.GetCustomAttribute<DnPropriedadeJsonAttribute>(true)?.Descricao ?? x.Name).G(),
                       Source = GetParameterSource(x, orderMethod),
                       Example = x.ParameterType.GetExampleValueString()
                   }).ToList();
 
                 var description = action.GetCustomAttribute<DescriptionAttribute>()?.Description;
-                var DnAction = action.GetCustomAttribute<DnActionAtributo>();
+                var DnAction = action.GetCustomAttribute<DnActionAttribute>();
 
                 if (DnAction?.Paginacao == true)
                 {
@@ -379,21 +379,21 @@ xhr.addEventListener(""readystatechange"", function() {{
                         .GroupBy(x => x.FullName)
                         .Select(x => x.First())
                         .Where(x => x.GetCustomAttribute<DnDocAttribute>()?.Apresentacao != EnumApresentar.Ocultar)
-                        .Where(x => x.GetCustomAttribute<DnControladorApiAtributo>()?.GerarAutomaticamente != false)
+                        .Where(x => x.GetCustomAttribute<DnControladorApiAttribute>()?.GerarAutomaticamente != false)
                         .OrderBy(x => x.Name)
                         .ToDictionary(x => x.FullName, x => x);
                 }
 
                 AllEntities = Models.Values
                     .Where(x => x.GetCustomAttribute<DnDocAttribute>()?.Apresentacao != EnumApresentar.Ocultar)
-                    .Where(x => x.GetCustomAttribute<DnControladorApiAtributo>()?.GerarAutomaticamente != false)
+                    .Where(x => x.GetCustomAttribute<DnControladorApiAttribute>()?.GerarAutomaticamente != false)
                     .Select(x => new EntityModelAndName
                     {
-                        Description = (x.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? x.GetCustomAttribute<DnFormularioJsonAtributo>(true)?.Descricao ?? x.Name).G(),
-                        FriendlyName = x.GetCustomAttribute<DnFormularioJsonAtributo>(true)?.Nome ?? x.GetFriendlyName(),
+                        Description = (x.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? x.GetCustomAttribute<DnFormularioJsonAttribute>(true)?.Descricao ?? x.Name).G(),
+                        FriendlyName = x.GetCustomAttribute<DnFormularioJsonAttribute>(true)?.Nome ?? x.GetFriendlyName(),
                         Name = x.Name, //.ToDnJsonStringNormalized(),
                         FullName = x.FullName,
-                        Grupo = x.GetCustomAttribute<DnFormularioJsonAtributo>(true)?.Grupo ?? "",
+                        Grupo = x.GetCustomAttribute<DnFormularioJsonAttribute>(true)?.Grupo ?? "",
                     })
                     .OrderBy(x => x.Name)
                     .ToList();
@@ -416,8 +416,8 @@ xhr.addEventListener(""readystatechange"", function() {{
                     .Where(x => x.GetCustomAttribute<DnDocAttribute>()?.Apresentacao == EnumApresentar.Mostrar)
                     .Select(x => new EntityModelAndName
                     {
-                        Description = (x.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? x.GetCustomAttribute<DnFormularioJsonAtributo>(true)?.Descricao ?? x.GetFriendlyName()).G(),
-                        FriendlyName = x.GetCustomAttribute<DnFormularioJsonAtributo>(true)?.Nome ?? x.GetFriendlyName(),
+                        Description = (x.GetCustomAttribute<DescriptionAttribute>(true)?.Description ?? x.GetCustomAttribute<DnFormularioJsonAttribute>(true)?.Descricao ?? x.GetFriendlyName()).G(),
+                        FriendlyName = x.GetCustomAttribute<DnFormularioJsonAttribute>(true)?.Nome ?? x.GetFriendlyName(),
                         Name = x.Name, //.ToDnJsonStringNormalized(),
                         FullName = x.FullName
                     })

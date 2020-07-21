@@ -29,7 +29,7 @@ namespace dn32.infra
 
             if (entity != null)
             {
-                var properties = entity.GetType().GetProperties().ToList().Where(x => x.IsDefined(typeof(DnComposicaoAtributo))).ToList();
+                var properties = entity.GetType().GetProperties().ToList().Where(x => x.IsDefined(typeof(DnComposicaoAttribute))).ToList();
                 foreach (var property in properties)
                 {
                     var entityCompositionValue = property.GetValue(entity);

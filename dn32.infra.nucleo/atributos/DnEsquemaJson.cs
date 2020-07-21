@@ -3,7 +3,7 @@ using System;
 
 namespace dn32.infra
 {
-    public class DnEsquemaJsonAtributo : Attribute
+    public class DnEsquemaJsonAttribute : Attribute
     {
         private string nome;
 

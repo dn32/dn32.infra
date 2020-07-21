@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace dn32.infra
 {
-    public class DnDocAtributoTeste
+    public class DnDocAttributeTeste
     {
         [Test]
         public void MostrarOk()

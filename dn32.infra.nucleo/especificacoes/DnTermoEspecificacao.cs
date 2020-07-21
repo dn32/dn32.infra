@@ -41,7 +41,7 @@ namespace dn32.infra
 
             if (!string.IsNullOrEmpty(termo))
             {
-                var propriedades = typeof(T).GetProperties().Where(x => x.GetCustomAttribute<DnBuscavelAtributo>() != null).ToArray();
+                var propriedades = typeof(T).GetProperties().Where(x => x.GetCustomAttribute<DnBuscavelAttribute>() != null).ToArray();
                 foreach (var propriedade in propriedades)
                 {
                     var expressao = DnExpressoesExtensao.EhNulo<T>(propriedade.Name).Not();

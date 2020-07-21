@@ -84,7 +84,7 @@ namespace dn32.infra
 
             if (value.GetType().IsNullableEnum())
             {
-                if (value.GetType().IsDefined(typeof(DnUsarStringParaEnumeradoresNoBdAtributo)))
+                if (value.GetType().IsDefined(typeof(DnUsarStringParaEnumeradoresNoBdAttribute)))
                 {
                     return (int)value;
                 }

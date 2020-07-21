@@ -68,7 +68,7 @@ namespace dn32.infra
                        property = p,
                        isList = p.PropertyType.Name == "Listar`1",
                        type = p.PropertyType.Name == "Listar`1" ? p.PropertyType.GenericTypeArguments[0] : p.PropertyType,
-                       attr = p.GetCustomAttribute<DnAgregacaoAtributo>(true)
+                       attr = p.GetCustomAttribute<DnAgregacaoAttribute>(true)
                    })
                 .Where(x => x.attr != null)
                 .ToList();
@@ -122,7 +122,7 @@ namespace dn32.infra
                 node = new DnNode { EntityType = type };
                 DictionaryOfAggregations.Add(type, node);
 
-                var properties = node.EntityType.GetProperties().Where(x => x.GetCustomAttribute<DnAgregacaoAtributo>(true) != null).ToList();
+                var properties = node.EntityType.GetProperties().Where(x => x.GetCustomAttribute<DnAgregacaoAttribute>(true) != null).ToList();
                 var types = properties.Select(x => x.PropertyType).ToList();
                 if (types.Count == 0)
                 {

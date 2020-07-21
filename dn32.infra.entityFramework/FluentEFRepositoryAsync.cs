@@ -269,9 +269,9 @@ namespace dn32.infra
         private void RemoveDnCompositionsAndDnAggregations(TE entity)
         {
             var type = entity.GetType();
-            if (type.GetCustomAttribute<DnFormularioJsonAtributo>()?.EhTabelaIntermediaria == true) { return; }
+            if (type.GetCustomAttribute<DnFormularioJsonAttribute>()?.EhTabelaIntermediaria == true) { return; }
 
-            var compositionProperties = type.GetProperties().Where(x => x.IsDefined(typeof(DnComposicaoAtributo)) || x.IsDefined(typeof(DnAgregacaoDeMuitosParaMuitosAtributo)));
+            var compositionProperties = type.GetProperties().Where(x => x.IsDefined(typeof(DnComposicaoAttribute)) || x.IsDefined(typeof(DnAgregacaoDeMuitosParaMuitosAttribute)));
             foreach (var compositionProperty in compositionProperties)
             {
                 var compositionPropertyType = compositionProperty.PropertyType;

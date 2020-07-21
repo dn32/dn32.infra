@@ -4,6 +4,6 @@
 
 namespace dn32.infra
 {
-    [DnTipoDeBancoDeDadosAtributo(EnumTipoDeBancoDeDados.SQLITE)]
+    [DnTipoDeBancoDeDadosAttribute(EnumTipoDeBancoDeDados.SQLITE)]
     public abstract class DnSqLiteEntity : DnEntidade { }
 }

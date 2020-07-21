@@ -4,7 +4,7 @@ using System;
 namespace dn32.infra
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class DnAgregacaoAtributo : DnReferenciaAtributo
+    public class DnAgregacaoAttribute : DnReferenciaAttribute
     {
         public string CampoAApresentar { get; set; }
 
@@ -22,6 +22,6 @@ namespace dn32.infra
             }
         }
 
-        public DnFiltroAtributo Filtro { get; set; }
+        public DnFiltroAttribute Filtro { get; set; }
     }
 }

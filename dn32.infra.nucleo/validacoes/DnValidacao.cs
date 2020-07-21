@@ -169,7 +169,7 @@ namespace dn32.infra
                 AdicionarInconsistencia(new DnParametroNuloErroDeValidacao(nameof(termo)));
             }
 
-            if (!typeof(T).GetProperties().Any(x => x.GetCustomAttribute<DnBuscavelAtributo>() != null))
+            if (!typeof(T).GetProperties().Any(x => x.GetCustomAttribute<DnBuscavelAttribute>() != null))
             {
                 AdicionarInconsistencia(new DnEntidadeNaoPossuiUmaPropriedadeBuscavelErroDeValidacao(typeof(T).Name));
             }
