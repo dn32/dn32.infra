@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace dn32.infra
 {
-    public abstract class EntidadeBase
+    public abstract class DnEntidadeBase
     {
         public override bool Equals(object objeto) => GetHashCode() == objeto?.GetHashCode();
 

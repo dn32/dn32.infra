@@ -66,7 +66,7 @@ namespace dn32.infra
         }
 
         private static string[] DnEntityNames => new[] {
-            typeof (DnControlador<DnEntidade>).Name,
+            typeof (DnController<DnEntidade>).Name,
             typeof (DnServico<DnEntidade>).Name,
             typeof (DnRepositorio<DnEntidade>).Name,
             typeof (DnValidacao<DnEntidade>).Name,
@@ -99,7 +99,7 @@ namespace dn32.infra
                 }
 
                 var localType = type.GetGenericArguments().First();
-                if (!localType.IsSubclassOf(typeof(EntidadeBase)))
+                if (!localType.IsSubclassOf(typeof(DnEntidadeBase)))
                 {
                     throw new InvalidOperationException();
                 }

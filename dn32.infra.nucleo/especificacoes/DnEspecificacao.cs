@@ -10,7 +10,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo(@"dn32.infra.EntityFramework.MySQL, PublicKey=0024000004800000940000000602000000240000525341310004000001000100617593ae2b67e94c33ea38be9727f7a4a0e18fe316ea3cddceaaadd51d47546be3f27dc1d1c6c84d0a0cb43db45a7c476479c7ebd881d76b5dad404cafd086743036bd3c929dbf14c759ff504d798ca1097eb96b02dde75ee1bc120adc0e94553298c8749271502eb50cb427db851b1a26044bcb8e8fae1acf106069d2a349c0")]
 namespace dn32.infra
 {
-    public abstract class DnEspecificacao<TE> : DnEspecificacaoBase, IDnEspecificacao where TE : EntidadeBase
+    public abstract class DnEspecificacao<TE> : DnEspecificacaoBase, IDnEspecificacao where TE : DnEntidadeBase
     {
         public Type TipoDeEntidade => typeof(TE);
 

@@ -7,12 +7,12 @@ namespace dn32.infra
 {
     public class DnTest<TModel> where TModel : DnEntidade, new()
     {
-        public virtual DnApiControlador<TModel> GetNewController()
+        public virtual DnApiController<TModel> GetNewController()
         {
-            return MockUtil.GetMockController<DnApiControlador<TModel>>();
+            return MockUtil.GetMockController<DnApiController<TModel>>();
         }
 
-        public virtual TController GetNewController<TController>() where TController : DnApiControlador<TModel>
+        public virtual TController GetNewController<TController>() where TController : DnApiController<TModel>
         {
             return MockUtil.GetMockController<TController>();
         }
@@ -20,12 +20,12 @@ namespace dn32.infra
         public virtual bool Remove(TModel model)
         {
             var newController = GetNewController();
-            return TestUtil.Execute<DnApiControlador<TModel>, bool>(newController, (DnApiControlador<TModel> controller) => controller.Remover(model).Result);
+            return TestUtil.Execute<DnApiController<TModel>, bool>(newController, (DnApiController<TModel> controller) => controller.Remover(model).Result);
         }
 
         public virtual TModel Add(TModel model)
         {
-            return Execute((DnApiControlador<TModel> controller) => controller.Adicionar(model).Result);
+            return Execute((DnApiController<TModel> controller) => controller.Adicionar(model).Result);
         }
 
         //public virtual string Schema()
@@ -37,70 +37,70 @@ namespace dn32.infra
         public virtual bool Update(TModel model)
         {
             var newController = GetNewController();
-            return TestUtil.Execute<DnApiControlador<TModel>, bool>(newController, (DnApiControlador<TModel> controller) => controller.Atualizar(model).Result);
+            return TestUtil.Execute<DnApiController<TModel>, bool>(newController, (DnApiController<TModel> controller) => controller.Atualizar(model).Result);
         }
 
         public virtual TModel Add()
         {
-            return Execute((DnApiControlador<TModel> controller) => controller.Adicionar(GetNew()).Result);
+            return Execute((DnApiController<TModel> controller) => controller.Adicionar(GetNew()).Result);
         }
 
         public virtual bool Exists(TModel model)
         {
             var newController = GetNewController();
-            return TestUtil.Execute<DnApiControlador<TModel>, bool>(newController, (DnApiControlador<TModel> controller) => controller.EntidadeExisteGet(model).Result);
+            return TestUtil.Execute<DnApiController<TModel>, bool>(newController, (DnApiController<TModel> controller) => controller.EntidadeExisteGet(model).Result);
         }
 
         public virtual TModel[] AddRange(TModel[] models)
         {
             var newController = GetNewController();
-            return TestUtil.Execute<DnApiControlador<TModel>, TModel[]>(newController, (DnApiControlador<TModel> controller) => controller.AdicionarLista(models).Result);
+            return TestUtil.Execute<DnApiController<TModel>, TModel[]>(newController, (DnApiController<TModel> controller) => controller.AdicionarLista(models).Result);
         }
 
         public virtual TModel[] List()
         {
             var newController = GetNewController();
-            return TestUtil.Execute<DnApiControlador<TModel>, TModel[]>(newController, (DnApiControlador<TModel> controller) => controller.Listar().Result);
+            return TestUtil.Execute<DnApiController<TModel>, TModel[]>(newController, (DnApiController<TModel> controller) => controller.Listar().Result);
         }
 
-        public virtual TModel[] List(Filtro[] filters)
+        public virtual TModel[] List(DnFiltro[] filters)
         {
             var newController = GetNewController();
-            return TestUtil.Execute<DnApiControlador<TModel>, TModel[]>(newController, (DnApiControlador<TModel> controller) => controller.ListarPorFiltroGet(filters).Result);
+            return TestUtil.Execute<DnApiController<TModel>, TModel[]>(newController, (DnApiController<TModel> controller) => controller.ListarPorFiltroGet(filters).Result);
         }
         public virtual int Count()
         {
             var newController = GetNewController();
-            return TestUtil.Execute<DnApiControlador<TModel>, int>(newController, (DnApiControlador<TModel> controller) => controller.QuantidadeTotal().Result);
+            return TestUtil.Execute<DnApiController<TModel>, int>(newController, (DnApiController<TModel> controller) => controller.QuantidadeTotal().Result);
         }
 
-        public virtual int Count(Filtro[] filters)
+        public virtual int Count(DnFiltro[] filters)
         {
             var newController = GetNewController();
-            return TestUtil.Execute<DnApiControlador<TModel>, int>(newController, (DnApiControlador<TModel> controller) => controller.QuantidadePorFiltro(filters).Result);
+            return TestUtil.Execute<DnApiController<TModel>, int>(newController, (DnApiController<TModel> controller) => controller.QuantidadePorFiltro(filters).Result);
         }
 
         public virtual bool UpdateRange(TModel[] models)
         {
             var newController = GetNewController();
-            return TestUtil.Execute<DnApiControlador<TModel>, bool>(newController, (DnApiControlador<TModel> controller) => controller.AtualizarLista(models).Result);
+            return TestUtil.Execute<DnApiController<TModel>, bool>(newController, (DnApiController<TModel> controller) => controller.AtualizarLista(models).Result);
         }
 
         public virtual TModel Find(TModel model)
         {
-            return Execute((DnApiControlador<TModel> controller) => controller.BuscarPorEntidadePost(model).Result);
+            return Execute((DnApiController<TModel> controller) => controller.BuscarPorEntidadePost(model).Result);
         }
 
         public virtual bool RemoverLista(TModel[] models)
         {
             var newController = GetNewController();
-            return TestUtil.Execute<DnApiControlador<TModel>, bool>(newController, (DnApiControlador<TModel> controller) => controller.RemoverLista(models).Result);
+            return TestUtil.Execute<DnApiController<TModel>, bool>(newController, (DnApiController<TModel> controller) => controller.RemoverLista(models).Result);
         }
 
         public virtual bool Truncate(string APAGAR_TUDO = "no")
         {
             var newController = GetNewController();
-            return TestUtil.Execute<DnApiControlador<TModel>, bool>(newController, (DnApiControlador<TModel> controller) => controller.EliminarTudo(APAGAR_TUDO).Result);
+            return TestUtil.Execute<DnApiController<TModel>, bool>(newController, (DnApiController<TModel> controller) => controller.EliminarTudo(APAGAR_TUDO).Result);
         }
 
         public virtual TModel GetNew()
@@ -109,7 +109,7 @@ namespace dn32.infra
             //   return new DnApiControlador<TModel>().ExampleData();
         }
 
-        public virtual TModel Execute(Func<DnApiControlador<TModel>, ResultadoPadrao<TModel>> actionMethod)
+        public virtual TModel Execute(Func<DnApiController<TModel>, DnResultadoPadrao<TModel>> actionMethod)
         {
             var newController = GetNewController();
             newController.OnActionExecuting(MockActionExecutingContextFactory.Create(newController));

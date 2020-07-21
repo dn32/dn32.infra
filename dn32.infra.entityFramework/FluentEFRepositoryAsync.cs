@@ -31,7 +31,7 @@ namespace dn32.infra
             return ret;
         }
 
-        internal protected async Task<TO> FindSingleOrDefaultSqlAsync<TO>(string sql) where TO : EntidadeBase
+        internal protected async Task<TO> FindSingleOrDefaultSqlAsync<TO>(string sql) where TO : DnEntidadeBase
         {
             try
             {
@@ -175,7 +175,7 @@ namespace dn32.infra
 
         public override async Task<TE> BuscarAsync(TE entity) => await FindSelectAsync(entity);
 
-        public async Task<TO> FindSelectAsync<TO>(TO entity) where TO : EntidadeBase
+        public async Task<TO> FindSelectAsync<TO>(TO entity) where TO : DnEntidadeBase
         {
             {
                 var sql = RepositoryUtil.GetKeyFilterSql(entity, out bool nonKeys);

@@ -3,16 +3,16 @@
 namespace dn32.infra
 {
     [DnDocAttribute]
-    public class ResultadoPadrao<T>
+    public class DnResultadoPadrao<T>
     {
         public T Dados { get; set; }
 
-        public ResultadoPadrao()
+        public DnResultadoPadrao()
         {
             Dados = default;
         }
 
-        public ResultadoPadrao(T dados)
+        public DnResultadoPadrao(T dados)
         {
             Dados = dados;
         }

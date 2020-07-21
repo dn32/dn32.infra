@@ -18,11 +18,11 @@ namespace dn32.infra
 
         private int Tolerance { get; set; }
 
-        public Filtro[] Filters { get; set; }
+        public DnFiltro[] Filters { get; set; }
 
         public bool IsList { get; set; }
 
-        public TermByFilterAndProximitySpec<T> SetParameter(Filtro[] filters, bool isList, string[] properties, string term, int tolerance)
+        public TermByFilterAndProximitySpec<T> SetParameter(DnFiltro[] filters, bool isList, string[] properties, string term, int tolerance)
         {
             Filters = filters;
             IsList = isList;

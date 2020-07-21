@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 [assembly: InternalsVisibleTo(@"dn32.infra.Controller.Test, PublicKey= 00240000048000009400000006020000002400005253413100040000010001006d1cca26da4daf8230bb524d15453c319d38c381589ab07912b8ab6afff8174aad961a74f171790b60e5ed604bc7bad410214a7d59ed6e101c03440e3b1cd055e2bdba377915b076aa15ac9cd6da1acf488a633cb9bc2bb34536b62593950249111ac7c572e02523978ac82d829fe8be29fba6cc4f4e5b668a6cd57d39eee2aa ")]
 namespace dn32.infra
 {
-    public abstract class DnControladorDeServico<TS> : DnControladorBase where TS : DnServicoTransacionalBase, new()
+    public abstract class DnControllerDeServico<TS> : DnControllerBase where TS : DnServicoTransacionalBase, new()
     {
         protected internal TS Servico { get; set; }
 
@@ -23,34 +23,34 @@ namespace dn32.infra
 
         protected internal HttpContext HttpContextDoServico => this.Servico.HttpContextLocal;
 
-        protected DnControladorDeServico() => this.Servico = null;
+        protected DnControllerDeServico() => this.Servico = null;
 
         [NonAction]
-        protected async Task<ResultadoPadraoComTermo<T>> CrieResultadoAsync<T>(T dados, string termo)
+        protected async Task<DnResultadoPadraoComTermo<T>> CrieResultadoAsync<T>(T dados, string termo)
         {
             await this.FecharTransacaoAsync();
-            return new ResultadoPadraoComTermo<T>(dados, termo);
+            return new DnResultadoPadraoComTermo<T>(dados, termo);
         }
 
         [NonAction]
-        protected async Task<ResultadoPadrao<T>> CrieResultadoAsync<T>(T dados)
+        protected async Task<DnResultadoPadrao<T>> CrieResultadoAsync<T>(T dados)
         {
             await this.FecharTransacaoAsync();
-            return new ResultadoPadrao<T>(dados);
+            return new DnResultadoPadrao<T>(dados);
         }
 
         [NonAction]
-        protected async Task<ResultadoPadraoPaginado<T>> CrieResultadoAsync<T>(T dados, DnPaginacao paginacao)
+        protected async Task<DnResultadoPadraoPaginado<T>> CrieResultadoAsync<T>(T dados, DnPaginacao paginacao)
         {
             await this.FecharTransacaoAsync();
-            return new ResultadoPadraoPaginado<T>(dados, paginacao);
+            return new DnResultadoPadraoPaginado<T>(dados, paginacao);
         }
 
         [NonAction]
-        protected async Task<ResultadoPadraoPaginadoComTermo<T>> CrieResultadoAsync<T>(T dados, DnPaginacao paginacao, string termo)
+        protected async Task<DnResultadoPadraoPaginadoComTermo<T>> CrieResultadoAsync<T>(T dados, DnPaginacao paginacao, string termo)
         {
             await this.FecharTransacaoAsync();
-            return new ResultadoPadraoPaginadoComTermo<T>(dados, paginacao, termo);
+            return new DnResultadoPadraoPaginadoComTermo<T>(dados, paginacao, termo);
         }
 
         [NonAction]

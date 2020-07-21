@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace dn32.infra
 {
-    public class DnValidacao<T> : DnValidacaoTransacional, IDnValidacao where T : EntidadeBase
+    public class DnValidacao<T> : DnValidacaoTransacional, IDnValidacao where T : DnEntidadeBase
     {
         #region INTERNAL
 
@@ -133,7 +133,7 @@ namespace dn32.infra
             ExecutarAsValidacoes();
         }
 
-        internal void ListaFiltrada(Filtro[] filtros)
+        internal void ListaFiltrada(DnFiltro[] filtros)
         {
             this.ParameterMustBeInformed(filtros, nameof(filtros));
             var propriedades = typeof(T).GetProperties().ToList();
@@ -189,7 +189,7 @@ namespace dn32.infra
 
         #region INTERNAL
 
-        internal static void AtualizarInternoAsync<T2>(IDnValidacao validacao, T2 entidade, string propriedadeDaComposicao, string campoDaComposicao) where T2 : EntidadeBase
+        internal static void AtualizarInternoAsync<T2>(IDnValidacao validacao, T2 entidade, string propriedadeDaComposicao, string campoDaComposicao) where T2 : DnEntidadeBase
         {
             validacao.ParameterMustBeInformed(entidade, propriedadeDaComposicao);
             validacao.DnValidateAttribute(entidade, propriedadeDaComposicao, campoDaComposicao);
@@ -198,7 +198,7 @@ namespace dn32.infra
             validacao.AllKeysShouldBeInformedWhenThereAreMoreThanOne(entidade, propriedadeDaComposicao, campoDaComposicao);
         }
 
-        internal static async Task AdicionarInternoAsync<T2>(IDnValidacao validacao, T2 entidade, string propriedadeDaComposicao, string campoDaComposicao) where T2 : EntidadeBase
+        internal static async Task AdicionarInternoAsync<T2>(IDnValidacao validacao, T2 entidade, string propriedadeDaComposicao, string campoDaComposicao) where T2 : DnEntidadeBase
         {
             validacao.ParameterMustBeInformed(entidade, propriedadeDaComposicao);
             validacao.DnValidateAttribute(entidade, propriedadeDaComposicao, campoDaComposicao);
@@ -212,7 +212,7 @@ namespace dn32.infra
             }
         }
 
-        internal static void AtualizarListaInternoAsync<T2>(IDnValidacao validacao, T2 entidade, string propriedadeDaComposicao, string campoDaComposicao) where T2 : EntidadeBase
+        internal static void AtualizarListaInternoAsync<T2>(IDnValidacao validacao, T2 entidade, string propriedadeDaComposicao, string campoDaComposicao) where T2 : DnEntidadeBase
         {
             validacao.ParameterMustBeInformed(entidade, propriedadeDaComposicao);
             validacao.DnValidateAttribute(entidade, propriedadeDaComposicao, campoDaComposicao);

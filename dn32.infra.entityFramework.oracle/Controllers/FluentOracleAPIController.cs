@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace dn32.infra
 {
-    public class DnApiControladorOracle<T> : DnApiControlador<T> where T : DnEntidade, new()
+    public class DnApiControllerOracle<T> : DnApiController<T> where T : DnEntidade, new()
     {
         [HttpGet]
         [DnActionAttribute(Paginacao = true, EspecificacaoDinamica = true)]
-        public virtual async Task<ResultadoPadraoPaginado<List<T>>> FindByProximity(
+        public virtual async Task<DnResultadoPadraoPaginado<List<T>>> FindByProximity(
             [Description("The properties whose valor will be compared")] string[] properties, [Description("The term to use as a comparator")] string Term, [Description("The EhRequerido acceptance percentage. The higher the valor, the more demanding")][Range(0, 100)] int Tolerance
         )
         {
@@ -23,7 +23,7 @@ namespace dn32.infra
         [Route("/api/[controller]/ListByFilterAndProximity")]
         [Description("Get a paginated list of items based on filters and text proximity")]
         [DnActionAttribute(Paginacao = true, EspecificacaoDinamica = true)]
-        public virtual async Task<ResultadoPadraoPaginado<List<T>>> ListByFilterAndProximityGet([FromBody, Description("The query object")] FiltersAndTerm FiltersAndTerm)
+        public virtual async Task<DnResultadoPadraoPaginado<List<T>>> ListByFilterAndProximityGet([FromBody, Description("The query object")] FiltersAndTerm FiltersAndTerm)
         {
             return await InternalListByFilterAndProximityAsync(FiltersAndTerm);
         }
@@ -32,12 +32,12 @@ namespace dn32.infra
         [Route("/api/[controller]/ListByFilterAndProximity")]
         [Description("Get a paginated list of items based on filters and text proximity")]
         [DnActionAttribute(Paginacao = true, EspecificacaoDinamica = true)]
-        public virtual async Task<ResultadoPadraoPaginado<List<T>>> ListByFilterAndProximityPost([FromBody, Description("The query object")] FiltersAndTerm FiltersAndTerm)
+        public virtual async Task<DnResultadoPadraoPaginado<List<T>>> ListByFilterAndProximityPost([FromBody, Description("The query object")] FiltersAndTerm FiltersAndTerm)
         {
             return await InternalListByFilterAndProximityAsync(FiltersAndTerm);
         }
 
-        private async Task<ResultadoPadraoPaginado<List<T>>> InternalListByFilterAndProximityAsync(FiltersAndTerm filtersAndTerm)
+        private async Task<DnResultadoPadraoPaginado<List<T>>> InternalListByFilterAndProximityAsync(FiltersAndTerm filtersAndTerm)
         {
             var spec = this.CriarEspecificacao<TermByFilterAndProximitySpec<T>>().SetParameter(filtersAndTerm.Filters, isList: true, filtersAndTerm.Properties, filtersAndTerm.Term, filtersAndTerm.Tolerance);
             var list = await this.Servico.ListarAsync(spec);

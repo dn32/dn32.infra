@@ -7,21 +7,21 @@ using System.Reflection;
 
 namespace dn32.infra
 {
-    public class FabricaDeControlador : IApplicationFeatureProvider<ControllerFeature>
+    public class FabricaDeController : IApplicationFeatureProvider<ControllerFeature>
     {
         public void PopulateFeature(IEnumerable<ApplicationPart> parts, ControllerFeature feature)
         {
-            var baseController = (Setup.ConfiguracoesGlobais.TipoGenericoDeControlador) ?? typeof(DnApiControlador<>);
+            var baseController = (Setup.ConfiguracoesGlobais.TipoGenericoDeController) ?? typeof(DnApiController<>);
             var entities = Setup.ObterEntidades();
 
             foreach (var entity in entities)
             {
-                if (entity.GetCustomAttribute<DnControladorApiAttribute>(true)?.GerarAutomaticamente == false) { continue; }
-                if (Setup.Controladores.ContainsKey(entity)) { continue; }
+                if (entity.GetCustomAttribute<DnControllerApiAttribute>(true)?.GerarAutomaticamente == false) { continue; }
+                if (Setup.Controllers.ContainsKey(entity)) { continue; }
 
                 if (entity.GetCustomAttribute<DnFormularioJsonAttribute>(true)?.EhSomenteLeitura == true)
                 {
-                    baseController = typeof(DnApiSomenteLeituraControlador<>);
+                    baseController = typeof(DnApiSomenteLeituraController<>);
                 }
 
                 var typeName = entity.Name + "Controller";
@@ -40,7 +40,7 @@ namespace dn32.infra
 
                 var controllerType = type.GetTypeInfo();
                 feature.Controllers.Add(controllerType);
-                Setup.Controladores.Add(entity, controllerType);
+                Setup.Controllers.Add(entity, controllerType);
             }
         }
     }

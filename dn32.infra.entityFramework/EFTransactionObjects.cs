@@ -41,7 +41,7 @@ namespace dn32.infra
             this.DnDbContext = ContextFactory.Create(connection, UserSessionRequest);
         }
 
-        public IQueryable<TX> ObterObjetoInputInterno<TX>() where TX : EntidadeBase
+        public IQueryable<TX> ObterObjetoInputInterno<TX>() where TX : DnEntidadeBase
         {
             return this.DnDbContext.Set<TX>();
         }
@@ -60,7 +60,7 @@ namespace dn32.infra
         /// <returns>
         /// A referência da tabela do banco de dados.
         /// </returns>
-        public virtual IQueryable<TX> ObterObjetoQueryInterno<TX>() where TX : EntidadeBase
+        public virtual IQueryable<TX> ObterObjetoQueryInterno<TX>() where TX : DnEntidadeBase
         {
             return this.DnDbContext.Set<TX>();
         }

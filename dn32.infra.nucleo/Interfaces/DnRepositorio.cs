@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace dn32.infra
 {
-    public abstract class DnRepositorio<TE> : IDnRepositorioTransacional where TE : EntidadeBase
+    public abstract class DnRepositorio<TE> : IDnRepositorioTransacional where TE : DnEntidadeBase
     {
         #region PROPERTIES
 

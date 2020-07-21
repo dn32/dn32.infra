@@ -8,7 +8,7 @@ namespace dn32.infra
 {
     internal class FabricaDeValidacao
     {
-        internal static DnValidacao<T> Criar<T>() where T : EntidadeBase
+        internal static DnValidacao<T> Criar<T>() where T : DnEntidadeBase
         {
             var tipoLocal = Setup.ConfiguracoesGlobais.TipoGenericoDeValidacao?.MakeGenericType(typeof(T)) ?? typeof(DnValidacao<T>);
             return Criar(tipoLocal) as DnValidacao<T>;

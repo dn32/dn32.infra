@@ -7,9 +7,9 @@ namespace dn32.infra
     {
         IDnDbContext contexto { get; }
 
-        IQueryable<TX> ObterObjetoQueryInterno<TX>() where TX : EntidadeBase;
+        IQueryable<TX> ObterObjetoQueryInterno<TX>() where TX : DnEntidadeBase;
 
-        IQueryable<T> ObterObjetoInputInterno<T>() where T : EntidadeBase;
+        IQueryable<T> ObterObjetoInputInterno<T>() where T : DnEntidadeBase;
 
         IQueryable ObterObjetoInputDataInterno(Type tipo);
     }

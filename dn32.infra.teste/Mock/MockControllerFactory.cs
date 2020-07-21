@@ -12,14 +12,14 @@ namespace dn32.infra.Mock
 {
     public static class MockControllerFactory
     {
-        public static TC Create<TC>() where TC : DnControladorBase, new()
+        public static TC Create<TC>() where TC : DnControllerBase, new()
         {
             return Create(typeof(TC)) as TC;
         }
 
-        public static DnControladorBase Create(Type controllerType)
+        public static DnControllerBase Create(Type controllerType)
         {
-            return Activator.CreateInstance(controllerType) as DnControladorBase;
+            return Activator.CreateInstance(controllerType) as DnControllerBase;
         }
     }
 }

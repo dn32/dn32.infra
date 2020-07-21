@@ -1,6 +1,6 @@
 ﻿namespace dn32.infra
 {
-    public partial class DnApiControlador<T>
+    public partial class DnApiController<T>
     {
         // //Todo - O processo de importação não foi concluído. Falta tratar os enumeradores e eventuais tipos especiais e possíveis nulos
         // [HttpGet]

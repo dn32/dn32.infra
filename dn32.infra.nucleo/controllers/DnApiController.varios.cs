@@ -3,17 +3,17 @@ using System.Threading.Tasks;
 
 namespace dn32.infra
 {
-    public partial class DnApiControlador<T>
+    public partial class DnApiController<T>
     {
         [HttpGet]
         public virtual T Exemplo() => typeof(T).GetExampleValue() as T;
 
         [HttpGet]
-        public virtual async Task<ResultadoPadrao<int>> QuantidadeTotal() =>
+        public virtual async Task<DnResultadoPadrao<int>> QuantidadeTotal() =>
         await this.CrieResultadoAsync(await this.Servico.QuantidadeTotalAsync());
 
         [HttpPost]
-        public virtual async Task<ResultadoPadrao<int>> QuantidadePorFiltro([FromBody] Filtro[] filtros)
+        public virtual async Task<DnResultadoPadrao<int>> QuantidadePorFiltro([FromBody] DnFiltro[] filtros)
         {
             var especificacao = this.CriarEspecificacaoDeFiltros(filtros, true);
             var quantidade = await this.Servico.QuantidadeAsync(especificacao);
@@ -22,12 +22,12 @@ namespace dn32.infra
 
         [HttpGet]
         [Route("/api/[controller]/EntidadeExiste")]
-        public virtual async Task<ResultadoPadrao<bool>> EntidadeExisteGet([FromQuery] T entidade) =>
+        public virtual async Task<DnResultadoPadrao<bool>> EntidadeExisteGet([FromQuery] T entidade) =>
         await this.CrieResultadoAsync(await this.Servico.ExisteAsync(entidade));
 
         [HttpPost]
         [Route("/api/[controller]/EntidadeExiste")]
-        public virtual async Task<ResultadoPadrao<bool>> EntidadeExistePost([FromBody] T entidade) =>
+        public virtual async Task<DnResultadoPadrao<bool>> EntidadeExistePost([FromBody] T entidade) =>
         await this.CrieResultadoAsync(await this.Servico.ExisteAsync(entidade));
 
         [HttpGet]

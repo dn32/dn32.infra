@@ -6,7 +6,7 @@ namespace dn32.infra
     public class FiltersAndTerm
     {
         [Description("Query Filters")]
-        public Filtro[] Filters { get; set; }
+        public DnFiltro[] Filters { get; set; }
 
         [Description("The properties whose valor will be compared")]
         public string[] Properties { get; set; }

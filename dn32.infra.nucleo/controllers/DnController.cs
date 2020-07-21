@@ -3,7 +3,7 @@ using System;
 
 namespace dn32.infra
 {
-    public abstract class DnControlador<T> : DnControladorDeServico<DnServico<T>> where T : EntidadeBase
+    public abstract class DnController<T> : DnControllerDeServico<DnServico<T>> where T : DnEntidadeBase
     {
         protected T2 CriarEspecificacao<T2>() where T2 : DnEspecificacaoBase => FabricaDeEspecificacao.Criar<T2>(this.Servico);
 

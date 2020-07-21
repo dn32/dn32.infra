@@ -13,7 +13,7 @@ namespace dn32.infra
 
         public DnServicoTransacionalBase Servico { get; set; }
 
-        protected IQueryable<TX> ObterEntidade<TX>() where TX : EntidadeBase
+        protected IQueryable<TX> ObterEntidade<TX>() where TX : DnEntidadeBase
         {
             if (Servico == null)
                 throw new DesenvolvimentoIncorretoException($"Falha ao inicializar a especificação [{GetType().Name}]. \nVocê deve usar [CriarEspecificacao] presente no serviço ou no controlador.");

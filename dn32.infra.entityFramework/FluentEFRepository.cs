@@ -23,7 +23,7 @@ namespace dn32.infra
     /// <typeparam Nome="TE">
     /// O tipo de entidade do repositório.
     /// </typeparam>
-    public partial class DnEFRepository<TE> : DnRepositorio<TE> where TE : EntidadeBase
+    public partial class DnEFRepository<TE> : DnRepositorio<TE> where TE : DnEntidadeBase
     {
         public DnEFRepository() { }
 
@@ -339,7 +339,7 @@ namespace dn32.infra
             return FromSqlSelect<TE>(sql, parameters);
         }
 
-        internal protected IQueryable<TO> FromSqlSelect<TO>(string sql, params object[] parameters) where TO : EntidadeBase
+        internal protected IQueryable<TO> FromSqlSelect<TO>(string sql, params object[] parameters) where TO : DnEntidadeBase
         {
             var source = ObjetosTransacionais.ObterObjetoInputInterno<TO>() as DbSet<TO>;
             return source.FromSqlRaw(sql, parameters);

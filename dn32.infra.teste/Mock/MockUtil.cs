@@ -18,7 +18,7 @@ namespace dn32.infra.Mock
             return GetMockController(typeof(TC), null, Headers) as TC;
         }
 
-        public static DnControladorBase GetMockController(Type controllerType, ClaimsPrincipal user = null, IHeaderDictionary Headers = null)
+        public static DnControllerBase GetMockController(Type controllerType, ClaimsPrincipal user = null, IHeaderDictionary Headers = null)
         {
             var controller = TestUtil.GetController(controllerType);
             var context = MockHttpControllerContextFactory.Create(Headers);
@@ -27,7 +27,7 @@ namespace dn32.infra.Mock
             return controller;
         }
 
-        public static ExceptionContext GetMockExceptionContext<TC>(Exception exception, DnControladorBase controller)
+        public static ExceptionContext GetMockExceptionContext<TC>(Exception exception, DnControllerBase controller)
         {
             var context = MockHttpControllerContextFactory.Create();
             return new ExceptionContext(context, new List<IFilterMetadata>()) { Exception = exception };

@@ -13,9 +13,9 @@ namespace dn32.infra
 {
     internal abstract class FrabricaDeRepositorioBase
     {
-        protected abstract Type ObterTipoDeRepositorioPadrao<T>() where T : EntidadeBase;
+        protected abstract Type ObterTipoDeRepositorioPadrao<T>() where T : DnEntidadeBase;
 
-        public DnRepositorio<T> Create<T>(IDnObjetosTransacionais transactionObjects, DnServico<T> service) where T : EntidadeBase
+        public DnRepositorio<T> Create<T>(IDnObjetosTransacionais transactionObjects, DnServico<T> service) where T : DnEntidadeBase
         {
             if (Setup.ConfiguracoesGlobais.Conexoes == null) { throw new DesenvolvimentoIncorretoException($"A arquitetura não foi iniciada"); }
 
@@ -90,7 +90,7 @@ namespace dn32.infra
             return repository;
         }
 
-        internal DnRepositorio<T> Create<T>(Type repositoryType) where T : EntidadeBase
+        internal DnRepositorio<T> Create<T>(Type repositoryType) where T : DnEntidadeBase
         {
             return Activator.CreateInstance(repositoryType) as DnRepositorio<T>;
         }

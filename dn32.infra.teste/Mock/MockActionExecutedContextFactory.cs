@@ -16,7 +16,7 @@ namespace dn32.infra.Mock
 {
     public static class MockActionExecutedContextFactory
     {
-        public static ActionExecutedContext Create(DnControladorBase controller)
+        public static ActionExecutedContext Create(DnControllerBase controller)
         {
             var actionContext = new ActionContext(
                 new DefaultHttpContext(),

@@ -12,7 +12,7 @@ namespace dn32.infra
 {
     internal static class FiltrosExtensao
     {
-        internal static Expression<Func<T, bool>> ConverterFiltrosParaExpressao<T>(this Filtro[] filtros)
+        internal static Expression<Func<T, bool>> ConverterFiltrosParaExpressao<T>(this DnFiltro[] filtros)
         {
             var propriedades = typeof(T).GetProperties().ToList();
             Expression<Func<T, bool>> expressaoCompleta = null;

@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace dn32.infra
 {
-    public partial class DnApiControlador<T>
+    public partial class DnApiController<T>
     {
         [HttpGet]
         [DnActionAttribute(Paginacao = true, EspecificacaoDinamica = true)]
-        public virtual async Task<ResultadoPadraoPaginado<List<T>>> Listar()
+        public virtual async Task<DnResultadoPadraoPaginado<List<T>>> Listar()
         {
             var especificacao = this.CriarEspecificacaoDeConsultarTudo();
             var lista = await this.Servico.ListarAsync(especificacao);
@@ -18,7 +18,7 @@ namespace dn32.infra
         [HttpGet]
         [Route("/api/[controller]/ListarPorFiltro")]
         [DnActionAttribute(Paginacao = true, EspecificacaoDinamica = true)]
-        public virtual async Task<ResultadoPadraoPaginado<List<T>>> ListarPorFiltroGet([FromQuery] Filtro[] filtros)
+        public virtual async Task<DnResultadoPadraoPaginado<List<T>>> ListarPorFiltroGet([FromQuery] DnFiltro[] filtros)
         {
             return await this.ListarPorFiltroInterno(filtros);
         }
@@ -26,21 +26,21 @@ namespace dn32.infra
         [HttpPost]
         [Route("/api/[controller]/ListarPorFiltro")]
         [DnActionAttribute(Paginacao = true, EspecificacaoDinamica = true)]
-        public virtual async Task<ResultadoPadraoPaginado<List<T>>> ListarPorFiltroPost([FromBody] Filtro[] filtros)
+        public virtual async Task<DnResultadoPadraoPaginado<List<T>>> ListarPorFiltroPost([FromBody] DnFiltro[] filtros)
         {
             return await this.ListarPorFiltroInterno(filtros);
         }
 
         [HttpGet]
         [DnActionAttribute(Paginacao = true, EspecificacaoDinamica = true)]
-        public virtual async Task<ResultadoPadraoPaginadoComTermo<List<T>>> ListarPorTermo(string termo)
+        public virtual async Task<DnResultadoPadraoPaginadoComTermo<List<T>>> ListarPorTermo(string termo)
         {
             var especificacao = this.CriarEspecificacaoPorTermo(termo, ehLista: true);
             var lista = await this.Servico.ListarAsync(especificacao);
             return await this.CrieResultadoAsync(lista, this.PaginacaoDaUltimaRequisicao, termo);
         }
 
-        protected virtual async Task<ResultadoPadraoPaginado<List<T>>> ListarPorFiltroInterno([FromBody] Filtro[] filtros)
+        protected virtual async Task<DnResultadoPadraoPaginado<List<T>>> ListarPorFiltroInterno([FromBody] DnFiltro[] filtros)
         {
             var especificacao = this.CriarEspecificacaoDeFiltros(filtros, false);
             var lista = await this.Servico.ListarAsync(especificacao);

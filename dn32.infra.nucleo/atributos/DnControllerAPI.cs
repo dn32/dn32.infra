@@ -3,16 +3,16 @@
 namespace dn32.infra
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class DnControladorApiAttribute : Attribute
+    public class DnControllerApiAttribute : Attribute
     {
         public bool GerarAutomaticamente { get; set; }
 
-        public DnControladorApiAttribute()
+        public DnControllerApiAttribute()
         {
             GerarAutomaticamente = true;
         }
 
-        public DnControladorApiAttribute(bool gerarAutomaticamente = true)
+        public DnControllerApiAttribute(bool gerarAutomaticamente = true)
         {
             GerarAutomaticamente = gerarAutomaticamente;
         }

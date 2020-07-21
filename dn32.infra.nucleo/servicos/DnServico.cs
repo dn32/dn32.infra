@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace dn32.infra
 {
-    public class DnServico<T> : DnServicoTransacionalBase where T : EntidadeBase
+    public class DnServico<T> : DnServicoTransacionalBase where T : DnEntidadeBase
     {
         #region PROPRIEDADES
 

@@ -2,7 +2,7 @@
 
 namespace dn32.infra
 {
-    public class Filtro
+    public class DnFiltro
     {
         public EnumTipoDeFiltro TipoDeFiltro { get; set; }
 

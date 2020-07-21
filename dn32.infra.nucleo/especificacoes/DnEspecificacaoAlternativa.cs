@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace dn32.infra
 {
-    public abstract class DnEspecificacaoAlternativa<TE, TO> : DnEspecificacaoBase, IDnEspecificacaoAlternativaGenerica<TO> where TE : EntidadeBase
+    public abstract class DnEspecificacaoAlternativa<TE, TO> : DnEspecificacaoBase, IDnEspecificacaoAlternativaGenerica<TO> where TE : DnEntidadeBase
     {
         public abstract IQueryable<TO> Where(IQueryable<TE> query);
 

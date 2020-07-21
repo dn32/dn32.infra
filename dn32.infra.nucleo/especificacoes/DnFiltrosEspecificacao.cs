@@ -7,11 +7,11 @@ namespace dn32.infra
 {
     public class DnFiltrosEspecificacao<T> : DnEspecificacao<T> where T : DnEntidade
     {
-        protected Filtro[] Filtros { get; set; }
+        protected DnFiltro[] Filtros { get; set; }
 
         public bool EhListagem { get; set; }
 
-        public DnFiltrosEspecificacao<T> SetParameter(Filtro[] filtros, bool ehListagem)
+        public DnFiltrosEspecificacao<T> SetParameter(DnFiltro[] filtros, bool ehListagem)
         {
             Filtros = filtros;
             EhListagem = ehListagem;

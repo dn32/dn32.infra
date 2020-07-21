@@ -18,9 +18,9 @@ namespace dn32.infra
     {
         #region PROPRIEDADES
 
-        public static Dictionary<Type, Type> Modelos { get; private set; }
+        public static Dictionary<Type, Type> Models { get; private set; }
 
-        public static Dictionary<Type, Type> Controladores { get; private set; }
+        public static Dictionary<Type, Type> Controllers { get; private set; }
 
         public static bool Inicializado { get; set; }
 
@@ -70,10 +70,10 @@ namespace dn32.infra
             return configuracoes;
         }
 
-        public static DnConfiguracoesGlobais DefinirTipoGenericoDeControlador<C>(this DnConfiguracoesGlobais configuracoes) where C : DnControladorBase
+        public static DnConfiguracoesGlobais DefinirTipoGenericoDeController<C>(this DnConfiguracoesGlobais configuracoes) where C : DnControllerBase
         {
             if (configuracoes != null)
-                configuracoes.TipoGenericoDeControlador = typeof(C).GetGenericTypeDefinition();
+                configuracoes.TipoGenericoDeController = typeof(C).GetGenericTypeDefinition();
 
             return configuracoes;
         }
@@ -104,7 +104,7 @@ namespace dn32.infra
 
         #endregion
 
-        public static List<Type> ObterEntidades() => Modelos.Values.Where(x =>
+        public static List<Type> ObterEntidades() => Models.Values.Where(x =>
           !x.IsAbstract &&
           x.IsPublic &&
           !x.IsDefined(typeof(NotMappedAttribute), false) &&
@@ -176,7 +176,7 @@ namespace dn32.infra
             ExtensoesJson.ConfiguracoesDeSerializacao = jsonSerializerSettings;
             ServiceCollection = builder.Services;
             InicializacaoInterna();
-            builder.ConfigureApplicationPartManager(apm => apm.FeatureProviders.Add(new FabricaDeControlador()));
+            builder.ConfigureApplicationPartManager(apm => apm.FeatureProviders.Add(new FabricaDeController()));
 
             ConfiguracoesGlobais = ConfiguracoesGlobais == null ? new DnConfiguracoesGlobais() : ConfiguracoesGlobais;
             return ConfiguracoesGlobais;
@@ -199,13 +199,13 @@ namespace dn32.infra
             Servicos = new Dictionary<Type, Type>();
             Repositorios = new Dictionary<Type, Type>();
             Validacoes = new Dictionary<Type, Type>();
-            Modelos = new Dictionary<Type, Type>();
-            Controladores = new Dictionary<Type, Type>();
+            Models = new Dictionary<Type, Type>();
+            Controllers = new Dictionary<Type, Type>();
             SessoesDeRequisicoesDeUsuarios = new ConcurrentDictionary<Guid, SessaoDeRequisicaoDoUsuario>();
             Servicos.Add(typeof(DnEntidade), typeof(DnServico<DnEntidade>));
             Repositorios.Add(typeof(DnEntidade), typeof(DnRepositorio<DnEntidade>));
             Validacoes.Add(typeof(DnEntidade), typeof(DnValidacao<DnEntidade>));
-            Controladores.Add(typeof(DnEntidade), typeof(DnControlador<DnEntidade>));
+            Controllers.Add(typeof(DnEntidade), typeof(DnController<DnEntidade>));
         }
 
         private static void CarregarAssemblies()
@@ -243,26 +243,26 @@ namespace dn32.infra
             ValidateIfAllServicePropertiesHaveDefaultConstructor(servicos);
 
             ValidarEspecificacoes(tipos.Where(x => x.IsSubclassOf(typeof(DnEspecificacaoBase))).ToList());
-            ValidarControladores(tipos.Where(x => x.IsSubclassOf(typeof(DnControladorBase))).ToList());
+            ValidarControllers(tipos.Where(x => x.IsSubclassOf(typeof(DnControllerBase))).ToList());
 
-            tipos.Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnServico<EntidadeBase>)))
+            tipos.Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnServico<DnEntidadeBase>)))
                 .Where(x => x.Item1 != null).ToList()
                 .ForEach(AddService);
 
             tipos.Where(x => x.Is(typeof(IDnRepositorioTransacional)))
-                .Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnRepositorio<EntidadeBase>)))
+                .Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnRepositorio<DnEntidadeBase>)))
                 .Where(x => x.Item1 != null).ToList()
                 .ForEach(AddRepository);
 
-            tipos.Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnValidacao<EntidadeBase>)))
+            tipos.Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnValidacao<DnEntidadeBase>)))
                 .Where(x => x.Item1 != null).ToList()
                 .ForEach(AddValidation);
 
-            tipos.Select(x => GlobalUtil.GetDnEntityType(x, typeof(EntidadeBase)))
-                .Where(x => x.Item1 != null && x.Item2 != typeof(EntidadeBase)).ToList()
+            tipos.Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnEntidadeBase)))
+                .Where(x => x.Item1 != null && x.Item2 != typeof(DnEntidadeBase)).ToList()
                 .ForEach(AddModel);
 
-            tipos.Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnControlador<EntidadeBase>)))
+            tipos.Select(x => GlobalUtil.GetDnEntityType(x, typeof(DnController<DnEntidadeBase>)))
                 .Where(x => x.Item1 != null).ToList()
                 .ForEach(AddController);
 
@@ -284,7 +284,7 @@ namespace dn32.infra
             });
         }
 
-        private static void ValidarControladores(List<Type> controladores)
+        private static void ValidarControllers(List<Type> controladores)
         {
             controladores.ForEach(type =>
             {
@@ -390,12 +390,12 @@ namespace dn32.infra
 
         private static void AddModel(Tuple<Type, Type> service)
         {
-            if (Modelos.ContainsKey(service.Item2))
+            if (Models.ContainsKey(service.Item2))
             {
                 throw new DesenvolvimentoIncorretoException($"There are two entity classes with the same Nome {service.Item2.Name}. This is not allowed.");
             }
 
-            Modelos.Add(service.Item2, service.Item2);
+            Models.Add(service.Item2, service.Item2);
         }
 
         private static void AddService(Tuple<Type, Type> service)
@@ -420,12 +420,12 @@ namespace dn32.infra
 
         private static void AddController(Tuple<Type, Type> controller)
         {
-            if (Controladores.ContainsKey(controller.Item1))
+            if (Controllers.ContainsKey(controller.Item1))
             {
                 throw new DesenvolvimentoIncorretoException($"There are two controller classes with the same Nome {controller.Item1} - {controller.Item2}. This is not allowed.");
             }
 
-            Controladores.Add(controller.Item1, controller.Item2);
+            Controllers.Add(controller.Item1, controller.Item2);
         }
 
         private static void AddRepository(Tuple<Type, Type> repository)

@@ -26,7 +26,7 @@ namespace dn32.infra
          =============================         
         */
 
-        internal static void DnValidateAttribute<T>(this IDnValidacao validation, T entity, string compositionProperty, string compositionFieldName) where T : EntidadeBase
+        internal static void DnValidateAttribute<T>(this IDnValidacao validation, T entity, string compositionProperty, string compositionFieldName) where T : DnEntidadeBase
         {
             if (!validation.ChecagemDeParametroNuloOk)
             {
@@ -60,7 +60,7 @@ namespace dn32.infra
             validation.ChecagemDeParametroNuloOk = true;
         }
 
-        internal static void MaxMinLenghtPropertyMustBeInformed<T>(this IDnValidacao validation, T entity, string compositionProperty, string compositionFieldName) where T : EntidadeBase
+        internal static void MaxMinLenghtPropertyMustBeInformed<T>(this IDnValidacao validation, T entity, string compositionProperty, string compositionFieldName) where T : DnEntidadeBase
         {
             if (!validation.ChecagemDeParametroNuloOk)
             {
@@ -124,7 +124,7 @@ namespace dn32.infra
             }
         }
 
-        internal static void RequiredPropertyMustBeInformed<T>(this IDnValidacao validation, T entity, string compositionProperty, string compositionFieldName) where T : EntidadeBase
+        internal static void RequiredPropertyMustBeInformed<T>(this IDnValidacao validation, T entity, string compositionProperty, string compositionFieldName) where T : DnEntidadeBase
         {
             if (!validation.ChecagemDeParametroNuloOk)
             {
@@ -160,7 +160,7 @@ namespace dn32.infra
             }
         }
 
-        internal static void AllKeysMustBeInformed<T>(this IDnValidacao validation, T entity, string compositionProperty, string compositionFieldName) where T : EntidadeBase
+        internal static void AllKeysMustBeInformed<T>(this IDnValidacao validation, T entity, string compositionProperty, string compositionFieldName) where T : DnEntidadeBase
         {
             validation.ChecagemDeChavesOk = true;
 
@@ -184,7 +184,7 @@ namespace dn32.infra
             }
         }
 
-        internal static void AllKeysShouldBeInformedWhenThereAreMoreThanOne<T>(this IDnValidacao validation, T entity, string compositionProperty, string compositionFieldName, bool isUpdate = false) where T : EntidadeBase
+        internal static void AllKeysShouldBeInformedWhenThereAreMoreThanOne<T>(this IDnValidacao validation, T entity, string compositionProperty, string compositionFieldName, bool isUpdate = false) where T : DnEntidadeBase
         {
             if (!validation.ChecagemDeParametroNuloOk || !validation.ChecagemDeChavesOk)
             {
@@ -233,7 +233,7 @@ namespace dn32.infra
             }
         }
 
-        internal static async Task EntityMustExistInDatabaseAsync<T>(this IDnValidacao validation, T entity, bool includeExcludedLogically = false) where T : EntidadeBase
+        internal static async Task EntityMustExistInDatabaseAsync<T>(this IDnValidacao validation, T entity, bool includeExcludedLogically = false) where T : DnEntidadeBase
         {
             if (!validation.ChecagemDeParametroNuloOk)
             {
@@ -248,7 +248,7 @@ namespace dn32.infra
             }
         }
 
-        internal static async Task ThereIsOnlyOneEntityAsync<T>(this IDnValidacao validation, T entity, bool includeExcludedLogically = false) where T : EntidadeBase
+        internal static async Task ThereIsOnlyOneEntityAsync<T>(this IDnValidacao validation, T entity, bool includeExcludedLogically = false) where T : DnEntidadeBase
         {
             if (!validation.ChecagemDeParametroNuloOk)
             {
@@ -263,7 +263,7 @@ namespace dn32.infra
             }
         }
 
-        internal static async Task EntityShouldNotExistInDatabaseBasedOnKeysAsync<T>(this IDnValidacao validation, T entity, bool checkId) where T : EntidadeBase
+        internal static async Task EntityShouldNotExistInDatabaseBasedOnKeysAsync<T>(this IDnValidacao validation, T entity, bool checkId) where T : DnEntidadeBase
         {
             if (!validation.ChecagemDeParametroNuloOk || !validation.ChecagemDeChavesOk)
             {

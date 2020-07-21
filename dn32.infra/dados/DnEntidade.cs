@@ -1,4 +1,4 @@
 ﻿namespace dn32.infra
 {
-    public abstract class DnEntidade : EntidadeBase { }
+    public abstract class DnEntidade : DnEntidadeBase { }
 }

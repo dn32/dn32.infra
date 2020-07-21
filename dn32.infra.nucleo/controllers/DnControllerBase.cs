@@ -7,7 +7,7 @@ using System.Security.Principal;
 [assembly: InternalsVisibleTo(@"dn32.infra.Sample.Test, PublicKey=0024000004800000940000000602000000240000525341310004000001000100e59e0f13e7bf43e7c1536d8a75c6e67c04a08206abd001a65986bcb6375c07c7b19a8598260be4b21898327679b62736b08e17707f814de3bdb9b1285b85e28238873f151f6add37fa4317ed18446b0f28d9aaacc1f4c7cabb2205e07dac7a2bedb3456e07b7b4a367ca0ed7e42c73516f4422e6cb849e5ad923e4f37d02e1d4")]
 namespace dn32.infra
 {
-    public abstract class DnControladorBase : Controller
+    public abstract class DnControllerBase : Controller
     {
         private HttpContext localHttpContext;
 

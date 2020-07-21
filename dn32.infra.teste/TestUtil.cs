@@ -9,19 +9,19 @@ namespace dn32.infra
     [ComVisible(true)]
     public static class TestUtil
     {
-        public static DnControladorBase GetController(Type controllerType)
+        public static DnControllerBase GetController(Type controllerType)
         {
             return MockControllerFactory.Create(controllerType);
         }
 
-        public static TR Execute<TC, TR>(TC controller, Func<TC, object> actionMethod) where TC : DnControladorBase
+        public static TR Execute<TC, TR>(TC controller, Func<TC, object> actionMethod) where TC : DnControllerBase
         {
             controller.OnActionExecuting(MockActionExecutingContextFactory.Create(controller));
-            ResultadoPadrao<TR> result;
+            DnResultadoPadrao<TR> result;
 
             try
             {
-                result = actionMethod(controller) as ResultadoPadrao<TR>;
+                result = actionMethod(controller) as DnResultadoPadrao<TR>;
             }
             catch (Exception ex)
             {
@@ -33,7 +33,7 @@ namespace dn32.infra
             return JsonConvert.DeserializeObject<TR>(JsonConvert.SerializeObject(result.Dados));
         }
 
-        public static object Execute<TC>(TC controller, Func<TC, object> actionMethod) where TC : DnControladorBase
+        public static object Execute<TC>(TC controller, Func<TC, object> actionMethod) where TC : DnControllerBase
         {
             controller.OnActionExecuting(MockActionExecutingContextFactory.Create(controller));
             object result;
