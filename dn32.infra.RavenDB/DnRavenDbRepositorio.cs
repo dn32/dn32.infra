@@ -114,12 +114,12 @@ namespace dn32.infra
 
         public override TX Desanexar<TX>(TX entity) => entity;
 
-        public override async Task<bool> ExisteAsync(TE entity, bool includeExcludedLogically = false)
+        public override async Task<bool> ExisteAsync(TE entity, bool incluirExcluidosLogicamente = false)
         {
             return await Query.AnyAsync(x => x.Id == entity.Id);
         }
 
-        public override Task<bool> HaSomenteUmAsync(TE entity, bool includeExcludedLogically)
+        public override Task<bool> HaSomenteUmAsync(TE entity, bool incluirExcluidosLogicamente)
         {
             throw new NotImplementedException();
         }
@@ -184,7 +184,7 @@ namespace dn32.infra
             throw new NotImplementedException();
         }
 
-        public override Task<int> QuantidadeAsync(TE entity, bool includeExcludedLogically)
+        public override Task<int> QuantidadeAsync(TE entity, bool incluirExcluidosLogicamente)
         {
             throw new NotImplementedException();
         }

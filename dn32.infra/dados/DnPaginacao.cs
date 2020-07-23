@@ -7,14 +7,14 @@ namespace dn32.infra
     {
         public const string NomePropriedadesDesejadas = "propriedades_desejadas";
         public const string NomePropriedadesDeOrdenacao = "propriedades_de_ordenacao";
-        public const string NomePaginaAtual = "pagina_atual";
-        public const string NomeItensPorPagina = "itens_por_pagina";
-        public const string NomeIniciarNaPaginaZero = "iniciar_na_pagina_zero";
-        public const string NomeQuantidadeTotalDeItens = "quantidade_total_de_itens";
-        public const string NomeSalto = "salto";
-        public const string NomeNumeroTotalDePaginas = "numero_total_de_paginas";
-        public const string DuracaoDaConsultaNoBDEmMs = "duracao_da_consulta_no_bd_em_ms";
-
+        public const string NomePaginaAtual = "PaginaAtual";
+        public const string NomeItensPorPagina = "itensPorPagina";
+        public const string NomeIniciarNaPaginaZero = "IniciaComZero";
+        public const string NomeQuantidadeTotalDeItens = "QuantidadeTotalDeItens";
+        public const string NomeSalto = "Salto";
+        public const string NomeNumeroTotalDePaginas = "NumeroDePaginas";
+        public const string DuracaoDaConsultaNoBDEmMs = "DuracaoDaConsultaNoBDEmMs";
+        public const string LiberarMaisDe100Itens = "LiberarMaisDe100Itens";
     }
 
     //Todo - 001 Testar
@@ -23,7 +23,7 @@ namespace dn32.infra
     {
         #region CAMPOS
 
-        private const int ITENS_POR_PAGINA_PADRAO = 10;
+        public const int ITENS_POR_PAGINA_PADRAO = 10;
         private int _paginaAtual;
         private int _itensPorPagina;
         private bool _iniciaEmZero;

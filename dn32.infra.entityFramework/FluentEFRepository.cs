@@ -480,26 +480,33 @@ namespace dn32.infra
         private DnPaginacao GetPagination()
         {
             var currentPageInt = int.TryParse(GetParameter(Parametros.NomePaginaAtual), out var currentPageInt_) ? currentPageInt_ : 0;
-            var itemsPerPageInt = int.TryParse(GetParameter(Parametros.NomeItensPorPagina), out var itemsPerPageInt_) ? itemsPerPageInt_ : 20;
-            var startAtZeroBool = !bool.TryParse(GetParameter(Parametros.NomeIniciarNaPaginaZero), out var startAtZeroBool_) || startAtZeroBool_;
+            var itemsPerPageInt = int.TryParse(GetParameter(Parametros.NomeItensPorPagina), out var itemsPerPageInt_) ? itemsPerPageInt_ : DnPaginacao.ITENS_POR_PAGINA_PADRAO;
+            var startAtZeroBool = bool.TryParse(GetParameter(Parametros.NomeIniciarNaPaginaZero), out var startAtZeroBool_) && startAtZeroBool_;
+            var liberarMaisDe100Itens = bool.TryParse(GetParameter(Parametros.LiberarMaisDe100Itens), out var liberarMaisDe100Itens_) && liberarMaisDe100Itens_;
 
-            return DnPaginacao.Criar(currentPageInt, startAtZeroBool, itemsPerPageInt);
+            return DnPaginacao.Criar(currentPageInt, startAtZeroBool, itemsPerPageInt, liberarMaisDe100Itens);
         }
 
         private string GetParameter(string key)
         {
             if (Servico.SessaoDaRequisicao.SessaoSemContexto) return string.Empty;
 
-            Servico.SessaoDaRequisicao.LocalHttpContext.Request.Headers.TryGetValue(key, out StringValues value);
-            if (!string.IsNullOrEmpty(value))
-            {
+            if (Servico.SessaoDaRequisicao.LocalHttpContext.Request.Headers.TryGetValue(key, out StringValues value) && !string.IsNullOrEmpty(value))
                 return value;
-            }
+
+            if (Servico.SessaoDaRequisicao.LocalHttpContext.Request.Query.TryGetValue(key, out StringValues value1) && !string.IsNullOrEmpty(value1))
+                return value;
+
+            var value2 = Servico.SessaoDaRequisicao.LocalHttpContext.Request.Query[key];
+            if (!string.IsNullOrEmpty(value2))
+                return value2;
+
+            var value2 = Servico.SessaoDaRequisicao.LocalHttpContext.Request.[key];
+            if (!string.IsNullOrEmpty(value2))
+                return value2;
 
             if (Servico.SessaoDaRequisicao.LocalHttpContext.Request.Method == "GET" || Servico.SessaoDaRequisicao.LocalHttpContext.Request.HasFormContentType == false)
-            {
                 return "";
-            }
 
             return Servico.SessaoDaRequisicao.LocalHttpContext.Request.Form[key];
         }

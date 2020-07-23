@@ -208,7 +208,7 @@ namespace dn32.infra
 
             if (validacao.ChecagemDeChavesOk)
             {
-                await validacao.EntityShouldNotExistInDatabaseBasedOnKeysAsync(entidade, false);
+                await validacao.EntityShouldNotExistInDatabaseBasedOnKeysAsync(entidade);
             }
         }
 

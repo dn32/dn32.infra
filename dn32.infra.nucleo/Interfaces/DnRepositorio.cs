@@ -33,13 +33,13 @@ namespace dn32.infra
         public abstract Task<TE> PrimeiroOuPadraoAsync(IDnEspecificacao spec);
         public abstract Task<TE> SingleOrDefaultAsync(IDnEspecificacao spec);
         public abstract Task<TO> UnicoOuPadraoAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> spec);
-        public abstract Task<bool> ExisteAsync(TE entity, bool includeExcludedLogically = false);
+        public abstract Task<bool> ExisteAsync(TE entity, bool incluirExcluidosLogicamente = false);
         public abstract Task<TE> BuscarAsync(TE entity);
         public abstract Task<TE> AdicionarAsync(TE entity);
         public abstract Task AdicionarListaAsync(TE[] entities);
-        public abstract Task<bool> HaSomenteUmAsync(TE entity, bool includeExcludedLogically);
+        public abstract Task<bool> HaSomenteUmAsync(TE entity, bool incluirExcluidosLogicamente);
         public abstract Task<int> QuantidadeAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> spec);
-        public abstract Task<int> QuantidadeAsync(TE entity, bool includeExcludedLogically);
+        public abstract Task<int> QuantidadeAsync(TE entity, bool incluirExcluidosLogicamente);
         public abstract Task<int> QuantidadeAsync(IDnEspecificacao spec);
         public abstract Task<int> QuantidadeTotalAsync();
         public abstract Task<object> FindAsync(object entity);

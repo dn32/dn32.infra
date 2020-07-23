@@ -95,7 +95,7 @@ namespace dn32.infra
 
         public virtual async Task<int> QuantidadeTotalAsync() => await Repositorio.QuantidadeTotalAsync();
 
-        public virtual async Task<int> QuantidadeAsync(T entidade, bool includeExcludedLogically = false) => await Repositorio.QuantidadeAsync(entidade, includeExcludedLogically);
+        public virtual async Task<int> QuantidadeAsync(T entidade, bool incluirExcluidosLogicamente = false) => await Repositorio.QuantidadeAsync(entidade, incluirExcluidosLogicamente);
 
         public virtual void RemoverLista(IDnEspecificacao especificacao) => Repositorio.RemoverLista(especificacao);
 
@@ -105,11 +105,11 @@ namespace dn32.infra
             await Repositorio.EliminarTudoAsync();
         }
 
-        public virtual async Task<bool> HaSomenteUmAsync(T entidade, bool includeExcludedLogically = false) => await Repositorio.HaSomenteUmAsync(entidade, includeExcludedLogically).ConfigureAwait(false);
+        public virtual async Task<bool> HaSomenteUmAsync(T entidade, bool incluirExcluidosLogicamente = false) => await Repositorio.HaSomenteUmAsync(entidade, incluirExcluidosLogicamente).ConfigureAwait(false);
 
         public virtual async Task<bool> ExisteAsync(IDnEspecificacaoBase especificacao) => await Repositorio.ExisteAsync(especificacao);
 
-        public virtual async Task<bool> ExisteAsync(T entidade, bool checkId = true, bool includeExcludedLogically = false) => await Repositorio.ExisteAsync(entidade, includeExcludedLogically);
+        public virtual async Task<bool> ExisteAsync(T entidade, bool incluirExcluidosLogicamente = false) => await Repositorio.ExisteAsync(entidade, incluirExcluidosLogicamente);
 
         public virtual async Task<bool> ExisteAlternativoAsync<TO>(IDnEspecificacaoBase especificacao) => await Repositorio.ExisteAlternativoAsync<TO>(especificacao);
 
@@ -129,7 +129,7 @@ namespace dn32.infra
         {
             TransformarParaSalvar(entidade, false);
             T retorno;
-            if (SessaoDaRequisicao.EnableLogicalDeletion && await ExisteAsync(entidade, true, true))
+            if (SessaoDaRequisicao.EnableLogicalDeletion && await ExisteAsync(entidade, true))
             {
                 retorno = await AtualizarAsync(entidade); // Restore deleted
             }

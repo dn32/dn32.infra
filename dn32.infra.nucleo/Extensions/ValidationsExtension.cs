@@ -233,14 +233,14 @@ namespace dn32.infra
             }
         }
 
-        internal static async Task EntityMustExistInDatabaseAsync<T>(this IDnValidacao validation, T entity, bool includeExcludedLogically = false) where T : DnEntidadeBase
+        internal static async Task EntityMustExistInDatabaseAsync<T>(this IDnValidacao validation, T entity, bool incluirExcluidosLogicamente = false) where T : DnEntidadeBase
         {
             if (!validation.ChecagemDeParametroNuloOk)
             {
                 return;
             }
 
-            if (!await validation.DnCast<DnValidacao<T>>().Servico.ExisteAsync(entity, validation.ChecagemDeChavesOk, includeExcludedLogically))
+            if (!await validation.DnCast<DnValidacao<T>>().Servico.ExisteAsync(entity, incluirExcluidosLogicamente))
             {
                 var keys = entity.GetKeyValues().Select(x => $"{{{x.Propriedade.Name}:{x.Valor}}}").ToArray();
                 var keyValues = string.Join(", ", keys);
@@ -248,14 +248,14 @@ namespace dn32.infra
             }
         }
 
-        internal static async Task ThereIsOnlyOneEntityAsync<T>(this IDnValidacao validation, T entity, bool includeExcludedLogically = false) where T : DnEntidadeBase
+        internal static async Task ThereIsOnlyOneEntityAsync<T>(this IDnValidacao validation, T entity, bool incluirExcluidosLogicamente = false) where T : DnEntidadeBase
         {
             if (!validation.ChecagemDeParametroNuloOk)
             {
                 return;
             }
 
-            if (await validation.DnCast<DnValidacao<T>>().Servico.QuantidadeAsync(entity, includeExcludedLogically) > 1)
+            if (await validation.DnCast<DnValidacao<T>>().Servico.QuantidadeAsync(entity, incluirExcluidosLogicamente) > 1)
             {
                 var keys = entity.GetKeyValues().Select(x => $"-{{{x.Propriedade.Name}:{x.Valor}}}").ToArray();
                 var keyValues = string.Join(", ", keys);
@@ -263,14 +263,14 @@ namespace dn32.infra
             }
         }
 
-        internal static async Task EntityShouldNotExistInDatabaseBasedOnKeysAsync<T>(this IDnValidacao validation, T entity, bool checkId) where T : DnEntidadeBase
+        internal static async Task EntityShouldNotExistInDatabaseBasedOnKeysAsync<T>(this IDnValidacao validation, T entity) where T : DnEntidadeBase
         {
             if (!validation.ChecagemDeParametroNuloOk || !validation.ChecagemDeChavesOk)
             {
                 return;
             }
 
-            if (await validation.DnCast<DnValidacao<T>>().Servico.ExisteAsync(entity, checkId))
+            if (await validation.DnCast<DnValidacao<T>>().Servico.ExisteAsync(entity))
             {
                 var keys = entity.GetKeyAndDnUniqueKeyValues().Select(x => $"{{{x.Propriedade.Name}:{x.Valor}}}").ToArray();
                 var keyValues = string.Join(", ", keys);

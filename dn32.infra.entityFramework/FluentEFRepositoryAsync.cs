@@ -11,9 +11,9 @@ namespace dn32.infra
 {
     public partial class DnEFRepository<TE>
     {
-        internal protected async Task<int> CountSqlAsync(string sql, bool includeExcludedLogically = false)
+        internal protected async Task<int> CountSqlAsync(string sql, bool incluirExcluidosLogicamente = false)
         {
-            if (includeExcludedLogically)
+            if (incluirExcluidosLogicamente)
             {
                 lock (SessionRequest)
                 {
@@ -61,10 +61,10 @@ namespace dn32.infra
             return await taskList.ToListAsync();
         }
 
-        public override async Task<int> QuantidadeAsync(TE entity, bool includeExcludedLogically = false)
+        public override async Task<int> QuantidadeAsync(TE entity, bool incluirExcluidosLogicamente = false)
         {
             var sql = RepositoryUtil.GetKeyAndDnUniqueKeyFilterSql(entity);
-            return await CountSqlAsync(sql, includeExcludedLogically);
+            return await CountSqlAsync(sql, incluirExcluidosLogicamente);
         }
 
         public override async Task<int> QuantidadeAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> spec)
@@ -88,10 +88,10 @@ namespace dn32.infra
             return await Query.CountAsync();
         }
 
-        public override async Task<bool> HaSomenteUmAsync(TE entity, bool includeExcludedLogically = false)
+        public override async Task<bool> HaSomenteUmAsync(TE entity, bool incluirExcluidosLogicamente = false)
         {
             var sql = RepositoryUtil.GetKeyAndDnUniqueKeyFilterSql(entity);
-            return await CountSqlAsync(sql, includeExcludedLogically) == 1;
+            return await CountSqlAsync(sql, incluirExcluidosLogicamente) == 1;
         }
 
         #region SPEC TE
@@ -139,9 +139,9 @@ namespace dn32.infra
             return await query.FirstOrDefaultAsync();
         }
 
-        internal protected async Task<bool> ExistsSqlAsync(string sql, bool includeExcludedLogically = false)
+        internal protected async Task<bool> ExistsSqlAsync(string sql, bool incluirExcluidosLogicamente = false)
         {
-            if (includeExcludedLogically)
+            if (incluirExcluidosLogicamente)
             {
                 lock (SessionRequest)
                 {
@@ -204,10 +204,10 @@ namespace dn32.infra
             return null;
         }
 
-        public override async Task<bool> ExisteAsync(TE entity, bool includeExcludedLogically = false)
+        public override async Task<bool> ExisteAsync(TE entity, bool incluirExcluidosLogicamente = false)
         {
             var sql = RepositoryUtil.GetKeyAndDnUniqueKeyFilterSql(entity);
-            return await ExistsSqlAsync(sql, includeExcludedLogically);
+            return await ExistsSqlAsync(sql, incluirExcluidosLogicamente);
         }
 
         public override async Task AdicionarListaAsync(params TE[] entities)
@@ -226,7 +226,7 @@ namespace dn32.infra
         {
             if (pagination == null)
             {
-                pagination = GetPagination() ?? DnPaginacao.Criar(0, true, 20);
+                pagination = GetPagination() ?? DnPaginacao.Criar(0);
             }
 
             pagination.QuantidadeTotalDeItens = await query.CountAsync();
