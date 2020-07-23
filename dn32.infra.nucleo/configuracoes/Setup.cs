@@ -235,7 +235,7 @@ namespace dn32.infra
         private static void ExecutarValidacoes()
         {
             var tipos = TodosOsTipos;
-            var servicos = tipos.Where(x => x.IsSubclassOf(typeof(DnServicoTransacionalBase))).ToList();
+            var servicos = tipos.Where(x => x.IsSubclassOf(typeof(DnServicoTransacional))).ToList();
 
             ValidateIfAllServicePropertiesNotHaveTheSetMethod(servicos);
             ValidateIfAllServicePropertiesAreVirtual(servicos);

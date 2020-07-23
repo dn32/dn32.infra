@@ -548,7 +548,7 @@ namespace dn32.infra
         //            return FromSqlSelect<TE>(sql, parameters);
         //        }
 
-        //        internal protected IQueryable<TO> FromSqlSelect<TO>(string sql, params object[] parameters) where TO : EntidadeBase
+        //        internal protected IQueryable<TO> FromSqlSelect<TO>(string sql, params object[] parameters) where TO : DnEntidadeBase
         //        {
         //            var source = ObjetosTransacionais.ObterObjetoInputInterno<TO>();
 

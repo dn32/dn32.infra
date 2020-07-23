@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace dn32.infra
 {
-    public abstract class DnServicoDeAutenticacao : DnServicoTransacionalBase
+    public abstract class DnServicoDeAutenticacao : DnServicoTransacional
     {
         public abstract Task<(bool sucess, List<Claim> claims)> AutenticarAsync(DnUsuarioParaAutenticacao usuario);
 

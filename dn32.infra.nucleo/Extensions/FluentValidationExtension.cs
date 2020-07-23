@@ -16,7 +16,7 @@ namespace dn32.infra
 {
     internal static class DnValidationExtension
     {
-        internal static async Task<List<DnServicoTransacionalBase>> ExecuteEntityAndCompositions<T>(this DnValidacao<T> validation, object entity, MethodInfo method) where T : DnEntidadeBase
+        internal static async Task<List<DnServicoTransacional>> ExecuteEntityAndCompositions<T>(this DnValidacao<T> validation, object entity, MethodInfo method) where T : DnEntidadeBase
         {
             if (validation is null) { throw new ArgumentNullException("validation"); }
             if (method is null) { throw new ArgumentNullException("method"); }
@@ -25,7 +25,7 @@ namespace dn32.infra
             var t1 = method.MakeGenericMethod(typeof(T)).Invoke(null, new object[] { validation, entity, null, null }).DnCast<Task>();
             if (t1 != null) { tasks.Add(t1); }
 
-            List<DnServicoTransacionalBase> anotherServices = new List<DnServicoTransacionalBase>();
+            List<DnServicoTransacional> anotherServices = new List<DnServicoTransacional>();
 
             if (entity != null)
             {

@@ -13,19 +13,19 @@ namespace dn32.infra
 {
     public static class FabricaDeServico
     {
-        private static ConcurrentDictionary<Type, DnServicoTransacionalBase> ServicosSingleton { get; set; } = new ConcurrentDictionary<Type, DnServicoTransacionalBase>();
+        private static ConcurrentDictionary<Type, DnServicoTransacional> ServicosSingleton { get; set; } = new ConcurrentDictionary<Type, DnServicoTransacional>();
 
-        internal static TS Criar<TS>(object httpContext, bool escopoSingleton = false) where TS : DnServicoTransacionalBase, new()
+        internal static TS Criar<TS>(object httpContext, bool escopoSingleton = false) where TS : DnServicoTransacional, new()
         {
             return Criar(typeof(TS), httpContext, null, escopoSingleton) as TS;
         }
 
-        internal static DnServicoTransacionalBase Criar(Type tipoDeServico, SessaoDeRequisicaoDoUsuario sessaoDeRequisicao, bool escopoSingleton = false)
+        internal static DnServicoTransacional Criar(Type tipoDeServico, SessaoDeRequisicaoDoUsuario sessaoDeRequisicao, bool escopoSingleton = false)
         {
             return Criar(tipoDeServico, sessaoDeRequisicao.HttpContext, sessaoDeRequisicao, escopoSingleton);
         }
 
-        internal static DnServicoTransacionalBase Criar(Type tipoDeServico, object httpContext, SessaoDeRequisicaoDoUsuario sessaoDeRequisicao = null, bool escopoSingleton = false)
+        internal static DnServicoTransacional Criar(Type tipoDeServico, object httpContext, SessaoDeRequisicaoDoUsuario sessaoDeRequisicao = null, bool escopoSingleton = false)
         {
             lock (ServicosSingleton)
             {
@@ -59,7 +59,7 @@ namespace dn32.infra
         /// Explique por que você está fazendo uso desse método.
         /// </param>
         /// <returns></returns>
-        public static TS Criar<TS>(object httpContext, string justificativa) where TS : DnServicoTransacionalBase, new()
+        public static TS Criar<TS>(object httpContext, string justificativa) where TS : DnServicoTransacional, new()
         {
             if (string.IsNullOrWhiteSpace(justificativa))
             {
@@ -81,12 +81,12 @@ namespace dn32.infra
         /// O contexto do controller.
         /// </param>
         /// <returns></returns>
-        public static TS CriarServicoInterno<TS>(bool escopoSingleton = false) where TS : DnServicoTransacionalBase, new()
+        public static TS CriarServicoInterno<TS>(bool escopoSingleton = false) where TS : DnServicoTransacional, new()
         {
             return Criar<TS>(null, escopoSingleton).DnCast<TS>();
         }
 
-        public static DnServicoTransacionalBase Criar(Type tipoDeServico, object httpContext, string justificativa)
+        public static DnServicoTransacional Criar(Type tipoDeServico, object httpContext, string justificativa)
         {
             if (string.IsNullOrWhiteSpace(justificativa))
             {
@@ -98,7 +98,7 @@ namespace dn32.infra
                 tipoDeServico = typeof(DnServico<>).MakeGenericType(tipoDeServico);
             }
 
-            return Criar(tipoDeServico, httpContext).DnCast<DnServicoTransacionalBase>();
+            return Criar(tipoDeServico, httpContext).DnCast<DnServicoTransacional>();
         }
 
         /// <summary>

@@ -35,7 +35,7 @@ namespace dn32.infra
             this.contexto = RavenDbContextoFabrica.Create(connection, UserSessionRequest);
         }
 
-        public IQueryable<TX> ObterObjetoInputInterno<TX>() where TX : EntidadeBase
+        public IQueryable<TX> ObterObjetoInputInterno<TX>() where TX : DnEntidadeBase
         {
             return Contexto.Sessao.Query<TX>();
         }
@@ -55,7 +55,7 @@ namespace dn32.infra
         /// <returns>
         /// A referência da tabela do banco de dados.
         /// </returns>
-        public virtual IQueryable<TX> ObterObjetoQueryInterno<TX>() where TX : EntidadeBase
+        public virtual IQueryable<TX> ObterObjetoQueryInterno<TX>() where TX : DnEntidadeBase
         {
             return Contexto.Sessao.Query<TX>();
         }

@@ -40,7 +40,7 @@ namespace dn32.infra
             ExecutarAsValidacoes(outrosServicos);
         }
 
-        public virtual async Task<List<DnServicoTransacionalBase>> AdidionarOuAtualizarAsync(T entidade)
+        public virtual async Task<List<DnServicoTransacional>> AdidionarOuAtualizarAsync(T entidade)
         {
             var metodo = typeof(DnValidacao<T>).GetMethod(nameof(AdicionarInternoAsync), BindingFlags.NonPublic | BindingFlags.Static);
             return await (this).ExecuteEntityAndCompositions(entidade, metodo);
@@ -63,7 +63,7 @@ namespace dn32.infra
         public virtual async Task AtualizarListaAsync(IEnumerable<T> entidades)
         {
             this.ParameterMustBeInformed(entidades, nameof(entidades));
-            var outrosServicos = new List<DnServicoTransacionalBase>();
+            var outrosServicos = new List<DnServicoTransacional>();
             var metodo = typeof(DnValidacao<T>).GetMethod(nameof(AtualizarListaInternoAsync), BindingFlags.NonPublic | BindingFlags.Static);
 
             if (entidades != null)
@@ -88,7 +88,7 @@ namespace dn32.infra
         public virtual async Task AdicionarListaAsync(IEnumerable<T> entidades)
         {
             this.ParameterMustBeInformed(entidades, nameof(entidades));
-            var outrosServicos = new List<DnServicoTransacionalBase>();
+            var outrosServicos = new List<DnServicoTransacional>();
             if (entidades != null)
             {
                 var metodo = typeof(DnValidacao<T>).GetMethod(nameof(AdicionarInternoAsync), BindingFlags.NonPublic | BindingFlags.Static);

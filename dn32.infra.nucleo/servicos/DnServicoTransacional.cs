@@ -1,7 +1,7 @@
 ﻿
 namespace dn32.infra
 {
-    public abstract class DnServicoTransacionalBase : DnServicoBase
+    public abstract class DnServicoTransacional : DnServicoBase
     {
         internal IDnObjetosTransacionais ObjetosDaTransacao => SessaoDaRequisicao.ObjetosDaTransacao;
 

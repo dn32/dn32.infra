@@ -1,9 +1,4 @@
-﻿// ReSharper disable CommentTypo
-
-
-
-
-namespace dn32.infra
+﻿namespace dn32.infra
 {
     /// <inheritdoc />
     /// <summary>

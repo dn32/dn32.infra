@@ -11,7 +11,7 @@ namespace dn32.infra
 
         protected bool IgnorarAOrdenacao { get; set; } = false;
 
-        public DnServicoTransacionalBase Servico { get; set; }
+        public DnServicoTransacional Servico { get; set; }
 
         protected IQueryable<TX> ObterEntidade<TX>() where TX : DnEntidadeBase
         {
@@ -22,7 +22,7 @@ namespace dn32.infra
             return transactionObjects.ObterObjetoQueryInterno<TX>();
         }
 
-        internal void DefinirServico(DnServicoTransacionalBase servico)
+        internal void DefinirServico(DnServicoTransacional servico)
         {
             Servico = servico;
         }

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace dn32.infra
 {
-    public class DnServicoDoRedis : DnServicoTransacionalBase
+    public class DnServicoDoRedis : DnServicoTransacional
     {
         protected DnRepositorioDoRedis RepositorioDoRedis { get; set; }
 

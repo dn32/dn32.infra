@@ -10,13 +10,13 @@ namespace dn32.infra
     {
         public bool PausarODisparoDeErrosDeValidacao { get; set; }
 
-        protected internal new DnServicoTransacionalBase Servico
+        protected internal new DnServicoTransacional Servico
         {
-            get => base.Servico as DnServicoTransacionalBase;
+            get => base.Servico as DnServicoTransacional;
             set => base.Servico = value;
         }
 
-        protected internal virtual void Inicializar(DnServicoTransacionalBase servico)
+        protected internal virtual void Inicializar(DnServicoTransacional servico)
         {
             Servico = servico;
         }
@@ -37,7 +37,7 @@ namespace dn32.infra
             this.Servico.SessaoDaRequisicao.ContextoDeValidacao.Validate();
         }
 
-        public void ExecutarAsValidacoes(List<DnServicoTransacionalBase> anotherServices)
+        public void ExecutarAsValidacoes(List<DnServicoTransacional> anotherServices)
         {
             if (PausarODisparoDeErrosDeValidacao) return;
 

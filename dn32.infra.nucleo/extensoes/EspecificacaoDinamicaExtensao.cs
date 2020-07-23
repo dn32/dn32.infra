@@ -37,7 +37,7 @@ namespace dn32.infra
 
         public static IQueryable<T> ProjetarDeFormaDinamica<T>(
             this IQueryable<T> consulta,
-            DnServicoTransacionalBase servico,
+            DnServicoTransacional servico,
             string[] campos = null) where T : DnEntidadeBase
         {
             var requisicao = servico.HttpContextLocal?.Request;
@@ -60,7 +60,7 @@ namespace dn32.infra
             return ret.ProjectTo<T>(configuracoesDeMapeamento);
         }
 
-        public static IOrderedQueryable<T> ProjetarDeFormaDinamicaOrdenada<T>(this IQueryable<T> consulta, DnServicoTransacionalBase servico, string[] campos = null) where T : DnEntidadeBase
+        public static IOrderedQueryable<T> ProjetarDeFormaDinamicaOrdenada<T>(this IQueryable<T> consulta, DnServicoTransacional servico, string[] campos = null) where T : DnEntidadeBase
         {
             var requisicao = servico.HttpContextLocal?.Request;
             if (requisicao != null && (campos == null || campos.Length == 0))
@@ -148,7 +148,7 @@ namespace dn32.infra
         }
 
         //Todo - Não remove. Dei muito trabalho pra desenvolver
-        public static IOrderedQueryable<object> ProjetarDeFormaDinamicaSelecionadaEOrdenada(this IQueryable<object> consulta, DnServicoTransacionalBase servico)
+        public static IOrderedQueryable<object> ProjetarDeFormaDinamicaSelecionadaEOrdenada(this IQueryable<object> consulta, DnServicoTransacional servico)
         {
             var requisicao = servico.HttpContextLocal.Request;
             var considerar = requisicao.ObterPropriedadesAConsiderar();
@@ -164,7 +164,7 @@ namespace dn32.infra
         }
 
         //Todo - Não remove. Dei muito trabalho pra desenvolver
-        public static IQueryable<object> ProjetarDeFormaDinamicaSelecionada<T>(this IQueryable<T> consulta, DnServicoTransacionalBase servico) where T : DnEntidadeBase
+        public static IQueryable<object> ProjetarDeFormaDinamicaSelecionada<T>(this IQueryable<T> consulta, DnServicoTransacional servico) where T : DnEntidadeBase
         {
             var requisicao = servico.HttpContextLocal.Request;
             var campos = requisicao.ObterPropriedadesAConsiderar();

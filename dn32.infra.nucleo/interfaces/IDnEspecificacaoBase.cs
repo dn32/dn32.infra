@@ -4,6 +4,6 @@ namespace dn32.infra
 {
     public interface IDnEspecificacaoBase
     {
-        DnServicoTransacionalBase Servico { get; set; }
+        DnServicoTransacional Servico { get; set; }
     }
 }
