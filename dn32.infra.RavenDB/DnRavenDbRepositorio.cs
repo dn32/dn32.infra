@@ -142,31 +142,43 @@ namespace dn32.infra
             return query.Skip(pagination.Salto).Take(pagination.ItensPorPagina);
         }
 
+
         private DnPaginacao GetPagination()
         {
             var currentPageInt = int.TryParse(GetParameter(Parametros.NomePaginaAtual), out var currentPageInt_) ? currentPageInt_ : 0;
-            var itemsPerPageInt = int.TryParse(GetParameter(Parametros.NomeItensPorPagina), out var itemsPerPageInt_) ? itemsPerPageInt_ : 20;
-            var startAtZeroBool = !bool.TryParse(GetParameter(Parametros.NomeIniciarNaPaginaZero), out var startAtZeroBool_) || startAtZeroBool_;
+            var itemsPerPageInt = int.TryParse(GetParameter(Parametros.NomeItensPorPagina), out var itemsPerPageInt_) ? itemsPerPageInt_ : DnPaginacao.ITENS_POR_PAGINA_PADRAO;
+            var startAtZeroBool = bool.TryParse(GetParameter(Parametros.NomeIniciarNaPaginaZero), out var startAtZeroBool_) && startAtZeroBool_;
+            var liberarMaisDe100Itens = bool.TryParse(GetParameter(Parametros.LiberarMaisDe100Itens), out var liberarMaisDe100Itens_) && liberarMaisDe100Itens_;
 
-            return DnPaginacao.Criar(currentPageInt, startAtZeroBool, itemsPerPageInt);
+            return DnPaginacao.Criar(currentPageInt, startAtZeroBool, itemsPerPageInt, liberarMaisDe100Itens);
         }
 
         private string GetParameter(string key)
         {
+            var request = Servico.SessaoDaRequisicao.HttpContextLocal.Request;
+
             if (Servico.SessaoDaRequisicao.SessaoSemContexto) return string.Empty;
 
-            Servico.SessaoDaRequisicao.LocalHttpContext.Request.Headers.TryGetValue(key, out StringValues value);
-            if (!string.IsNullOrEmpty(value))
             {
-                return value;
+                if (request.Headers.TryGetValue(key, out StringValues valor) && !string.IsNullOrEmpty(valor))
+                    return valor;
             }
 
-            if (Servico.SessaoDaRequisicao.LocalHttpContext.Request.Method == "GET" || Servico.SessaoDaRequisicao.LocalHttpContext.Request.HasFormContentType == false)
             {
+                if (request.Query.TryGetValue(key, out StringValues valor) && !string.IsNullOrEmpty(valor))
+                    return valor;
+            }
+
+            {
+                var valor = request.Query[key];
+                if (!string.IsNullOrEmpty(valor))
+                    return valor;
+            }
+
+            if (request.Method == "GET" || request.HasFormContentType == false)
                 return "";
-            }
 
-            return Servico.SessaoDaRequisicao.LocalHttpContext.Request.Form[key];
+            return request.Form[key];
         }
 
         public override Task<TO> PrimeiroOuPadraoAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> spec)
