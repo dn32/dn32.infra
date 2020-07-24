@@ -24,7 +24,7 @@ namespace dn32.infra
                 throw new DesenvolvimentoIncorretoException($"The service instance attempt using the {nameof(GetServiceInstanceByServiceType)} method failed because the passed type is not a {nameof(DnServicoTransacional)}");
             }
 
-            return SessionRequest.Servicos.GetOrAdd(serviceType, FabricaDeServico.Criar(serviceType, SessionRequest.LocalHttpContext, SessionRequest)) as DnServicoTransacional;
+            return SessionRequest.Servicos.GetOrAdd(serviceType, FabricaDeServico.Criar(serviceType, SessionRequest.HttpContextLocal, SessionRequest)) as DnServicoTransacional;
         }
 
         public static DnServicoTransacional GetServiceInstanceByEntity(this Type entityType, SessaoDeRequisicaoDoUsuario SessionRequest)

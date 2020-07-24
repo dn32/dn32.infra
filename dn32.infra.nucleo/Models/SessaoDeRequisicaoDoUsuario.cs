@@ -21,7 +21,7 @@ namespace dn32.infra
 
         public bool SessaoSemContexto { get; set; }
 
-        public HttpContext LocalHttpContext => this.HttpContext as HttpContext;
+        public HttpContext HttpContextLocal => this.HttpContext as HttpContext;
 
         public SessaoDeRequisicaoDoUsuario()
         {

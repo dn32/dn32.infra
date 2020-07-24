@@ -16,27 +16,28 @@
     <DebugType>None</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
-  
-
-
-  <!-- <Target Name="CopyPackage" AfterTargets="Pack">
-     <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\Projetos\dn32\Out\" />
-  </Target> -->
-
-  <Target Name="CopyPackage" AfterTargets="Pack" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
-     <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="/home/marcelo/dev/out" />
-  </Target>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
+
+  <Target Name="CopyPackage" AfterTargets="Pack">
+    <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\Projetos\dn32\Out\" />
+  </Target>
+
+  <!--<Target Name="CopyPackage" AfterTargets="Pack" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
+    <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="/home/marcelo/dev/out" />
+  </Target>-->
+
+
+
   <!--<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Version>0.0.0.1-beta$([System.DateTime]::UtcNow.ToString(MMddHHmm))</Version>
   </PropertyGroup>-->
-  
+
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <Version>0.0.0.38</Version>
+    <Version>0.0.0.40</Version>
   </PropertyGroup>
 
 </Project>

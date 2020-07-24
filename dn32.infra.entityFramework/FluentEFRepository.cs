@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 using System;
 using System.Collections;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.Common;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -489,26 +491,30 @@ namespace dn32.infra
 
         private string GetParameter(string key)
         {
+            var request = Servico.SessaoDaRequisicao.HttpContextLocal.Request;
+
             if (Servico.SessaoDaRequisicao.SessaoSemContexto) return string.Empty;
 
-            if (Servico.SessaoDaRequisicao.LocalHttpContext.Request.Headers.TryGetValue(key, out StringValues value) && !string.IsNullOrEmpty(value))
-                return value;
+            {
+                if (request.Headers.TryGetValue(key, out StringValues valor) && !string.IsNullOrEmpty(valor))
+                    return valor;
+            }
 
-            if (Servico.SessaoDaRequisicao.LocalHttpContext.Request.Query.TryGetValue(key, out StringValues value1) && !string.IsNullOrEmpty(value1))
-                return value;
+            {
+                if (request.Query.TryGetValue(key, out StringValues valor) && !string.IsNullOrEmpty(valor))
+                    return valor;
+            }
 
-            var value2 = Servico.SessaoDaRequisicao.LocalHttpContext.Request.Query[key];
-            if (!string.IsNullOrEmpty(value2))
-                return value2;
+            {
+                var valor = request.Query[key];
+                if (!string.IsNullOrEmpty(valor))
+                    return valor;
+            }
 
-            var value2 = Servico.SessaoDaRequisicao.LocalHttpContext.Request.[key];
-            if (!string.IsNullOrEmpty(value2))
-                return value2;
-
-            if (Servico.SessaoDaRequisicao.LocalHttpContext.Request.Method == "GET" || Servico.SessaoDaRequisicao.LocalHttpContext.Request.HasFormContentType == false)
+            if (request.Method == "GET" || request.HasFormContentType == false)
                 return "";
 
-            return Servico.SessaoDaRequisicao.LocalHttpContext.Request.Form[key];
+            return request.Form[key];
         }
 
         #endregion

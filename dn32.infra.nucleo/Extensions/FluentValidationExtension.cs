@@ -36,7 +36,7 @@ namespace dn32.infra
                     var entityType = property.PropertyType.GetListTypeNonNull();
                     if (!entityType.IsDnEntity()) { continue; }
 
-                    var service = FabricaDeServico.Criar(entityType, validation.SessaoDaRequisicao.LocalHttpContext, "For multiple validation");
+                    var service = FabricaDeServico.Criar(entityType, validation.SessaoDaRequisicao.HttpContextLocal, "For multiple validation");
                     anotherServices.Add(service);
 
                     if (property.PropertyType.IsList())

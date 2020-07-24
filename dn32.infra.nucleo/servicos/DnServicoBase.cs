@@ -16,9 +16,9 @@ namespace dn32.infra
 
         public Guid IdentificadorDaSessaoDaRequisicao => SessaoDaRequisicao.IdentificadorDaSessao;
 
-        protected internal HttpContext HttpContextLocal => SessaoDaRequisicao.LocalHttpContext;
+        protected internal HttpContext HttpContextLocal => SessaoDaRequisicao.HttpContextLocal;
 
-        protected internal ClaimsPrincipal Usuario => SessaoDaRequisicao.LocalHttpContext?.User as ClaimsPrincipal;
+        protected internal ClaimsPrincipal Usuario => SessaoDaRequisicao.HttpContextLocal?.User as ClaimsPrincipal;
 
         private bool Disposed { get; set; }
 
