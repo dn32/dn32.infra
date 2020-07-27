@@ -491,9 +491,8 @@ namespace dn32.infra
 
         private string GetParameter(string key)
         {
-            var request = Servico.SessaoDaRequisicao.HttpContextLocal.Request;
-
             if (Servico.SessaoDaRequisicao.SessaoSemContexto) return string.Empty;
+            var request = Servico.SessaoDaRequisicao.HttpContextLocal.Request;
 
             {
                 if (request.Headers.TryGetValue(key, out StringValues valor) && !string.IsNullOrEmpty(valor))

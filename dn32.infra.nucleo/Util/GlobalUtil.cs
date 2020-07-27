@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Linq;
-
-
-
-
-
-
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace dn32.infra
 {
@@ -105,6 +101,28 @@ namespace dn32.infra
                 }
 
                 return localType;
+            }
+        }
+
+        public static async Task DnAguardeSegundos(int segundos, CancellationToken cancellationToken)
+        {
+            try
+            {
+                await Task.Delay(TimeSpan.FromSeconds(segundos), cancellationToken);
+            }
+            catch
+            {
+            }
+        }
+
+        public static async Task DnAguarde(TimeSpan tempo, CancellationToken cancellationToken)
+        {
+            try
+            {
+                await Task.Delay(tempo, cancellationToken);
+            }
+            catch
+            {
             }
         }
     }

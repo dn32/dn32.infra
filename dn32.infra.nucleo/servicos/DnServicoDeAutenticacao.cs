@@ -5,17 +5,11 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
 
-
-
-
-
 namespace dn32.infra
 {
     public abstract class DnServicoDeAutenticacao : DnServicoTransacional
     {
         public abstract Task<(bool sucess, List<Claim> claims)> AutenticarAsync(DnUsuarioParaAutenticacao usuario);
-
-        public virtual void Registrar(DnUsuarioParaAutenticacao usuario) { }
 
         public virtual async Task<string> EntrarAsync(DnUsuarioParaAutenticacao user)
         {

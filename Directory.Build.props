@@ -37,7 +37,7 @@
   </PropertyGroup>-->
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <Version>0.0.0.40</Version>
+    <Version>0.0.0.42</Version>
   </PropertyGroup>
 
 </Project>
