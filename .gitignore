@@ -37,3 +37,4 @@ node_modules
 *.orig
 *.blob
 Documentação/~$Funcionalidades e implementação.xlsx
+*.nupkg
