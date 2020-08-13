@@ -16,11 +16,21 @@ namespace dn32.infra
                 PropertyInfo propriedade,
                 string propriedadeDeComposicao,
                 string campoDeComposicao) :
-            base(propriedade, true, $"O campo {(campoDeComposicao == null ? propriedade.GetUiPropertyName() : campoDeComposicao + "." + propriedade.GetUiPropertyName())} possui uma quantidade indevida de caracteres.", propriedadeDeComposicao, campoDeComposicao)
+            base(propriedade, true, "", propriedadeDeComposicao, campoDeComposicao)
         {
             var ret = propriedade.GetPropertyRange();
             this.Minimo = ret?.min ?? 0;
             this.Maximo = ret?.max ?? 0;
+
+            Mensagem = $"O campo '{(campoDeComposicao == null ? propriedade.GetUiPropertyName() : campoDeComposicao + "." + propriedade.GetUiPropertyName())}' possui uma quantidade indevida de caracteres.";
+
+            if (Minimo > 0)
+            {
+                if (Maximo > 0)
+                    Mensagem += $" Espera-se entre {Minimo} e {Maximo}.";
+                else
+                    Mensagem += $" Espera-se no mínimo {Minimo}.";
+            }
 
             this.Campo = propriedade.GetUiPropertyName();
         }
