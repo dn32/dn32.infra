@@ -22,14 +22,21 @@ namespace dn32.infra
             this.Minimo = ret?.min ?? 0;
             this.Maximo = ret?.max ?? 0;
 
-            Mensagem = $"O campo '{(campoDeComposicao == null ? propriedade.GetUiPropertyName() : campoDeComposicao + "." + propriedade.GetUiPropertyName())}' possui uma quantidade indevida de caracteres.";
+            var campo_ = campoDeComposicao == null ? propriedade.GetUiPropertyName() : campoDeComposicao + "." + propriedade.GetUiPropertyName();
+
+            Mensagem = $"O campo '{campo_}' possui uma quantidade indevida de caracteres.";
 
             if (Minimo > 0)
             {
                 if (Maximo > 0)
-                    Mensagem += $" Espera-se entre {Minimo} e {Maximo}.";
+                {
+                    if (Minimo == Maximo)
+                        Mensagem = $"O campo '{campo_}' deve ter exatamente {Minimo} caractere{(Minimo > 1 ? "s" : "")}.";
+                    else
+                        Mensagem = $"O campo '{campo_}' deve ter entre {Minimo} e {Maximo} caracteres.";
+                }
                 else
-                    Mensagem += $" Espera-se no mínimo {Minimo}.";
+                        Mensagem = $"O campo '{campo_}' deve ter no mínimo {Minimo} caractere{(Minimo > 1 ? "s" : "")}.";
             }
 
             this.Campo = propriedade.GetUiPropertyName();
