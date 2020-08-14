@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 
-
 namespace dn32.infra
 {
     public class FiltersAndTerm

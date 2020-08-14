@@ -22,13 +22,13 @@
   </ItemGroup>
 
  
-  <Target Name="CopyPackage" AfterTargets="Pack">
+  <!-- <Target Name="CopyPackage" AfterTargets="Pack">
     <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\Projetos\dn32\Out\" />
-  </Target> 
+  </Target>  -->
 
-  <!--<Target Name="CopyPackage" AfterTargets="Pack" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
+  <Target Name="CopyPackage" AfterTargets="Pack" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
     <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="/home/marcelo/dev/out" />
-  </Target>-->
+  </Target>
 
 
 

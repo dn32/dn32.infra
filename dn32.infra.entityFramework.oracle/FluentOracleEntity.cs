@@ -1,7 +1,3 @@
-
-
-
-
 namespace dn32.infra
 {
     [DnTipoDeBancoDeDadosAttribute(EnumTipoDeBancoDeDados.ORACLE)]

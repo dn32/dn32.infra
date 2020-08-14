@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-
-
-
-
-
 namespace dn32.infra
 {
     public class TermByFilterAndProximitySpec<T> : DnEspecificacao<T> where T : DnEntidade
