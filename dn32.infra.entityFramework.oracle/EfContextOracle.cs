@@ -1,6 +1,4 @@
-// ReSharper disable CommentTypo
 using Microsoft.EntityFrameworkCore;
-using Oracle.EntityFrameworkCore;
 
 namespace dn32.infra
 {
@@ -18,7 +16,7 @@ namespace dn32.infra
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            Oracle.EntityFrameworkCore.UseOracle(optionsBuilder, ConnectionString);
+            optionsBuilder.UseOracle(ConnectionString);
             base.OnConfiguring(optionsBuilder);
         }
     }

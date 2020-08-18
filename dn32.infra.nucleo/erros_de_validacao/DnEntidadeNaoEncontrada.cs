@@ -7,6 +7,12 @@ namespace dn32.infra
         [JsonProperty("chave_de_globalizacao")]
         public override string ChaveDeGlobalizacao => nameof(DnEntidadeNaoEncontradaErroDeValidacao);
 
-        public DnEntidadeNaoEncontradaErroDeValidacao(string chaves) : base($"Nenhuma entidade foi encontrada com as chaves: {chaves}", false, chaves) { }
+        public string ChavesDaEntidade { get; set; }
+
+        public DnEntidadeNaoEncontradaErroDeValidacao(string chavesDaEntidade) :
+            base($"O registro solicitado não foi encontrado no sistema. Ele pode ter sido excluído", false, chavesDaEntidade)
+        {
+            ChavesDaEntidade = chavesDaEntidade;
+        }
     }
 }

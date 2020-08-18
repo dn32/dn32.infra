@@ -7,8 +7,12 @@ namespace dn32.infra
         [JsonProperty("chave_de_globalizacao")]
         public override string ChaveDeGlobalizacao => nameof(DnEntidadeExisteErroDeValidacao);
 
+        public string ChavesDaEntidade { get; set; }
+
         public DnEntidadeExisteErroDeValidacao(string chavesDaEntidade) :
-            base($"Uma entidade com essas chaves já existe no banco de dados: {chavesDaEntidade}", false, chavesDaEntidade)
-        { }
+            base($"Ja existe um registro com esses dados cadastrado no sistema", false, chavesDaEntidade)
+        {
+            ChavesDaEntidade = chavesDaEntidade;
+        }
     }
 }
