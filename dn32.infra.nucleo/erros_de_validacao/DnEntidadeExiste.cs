@@ -10,7 +10,7 @@ namespace dn32.infra
         public string ChavesDaEntidade { get; set; }
 
         public DnEntidadeExisteErroDeValidacao(string chavesDaEntidade) :
-            base($"Ja existe um registro com esses dados cadastrado no sistema", false, chavesDaEntidade)
+            base($"Já existe um registro com esses dados cadastrado no sistema", false, chavesDaEntidade)
         {
             ChavesDaEntidade = chavesDaEntidade;
         }

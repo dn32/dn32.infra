@@ -22,13 +22,13 @@
   </ItemGroup>
 
  
-  <Target Name="CopyPackage" AfterTargets="Pack" Condition=" '$(OS)' == 'Windows_NT' ">
+  <Target Name="CopyPackage" AfterTargets="Pack">
     <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\Projetos\dn32\Out\" />
   </Target> 
 
-  <Target Name="CopyPackage" AfterTargets="Pack" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
+  <!--<Target Name="CopyPackage" AfterTargets="Pack" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
     <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="/home/marcelo/dev/out" />
-  </Target>
+  </Target>-->
 
 
 
@@ -37,7 +37,7 @@
   </PropertyGroup>-->
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <Version>1.0.0.4-beta03</Version>
+    <Version>1.0.0.4-beta04</Version>
   </PropertyGroup>
 
 </Project>
