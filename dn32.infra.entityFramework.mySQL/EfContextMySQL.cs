@@ -16,7 +16,10 @@ namespace dn32.infra
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql(ConnectionString);
+            optionsBuilder.UseMySql(ConnectionString, (o) =>
+            {
+                o.EnableRetryOnFailure();
+            });
             base.OnConfiguring(optionsBuilder);
         }
     }

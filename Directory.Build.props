@@ -23,7 +23,7 @@
 
  
   <Target Name="CopyPackage" AfterTargets="Pack">
-    <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\Projetos\dn32\Out\" />
+    <Copy SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="C:\dev\Out" />
   </Target> 
 
   <!--<Target Name="CopyPackage" AfterTargets="Pack" Condition=" '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' ">
