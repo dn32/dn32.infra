@@ -8,6 +8,8 @@ namespace dn32.infra
 {
     internal class ContextFactory
     {
+        private static bool JaTestouSeBDExiste { get; set; }
+
         internal static EfContext Create(Conexao connection, SessaoDeRequisicaoDoUsuario userSessionRequest)
         {
             var connectionString = connection.ObterStringDeConexao(userSessionRequest);
@@ -27,8 +29,9 @@ namespace dn32.infra
 
         private static void CreateDB(bool createDatabaseIfNotExists, EfContext efContext)
         {
-            if (createDatabaseIfNotExists)
+            if (createDatabaseIfNotExists && !JaTestouSeBDExiste)
             {
+                JaTestouSeBDExiste = true;
                 efContext.Database.EnsureCreated();
                 //Todo - Fix to net core 3
                 //efContext.Database.Migrate();
