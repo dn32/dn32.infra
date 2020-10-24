@@ -2,16 +2,9 @@
 using System.Linq;
 using System.Reflection;
 
-
-
-
-
-
-
-
 namespace dn32.infra
 {
-    internal abstract class FrabricaDeRepositorioBase
+    internal abstract class DnFrabricaDeRepositorioBase
     {
         protected abstract Type ObterTipoDeRepositorioPadrao<T>() where T : DnEntidadeBase;
 
@@ -86,6 +79,8 @@ namespace dn32.infra
 
             repository.ObjetosTransacionais = transactionObjects;
             repository.Servico = service;
+
+            repository.Inicializar(); //Todo - Melhorar isso no futuro
 
             return repository;
         }

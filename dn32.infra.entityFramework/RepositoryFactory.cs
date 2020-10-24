@@ -11,7 +11,7 @@ namespace dn32.infra
     /// <typeparam Nome="T">
     ///  O tipo da entidade do repositório a ser criado.
     /// </typeparam>
-    internal class RepositoryFactory : FrabricaDeRepositorioBase
+    internal class RepositoryFactory : DnFrabricaDeRepositorioBase
     {
         protected override Type ObterTipoDeRepositorioPadrao<T>() => typeof(DnEFRepository<T>);
     }

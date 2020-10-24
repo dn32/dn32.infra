@@ -35,7 +35,7 @@ namespace dn32.infra
 
         private IDocumentStore CreateDocumentStore()
         {
-            NomeDoBD = Setup.ConfiguracoesGlobais.Valores["nomeDoBD"];
+            NomeDoBD = Setup.ConfiguracoesGlobais.Valores["ravenDBNomeDoBD"];
             EnderecoDoCertificado = Setup.ConfiguracoesGlobais.Valores["enderecoDoCertificado"];
 
             string serverURL = ConnectionString;

@@ -2,18 +2,13 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
-    <LangVersion>8</LangVersion>
-    <Nullable>warnings</Nullable>
-    <AssemblyOriginatorKeyFile>dn32.infra.RavenDB.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>dn32.infra.MongoDB.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="RavenDB.Client" Version="5.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.11.3" />
     <ProjectReference Include="..\dn32.infra.nucleo\dn32.infra.nucleo.csproj" />
     <ProjectReference Include="..\dn32.infra\dn32.infra.csproj" />
   </ItemGroup>
-
+  
 </Project>

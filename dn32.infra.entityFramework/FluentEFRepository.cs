@@ -56,6 +56,10 @@ namespace dn32.infra
 
         #endregion
 
+        public override void Inicializar()
+        {
+        }
+
         public override TE Desanexar(TE entity) => Desanexar<TE>(entity);
 
         public override TX Desanexar<TX>(TX entity)

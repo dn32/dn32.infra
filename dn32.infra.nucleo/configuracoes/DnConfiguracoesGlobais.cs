@@ -18,7 +18,7 @@ namespace dn32.infra
         public Type TipoGenericoDeRepositorio { get; internal set; }
         public Type TipoGenericoDeValidacao { get; internal set; }
         public Type TipoGenericoDeController { get; internal set; }
-        internal FrabricaDeRepositorioBase FabricaDeRepositorio { get; set; }
+        internal DnFrabricaDeRepositorioBase FabricaDeRepositorio { get; set; }
         public InformacoesDoJWT InformacoesDoJWT { get; set; }
         public string StringDeConexaoDoRedis { get; set; }
         public Type TipoDeServicoDoRedis { get; set; }

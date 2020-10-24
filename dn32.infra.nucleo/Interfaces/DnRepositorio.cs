@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-
-
-
 namespace dn32.infra
 {
     public abstract class DnRepositorio<TE> : IDnRepositorioTransacional where TE : DnEntidadeBase
@@ -17,6 +14,7 @@ namespace dn32.infra
 
         #endregion
 
+        public abstract void Inicializar();
         public abstract void RemoverLista(IDnEspecificacao spec);
         public abstract TE Desanexar(TE entity);
         public abstract TX Desanexar<TX>(TX entity);

@@ -10,7 +10,7 @@ namespace dn32.infra
     /// <typeparam Nome="T">
     ///  O tipo da entidade do repositório a ser criado.
     /// </typeparam>
-    internal class FabricaDeRepositorioDoRavenDB : FrabricaDeRepositorioBase
+    internal class FabricaDeRepositorioDoRavenDB : DnFrabricaDeRepositorioBase
     {
         protected override Type ObterTipoDeRepositorioPadrao<T>() => typeof(DnRavenDbRepositorio<RavenDBEntidadeBase>);
     }

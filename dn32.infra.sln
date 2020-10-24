@@ -5,17 +5,17 @@ VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.Teste", "dn32.infra.teste\dn32.infra.Teste.csproj", "{AB51F7C9-E955-404F-B808-9D6C211950A6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.entityFramework.SqlServer", "dn32.infra.entityFramework.sqlServer\dn32.infra.EntityFramework.SqlServer.csproj", "{5354F543-E7F6-46E3-99DC-7F56D4573ACF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.EntityFramework.SqlServer", "dn32.infra.entityFramework.sqlServer\dn32.infra.EntityFramework.SqlServer.csproj", "{5354F543-E7F6-46E3-99DC-7F56D4573ACF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.entityFramework.PostgreSQL", "dn32.infra.entityFramework.postgreSQL\dn32.infra.EntityFramework.PostgreSQL.csproj", "{7908F454-A8C8-42A8-8949-C1B33E2B56EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.EntityFramework.PostgreSQL", "dn32.infra.entityFramework.postgreSQL\dn32.infra.EntityFramework.PostgreSQL.csproj", "{7908F454-A8C8-42A8-8949-C1B33E2B56EF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.entityFramework", "dn32.infra.entityFramework\dn32.infra.EntityFramework.csproj", "{B79539C3-9A24-437C-A8B0-578C2FF80763}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.EntityFramework", "dn32.infra.entityFramework\dn32.infra.EntityFramework.csproj", "{B79539C3-9A24-437C-A8B0-578C2FF80763}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.entityFramework.MySQL", "dn32.infra.entityFramework.mySQL\dn32.infra.EntityFramework.MySQL.csproj", "{2F970D78-25E7-4374-848D-5FE159B23983}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.EntityFramework.MySQL", "dn32.infra.entityFramework.mySQL\dn32.infra.EntityFramework.MySQL.csproj", "{2F970D78-25E7-4374-848D-5FE159B23983}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.entityFramework.Oracle", "dn32.infra.entityFramework.oracle\dn32.infra.EntityFramework.Oracle.csproj", "{E0BABC2B-C759-4F1E-9109-BC52F9A9E7DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.EntityFramework.Oracle", "dn32.infra.entityFramework.oracle\dn32.infra.EntityFramework.Oracle.csproj", "{E0BABC2B-C759-4F1E-9109-BC52F9A9E7DF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.entityFramework.MemoryDatabase", "dn32.infra.entityFramework.memoryDatabase\dn32.infra.EntityFramework.MemoryDatabase.csproj", "{39C0FE33-A0C6-4276-8C04-61314F5770FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.EntityFramework.MemoryDatabase", "dn32.infra.entityFramework.memoryDatabase\dn32.infra.EntityFramework.MemoryDatabase.csproj", "{39C0FE33-A0C6-4276-8C04-61314F5770FC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.Doc", "dn32.infra.doc\dn32.infra.Doc.csproj", "{D64F1786-68BF-47D9-8AA8-8758E75386A4}"
 EndProject
@@ -34,7 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra", "dn32.infra\dn
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.nucleo", "dn32.infra.nucleo\dn32.infra.nucleo.csproj", "{1CD9CD24-BFE9-4CA8-8469-1DD717E9A2D5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.entityFramework.SqLite", "dn32.infra.entityFramework.sqLite\dn32.infra.EntityFramework.SqLite.csproj", "{1F272E7F-032D-4D24-AFCF-97E12D92E1CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.EntityFramework.SqLite", "dn32.infra.entityFramework.sqLite\dn32.infra.EntityFramework.SqLite.csproj", "{1F272E7F-032D-4D24-AFCF-97E12D92E1CC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.Redis", "dn32.infra.entityFramework.redis\dn32.infra.Redis.csproj", "{2EC8A8BB-4939-4F28-9E4D-A2D60EDA209D}"
 EndProject
@@ -42,7 +42,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.nucleo.teste", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.teste", "Testes\dn32.infra.teste\dn32.infra.teste.csproj", "{D61A415E-1A97-48E4-9F29-E5537D30DD1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dn32.infra.RavenDB", "dn32.infra.RavenDB\dn32.infra.RavenDB.csproj", "{92118941-60F5-4F98-9A55-9EEBED80B84B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dn32.infra.RavenDB", "dn32.infra.RavenDB\dn32.infra.RavenDB.csproj", "{92118941-60F5-4F98-9A55-9EEBED80B84B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dn32.infra.MongoDB", "dn32.infra.MongoDB\dn32.infra.MongoDB.csproj", "{797F4BD7-139C-4660-83A0-60981701B002}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -110,6 +112,10 @@ Global
 		{92118941-60F5-4F98-9A55-9EEBED80B84B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92118941-60F5-4F98-9A55-9EEBED80B84B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92118941-60F5-4F98-9A55-9EEBED80B84B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{797F4BD7-139C-4660-83A0-60981701B002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{797F4BD7-139C-4660-83A0-60981701B002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{797F4BD7-139C-4660-83A0-60981701B002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{797F4BD7-139C-4660-83A0-60981701B002}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,6 +136,7 @@ Global
 		{52C76FD8-FD52-4FC7-B33C-612E505D1B7F} = {4158C429-5F1F-4FC6-B3E0-23FB8679F639}
 		{D61A415E-1A97-48E4-9F29-E5537D30DD1A} = {4158C429-5F1F-4FC6-B3E0-23FB8679F639}
 		{92118941-60F5-4F98-9A55-9EEBED80B84B} = {4158C429-5F1F-4FC6-B3E0-23FB8679F639}
+		{797F4BD7-139C-4660-83A0-60981701B002} = {4158C429-5F1F-4FC6-B3E0-23FB8679F639}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {123E34D5-DA60-4929-9110-E760ECAC5050}

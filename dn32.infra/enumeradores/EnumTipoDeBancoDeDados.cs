@@ -8,6 +8,7 @@
         MYSQL,
         POSTGREE_SQL,
         MEMORY,
-        SQLITE
+        SQLITE,
+        MONGO_DB
     }
 }
