@@ -481,10 +481,10 @@ namespace dn32.infra
 
         private DnPaginacao GetPagination()
         {
-            var currentPageInt = int.TryParse(GetParameter(Parametros.NomePaginaAtual), out var currentPageInt_) ? currentPageInt_ : 0;
-            var itemsPerPageInt = int.TryParse(GetParameter(Parametros.NomeItensPorPagina), out var itemsPerPageInt_) ? itemsPerPageInt_ : DnPaginacao.ITENS_POR_PAGINA_PADRAO;
-            var startAtZeroBool = bool.TryParse(GetParameter(Parametros.NomeIniciarNaPaginaZero), out var startAtZeroBool_) && startAtZeroBool_;
-            var liberarMaisDe100Itens = bool.TryParse(GetParameter(Parametros.LiberarMaisDe100Itens), out var liberarMaisDe100Itens_) && liberarMaisDe100Itens_;
+            var currentPageInt = int.TryParse(GetParameter(DnParametros.NomePaginaAtual), out var currentPageInt_) ? currentPageInt_ : 0;
+            var itemsPerPageInt = int.TryParse(GetParameter(DnParametros.NomeItensPorPagina), out var itemsPerPageInt_) ? itemsPerPageInt_ : DnPaginacao.ITENS_POR_PAGINA_PADRAO;
+            var startAtZeroBool = bool.TryParse(GetParameter(DnParametros.NomeIniciarNaPaginaZero), out var startAtZeroBool_) && startAtZeroBool_;
+            var liberarMaisDe100Itens = bool.TryParse(GetParameter(DnParametros.LiberarMaisDe100Itens), out var liberarMaisDe100Itens_) && liberarMaisDe100Itens_;
 
             return DnPaginacao.Criar(currentPageInt, startAtZeroBool, itemsPerPageInt, liberarMaisDe100Itens);
         }

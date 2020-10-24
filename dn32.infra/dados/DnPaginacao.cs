@@ -3,7 +3,7 @@ using System;
 
 namespace dn32.infra
 {
-    public class Parametros
+    public class DnParametros
     {
         public const string NomePropriedadesDesejadas = "propriedades_desejadas";
         public const string NomePropriedadesDeOrdenacao = "propriedades_de_ordenacao";
@@ -32,29 +32,29 @@ namespace dn32.infra
 
         #region PROPRIEDADES
 
-        [JsonProperty(Parametros.NomeQuantidadeTotalDeItens)]
+        [JsonProperty(DnParametros.NomeQuantidadeTotalDeItens)]
         public virtual int QuantidadeTotalDeItens { get; set; }
 
-        [JsonProperty(Parametros.NomeIniciarNaPaginaZero)]
+        [JsonProperty(DnParametros.NomeIniciarNaPaginaZero)]
         public virtual bool IniciaComZero => _iniciaEmZero;
 
-        [JsonProperty(Parametros.NomeSalto)]
+        [JsonProperty(DnParametros.NomeSalto)]
         public virtual int Salto => ObterOTamanhoDoSalto();
 
-        [JsonProperty(Parametros.NomeItensPorPagina)]
+        [JsonProperty(DnParametros.NomeItensPorPagina)]
         public virtual int ItensPorPagina => ObterItensPorPagina();
 
-        [JsonProperty(Parametros.NomePaginaAtual)]
+        [JsonProperty(DnParametros.NomePaginaAtual)]
         public virtual int PaginaAtual
         {
             get => ObterPaginaAtual();
             set => _paginaAtual = value;
         }
 
-        [JsonProperty(Parametros.NomeNumeroTotalDePaginas)]
+        [JsonProperty(DnParametros.NomeNumeroTotalDePaginas)]
         public virtual int NumeroDePaginas => ObterNumeroDePaginas();
 
-        [JsonProperty(Parametros.DuracaoDaConsultaNoBDEmMs)]
+        [JsonProperty(DnParametros.DuracaoDaConsultaNoBDEmMs)]
         public long DuracaoDaConsultaNoBDEmMs { get; set; }
 
         #endregion

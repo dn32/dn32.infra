@@ -254,9 +254,9 @@ namespace dn32.infra
                 if (DnAction?.Paginacao == true)
                 {
                     parameters.AddRange(new[] {
-                        new DocParameter (Parametros.NomePaginaAtual, typeof (string), EnumParameterSouce.Header, "A página atual", "1"),
-                            new DocParameter (Parametros.NomeItensPorPagina, typeof (string), EnumParameterSouce.Header, "O número de páginas", "10"),
-                            new DocParameter (Parametros.NomeIniciarNaPaginaZero, typeof (bool), EnumParameterSouce.Header, "Se a primeira página é 0.", "true")
+                        new DocParameter (DnParametros.NomePaginaAtual, typeof (string), EnumParameterSouce.Header, "A página atual", "1"),
+                            new DocParameter (DnParametros.NomeItensPorPagina, typeof (string), EnumParameterSouce.Header, "O número de páginas", "10"),
+                            new DocParameter (DnParametros.NomeIniciarNaPaginaZero, typeof (bool), EnumParameterSouce.Header, "Se a primeira página é 0.", "true")
                     });
                 }
 
@@ -264,8 +264,8 @@ namespace dn32.infra
                 {
                     parameters.AddRange(new[] {
                         //new DocParameter(Parametros.NomePropertyToIgnore, typeof(string), EnumParameterSouce.Header, "The properties you want to ignore in the query", "Code,Adress.Code"),
-                        new DocParameter (Parametros.NomePropriedadesDesejadas, typeof (string), EnumParameterSouce.Header, "As propriedades úteis para sua listagem", "Nome,Sobrenome,Endereco.Cidade"),
-                            new DocParameter (Parametros.NomePropriedadesDeOrdenacao, typeof (string), EnumParameterSouce.Header, "As propriedades a usar como ordenacao", "Nome,Sobrenome".G ())
+                        new DocParameter (DnParametros.NomePropriedadesDesejadas, typeof (string), EnumParameterSouce.Header, "As propriedades úteis para sua listagem", "Nome,Sobrenome,Endereco.Cidade"),
+                            new DocParameter (DnParametros.NomePropriedadesDeOrdenacao, typeof (string), EnumParameterSouce.Header, "As propriedades a usar como ordenacao", "Nome,Sobrenome".G ())
                     });
                 }
 

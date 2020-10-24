@@ -30,10 +30,10 @@ namespace dn32.infra
         }
 
         public static string[] ObterPropriedadesAConsiderar(this HttpRequest requisicao) =>
-            requisicao.ObterParametros(Parametros.NomePropriedadesDesejadas);
+            requisicao.ObterParametros(DnParametros.NomePropriedadesDesejadas);
 
         public static string[] ObterPropriedadesAOrdenar(this HttpRequest requisicao) =>
-            requisicao.ObterParametros(Parametros.NomePropriedadesDeOrdenacao);
+            requisicao.ObterParametros(DnParametros.NomePropriedadesDeOrdenacao);
 
         public static IQueryable<T> ProjetarDeFormaDinamica<T>(
             this IQueryable<T> consulta,
