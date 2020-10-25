@@ -11,30 +11,30 @@ namespace dn32.infra
 
         public DnServicoDoRedis() => RepositorioDoRedis = ObterRepositorio(Setup.ConfiguracoesGlobais.StringDeConexaoDoRedis);
 
-        protected virtual DnRepositorioDoRedis ObterRepositorio(string connectionString) => new DnRepositorioDoRedis(connectionString);
+        protected virtual DnRepositorioDoRedis ObterRepositorio(string stringDeConexao) => new DnRepositorioDoRedis(stringDeConexao);
 
         public virtual async Task InscreverAsync(string canal, Func<string, Task> callbackAsync) => await RepositorioDoRedis.InscreverAsync(canal, callbackAsync);
 
         public virtual async Task Inscrever(string canal, Action<string> callback) => await RepositorioDoRedis.Inscrever(canal, callback);
 
-        public virtual async Task<List<T>> ListarPorPrefixo<T>(string pattern) => await RepositorioDoRedis.ListarPorPrefixo<T>(pattern);
+        public virtual async Task<List<T>> ListarPorPrefixo<T>(string padrao) => await RepositorioDoRedis.ListarPorPrefixo<T>(padrao);
 
         public virtual async Task RemoverInscricao(string canal) => await RepositorioDoRedis.RemoverInscricao(canal);
 
         public virtual async Task Publicar(string canal, string mensagem) => await RepositorioDoRedis.Publicar(canal, mensagem);
 
-        public virtual async Task<T> ObterValorAsync<T>(string key) => await RepositorioDoRedis.GetValueAsync<T>(key);
+        public virtual async Task<T> ObterValorAsync<T>(string chave) => await RepositorioDoRedis.ObterObjetoAsync<T>(chave);
 
-        public virtual async Task<T> ObterEntidadeAsync<T>(DnEntidade entity) => await RepositorioDoRedis.GetValueAsync<T>(entity.GetHashCode().ToString());
+        public virtual async Task<T> ObterEntidadeAsync<T>(DnEntidade entidade) => await RepositorioDoRedis.ObterObjetoAsync<T>(entidade.GetHashCode().ToString());
 
-        public virtual async Task<bool> SalvarEntidadeAsync(DnEntidade entity, TimeSpan? timeOut = null) => await RepositorioDoRedis.SetValueAsync(entity.GetHashCode().ToString(), entity, timeOut);
+        public virtual async Task<bool> SalvarEntidadeoAsync(DnEntidade entidade, TimeSpan? timeOut = null) => await RepositorioDoRedis.SalvarObjetoAsync(entidade.GetHashCode().ToString(), entidade, timeOut);
 
-        public virtual async Task<bool> SalvarValorAsync(string key, object value, TimeSpan? timeOut = null) => await RepositorioDoRedis.SetValueAsync(key, value, timeOut);
+        public virtual async Task<bool> SalvarObjetoAsync(string chave, object value, TimeSpan? timeOut = null) => await RepositorioDoRedis.SalvarObjetoAsync(chave, value, timeOut);
 
-        public virtual async Task<bool> SalvarValorPrimitivoAsync(string key, RedisValue value, TimeSpan? timeOut = null) => await RepositorioDoRedis.SetPrimitiveValueAsync(key, value, timeOut);
+        public virtual async Task<bool> SalvarPrimitivoAsync(string chave, RedisValue value, TimeSpan? timeOut = null) => await RepositorioDoRedis.SalvarPrimitivoAsync(chave, value, timeOut);
 
-        public virtual async Task<bool> SalvarValorBoolAsync(string key, bool value, TimeSpan? timeOut = null) => await RepositorioDoRedis.SetPrimitiveValueAsync(key, value, timeOut);
+        public virtual async Task<bool> SalvarValorBoolAsync(string chave, bool value, TimeSpan? timeOut = null) => await RepositorioDoRedis.SalvarPrimitivoAsync(chave, value, timeOut);
 
-        public virtual async Task<bool> ReiniviarTimeOutAsync(string key, object stringValue = null) => await RepositorioDoRedis.RenewTimeOutAsync(key, stringValue);
+        public virtual async Task<bool> RenovarTimeOutAsync(string chave, object stringValue = null) => await RepositorioDoRedis.RenovarTimeOutAsync(chave, stringValue);
     }
 }

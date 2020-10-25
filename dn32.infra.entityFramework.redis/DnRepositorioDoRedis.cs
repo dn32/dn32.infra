@@ -7,22 +7,22 @@ namespace dn32.infra
 {
     public class DnRepositorioDoRedis
     {
-        protected DnRedisContext Context { get; set; }
+        protected DnRedisContexto Context { get; set; }
 
-        public DnRepositorioDoRedis(string connectionString) => Context ??= ObterContexto(connectionString);
+        public DnRepositorioDoRedis(string stringDeConexao) => Context ??= ObterContexto(stringDeConexao);
 
-        protected virtual DnRedisContext ObterContexto(string connectionString) => new DnRedisContext(connectionString);
+        protected virtual DnRedisContexto ObterContexto(string stringDeConexao) => new DnRedisContexto(stringDeConexao);
 
-        public virtual async Task<T> GetValueAsync<T>(string key, bool renewTimeout = false) =>
-                 await Context.GetObjectAsync<T>($"{key}", renewTimeout);
+        public virtual async Task<T> ObterObjetoAsync<T>(string chave, bool renovarTimeOut = false) =>
+                 await Context.ObterObjetoAsync<T>($"{chave}", renovarTimeOut);
 
-        public async Task<List<T>> ListarPorPrefixo<T>(string pattern) => await Context.ListarPorPrefixo<T>(pattern);
+        public async Task<List<T>> ListarPorPrefixo<T>(string padrao) => await Context.ListarPorPrefixo<T>(padrao);
 
-        public virtual async Task<bool> SetValueAsync(string key, object value, TimeSpan? timeOut = null) =>
-                 await Context.SetObjectAsync(key, value, timeOut);
+        public virtual async Task<bool> SalvarObjetoAsync(string chave, object valor, TimeSpan? timeOut = null) =>
+                 await Context.SalvarObjetoAsync(chave, valor, timeOut);
 
-        public virtual async Task<bool> SetPrimitiveValueAsync(string key, RedisValue value, TimeSpan? timeOut = null) =>
-                 await Context.SetPrimitiveValueAsync(key, value, timeOut);
+        public virtual async Task<bool> SalvarPrimitivoAsync(string chave, RedisValue valor, TimeSpan? timeOut = null) =>
+                 await Context.SalvarPrimitivoAsync(chave, valor, timeOut);
 
         public virtual async Task InscreverAsync(string canal, Func<string, Task> callbackAsync) =>
                  await GetSubscriber().SubscribeAsync(canal, async (channel, message) => await callbackAsync(message));
@@ -35,7 +35,7 @@ namespace dn32.infra
 
         public virtual async Task<long> Publicar(string canal, string mensagem) => await GetSubscriber().PublishAsync(canal, mensagem);
 
-        public virtual async Task<bool> RenewTimeOutAsync(string key, object stringValue = null) => await Context.RenewTimeOut(key, stringValue);
+        public virtual async Task<bool> RenovarTimeOutAsync(string chave, object valorString = null) => await Context.RenovarTimeOutAsync(chave, valorString);
 
         protected virtual ISubscriber GetSubscriber() => Context.Multiplexer.GetSubscriber();
     }

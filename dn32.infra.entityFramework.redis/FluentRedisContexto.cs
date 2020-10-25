@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace dn32.infra
 {
-    public class DnRedisContext
+    public class DnRedisContexto
     {
         protected ConnectionMultiplexer _multiplexer { get; set; }
 
@@ -29,9 +29,9 @@ namespace dn32.infra
             }
         }
 
-        public DnRedisContext(string connectionString)
+        public DnRedisContexto(string stringDeConexao)
         {
-            ObterConfiguracoes(connectionString);
+            ObterConfiguracoes(stringDeConexao);
         }
 
         protected virtual void ObterConfiguracoes(string connectionString)
@@ -48,9 +48,9 @@ namespace dn32.infra
             };
         }
 
-        public virtual async Task<List<T>> ListarPorPrefixo<T>(string pattern)
+        public virtual async Task<List<T>> ListarPorPrefixo<T>(string padrao)
         {
-            var keys = Server.KeysAsync(pattern: pattern);
+            var keys = Server.KeysAsync(pattern: padrao);
             var servidores = new List<T>();
             await
             foreach (var key in keys)
@@ -62,51 +62,42 @@ namespace dn32.infra
             return servidores;
         }
 
-        public virtual async Task<bool> SetObjectAsync(string key, object value, TimeSpan? expireTime = null)
+        public virtual async Task<bool> SalvarObjetoAsync(string chave, object value, TimeSpan? timeOut = null)
         {
-            return await Db.StringSetAsync($"{key}:valor", JsonConvert.SerializeObject(value), expireTime);
+            return await Db.StringSetAsync($"{chave}:valor", JsonConvert.SerializeObject(value), timeOut);
         }
 
-        public virtual async Task<bool> SetPrimitiveValueAsync(string key, RedisValue redisValue, TimeSpan? expireTime = null)
+        public virtual async Task<bool> SalvarPrimitivoAsync(string chave, RedisValue valorRedis, TimeSpan? tempoDeExpiracao = null)
         {
-            return await Db.StringSetAsync($"{key}:valor", redisValue, expireTime);
+            return await Db.StringSetAsync($"{chave}:valor", valorRedis, tempoDeExpiracao);
         }
 
-        public virtual async Task<T> GetPrimitiveAsync<T>(string key, bool renewTimeout = false)
+        public virtual async Task<T> ObterPrimitivoAsync<T>(string chave, bool renovarTimeOut = false)
         {
-            var stringValue = await Db.StringGetAsync($"{key}:valor");
+            var stringValue = await Db.StringGetAsync($"{chave}:valor");
             if (string.IsNullOrEmpty(stringValue)) return default;
-            if (renewTimeout) { await RenewTimeOut(key, stringValue); }
+            if (renovarTimeOut) { await RenovarTimeOutAsync(chave, stringValue); }
             var newValue = Convert.ChangeType(stringValue, typeof(T));
             return newValue.DnCast<T>();
         }
 
-        public virtual async Task<T> GetObjectAsync<T>(string key, bool renewTimeout = false)
+        public virtual async Task<T> ObterObjetoAsync<T>(string chave, bool renovarTimeOut = false)
         {
-            var stringValue = await Db.StringGetAsync($"{key}:valor");
+            var stringValue = await Db.StringGetAsync($"{chave}:valor");
             if (string.IsNullOrEmpty(stringValue)) { return default; }
-            if (renewTimeout) { await RenewTimeOut(key, stringValue); }
+            if (renovarTimeOut) { await RenovarTimeOutAsync(chave, stringValue); }
             return JsonConvert.DeserializeObject<T>(stringValue);
         }
 
-        //public virtual async Task<T> ListObjectsAsync<T>(string key)
-        //{
-
-        //    IServer server = _multiplexer.GetServer("redisdb:6379");
-        //    IEnumerable<RedisKey> list = server.Keys(pattern: "XYZ.*", pageOffset: 0, pageSize: 1000);
-
-        //    // return JsonConvert.DeserializeObject<T>(list);
-        //}
-
-        public virtual async Task<bool> RenewTimeOut(string key, object stringValue = null)
+        public virtual async Task<bool> RenovarTimeOutAsync(string chave, object valorString = null)
         {
-            var redisValueTime = await Db.StringGetAsync($"{key}:time");
-            stringValue ??= await Db.StringGetAsync($"{key}:valor");
+            var redisValueTime = await Db.StringGetAsync($"{chave}:time");
+            valorString ??= await Db.StringGetAsync($"{chave}:valor");
             var time = redisValueTime.ToString();
             if (!string.IsNullOrEmpty(time))
             {
-                var redisValue = stringValue.DnCast<RedisValue>();
-                return await Db.StringSetAsync($"{key}:valor", redisValue, TimeSpan.FromMinutes(Convert.ToDouble(time)));
+                var redisValue = valorString.DnCast<RedisValue>();
+                return await Db.StringSetAsync($"{chave}:valor", redisValue, TimeSpan.FromMinutes(Convert.ToDouble(time)));
             }
 
             return false;
