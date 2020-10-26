@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using dn32.infra.nucleo.atributos;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -353,6 +354,7 @@ namespace dn32.infra
 
                 foreach (var prop in serviceProperties)
                 {
+                    if (prop.GetCustomAttribute<DnIgnorarInjecaoAttribute>() != null) continue;
                     if (prop.SetMethod != null)
                     {
                         throw new DesenvolvimentoIncorretoException($"The property {type}.{prop.Name} has a set method. Servico properties are not allowed to have the set method.");
@@ -366,7 +368,9 @@ namespace dn32.infra
             foreach (var type in types)
             {
                 var serviceProperties = type?.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.FlattenHierarchy)
-                    .Where(x => x.GetMethod?.IsVirtual == false && x.PropertyType.IsSubclassOf(typeof(DnServicoBase))).ToList();
+                    .Where(x => x.GetMethod?.IsVirtual == false && x.PropertyType.IsSubclassOf(typeof(DnServicoBase)))
+                    .Where(x => x.GetCustomAttribute<DnIgnorarInjecaoAttribute>() == null)
+                    .ToList();
 
                 if (serviceProperties != null && serviceProperties.Any())
                 {

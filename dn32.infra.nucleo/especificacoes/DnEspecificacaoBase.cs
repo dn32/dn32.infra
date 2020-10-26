@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 
 
@@ -13,12 +14,13 @@ namespace dn32.infra
 
         public DnServicoTransacional Servico { get; set; }
 
-        protected IQueryable<TX> ObterEntidade<TX>() where TX : DnEntidadeBase
+        protected IQueryable<TX> ObterEntidade<TX>(Type tipoDaEntidadeOriginal) where TX : DnEntidadeBase
         {
             if (Servico == null)
                 throw new DesenvolvimentoIncorretoException($"Falha ao inicializar a especificação [{GetType().Name}]. \nVocê deve usar [CriarEspecificacao] presente no serviço ou no controlador.");
-
-            var transactionObjects = Servico.ObjetosDaTransacao;
+            
+            var tipo = UtilitarioDeFabrica.ObterTipoDebancoDeDados(tipoDaEntidadeOriginal);
+            var transactionObjects = Servico.SessaoDaRequisicao.ObterObjetosDaTransacao(tipo);
             return transactionObjects.ObterObjetoQueryInterno<TX>();
         }
 

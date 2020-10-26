@@ -2,6 +2,7 @@
 {
     public enum EnumTipoDeBancoDeDados
     {
+        NENHUM,
         SQL_SERVER,
         ORACLE,
         RAVENDB,

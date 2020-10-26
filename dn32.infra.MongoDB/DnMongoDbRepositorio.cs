@@ -120,6 +120,15 @@ namespace dn32.infra
             return await DnPagination.ToListAsync();
         }
 
+        public async Task<TE> PrimeiroOuPadraoAsync(Expression<Func<TE, bool>> expression) => await Query.FirstOrDefaultAsync(expression);
+
+        public async Task<bool> RemoverAsync(Expression<Func<TE, bool>> expression)
+        {
+            var filtro = Builders<TE>.Filter.Where(expression);
+            var ret = await ObterColecao().DeleteOneAsync(filtro);
+            return ret.DeletedCount == 1;
+        }
+
         public override Task<bool> ExisteAsync(TE entity, bool incluirExcluidosLogicamente = false)
         {
             //Todo - Remover validações desnecessárias, pois estão gerando custo de busca no BD
@@ -142,6 +151,10 @@ namespace dn32.infra
 
         public override Task<bool> ExisteAsync(IDnEspecificacaoBase spec) => throw new NotImplementedException();
 
+        public override Task<TE> RemoverAsync(TE entity)
+        {
+            throw new NotImplementedException();
+        }
 
         public override Task<object> FindAsync(object entity) => throw new NotImplementedException();
 
@@ -177,10 +190,7 @@ namespace dn32.infra
             throw new NotImplementedException();
         }
 
-        public override Task<TE> RemoverAsync(TE entity)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public override void RemoverLista(IDnEspecificacao spec)
         {

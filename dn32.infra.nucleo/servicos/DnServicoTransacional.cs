@@ -3,7 +3,7 @@ namespace dn32.infra
 {
     public abstract class DnServicoTransacional : DnServicoBase
     {
-        internal IDnObjetosTransacionais ObjetosDaTransacao => SessaoDaRequisicao.ObjetosDaTransacao;
+        //internal IDnObjetosTransacionais ObjetosDaTransacao => SessaoDaRequisicao.ObjetosDaTransacao;
 
         protected new internal DnValidacaoTransacional Validacao
         {
@@ -17,10 +17,10 @@ namespace dn32.infra
             set => base.Repositorio = value;
         }
 
-        protected internal override void DefinirSessaoDoUsuario(SessaoDeRequisicaoDoUsuario sessaoDaRequisicao)
-        {
-            base.DefinirSessaoDoUsuario(sessaoDaRequisicao);
-        }
+        //protected internal override void DefinirSessaoDoUsuario(SessaoDeRequisicaoDoUsuario sessaoDaRequisicao)
+        //{
+        //    base.DefinirSessaoDoUsuario(sessaoDaRequisicao);
+        //}
 
         protected T CriarEspecificacao<T>() where T : DnEspecificacaoBase
         {

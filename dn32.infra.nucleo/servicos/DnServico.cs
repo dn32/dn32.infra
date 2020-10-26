@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 namespace dn32.infra
@@ -27,12 +28,15 @@ namespace dn32.infra
             set => base.Validacao = value;
         }
 
-        protected internal override void DefinirSessaoDoUsuario(SessaoDeRequisicaoDoUsuario sessaoDaRequisicao)
+        protected internal override void DefinirSessaoDoUsuario(SessaoDeRequisicaoDoUsuario sessaoDaRequisicao, Type tipoDeEntidade)
         {
-            base.DefinirSessaoDoUsuario(sessaoDaRequisicao);
+            base.DefinirSessaoDoUsuario(sessaoDaRequisicao, tipoDeEntidade);
 
             ValidarInicializacaoDoServico();
-            this.Repositorio = Setup.ConfiguracoesGlobais.FabricaDeRepositorio.Create(ObjetosDaTransacao, this);
+
+            var tipoDeObjetoDeTransacao = UtilitarioDeFabrica.ObterTipoDebancoDeDados(tipoDeEntidade);
+            var objetoDeTransacao = SessaoDaRequisicao.ObterObjetosDaTransacao(tipoDeObjetoDeTransacao);
+            this.Repositorio = Setup.ConfiguracoesGlobais.FabricaDeRepositorio.Create(objetoDeTransacao, this);
             this.Validacao = FabricaDeValidacao.Criar<T>();
             this.Validacao.Inicializar(this);
         }

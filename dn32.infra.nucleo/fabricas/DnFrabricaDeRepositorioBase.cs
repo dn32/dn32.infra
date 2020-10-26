@@ -74,7 +74,7 @@ namespace dn32.infra
 
                 var transactionObjectsType = repository.TipoDeObjetosTransacionais;
                 transactionObjects = FabricaDeObjetosTransacionais.Criar(transactionObjectsType, connetion, service.SessaoDaRequisicao);
-                service.SessaoDaRequisicao.ObjetosDaTransacao = transactionObjects;
+                service.SessaoDaRequisicao.AdicionarObjetosDaTransacao(UtilitarioDeFabrica.ObterTipoDebancoDeDados(typeof(T)), transactionObjects);
             }
 
             repository.ObjetosTransacionais = transactionObjects;
@@ -84,6 +84,7 @@ namespace dn32.infra
 
             return repository;
         }
+
 
         internal DnRepositorio<T> Create<T>(Type repositoryType) where T : DnEntidadeBase
         {

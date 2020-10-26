@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace dn32.infra
@@ -12,7 +13,8 @@ namespace dn32.infra
     public class SessaoDeRequisicaoDoUsuario
     {
         internal ConcurrentDictionary<Type, DnServicoBase> Servicos { get; set; }
-        internal IDnObjetosTransacionais ObjetosDaTransacao { get; set; }
+        internal ConcurrentDictionary<EnumTipoDeBancoDeDados, IDnObjetosTransacionais> DicionarioDeObtetosDeTransacao { get; set; }
+        internal List<IDnObjetosTransacionais> DicionarioDeObtetosDeTransacaoValores => DicionarioDeObtetosDeTransacao.Values.Where(x => x != null).ToList();
         internal Guid IdentificadorDaSessao { get; set; }
         public DnContextoDeValidacaoException ContextoDeValidacao { get; set; }
         public DnPaginacao Paginacao { get; set; }
@@ -26,12 +28,25 @@ namespace dn32.infra
         public SessaoDeRequisicaoDoUsuario()
         {
             ContextoDeValidacao = new DnContextoDeValidacaoException();
+            DicionarioDeObtetosDeTransacao = new ConcurrentDictionary<EnumTipoDeBancoDeDados, IDnObjetosTransacionais>();
         }
+
+        internal IDnObjetosTransacionais ObterObjetosDaTransacao(EnumTipoDeBancoDeDados tipoDeBancoDeDados)
+        {
+            if (DicionarioDeObtetosDeTransacao.TryGetValue(tipoDeBancoDeDados, out var valor))
+                return valor;
+            else
+                return null;
+        }
+
+        internal void AdicionarObjetosDaTransacao(EnumTipoDeBancoDeDados tipoDeBancoDeDados, IDnObjetosTransacionais objetoDaTransacao) =>
+            DicionarioDeObtetosDeTransacao.TryAdd(tipoDeBancoDeDados, objetoDaTransacao);
 
         public void Dispose(bool primaryService)
         {
             Setup.RemoverSessaoDeRequisicao(this.IdentificadorDaSessao);
-            ObjetosDaTransacao?.Dispose();
+            DicionarioDeObtetosDeTransacaoValores.ForEach(x => x.Dispose());
+            DicionarioDeObtetosDeTransacao.Clear();
 
             foreach (var service in this.Servicos.Values)
             {
@@ -70,12 +85,15 @@ namespace dn32.infra
             }
         }
 
-        public bool EnableLogicalDeletion => ObjetosDaTransacao.contexto.EnableLogicalDeletion;
+        //Todo - arrumar
+        public bool EnableLogicalDeletion => false;// ObjetosDaTransacao.contexto.EnableLogicalDeletion;
 
         public async Task SalvarTudoAsync()
         {
             ContextoDeValidacao.Validate();
-            await ObjetosDaTransacao.contexto.SaveChangesAsync();
+            var lista = DicionarioDeObtetosDeTransacaoValores;
+            foreach (var item in lista)
+                await item.contexto.SaveChangesAsync();
         }
     }
 }

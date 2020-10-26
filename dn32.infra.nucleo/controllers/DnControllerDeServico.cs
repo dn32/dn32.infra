@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -101,14 +102,14 @@ namespace dn32.infra
         private bool AsValidacoesApresentamSucesso() =>
             this.Servico.SessaoDaRequisicao.ContextoDeValidacao.EhValido;
 
-        private bool HaObjetosNaTransacao() => this.Servico.ObjetosDaTransacao != null;
+        private bool HaObjetosNaTransacao() => this.Servico.SessaoDaRequisicao.DicionarioDeObtetosDeTransacaoValores.Count() > 0;
 
         private async Task SalvarAlteracoes()
         {
-            if (Servico.ObjetosDaTransacao.contexto.HaAlteracao)
-            {
-                await Servico.ObjetosDaTransacao.contexto.SaveChangesAsync();
-            }
+            var lista = this.Servico.SessaoDaRequisicao.DicionarioDeObtetosDeTransacaoValores;
+            foreach (var item in lista)
+                if (item.contexto.HaAlteracao)
+                    await item.contexto.SaveChangesAsync();
         }
     }
 }

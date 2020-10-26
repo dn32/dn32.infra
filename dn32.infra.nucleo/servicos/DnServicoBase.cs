@@ -42,11 +42,11 @@ namespace dn32.infra
             SessaoDaRequisicao.Dispose(servicoPrimario);
         }
 
-        protected internal virtual void DefinirSessaoDoUsuario(SessaoDeRequisicaoDoUsuario sessaoDaRequisicao)
+        protected internal virtual void DefinirSessaoDoUsuario(SessaoDeRequisicaoDoUsuario sessaoDaRequisicao, Type tipoDeEntidade)
         {
             SessaoDaRequisicao = sessaoDaRequisicao;
         }
 
-        public void Dispose() => Dispose(true);
+        public virtual void Dispose() => Dispose(true);
     }
 }
