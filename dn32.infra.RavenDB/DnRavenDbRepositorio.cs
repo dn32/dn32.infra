@@ -91,27 +91,17 @@ namespace dn32.infra
             throw new DesenvolvimentoIncorretoException("The specification is of a different type than expected");
         }
 
-        protected DnEspecificacao<TE> GetSpec(IDnEspecificacaoBase spec1)
-        {
-            if (spec1 is DnEspecificacao<TE> spec)
-            {
-                return spec as DnEspecificacao<TE>;
-            }
-
-            throw new DesenvolvimentoIncorretoException("The specification is of a different type than expected");
-        }
-
         public new RavenDBObjetosDeTransacao ObjetosTransacionais => base.ObjetosTransacionais as RavenDBObjetosDeTransacao;
 
         public override async Task<bool> ExisteAsync(IDnEspecificacaoBase spec)
         {
-            var existe = await GetSpec(spec).ConverterParaIQueryable(Query).AnyAsync();
+            var existe = await spec.ObterSpec<TE>().ConverterParaIQueryable(Query).AnyAsync();
             return existe;
         }
 
         public override async Task<TE> SingleOrDefaultAsync(IDnEspecificacao spec)
         {
-            var entidade = await GetSpec(spec).ConverterParaIQueryable(Query).FirstOrDefaultAsync();
+            var entidade = await spec.ObterSpec<TE>().ConverterParaIQueryable(Query).FirstOrDefaultAsync();
             return entidade;
         }
 
@@ -132,57 +122,6 @@ namespace dn32.infra
         public override Task<List<TO>> ListarAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> ispec, DnPaginacao pagination = null)
         {
             throw new NotImplementedException();
-        }
-
-        protected async Task<IQueryable<TX>> DnPaginateAsync<TX>(IQueryable<TX> query, DnPaginacao pagination = null)
-        {
-            if (pagination == null)
-            {
-                pagination = GetPagination() ?? DnPaginacao.Criar(0, true, 20);
-            }
-
-            pagination.QuantidadeTotalDeItens = await query.CountAsync();
-            Servico.SessaoDaRequisicao.Paginacao = pagination;
-
-            return query.Skip(pagination.Salto).Take(pagination.ItensPorPagina);
-        }
-
-
-        private DnPaginacao GetPagination()
-        {
-            var currentPageInt = int.TryParse(GetParameter(DnParametros.NomePaginaAtual), out var currentPageInt_) ? currentPageInt_ : 0;
-            var itemsPerPageInt = int.TryParse(GetParameter(DnParametros.NomeItensPorPagina), out var itemsPerPageInt_) ? itemsPerPageInt_ : DnPaginacao.ITENS_POR_PAGINA_PADRAO;
-            var startAtZeroBool = bool.TryParse(GetParameter(DnParametros.NomeIniciarNaPaginaZero), out var startAtZeroBool_) && startAtZeroBool_;
-            var liberarMaisDe100Itens = bool.TryParse(GetParameter(DnParametros.LiberarMaisDe100Itens), out var liberarMaisDe100Itens_) && liberarMaisDe100Itens_;
-
-            return DnPaginacao.Criar(currentPageInt, startAtZeroBool, itemsPerPageInt, liberarMaisDe100Itens);
-        }
-
-        private string GetParameter(string key)
-        {
-            if (Servico.SessaoDaRequisicao.SessaoSemContexto) return string.Empty;
-            var request = Servico.SessaoDaRequisicao.HttpContextLocal.Request;
-
-            {
-                if (request.Headers.TryGetValue(key, out StringValues valor) && !string.IsNullOrEmpty(valor))
-                    return valor;
-            }
-
-            {
-                if (request.Query.TryGetValue(key, out StringValues valor) && !string.IsNullOrEmpty(valor))
-                    return valor;
-            }
-
-            {
-                var valor = request.Query[key];
-                if (!string.IsNullOrEmpty(valor))
-                    return valor;
-            }
-
-            if (request.Method == "GET" || request.HasFormContentType == false)
-                return "";
-
-            return request.Form[key];
         }
 
         public override Task<TO> PrimeiroOuPadraoAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> spec)

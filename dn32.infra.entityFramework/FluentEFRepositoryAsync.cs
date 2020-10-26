@@ -45,19 +45,19 @@ namespace dn32.infra
 
         public override async Task<bool> ExisteAsync(IDnEspecificacaoBase spec)
         {
-            return await GetSpec(spec).ConverterParaIQueryable(Query).AnyAsync();
+            return await spec.ObterSpec<TE>().ConverterParaIQueryable(Query).AnyAsync();
         }
 
         public override async Task<bool> ExisteAlternativoAsync<TO>(IDnEspecificacaoBase spec)
         {
-            return await GetSpecSelect<TO>(spec).ConverterParaIQueryable(Query).AnyAsync();
+            return await spec.ObterSpecAlternativo<TE, TO>().ConverterParaIQueryable(Query).AnyAsync();
         }
 
         public override async Task<List<TE>> ListarAsync(IDnEspecificacao ispec, DnPaginacao pagination = null)
         {
-            var spec = GetSpec(ispec);
+            var spec = ispec.ObterSpec<TE>();
             var query = spec.ConverterParaIQueryable(Query);
-            var taskList = await DnPaginateAsync(query, pagination);
+            var taskList = await query.PaginarAsync<TE>(Servico, pagination, true);
             return await taskList.ToListAsync();
         }
 
@@ -75,12 +75,12 @@ namespace dn32.infra
                 throw new DesenvolvimentoIncorretoException($"The type of input reported in the {spec} specification is not the same as that requested in the repository request.\r\nSpecification type: {spec.TipoDeEntidade}.\r\nRequisition Tipo: {typeof(TE)}\r\nThis usually occurs when you make use of the wrong service. Make sure that when invoking the method that is causing this error you are making use of the service: {serviceName}");
             }
 
-            return await GetSpecSelect<TO>(spec).ConverterParaIQueryable(Query).CountAsync();
+            return await spec.ObterSpecAlternativo<TE, TO>().ConverterParaIQueryable(Query).CountAsync();
         }
 
         public override async Task<int> QuantidadeAsync(IDnEspecificacao spec)
         {
-            return await GetSpec(spec).ConverterParaIQueryable(Query).CountAsync();
+            return await spec.ObterSpec<TE>().ConverterParaIQueryable(Query).CountAsync();
         }
 
         public override async Task<int> QuantidadeTotalAsync()
@@ -98,19 +98,19 @@ namespace dn32.infra
 
         public override async Task<TE> PrimeiroOuPadraoAsync(IDnEspecificacao spec)
         {
-            var val = GetSpec(spec).ConverterParaIQueryable(Query);
+            var val = spec.ObterSpec<TE>().ConverterParaIQueryable(Query);
             return await val.FirstOrDefaultAsync();
         }
 
         public override async Task<TO> UnicoOuPadraoAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> spec)
         {
-            var query = GetSpecSelect<TO>(spec).ConverterParaIQueryable(Query);
+            var query = spec.ObterSpecAlternativo<TE, TO>().ConverterParaIQueryable(Query);
             return await query.FirstOrDefaultAsync();
         }
 
         public override async Task<TE> SingleOrDefaultAsync(IDnEspecificacao spec)
         {
-            var val = GetSpec(spec).ConverterParaIQueryable(Query);
+            var val = spec.ObterSpec<TE>().ConverterParaIQueryable(Query);
 
             try
             {
@@ -126,15 +126,15 @@ namespace dn32.infra
 
         public override async Task<List<TO>> ListarAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> ispec, DnPaginacao pagination = null)
         {
-            var spec = GetSpecSelect<TO>(ispec);
+            var spec = ispec.ObterSpecAlternativo<TE, TO>();
             var query = spec.ConverterParaIQueryable(Query);
-            var DnPagination = await DnPaginateAsync(query, pagination);
+            var DnPagination = await query.PaginarAsync<TO>(Servico, pagination, ef: true);
             return await DnPagination.ToListAsync();
         }
 
         public override async Task<TO> PrimeiroOuPadraoAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> ispec)
         {
-            var spec = GetSpecSelect<TO>(ispec);
+            var spec = ispec.ObterSpecAlternativo<TE, TO>();
             var query = spec.ConverterParaIQueryable(Query);
             return await query.FirstOrDefaultAsync();
         }
@@ -220,19 +220,6 @@ namespace dn32.infra
             }
 
             await Input.AddRangeAsync(entities);
-        }
-
-        protected async Task<IQueryable<TX>> DnPaginateAsync<TX>(IQueryable<TX> query, DnPaginacao pagination = null)
-        {
-            if (pagination == null)
-            {
-                pagination = GetPagination() ?? DnPaginacao.Criar(0);
-            }
-
-            pagination.QuantidadeTotalDeItens = await query.CountAsync();
-            SessionRequest.Paginacao = pagination;
-
-            return query.Skip(pagination.Salto).Take(pagination.ItensPorPagina);
         }
 
         public override async Task<TE> AdicionarAsync(TE entity)

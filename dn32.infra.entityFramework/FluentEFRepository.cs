@@ -428,7 +428,7 @@ namespace dn32.infra
 
         public override void RemoverLista(IDnEspecificacao spec)
         {
-            var list = GetSpec(spec).ConverterParaIQueryable(Query).ToList();
+            var list = spec.ObterSpec<TE>().ConverterParaIQueryable(Query).ToList();
             this.Input.RemoveRange(list);
         }
 
@@ -442,38 +442,6 @@ namespace dn32.infra
 
         #region INTERNAL
 
-        private DnEspecificacaoAlternativa<TE, TO> GetSpecSelect<TO>(IDnEspecificacaoBase spec1)
-        {
-            if (spec1 is IDnEspecificacaoAlternativaGenerica<TO> spec)
-            {
-                if (spec.TipoDeEntidade != typeof(TE))
-                {
-                    var serviceName = $"{spec.TipoDeEntidade.Name}Servico";
-                    throw new DesenvolvimentoIncorretoException($"The type of input reported in the {spec} specification is not the same as that requested in the repository request.\r\nSpecification type: {spec.TipoDeEntidade}.\r\nRequisition Tipo: {typeof(TE)}\r\nThis usually occurs when you make use of the wrong service. Make sure that when invoking the method that is causing this error you are making use of the service: {serviceName}");
-                }
-
-                if (spec.TipoDeRetorno != typeof(TO))
-                {
-                    var serviceName = $"{typeof(TE).Name}Servico";
-                    throw new DesenvolvimentoIncorretoException($"The type of output reported in the {spec} specification is not the same as that requested in the repository request.\r\nSpecification type: {spec.TipoDeEntidade}.\r\nRequisition Tipo: {typeof(TO)}\r\nThis usually occurs when you make use of the wrong service. Make sure that when invoking the method that is causing this error you are making use of the service: {serviceName}");
-                }
-
-                return spec as DnEspecificacaoAlternativa<TE, TO>;
-            }
-
-            throw new DesenvolvimentoIncorretoException("The specification is of a different type than expected");
-        }
-
-        protected DnEspecificacao<TE> GetSpec(IDnEspecificacaoBase spec1)
-        {
-            if (spec1 is DnEspecificacao<TE> spec)
-            {
-                return spec as DnEspecificacao<TE>;
-            }
-
-            throw new DesenvolvimentoIncorretoException("The specification is of a different type than expected");
-        }
-
         // private static string CreateSqlFromKeys(TE entity)
         // {
         // var tableName = entity.GetTableName();
@@ -482,43 +450,6 @@ namespace dn32.infra
         // sql += string.Join(" and ", keyValues);
         // return sql;
         // }
-
-        private DnPaginacao GetPagination()
-        {
-            var currentPageInt = int.TryParse(GetParameter(DnParametros.NomePaginaAtual), out var currentPageInt_) ? currentPageInt_ : 0;
-            var itemsPerPageInt = int.TryParse(GetParameter(DnParametros.NomeItensPorPagina), out var itemsPerPageInt_) ? itemsPerPageInt_ : DnPaginacao.ITENS_POR_PAGINA_PADRAO;
-            var startAtZeroBool = bool.TryParse(GetParameter(DnParametros.NomeIniciarNaPaginaZero), out var startAtZeroBool_) && startAtZeroBool_;
-            var liberarMaisDe100Itens = bool.TryParse(GetParameter(DnParametros.LiberarMaisDe100Itens), out var liberarMaisDe100Itens_) && liberarMaisDe100Itens_;
-
-            return DnPaginacao.Criar(currentPageInt, startAtZeroBool, itemsPerPageInt, liberarMaisDe100Itens);
-        }
-
-        private string GetParameter(string key)
-        {
-            if (Servico.SessaoDaRequisicao.SessaoSemContexto) return string.Empty;
-            var request = Servico.SessaoDaRequisicao.HttpContextLocal.Request;
-
-            {
-                if (request.Headers.TryGetValue(key, out StringValues valor) && !string.IsNullOrEmpty(valor))
-                    return valor;
-            }
-
-            {
-                if (request.Query.TryGetValue(key, out StringValues valor) && !string.IsNullOrEmpty(valor))
-                    return valor;
-            }
-
-            {
-                var valor = request.Query[key];
-                if (!string.IsNullOrEmpty(valor))
-                    return valor;
-            }
-
-            if (request.Method == "GET" || request.HasFormContentType == false)
-                return "";
-
-            return request.Form[key];
-        }
 
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,11 @@ using System.Threading.Tasks;
 
 namespace dn32.infra
 {
-    public abstract class DnMongoDbRepositorio<TE> : DnRepositorio<TE> where TE : DnMongoDBEntidadeBase
+    public abstract class DnMongoDBRepositorio<TE> : DnRepositorio<TE> where TE : DnMongoDBEntidadeBase
     {
         public override Type TipoDeObjetosTransacionais => typeof(MongoDBObjetosDeTransacao);
+       
+        public SessaoDeRequisicaoDoUsuario SessaoDaRequisicao => Servico.SessaoDaRequisicao;
 
         protected MongoDBObjetosDeTransacao ObjetosTransacionaisMongoDB => ObjetosTransacionais as MongoDBObjetosDeTransacao;
 
@@ -25,7 +28,7 @@ namespace dn32.infra
       
         protected abstract Task CriarEstruturaDaColecao();
 
-        public DnMongoDbRepositorio()
+        public DnMongoDBRepositorio()
         {
         }
 
@@ -91,10 +94,13 @@ namespace dn32.infra
             return JsonConvert.DeserializeObject<DateTime>(JsonConvert.SerializeObject(data));
         }
 
-
-
-
-
+        public override async Task<List<TE>> ListarAsync(IDnEspecificacao ispec, DnPaginacao pagination = null)
+        {
+            var spec = ispec.ObterSpec<TE>();
+            var query = spec.ConverterParaIQueryable(Query);
+            var queryPaginada = await query.PaginarAsync(Servico, pagination, ef: false);
+            return await queryPaginada.ToListAsync();
+        }
 
         public override Task<TE> AtualizarAsync(TE entity) => throw new NotImplementedException();
 
@@ -123,10 +129,6 @@ namespace dn32.infra
             throw new NotImplementedException();
         }
 
-        public override Task<List<TE>> ListarAsync(IDnEspecificacao spec, DnPaginacao pagination = null)
-        {
-            throw new NotImplementedException();
-        }
 
         public override Task<TO> PrimeiroOuPadraoAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> spec)
         {
