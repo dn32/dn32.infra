@@ -18,8 +18,7 @@ namespace dn32.infra
 
         internal IMongoDatabase Database { get; set; }
 
-        public bool HaAlteracao => throw new NotImplementedException();// Sessao.Advanced.HasChanges;
-
+        public bool HaAlteracao => false;
 
         public MongoDbContexto(string connectionString)
         {
@@ -29,13 +28,12 @@ namespace dn32.infra
             Database = client.GetDatabase(NomeDoBD);
         }
 
-        public void Dispose()
-        {
-        }
+        public void Dispose() { }
 
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            await Task.CompletedTask;
+            return 1;
         }
     }
 }

@@ -199,6 +199,8 @@ namespace dn32.infra
             }
             else
             {
+                if (entityType.GetCustomAttribute<DnEntidadeSemChaveAttribute>() != null) return;
+
                 var property = properties.FirstOrDefault();
                 if (property == null) throw new DesenvolvimentoIncorretoException($"A entidade {entityType.Name} deve possuir uma chave primária decorata com o atributo [Key]");
                 if (property.GetValue(entity).IsDnNull())
