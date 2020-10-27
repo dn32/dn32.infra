@@ -59,6 +59,11 @@ namespace dn32.infra
             }
         }
 
+        public override Task ForEachAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> ispec, Action<TO> action, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
         private async Task<bool> IndiceExisteAsync(string nome)
         {
             var indices = await ObterColecao().Indexes.ListAsync();
@@ -71,6 +76,11 @@ namespace dn32.infra
             }
 
             return false;
+        }
+
+        public override async Task ForEachAsync(Expression<Func<TE, bool>> expression, Action<TE> action, CancellationToken cancellationToken = default)
+        {
+            await Query.Where(expression).ForEachAsync(action, cancellationToken);
         }
 
         public override async Task<TE> AdicionarAsync(TE entidade)

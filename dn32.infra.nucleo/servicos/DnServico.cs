@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 namespace dn32.infra
 {
@@ -68,6 +70,12 @@ namespace dn32.infra
             TransformarResultadoDaConsulta(entidade);
             return entidade;
         }
+
+        public virtual async Task ForEachAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> ispec, Action<TO> action, CancellationToken cancellationToken = default) =>
+                              await Repositorio.ForEachAlternativoAsync(ispec, action, cancellationToken);
+
+        public virtual async Task ForEachAsync(Expression<Func<T, bool>> expression, Action<T> action, CancellationToken cancellationToken = default) =>
+                              await Repositorio.ForEachAsync(expression, action, cancellationToken);
 
         public virtual async Task<T> PrimeiroOuPadraoAsync(IDnEspecificacao especificacao)
         {
@@ -178,7 +186,7 @@ namespace dn32.infra
             TransformarResultadoDaConsulta(entidade);
             return entidade;
         }
-
+      
         public virtual async Task<T> AtualizarAsync(T entidade)
         {
             TransformarParaSalvar(entidade, true);

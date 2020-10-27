@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace dn32.infra
@@ -138,6 +140,16 @@ namespace dn32.infra
             var query = spec.ConverterParaIQueryable(Query);
             return await query.FirstOrDefaultAsync();
         }
+
+        public override async Task ForEachAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> ispec, Action<TO> action, CancellationToken cancellationToken = default)
+        {
+            var spec = ispec.ObterSpecAlternativo<TE, TO>();
+            var query = spec.ConverterParaIQueryable(Query);
+            await query.ForEachAsync(action, cancellationToken);
+        }
+
+        public override async Task ForEachAsync(Expression<Func<TE, bool>> expression, Action<TE> action, CancellationToken cancellationToken = default) =>
+                                await Query.Where(expression).AsNoTracking().ForEachAsync(action, cancellationToken);
 
         internal protected async Task<bool> ExistsSqlAsync(string sql, bool incluirExcluidosLogicamente = false)
         {

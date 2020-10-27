@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace dn32.infra
@@ -41,5 +43,7 @@ namespace dn32.infra
         public abstract Task<int> QuantidadeAsync(IDnEspecificacao spec);
         public abstract Task<int> QuantidadeTotalAsync();
         public abstract Task<object> FindAsync(object entity);
+        public abstract Task ForEachAsync(Expression<Func<TE, bool>> expression, Action<TE> action, CancellationToken cancellationToken = default);
+        public abstract Task ForEachAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> ispec, Action<TO> action, CancellationToken cancellationToken = default);
     }
 }
