@@ -96,11 +96,23 @@ namespace dn32.infra
             await ObterColecao().DeleteOneAsync(filtro);
         }
 
+        public async Task RemoverVariosAsync(Expression<Func<TE, bool>> expression)
+        {
+            var filtro = Builders<TE>.Filter.Where(expression);
+            await ObterColecao().DeleteManyAsync(filtro);
+        }
+
         public async Task<bool> AtualizarAsync(Expression<Func<TE, bool>> expression, UpdateDefinition<TE> entiade)
         {
             var filtro = Builders<TE>.Filter.Where(expression);
             var ret = await ObterColecao().UpdateOneAsync(filtro, entiade);
             return ret.ModifiedCount == 1;
+        }
+
+        public IMongoQueryable<TE> ListarQuery(Expression<Func<TE, bool>> expression)
+        {
+            var filtro = Builders<TE>.Filter.Where(expression);
+            return Query.Where(expression);
         }
 
         public override async Task<List<TE>> ListarAsync(IDnEspecificacao ispec, DnPaginacao pagination = null)
