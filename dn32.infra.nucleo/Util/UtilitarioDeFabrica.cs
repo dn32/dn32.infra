@@ -24,5 +24,28 @@ namespace dn32.infra
             if (conexoes.Count == 1) return conexoes.FirstOrDefault() ?? EnumTipoDeBancoDeDados.MEMORY;
             return dnAtributoTipoDeBD?.TipoDeBancoDeDados ?? EnumTipoDeBancoDeDados.MEMORY;
         }
+
+        internal static Type ObterTipoDeServicoPorEntidade(this Type tipoDeEntidade)
+        {
+            if (tipoDeEntidade == null) return null;
+            if (!tipoDeEntidade.Is(typeof(DnEntidadeBase))) throw new DesenvolvimentoIncorretoException($"{nameof(ObterTipoDeServicoPorEntidade)} recebeu um tipo que não é uma {nameof(DnEntidadeBase)}.");
+
+            if (Setup.Servicos.TryGetValue(tipoDeEntidade, out var tipoDeServico))
+                return tipoDeServico;
+
+            var tipoBasico = (Setup.ConfiguracoesGlobais.TipoGenericoDeServico) ?? typeof(DnServico<>);
+            return tipoBasico.MakeGenericType(tipoDeEntidade);
+        }
+
+        internal static Type ObterServicoPorEntidade(this Type tipoDeEntidade)
+        {
+            if (tipoDeEntidade == null) return null;
+
+            if (Setup.Servicos.TryGetValue(tipoDeEntidade, out var tipoDeServico))
+                return tipoDeServico;
+
+            var tipoBasico = (Setup.ConfiguracoesGlobais.TipoGenericoDeServico) ?? typeof(DnServico<>);
+            return tipoBasico.MakeGenericType(tipoDeEntidade);
+        }
     }
 }

@@ -1,13 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Linq;
-
-
-
-
-
-
-
 
 namespace dn32.infra
 {
@@ -33,10 +25,10 @@ namespace dn32.infra
                     return servicoOut;
 
                 var sessionId = Guid.NewGuid();
-                tipoDeServico = ObterServicoEspecializado(tipoDeServico, out var tipoDeEntidade);
+                tipoDeServico = ObterServicoEspecializado(tipoDeServico);
                 var service = FabricaDeServicoLazy.Criar(tipoDeServico, sessionId);
                 var userSession = sessaoDeRequisicao ?? CreateUserSession(httpContext, sessionId, service);
-                service.DefinirSessaoDoUsuario(userSession, tipoDeEntidade);
+                service.DefinirSessaoDoUsuario(userSession, tipoDeServico.GetDnEntityType());
                 service.EscopoSingleton = escopoSingleton;
 
                 if (escopoSingleton)
@@ -86,6 +78,12 @@ namespace dn32.infra
             return Criar<TS>(null, escopoSingleton).DnCast<TS>();
         }
 
+        public static DnServicoTransacional CriarServicoInternoPorEntidade(this Type tipoDeEntidade, bool escopoSingleton = false)
+        {
+            var tipoDeServico = tipoDeEntidade.ObterTipoDeServicoPorEntidade();
+            return Criar(tipoDeServico, null, null, escopoSingleton);
+        }
+
         public static DnServicoTransacional Criar(Type tipoDeServico, object httpContext, string justificativa)
         {
             if (string.IsNullOrWhiteSpace(justificativa))
@@ -122,23 +120,10 @@ namespace dn32.infra
 
         #region PRIVATE
 
-        private static Type ObterServicoEspecializado(Type tipoDeServico, out Type tipoDeEntidade)
+        private static Type ObterServicoEspecializado(Type tipoDeServico)
         {
-            tipoDeEntidade = tipoDeServico.GetDnEntityType();
-            if (tipoDeEntidade == null)
-            {
-                tipoDeEntidade = null;
-            }
-            else
-            {
-                if (!Setup.Servicos.TryGetValue(tipoDeEntidade, out tipoDeServico))
-                {
-                    var type = (Setup.ConfiguracoesGlobais.TipoGenericoDeServico) ?? typeof(DnServico<>);
-                    tipoDeServico = type.MakeGenericType(tipoDeEntidade);
-                }
-            }
-
-            return tipoDeServico;
+            var tipoDeEntidade = tipoDeServico.GetDnEntityType();
+            return tipoDeEntidade.ObterTipoDeServicoPorEntidade() ?? tipoDeServico;
         }
 
         private static SessaoDeRequisicaoDoUsuario CreateUserSession(object httpContext, Guid identificadorDaRequisicao, DnServicoBase servico)
@@ -146,10 +131,10 @@ namespace dn32.infra
             //Todo arrumar
             IDnObjetosTransacionais transactionObjects = null; // ITransactionObjects.Create();
 
-            var tipoDeServico = ObterServicoEspecializado(servico.GetType(), out var tipoDeEntidade);
+            var tipoDeServico = ObterServicoEspecializado(servico.GetType());
             var tipo = Setup.ConfiguracoesGlobais.TipoDeSessaoDeRequisicaoDeUsuario ?? typeof(SessaoDeRequisicaoDoUsuario);
             var sessaoDaRequisicao = Activator.CreateInstance(tipo).DnCast<SessaoDeRequisicaoDoUsuario>();
-            sessaoDaRequisicao.AdicionarObjetosDaTransacao(UtilitarioDeFabrica.ObterTipoDebancoDeDados(tipoDeEntidade), transactionObjects);
+            sessaoDaRequisicao.AdicionarObjetosDaTransacao(UtilitarioDeFabrica.ObterTipoDebancoDeDados(tipoDeServico.GetDnEntityType()), transactionObjects);
             sessaoDaRequisicao.IdentificadorDaSessao = identificadorDaRequisicao;
             sessaoDaRequisicao.Servicos = new ConcurrentDictionary<Type, DnServicoBase>();
             sessaoDaRequisicao.HttpContext = httpContext;

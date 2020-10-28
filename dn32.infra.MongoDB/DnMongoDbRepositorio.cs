@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace dn32.infra
 {
-    public abstract class DnMongoDBRepositorio<TE> : DnRepositorio<TE> where TE : DnMongoDBEntidadeBase
+    public abstract class DnMongoDBRepositorio<TE> : DnRepositorio<TE> where TE : DnMongoDBEntidadeBaseSemId
     {
         public override Type TipoDeObjetosTransacionais => typeof(MongoDBObjetosDeTransacao);
 
@@ -121,8 +121,14 @@ namespace dn32.infra
 
         public IMongoQueryable<TE> ListarQuery(Expression<Func<TE, bool>> expression)
         {
-            var filtro = Builders<TE>.Filter.Where(expression);
             return Query.Where(expression);
+        }
+
+        public async Task<List<TE>> ListarAsync(Expression<Func<TE, bool>> expression, DnPaginacao pagination = null)
+        {
+            var query = Query.Where(expression);
+            var queryPaginada = await query.PaginarAsync(Servico, pagination, ef: false) as IMongoQueryable<TE>;
+            return await queryPaginada.ToListAsync(); ;
         }
 
         public override async Task<List<TE>> ListarAsync(IDnEspecificacao ispec, DnPaginacao pagination = null)
