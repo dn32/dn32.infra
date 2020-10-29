@@ -4,6 +4,8 @@ using Raven.Client.Documents.Session;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace dn32.infra
@@ -180,6 +182,16 @@ namespace dn32.infra
         }
 
         public override Task<List<TE>> ListarAsync(IDnEspecificacao spec, DnPaginacao pagination = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task ForEachAsync(Expression<Func<TE, bool>> expression, Action<TE> action, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Task ForEachAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> ispec, Action<TO> action, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
