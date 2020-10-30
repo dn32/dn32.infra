@@ -141,6 +141,11 @@ namespace dn32.infra
             return await query.FirstOrDefaultAsync();
         }
 
+        //public virtual Task ForEachAlternativoAsync<TO>(Expression<Func<TE, bool>> expression, Action<TO> action, CancellationToken cancellationToken = default)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
         public override async Task ForEachAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> ispec, Action<TO> action, CancellationToken cancellationToken = default)
         {
             var spec = ispec.ObterSpecAlternativo<TE, TO>();

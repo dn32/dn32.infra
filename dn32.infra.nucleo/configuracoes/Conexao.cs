@@ -7,9 +7,11 @@ namespace dn32.infra
 {
     public class Conexao
     {
+        public EnumTipoDeBancoDeDados TipoDeBancoDeDados { get; set; }
         public string IdentificadorDaConexao { get; internal set; }
         public Func<SessaoDeRequisicaoDoUsuario, string> ObterStringDeConexao { get; internal set; }
         public bool CriarOBancoDeDadosCasoNaoExista { get; set; }
         public Type TipoDoContexto { get; set; }
+        public bool ConexaoDeTeste { get; set; }
     }
 }

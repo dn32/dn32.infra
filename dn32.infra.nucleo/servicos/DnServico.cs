@@ -71,8 +71,8 @@ namespace dn32.infra
             return entidade;
         }
 
-        public virtual async Task ForEachAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> ispec, Action<TO> action, CancellationToken cancellationToken = default) =>
-                              await Repositorio.ForEachAlternativoAsync(ispec, action, cancellationToken);
+        //public virtual async Task ForEachAlternativoAsync<TO>(IDnEspecificacaoAlternativaGenerica<TO> ispec, Action<TO> action, CancellationToken cancellationToken = default) =>
+        //                      await Repositorio.ForEachAlternativoAsync(ispec, action, cancellationToken);
 
         public virtual async Task ForEachAsync(Expression<Func<T, bool>> expression, Action<T> action, CancellationToken cancellationToken = default) =>
                               await Repositorio.ForEachAsync(expression, action, cancellationToken);

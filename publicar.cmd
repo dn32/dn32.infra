@@ -1,0 +1,1 @@
+dotnet nuget push C:\dev\Out\**\*.nupkg -k oy2ieqgck7mgp2oiitrqnvjsqtqz4iauhm4vd5jbisclvm -s https://api.nuget.org/v3/index.json --skip-duplicate

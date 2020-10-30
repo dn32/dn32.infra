@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 
 namespace dn32.infra
 {
@@ -8,21 +9,14 @@ namespace dn32.infra
     {
         internal static EnumTipoDeBancoDeDados ObterTipoDebancoDeDados(Type tipoDeEntidade)
         {
-            if (tipoDeEntidade == null)
-            {
-                return EnumTipoDeBancoDeDados.NENHUM;
-            }
+            if (tipoDeEntidade == null) return EnumTipoDeBancoDeDados.NENHUM;
 
             var dnAtributoTipoDeBD = tipoDeEntidade.GetCustomAttribute<DnTipoDeBancoDeDadosAttribute>();
 
-            var conexoes = Setup.ConfiguracoesGlobais
-                            .Conexoes
-                            .Select(x => x.TipoDoContexto.GetCustomAttribute<DnTipoDeBancoDeDadosAttribute>()?.TipoDeBancoDeDados)
-                            .Where(x => x != null)
-                            .ToList();
+            var conexoes = Setup.ConfiguracoesGlobais.ObterConexoes(dnAtributoTipoDeBD);
 
-            if (conexoes.Count == 1) return conexoes.FirstOrDefault() ?? EnumTipoDeBancoDeDados.MEMORY;
-            return dnAtributoTipoDeBD?.TipoDeBancoDeDados ?? EnumTipoDeBancoDeDados.MEMORY;
+            if (conexoes.Count == 1) return conexoes.FirstOrDefault().TipoDeBancoDeDados;
+            return dnAtributoTipoDeBD?.ObterTipo() ?? EnumTipoDeBancoDeDados.NENHUM;
         }
 
         internal static Type ObterTipoDeServicoPorEntidade(this Type tipoDeEntidade)

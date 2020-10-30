@@ -151,6 +151,19 @@ namespace dn32.infra
                     if (property.SetMethod != null)
                         property.SetValue(obj, firstEnum);
                 }
+                //else if (property.PropertyType.IsList())
+                //{
+                //    var value = property.PropertyType.GetExampleValue();
+                //    if (value != null)
+                //    {
+                //        var newValue = Convert.ChangeType(value, property.PropertyType.GetNonNullableType(), CultureInfo.InvariantCulture);
+                //        if (property.SetMethod != null)
+                //        {
+                //            if (property.SetMethod != null)
+                //                property.SetValue(obj, newValue);
+                //        }
+                //    }
+                //}
                 else
                 {
                     var value = property.GetExampleValue();
@@ -272,8 +285,9 @@ namespace dn32.infra
 
         public static bool IsList(this Type type)
         {
+            if (type.Name.StartsWith("IListar`") || type.Name.StartsWith("Listar`") || type.Name.StartsWith("ICollection`") || type.Name.StartsWith("Collection`"))
+                 return true;
             return (type.GetNonNullableType().GetInterface(nameof(ICollection)) != null);
-            //return type.Name.StartsWith("Listar`");
         }
 
         public static bool IsDnEntity(this Type type)

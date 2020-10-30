@@ -4,11 +4,12 @@ namespace dn32.infra
 {
     public abstract class DnMongoDBEntidadeBase : DnMongoDBEntidadeBaseSemId
     {
-        public int CodUserAdmin { get; set; }
+        public int Tenant { get; set; }
 
         public int CodUsuario { get; set; }
 
-        public string Id => $"{CodUsuario}:{CodUserAdmin}";
+        //[BsonIgnore]
+        //public (int CodUsuario, int CodUserAdmin) Chaves() => (CodUsuario, CodUserAdmin);
     }
 
 
@@ -21,11 +22,11 @@ namespace dn32.infra
 
     public static class UtilDeId
     {
-        public static (int codUserAdmin, int codUsuario) ObterCodigosPorId(this string id)
+        public static (int tenant, int Codigo) Chaves(this string id)
         {
-            var codUserAdmin = int.Parse(id.Split(':')[0]);
-            var codUsuario = int.Parse(id.Split(':')[1]);
-            return (codUserAdmin, codUsuario);
+            var tenant = int.Parse(id.Split(':')[0]);
+            var codigo = int.Parse(id.Split(':')[1]);
+            return (tenant, codigo);
         }
     }
 }

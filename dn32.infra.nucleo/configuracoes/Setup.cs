@@ -120,13 +120,21 @@ namespace dn32.infra
             return configuracoes;
         }
 
+        public static DnConfiguracoesGlobais DefinirComoAmbienteDeTeste(this DnConfiguracoesGlobais configuracoes)
+        {
+            configuracoes.EhAmbienteDeTeste = true;
+            return configuracoes;
+        }
+
         public static DnConfiguracoesGlobais AdicionarStringDeConexao<T>(
             this DnConfiguracoesGlobais configuracoes,
             string stringDeConexao,
             bool criarOBancoDeDadosCasoNaoExista = true,
-            string identificadorDaConexao = "") where T : IDnDbContext
+            string identificadorDaConexao = "",
+            bool conexaoDeTeste = false
+            ) where T : IDnDbContext
         {
-            return configuracoes.AdicionarStringDeConexao(_ => stringDeConexao, typeof(T), criarOBancoDeDadosCasoNaoExista, identificadorDaConexao);
+            return configuracoes.AdicionarStringDeConexao(_ => stringDeConexao, typeof(T), criarOBancoDeDadosCasoNaoExista, identificadorDaConexao, conexaoDeTeste);
         }
 
         public static DnConfiguracoesGlobais AdicionarStringDeConexao(
@@ -134,28 +142,33 @@ namespace dn32.infra
                 string stringDeConexao,
                 Type tipoDoContexto,
                 bool criarOBancoDeDadosCasoNaoExista = true,
-                string identificadorDaConexao = "") =>
-            configuracoes.AdicionarStringDeConexao(_ => stringDeConexao, tipoDoContexto, criarOBancoDeDadosCasoNaoExista, identificadorDaConexao);
+                string identificadorDaConexao = "",
+                bool conexaoDeTeste = false
+                ) =>
+            configuracoes.AdicionarStringDeConexao(_ => stringDeConexao, tipoDoContexto, criarOBancoDeDadosCasoNaoExista, identificadorDaConexao, conexaoDeTeste);
 
         public static DnConfiguracoesGlobais AdicionarStringDeConexao(
             this DnConfiguracoesGlobais configuracoes,
             Func<SessaoDeRequisicaoDoUsuario, string> obterStringDeConexao,
             Type tipoDoContexto,
             bool criarOBancoDeDadosCasoNaoExista = true,
-            string identificadorDaConexao = "")
+            string identificadorDaConexao = "",
+            bool conexaoDeTeste = false
+            )
         {
             if (configuracoes == null)
             {
                 return configuracoes;
             }
 
-            configuracoes.Conexoes.Add(
+            configuracoes.AdicionarConexao(
                 new Conexao
                 {
                     ObterStringDeConexao = obterStringDeConexao,
                     TipoDoContexto = tipoDoContexto,
                     IdentificadorDaConexao = identificadorDaConexao,
-                    CriarOBancoDeDadosCasoNaoExista = criarOBancoDeDadosCasoNaoExista
+                    CriarOBancoDeDadosCasoNaoExista = criarOBancoDeDadosCasoNaoExista,
+                    ConexaoDeTeste = conexaoDeTeste
                 });
 
             return configuracoes;
