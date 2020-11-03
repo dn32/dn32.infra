@@ -39,8 +39,11 @@ namespace dn32.infra
                 return null;
         }
 
-        internal void AdicionarObjetosDaTransacao(EnumTipoDeBancoDeDados tipoDeBancoDeDados, IDnObjetosTransacionais objetoDaTransacao) =>
+        internal void AdicionarObjetosDaTransacao(EnumTipoDeBancoDeDados tipoDeBancoDeDados, IDnObjetosTransacionais objetoDaTransacao)
+        {
+            DicionarioDeObtetosDeTransacao.TryRemove(tipoDeBancoDeDados, out _);
             DicionarioDeObtetosDeTransacao.TryAdd(tipoDeBancoDeDados, objetoDaTransacao);
+        }
 
         public void Dispose(bool primaryService)
         {
@@ -88,12 +91,14 @@ namespace dn32.infra
         //Todo - arrumar
         public bool EnableLogicalDeletion => false;// ObjetosDaTransacao.contexto.EnableLogicalDeletion;
 
-        public async Task SalvarTudoAsync()
+        public async Task<int> SalvarTudoAsync()
         {
             ContextoDeValidacao.Validate();
             var lista = DicionarioDeObtetosDeTransacaoValores;
+            var registros = 0;
             foreach (var item in lista)
-                await item.contexto.SaveChangesAsync();
+                registros += await item.contexto.SaveChangesAsync();
+            return registros;
         }
     }
 }

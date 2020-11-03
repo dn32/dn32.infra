@@ -52,7 +52,7 @@ namespace dn32.infra
 
         private object Setvalue(Type type)
         {
-            var entity = type.GetExampleValue();
+            var entity = type.ObterValoresDeExemplo();
             AddAggegations(entity);
             return entity;
         }

@@ -127,7 +127,7 @@
                 <span>@("Example valor".G())</span>
 
                 @{
-                    var exampleValue = Model?.Formulario?.Tipo?.GetExampleValue() ?? "";
+                    var exampleValue = Model?.Formulario?.Tipo?.ObterValoresDeExemplo() ?? "";
 
                     var json = exampleValue.SerializarParaDnJson(Newtonsoft.Json.Formatting.Indented);
 

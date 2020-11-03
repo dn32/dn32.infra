@@ -113,12 +113,12 @@ namespace dn32.infra
 
         public static string GetExampleValueString(this Type type)
         {
-            var obj = type.GetExampleValue();
+            var obj = type.ObterValoresDeExemplo();
             if (type.IsPrimitiveOrPrimitiveNulable()) { return obj.ToString(); }
             return obj.SerializarParaDnJson(Formatting.Indented);
         }
 
-        public static object GetExampleValue(this Type type)
+        public static object ObterValoresDeExemplo(this Type type)
         {
             if (type == null) { throw new ArgumentNullException(nameof(type)); }
             object obj;

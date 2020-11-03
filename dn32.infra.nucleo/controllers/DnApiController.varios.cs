@@ -6,7 +6,7 @@ namespace dn32.infra
     public partial class DnApiController<T>
     {
         [HttpGet]
-        public virtual T Exemplo() => typeof(T).GetExampleValue() as T;
+        public virtual T Exemplo() => typeof(T).ObterValoresDeExemplo() as T;
 
         [HttpGet]
         public virtual async Task<DnResultadoPadrao<int>> QuantidadeTotal() =>
