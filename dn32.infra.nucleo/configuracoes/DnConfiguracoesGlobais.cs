@@ -42,6 +42,7 @@ namespace dn32.infra
         internal DnFrabricaDeRepositorioBase FabricaDeRepositorio { get; set; }
         public InformacoesDoJWT InformacoesDoJWT { get; set; }
         public string StringDeConexaoDoRedis { get; set; }
+        public string StringDeConexaoDoRedisSenha { get; set; }
         public Type TipoDeServicoDoRedis { get; set; }
         public Dictionary<string, string> Valores { get; set; } = new Dictionary<string, string>();
         public bool MostrarLogsDoBDEmDebug { get; set; } = true;

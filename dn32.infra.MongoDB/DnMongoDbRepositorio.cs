@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace dn32.infra
 {
-    public abstract class DnMongoDBRepositorio<TE> : DnRepositorio<TE> where TE : DnMongoDBEntidadeBaseSemId
+    public abstract class DnMongoDBRepositorio<TE> : DnRepositorio<TE> where TE : DnMongoDBEntidadeBase
     {
         public override Type TipoDeObjetosTransacionais => typeof(MongoDBObjetosDeTransacao);
 

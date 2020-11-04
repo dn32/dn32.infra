@@ -9,9 +9,9 @@ namespace dn32.infra
     {
         protected DnRepositorioDoRedis RepositorioDoRedis { get; set; }
 
-        public DnServicoDoRedis() => RepositorioDoRedis = ObterRepositorio(Setup.ConfiguracoesGlobais.StringDeConexaoDoRedis);
+        public DnServicoDoRedis() => RepositorioDoRedis = ObterRepositorio(Setup.ConfiguracoesGlobais.StringDeConexaoDoRedis, Setup.ConfiguracoesGlobais.StringDeConexaoDoRedisSenha);
 
-        protected virtual DnRepositorioDoRedis ObterRepositorio(string stringDeConexao) => new DnRepositorioDoRedis(stringDeConexao);
+        protected virtual DnRepositorioDoRedis ObterRepositorio(string stringDeConexao, string senha) => new DnRepositorioDoRedis(stringDeConexao, senha);
 
         public virtual async Task InscreverAsync(string canal, Func<string, Task> callbackAsync) => await RepositorioDoRedis.InscreverAsync(canal, callbackAsync);
 

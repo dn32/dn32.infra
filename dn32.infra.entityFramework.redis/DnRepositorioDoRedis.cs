@@ -9,9 +9,9 @@ namespace dn32.infra
     {
         protected DnRedisContexto Context { get; set; }
 
-        public DnRepositorioDoRedis(string stringDeConexao) => Context ??= ObterContexto(stringDeConexao);
+        public DnRepositorioDoRedis(string stringDeConexao, string senha) => Context ??= ObterContexto(stringDeConexao, senha);
 
-        protected virtual DnRedisContexto ObterContexto(string stringDeConexao) => new DnRedisContexto(stringDeConexao);
+        protected virtual DnRedisContexto ObterContexto(string stringDeConexao, string senha) => new DnRedisContexto(stringDeConexao, senha);
 
         public virtual async Task<T> ObterObjetoAsync<T>(string chave, bool renovarTimeOut = false) =>
                  await Context.ObterObjetoAsync<T>($"{chave}", renovarTimeOut);

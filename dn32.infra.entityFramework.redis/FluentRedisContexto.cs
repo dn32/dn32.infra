@@ -2,6 +2,7 @@
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace dn32.infra
@@ -29,12 +30,12 @@ namespace dn32.infra
             }
         }
 
-        public DnRedisContexto(string stringDeConexao)
+        public DnRedisContexto(string stringDeConexao, string senha)
         {
-            ObterConfiguracoes(stringDeConexao);
+            ObterConfiguracoes(stringDeConexao, senha);
         }
 
-        protected virtual void ObterConfiguracoes(string connectionString)
+        protected virtual void ObterConfiguracoes(string connectionString, string senha)
         {
             if (string.IsNullOrWhiteSpace(connectionString)) throw new InvalidOperationException("Uma string de conexão deve ser informada para o REDIS");
 
@@ -43,6 +44,7 @@ namespace dn32.infra
                 AbortOnConnectFail = false,
                 SyncTimeout = int.MaxValue,
                 ConnectTimeout = 3000,
+                Password = senha,
                 EndPoints = { connectionString },
                 AllowAdmin = true
             };

@@ -146,7 +146,7 @@ namespace dn32.infra
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 #if DEBUG
-            if (Setup.ConfiguracoesGlobais.MostrarLogsDoBDEmDebug)
+            if (Setup.ConfiguracoesGlobais?.MostrarLogsDoBDEmDebug == true)
             {
                 ContextLogFactory ??= new LoggerFactory(new[] { new DebugLoggerProvider() });
                 optionsBuilder
