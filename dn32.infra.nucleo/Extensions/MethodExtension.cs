@@ -10,6 +10,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace dn32.infra
 {
@@ -100,6 +101,16 @@ namespace dn32.infra
                     throw ex;
             }
 #pragma warning restore CA1031 // Do not catch general exception types
+        }
+
+        public static async Task<object> InvokeAsync(this MethodInfo metodo, object obj, params object[] parameters)
+        {
+            var task = metodo.Invoke(obj, parameters) as Task;
+            if (task == null) throw new InvalidOperationException("O método solicitado não retornou uma Task como esperado");
+            await task.ConfigureAwait(false);
+            var resultProperty = task.GetType().GetProperty("Result");
+            if (resultProperty == null) throw new InvalidOperationException("O método solicitado não retornou uma Task.Result como esperado");
+            return resultProperty.GetValue(task);
         }
     }
 }
