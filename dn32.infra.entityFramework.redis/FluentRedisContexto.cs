@@ -53,15 +53,16 @@ namespace dn32.infra
         public virtual async Task<List<T>> ListarPorPrefixo<T>(string padrao)
         {
             var keys = Server.KeysAsync(pattern: padrao);
-            var servidores = new List<T>();
-            await
-            foreach (var key in keys)
+            var elementos = new List<T>();
+            await foreach (var key in keys)
             {
                 var json = await Db.StringGetAsync(key);
-                servidores.Add(JsonConvert.DeserializeObject<T>(json));
+                if (!json.HasValue) continue;
+                var obj = JsonConvert.DeserializeObject<T>(json);
+                elementos.Add(obj);
             }
 
-            return servidores;
+            return elementos;
         }
 
         public virtual async Task<bool> SalvarObjetoAsync(string chave, object value, TimeSpan? timeOut = null)
