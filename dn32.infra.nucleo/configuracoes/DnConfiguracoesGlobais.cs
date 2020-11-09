@@ -19,7 +19,7 @@ namespace dn32.infra
 
             var conn = Conexoes.Where(x => x.TipoDeBancoDeDados == dnTipoDeBancoDeDadosAttribute.ObterTipo());
             if (!string.IsNullOrEmpty(dnTipoDeBancoDeDadosAttribute.Identifier))
-                conn.Where(x => x.IdentificadorDaConexao.Equals(dnTipoDeBancoDeDadosAttribute.Identifier, StringComparison.InvariantCultureIgnoreCase));
+                conn = conn.Where(x => x.IdentificadorDaConexao.Equals(dnTipoDeBancoDeDadosAttribute.Identifier, StringComparison.InvariantCultureIgnoreCase));
             return conn.Where(x => x != null).ToList();
         }
 
