@@ -1,12 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <!--<TargetFrameworks>netcoreapp3.1</TargetFrameworks>-->
-    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
-    <LangVersion>8</LangVersion>
-    <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
-    <RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
-    <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>dn32.infra.Teste.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 

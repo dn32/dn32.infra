@@ -131,6 +131,7 @@ namespace dn32.infra
             return await queryPaginada.ToListAsync(); ;
         }
 
+
         public override async Task<List<TE>> ListarAsync(IDnEspecificacao ispec, DnPaginacao pagination = null)
         {
             var spec = ispec.ObterSpec<TE>();
