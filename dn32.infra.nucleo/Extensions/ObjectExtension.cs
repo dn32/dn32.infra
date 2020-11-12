@@ -24,20 +24,20 @@ namespace dn32.infra
 
             JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(obj1));
 
-        public static T DnClone<T>(this object obj1)
-        {
-            if (!typeof(T).IsSerializable) throw new ArgumentException("The type must be serializable.", "source");
-            if (obj1 is null) return default;
+        //public static T DnClone<T>(this object obj1)
+        //{
+        //    if (!typeof(T).IsSerializable) throw new ArgumentException("The type must be serializable.", "source");
+        //    if (obj1 is null) return default;
 
-            var formatter = new BinaryFormatter();
-            Stream stream = new MemoryStream();
-            using (stream)
-            {
-                formatter.Serialize(stream, obj1);
-                stream.Seek(0, SeekOrigin.Begin);
-                return (T)formatter.Deserialize(stream);
-            }
-        }
+        //    var formatter = new BinaryFormatter();
+        //    Stream stream = new MemoryStream();
+        //    using (stream)
+        //    {
+        //        formatter.Serialize(stream, obj1);
+        //        stream.Seek(0, SeekOrigin.Begin);
+        //        return (T)formatter.Deserialize(stream);
+        //    }
+        //}
 
         /// <summary>
         /// Verifica se dois objetos são iguais comparando os valores e não a referência.
@@ -89,7 +89,7 @@ namespace dn32.infra
                     return (int)value;
                 }
 
-                return $"'{value.ToString()}'";
+                return $"'{value}'";
             }
 
             return value;
@@ -198,7 +198,7 @@ namespace dn32.infra
                     }
                     else
                     {
-                        if (!(item.GetValue(obj) is IEnumerable enumerablePropObj1))
+                        if (item.GetValue(obj) is not IEnumerable enumerablePropObj1)
                         {
                             continue;
                         }

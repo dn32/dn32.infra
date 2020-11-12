@@ -163,6 +163,7 @@ namespace dn32.infra
                 var propriedade = Expression.Property(parametro, nomeDaPropriedade);
                 var constante = Expression.Constant(valor, tipo);
                 var metodo = typeof(string).GetMethod("ToUpper", new Type[] { });
+                if (metodo == null) throw new InvalidOperationException();
                 var expressao = Expression.Call(propriedade, metodo);
                 expressaoIgual = Expression.Equal(constante, expressao);
             }

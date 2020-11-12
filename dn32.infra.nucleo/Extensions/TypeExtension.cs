@@ -593,7 +593,7 @@ namespace dn32.infra
             });
         }
 
-        public static bool IsNullableEnum(this Type? t)
+        public static bool IsNullableEnum(this Type t)
         {
             if (t?.IsEnum == true) { return true; }
             var u = Nullable.GetUnderlyingType(t);
