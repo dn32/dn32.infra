@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MongoDB.Driver" Version="2.11.4" />
+    <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
     <ProjectReference Include="..\dn32.infra.nucleo\dn32.infra.nucleo.csproj" />
     <ProjectReference Include="..\dn32.infra\dn32.infra.csproj" />
   </ItemGroup>
